@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('client/index');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -55,5 +55,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('update/{id}', 'update')->name('update');
 
         Route::get('destroy/{id}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('client')->name('client.')->group(function () {
+    Route::prefix('category')->name('category.')->controller(CategoryController::class)->group(function () {
+        Route::get('index', 'index')->name('index');
     });
 });
