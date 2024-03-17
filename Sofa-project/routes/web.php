@@ -3,6 +3,27 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\AttributeValueController;
+use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\RatingReviewController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ShippingFeeController;
+use App\Http\Controllers\Admin\DeliveryOrderController;
+use App\Http\Controllers\Admin\WarrantyController;
+
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ProductController as ClientProductController;
+use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\CompareController;
+use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Client\WishlistController;
+use App\Http\Controllers\Client\RatingReviewController as ClientRatingReviewController;
+use App\Http\Controllers\Client\AccountController;
+
+
+
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -134,10 +155,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('address')->name('address.')->controller(AddressController::class)->group(function () {
-        Route::get('index', [RatingReviewController::Class, 'ratingReviewPost'])->name('ratingReviewPost');
-        Route::post('', [RatingReviewController::Class, 'ratingReviewPost'])->name('ratingReviewPost');
-    });
+    Route::get('index', [RatingReviewController::Class, 'ratingReview'])->name('ratingReview');
     
     Route::prefix('shipping-fee')->name('shipping-fee.')->controller(ShippingFeeController::class)->group(function () {
         Route::get('index', 'index')->name('index');
