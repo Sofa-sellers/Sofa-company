@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\Brand;
-class Product extends Model
+
+class Brand extends Model
 {
     use HasFactory;
     /**
@@ -14,7 +13,7 @@ class Product extends Model
      *
      * @var string
      */
-    protected $table = 'products';
+    protected $table = 'brands';
      /**
      * The attributes that aren't mass assignable.
      *
@@ -22,8 +21,4 @@ class Product extends Model
      */
     protected $guarded =[];
 
-    public function brand(): BelongsTo
-    {
-        return $this-> belongsTo(Brand::class);
-    }
 }

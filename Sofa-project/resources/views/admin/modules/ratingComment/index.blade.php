@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('module', 'Warranty')
+@section('module', 'Rating Review')
 @section('action', 'List')
 
 @push('css')
@@ -40,7 +40,7 @@ $(function () {
 <!-- Default box -->
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Warranty List</h3>
+        <h3 class="card-title">Rating Comment List</h3>
 
         <div class="card-tools">
         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -57,45 +57,39 @@ $(function () {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Order ID</th>
                     <th>Product ID</th>
-                    <th>Quantity</th>
-                    <th>Delivery Date</th>
-                    <th>Status</th>
-                    <th>End Day</th>
+                    <th>User ID</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
-            @foreach ($warranties as $warranty)
+            @foreach ($ratingComments as $ratingComment)
                 
             
             <tbody>
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$warranty->order_id}}</td>
-                    <td>{{$warranty->product_id}}</td>
-                    <td>{{$warranty->quantity}}</td>
-                    <td>{{$warranty->delivery_date}}</td>
-                    <td>{{$warranty->status}}</td>
-                    <td>{{$warranty->end_day}}</td>
-                    <td>{{$warranty->created_at}}</td>
+                    <td>{{$ratingComment->product_id}}</td>
+                    <td>{{$ratingComment->user_id}}</td>
+                    <td>{{$ratingComment->rating}}</td>
+                    <td>{{$ratingComment->comment}}</td>
+                    <td>{{$ratingComment->created_at}}</td>
                     
-                    <td><a href="{{route('admin.warranty.edit',['id'=>$warranty->id])}}">Edit</a></td>
-                    <td><a onclick="return confirmDelete ()" href="{{route('admin.warranty.destroy',['id'=>$warranty->id])}}">Delete</a></td>
+                    <td><a href="{{route('admin.ratingComment.edit',['id'=>$ratingComment->id])}}">Edit</a></td>
+                    <td><a onclick="return confirmDelete ()" href="{{route('admin.ratingComment.destroy',['id'=>$ratingComment->id])}}">Delete</a></td>
                 </tr>
             </tbody>
             @endforeach
             <tfoot>
                 <tr>
                     <th>ID</th>
-                    <th>Order ID</th>
                     <th>Product ID</th>
-                    <th>Quantity</th>
-                    <th>Delivery Date</th>
-                    <th>Status</th>
-                    <th>End Day</th>
+                    <th>User ID</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>

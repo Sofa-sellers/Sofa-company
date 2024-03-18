@@ -1,15 +1,15 @@
 @extends('admin.master')
 
-@section('module', 'Rating Review')
+@section('module', 'Rating Comment')
 @section('action', 'Create')
 
 @section('content')
-<form method="post" action="{{ route('admin.ratingReview.store') }}" enctype="multipart/form-data">
+<form method="post" action="{{ route('admin.ratingComment.store') }}" enctype="multipart/form-data">
     @csrf
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Rating Review Create</h3>
+            <h3 class="card-title">Rating Comment Create</h3>
 
             <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -25,13 +25,23 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
+                        <label>Product ID</label>
+                        <input type="number" class="form-control" placeholder="Enter product id" name="product_id" value="{{old('product_id')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>User ID</label>
+                        <input type="number" class="form-control" placeholder="Enter user id" name="user_id" value="{{old('user_id')}}">
+                    </div>
+
+                    <div class="form-group">
                         <label>Rating</label>
                         <input type="number" class="form-control" placeholder="Enter rating" name="rating" value="{{old('rating')}}">
                     </div>
 
                     <div class="form-group">
                         <label>Comment</label>
-                        <textarea class="form-control" name="comment">{{old('comment')}}</textarea>
+                        <textarea class="form-control" rows="3" placeholder="Enter comment" name="comment">{{old('comment')}}</textarea>
                     </div>
                 </div>
             </div>

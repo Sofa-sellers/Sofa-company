@@ -4,36 +4,38 @@
 @section('action', 'List')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css ') }}">
-<link rel="stylesheet" href="{{ asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css ') }}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
-
 @push('js')
-<script src="{{ asset('administrator/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="{{asset('administrator/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+@endpush
+@push('handlejs')
+<script>
+$(function () {
+    $("#example1").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+    function confirmDelete(){
+        return confirm('Do you want to delete it ?');
+    }
+</script>
 @endpush
 
-@push('hanldejs')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-  </script>
-@endpush
 @section('content')
 <!-- Default box -->
 <div class="card">
@@ -55,7 +57,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Permission Name</th>
+                    <th>Name</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -69,14 +71,25 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$adminPermission->name}}</td>
                     <td>{{$adminPermission->created_at}}</td>
-                    <td><a href="{{ route('admin.adminPermission.edit', ['id' => $adminPermission->id]) }}" class="btn btn-primary">Edit</a></td>
-                    <td><a href="{{ route('admin.adminPermission.delete', ['id' => $adminPermission->id]) }}" class="btn btn-danger">Delete</a></td>
+                    
+                    <td><a href="{{route('admin.adminPermission.edit',['id'=>$adminPermission->id])}}">Edit</a></td>
+                    <td><a onclick="return confirmDelete ()" href="{{route('admin.adminPermission.destroy',['id'=>$adminPermission->id])}}">Delete</a></td>
                 </tr>
             </tbody>
             @endforeach
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Create At</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </tfoot>
         </table>
     </div>
-    <!-- /.card-body -->
 </div>
 <!-- /.card -->
+
+
 @endsection

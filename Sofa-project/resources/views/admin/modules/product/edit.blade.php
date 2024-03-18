@@ -9,7 +9,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Product Update</h3>
+            <h3 class="card-title">Product Edit</h3>
 
             <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -25,33 +25,33 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label>Product name</label>
-                        <input type="text" class="form-control" placeholder="Enter product name" name="name" value="{{old('name' ,$product->name)}}">
+                        <label>Product Name</label>
+                        <input type="text" class="form-control" placeholder="Enter product name" name="name" value="{{old('name', $product->name)}}">
                     </div>
 
                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" class="form-control" placeholder="Enter product price" name="price"value="{{old('price' ,$product->price)}}">
+                        <label>Intro</label>
+                        <textarea class="form-control" name="intro">{{old('intro', $product->intro)}}</textarea>
                     </div>
 
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description">{{old('description',$product->description)}}</textarea>
+                        <textarea class="form-control" name="description">{{old('description', $product->description)}}</textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Content</label>
-                        <textarea class="form-control" name="content">{{old('content',$product->content)}}</textarea>
+                        <label>Document</label>
+                        <input type="text" class="form-control" placeholder="Enter document" name="document" value="{{old('document', $product->document)}}">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Category</label>
-                        <select class="form-control" name="category_id">
-                          <option value="0" {{old('category_id',$product->category_id)==0?'selected' : ''}}>----- Root -----</option>
-                          @foreach ($categories as $caterory)
-                          <option value="{{$caterory->id}}" {{old('category_id',$product->category_id)==$caterory->id?'selected' : ''}}>{{$caterory->name}}</option>
+                        <label>Brand</label>
+                        <select class="form-control" name="brand_id">
+                          <option value="0" {{old('brand_id', $product->brand_id)==0?'selected' : ''}}>----- Root -----</option>
+                          @foreach ($brands as $brand)
+                          <option value="{{$brand->id}}" {{old('brand_id', $product->brand_id)==$brand->id?'selected' : ''}}>{{$brand->name}}</option>
                           @endforeach  
                         </select>
                     </div>
@@ -59,25 +59,30 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">
-                            <option value="1" {{old('status',$product->status)==1?'selected' : ''}}>Show</option>
-                            <option value="2" {{old('status',$product->status)==2?'selected' : ''}}>Hidden</option>
+                            <option value="1" {{old('status', $product->status)==1?'selected' : ''}}>Show</option>
+                            <option value="0" {{old('status', $product->status)==0?'selected' : ''}}>Hidden</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Featured</label>
-                        <select class="form-control" name="featured">
-                            <option value="1" {{old('featured',$product->featured)==1?'selected' : ''}}>UnFeatured</option>
-                            <option value="2" {{old('featured',$product->featured)==2?'selected' : ''}}>Featured</option>
+                        <label>Is Hot</label>
+                        <select class="form-control" name="isHot">
+                            <option value="1" {{old('isHot', $product->isHot)==1?'selected' : ''}}>Hot</option>
+                            <option value="0" {{old('isHot', $product->isHot)==0?'selected' : ''}}>Not Hot</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label>Image current</label>
-                        <img src="{{asset('uploads/'.$product->image)}}" width="100px">
+                        <label>Is New</label>
+                        <select class="form-control" name="isNew">
+                            <option value="1" {{old('isNew', $product->isNew)==1?'selected' : ''}}>New</option>
+                            <option value="0" {{old('isNew', $product->isNew)==0?'selected' : ''}}>Not New</option>
+                        </select>
                     </div>
+
                     <div class="form-group">
                         <label>Image</label>
-                        <input type="file" class="form-control" name="image"/>
+                        <input type="file" class="form-control" name="product_image"/>
                     </div>
                 </div>
             </div>

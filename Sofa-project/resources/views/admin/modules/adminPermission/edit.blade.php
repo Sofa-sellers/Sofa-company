@@ -9,7 +9,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Admin Permission Update</h3>
+            <h3 class="card-title">Admin Permission Edit</h3>
 
             <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -25,8 +25,8 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label>Permission Name</label>
-                        <input type="text" class="form-control" placeholder="Enter permission name" name="name" value="{{old('name' ,$adminPermission->name)}}">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Enter name" name="name" value="{{old('name', $adminPermission->name)}}">
                     </div>
                 </div>
             </div>

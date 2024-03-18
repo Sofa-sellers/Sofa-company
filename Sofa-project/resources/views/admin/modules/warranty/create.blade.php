@@ -25,8 +25,33 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label>Warranty Information</label>
-                        <textarea class="form-control" name="information">{{old('information')}}</textarea>
+                        <label>Order ID</label>
+                        <input type="number" class="form-control" placeholder="Enter order id" name="order_id" value="{{old('order_id')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product ID</label>
+                        <input type="number" class="form-control" placeholder="Enter product id" name="product_id" value="{{old('product_id')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" class="form-control" placeholder="Enter quantity" name="quantity" value="{{old('quantity')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Date</label>
+                        <input type="date" class="form-control" name="delivery_date" value="{{old('delivery_date')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <input type="number" class="form-control" placeholder="Enter status" name="status" value="{{old('status')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>End Day</label>
+                        <input type="date" class="form-control" name="end_day" value="{{old('end_day')}}">
                     </div>
                 </div>
             </div>

@@ -38,19 +38,19 @@
               <a href="#" class="nav-link">
                   <i class="fa fa-th-list" aria-hidden="true"></i>
                   <p>
-                  Category
+                  Brand
                   <i class="right fas fa-angle-left"></i>
                   </p>
               </a>
               <ul class="nav nav-treeview">
                   <li class="nav-item">
-                      <a href="{{ route('admin.category.create') }}" class="nav-link">
+                      <a href="{{ route('admin.brand.create') }}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Create</p>
                       </a>
                       </li>
                   <li class="nav-item">
-                      <a href="{{ route('admin.category.index') }}" class="nav-link">
+                      <a href="{{ route('admin.brand.index') }}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>List</p>
                       </a>
@@ -164,13 +164,13 @@
               </a>
               <ul class="nav nav-treeview">
                   <li class="nav-item">
-                      <a href="{{ route('admin.ratingReview.create') }}" class="nav-link">
+                      <a href="{{ route('admin.ratingComment.create') }}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Create</p>
                       </a>
                       </li>
                   <li class="nav-item">
-                      <a href="{{ route('admin.ratingReview.index') }}" class="nav-link">
+                      <a href="{{ route('admin.ratingComment.index') }}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>List</p>
                       </a>

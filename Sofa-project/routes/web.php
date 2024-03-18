@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\AddressController;
-use App\Http\Controllers\Admin\RatingReviewController;
+use App\Http\Controllers\Admin\ratingCommentController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ShippingFeeController;
 use App\Http\Controllers\Admin\DeliveryOrderController;
 use App\Http\Controllers\Admin\WarrantyController;
-use App\Http\Controllers\Admin\DiscountCodeController;
-use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\AdminPermissionController;
 
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\ProductController as GuestProductController;
@@ -25,7 +25,7 @@ use App\Http\Controllers\Client\RegisterController as ClientRegisterController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\WishlistController;
-use App\Http\Controllers\Client\RatingReviewController as ClientRatingReviewController;
+use App\Http\Controllers\Client\ratingCommentController as ClientratingCommentController;
 use App\Http\Controllers\Client\AccountController;
 
 
@@ -52,7 +52,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('/email-promotion', [HomeController::Class, 'emailPromotion'])->name('emailPromotion');
     Route::get('/search', [HomeController::Class, 'searchPost'])->name('searchPost');
     Route::post('/search', [HomeController::Class, 'search'])->name('search');
-    Route::get('/category/{id}', [GuestProductController::Class, 'category'])->name('category');
+    Route::get('/brand/{id}', [GuestProductController::Class, 'brand'])->name('brand');
     Route::get('/detail/{id}', [GuestProductController::Class, 'detail'])->name('detail');
     Route::get('/compare', [CompareController::Class, 'compare'])->name('compare');
     Route::get('/contact', [ContactController::Class, 'contact'])->name('contact');
@@ -76,7 +76,7 @@ Route::name('client.')->group(function () {
 
     
     Route::get('/wishlist', [WishlistController::Class, 'wishList'])->name('wishList');
-    Route::get('/rating-review', [ClientRatingReviewController::Class, 'ratingReview'])->name('ratingReview');
+    Route::get('/rating-review', [ClientratingCommentController::Class, 'ratingComment'])->name('ratingComment');
 
     Route::prefix('/account')->name('account.')->controller(AccountController::class)->group(function () {
         Route::get('dashboard', [AccountController::Class, 'dashboard'])->name('dashboard');
@@ -93,7 +93,7 @@ Route::get('auth/logout', [LoginController::class, 'logout'])->name('auth.logout
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::prefix('category')->name('category.')->controller(CategoryController::class)->group(function () {
+    Route::prefix('brand')->name('brand.')->controller(BrandController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -177,7 +177,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('ratingReview')->name('ratingReview.')->controller(RatingReviewController::Class)->group(function() {
+    Route::prefix('ratingComment')->name('ratingComment.')->controller(ratingCommentController::Class)->group(function() {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -225,7 +225,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('promotion')->name('promotion.')->controller(DiscountCodeController::class)->group(function () {
+    Route::prefix('promotion')->name('promotion.')->controller(PromotionController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -237,7 +237,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('adminPermission')->name('adminPermission.')->controller(RoleController::class)->group(function () {
+    Route::prefix('adminPermission')->name('adminPermission.')->controller(AdminPermissionController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');

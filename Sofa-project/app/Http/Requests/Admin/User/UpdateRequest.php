@@ -6,38 +6,34 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'email'=>'required|unique:categories,name',
-            'price'=>'required|numeric',
-            'description'=>'required',
-            'image'=>'required|mimes:jpg,bmp,png,jpeg'
-
+            'username' => 'required|unique:users,username,' . $this->user,
+            'password' => 'required|confirmed',
+            'email' => 'required|email|unique:users,email,' . $this->user,
+            'status' => 'required',
+            'level' => 'required'
         ];
     }
+
     public function messages(): array
     {
         return [
-            'email.required'=>'vui lòng nhập tên sản phẩm',
-            'name.unique'=>'tên sản phẩm này đã có . xin hãy nhập thên sản phẩm khác ',
-            'price.required'=>'vui lòng nhập giá cả sản phẩm',
-            'price.numeric'=>'giá cả sản phẩm phải là số ',
-            'description.required'=>'xui vui lòng mô tả sản phẩm',
-            'image.mimes'=>'ảnh phải có đuôi jpg,png,bmp,jpeg'
+            'username.required' => 'vui lòng nhập tên người dùng',
+            'username.unique' => 'tên người dùng này đã có. xin hãy nhập tên người dùng khác',
+            'password.required' => 'xin vui lòng nhập mật khẩu',
+            'password.confirmed' => 'mật khẩu nhập lại không trùng khớp',
+            'email.required' => 'vui lòng nhập email',
+            'email.unique' => 'email này đã có. xin hãy nhập email khác',
+            'email.email' => 'vui lòng nhập dưới định dạng @gmail.com',
+            'status.required' => 'vui lòng nhập trạng thái',
+            'level.required' => 'vui lòng nhập cấp độ'
         ];
     }
 }

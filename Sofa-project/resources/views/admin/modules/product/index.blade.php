@@ -4,36 +4,38 @@
 @section('action', 'List')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css ') }}">
-<link rel="stylesheet" href="{{ asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css ') }}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
-
 @push('js')
-<script src="{{ asset('administrator/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="{{asset('administrator/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+@endpush
+@push('handlejs')
+<script>
+$(function () {
+    $("#example1").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+    function confirmDelete(){
+        return confirm('Do you want to delete it ?');
+    }
+</script>
 @endpush
 
-@push('hanldejs')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-  </script>
-@endpush
 @section('content')
 <!-- Default box -->
 <div class="card">
@@ -56,10 +58,13 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
+                    <th>Intro</th>
+                    <th>Description</th>
+                    <th>Brand</th>
                     <th>Status</th>
-                    <th>Featured</th>
+                    <th>Is Hot</th>
+                    <th>Is New</th>
+                    <th>Document</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -72,10 +77,13 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
-                    <td>{{number_format($product->price , 0,' ','.')}} VNĐ</td>
-                    <td>{{$product->category->name}}</td>
+                    <td>{{$product->intro}}</td>
+                    <td>{{$product->description}}</td>
+                    <td>{{$product->brand->name}}</td>
                     <td><span class="right badge badge-{{$product->status == 1 ?'success':'dark'}}">{{$product->status==1? 'Show' :'Hide'}}</span></td>
-                    <td><span class="right badge badge-{{$product->featured == 1 ?'success':'dark'}}">{{$product->featured==1? 'unfeatured' :'featured'}}</span></td>
+                    <td><span class="right badge badge-{{$product->isHot == 1 ?'success':'dark'}}">{{$product->isHot==1? 'Hot' :'Not Hot'}}</span></td>
+                    <td><span class="right badge badge-{{$product->isNew == 1 ?'success':'dark'}}">{{$product->isNew==1? 'New' :'Not New'}}</span></td>
+                    <td>{{$product->document}}</td>
                     <td>{{$product->created_at}}</td>
                     
                     <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
@@ -87,10 +95,13 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
+                    <th>Intro</th>
+                    <th>Description</th>
+                    <th>Brand</th>
                     <th>Status</th>
-                    <th>Featured</th>
+                    <th>Is Hot</th>
+                    <th>Is New</th>
+                    <th>Document</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>

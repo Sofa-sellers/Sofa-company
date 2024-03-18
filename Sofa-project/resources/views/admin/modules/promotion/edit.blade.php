@@ -9,7 +9,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Promotion Update</h3>
+            <h3 class="card-title">Promotion Edit</h3>
 
             <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -26,12 +26,12 @@
                 <div class="col-md-8">
                     <div class="form-group">
                         <label>Promotion Code</label>
-                        <input type="text" class="form-control" placeholder="Enter promotion code" name="code" value="{{old('code' ,$promotion->code)}}">
+                        <input type="text" class="form-control" placeholder="Enter promotion code" name="code" value="{{old('code', $promotion->code)}}">
                     </div>
 
                     <div class="form-group">
                         <label>Discount</label>
-                        <input type="number" class="form-control" placeholder="Enter discount" name="discount" value="{{old('discount' ,$promotion->discount)}}">
+                        <input type="number" class="form-control" placeholder="Enter discount" name="discount" value="{{old('discount', $promotion->discount)}}">
                     </div>
                 </div>
             </div>

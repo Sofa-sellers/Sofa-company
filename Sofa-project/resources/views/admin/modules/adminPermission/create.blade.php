@@ -25,8 +25,8 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label>Permission Name</label>
-                        <input type="text" class="form-control" placeholder="Enter permission name" name="name" value="{{old('name')}}">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Enter name" name="name" value="{{old('name')}}">
                     </div>
                 </div>
             </div>

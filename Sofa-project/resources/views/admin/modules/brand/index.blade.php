@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('module' ,'Category')
+@section('module' ,'Brand')
 @section('action','List')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -37,7 +37,7 @@ $(function () {
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Category List</h3>
+          <h3 class="card-title">Brand List</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -58,14 +58,14 @@ $(function () {
                         <th>Delete</th>
                     </tr>
                 </thead>
-                @foreach ($categories as $category)
+                @foreach ($brands as $brand)
                 <tbody>
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$category->name}}</td>
-                        <td><span class="right badge badge-{{$category->status == 1 ?'success':'dark'}}">{{$category->status==1? 'Show' :'Hide'}}</span></td>
-                        <td><a href="{{route('admin.category.edit',['id'=>$category->id])}}">Edit</a></td>
-                        <td><a onclick="return confirmDelete ()" href="{{route('admin.category.destroy',['id'=>$category->id])}}">Delete</a></td>
+                        <td>{{$brand->name}}</td>
+                        <td><span class="right badge badge-{{$brand->status == 1 ?'success':'dark'}}">{{$brand->status==1? 'Show' :'Hide'}}</span></td>
+                        <td><a href="{{route('admin.brand.edit',['id'=>$brand->id])}}">Edit</a></td>
+                        <td><a onclick="return confirmDelete ()" href="{{route('admin.brand.destroy',['id'=>$brand->id])}}">Delete</a></td>
                     </tr>
                 </tbody>
                 @endforeach
