@@ -26,11 +26,6 @@ use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Client\RatingReviewController as ClientRatingReviewController;
 use App\Http\Controllers\Client\AccountController;
 
-
-
-
-
-
 use Illuminate\Support\Facades\Route;
 
 /*
