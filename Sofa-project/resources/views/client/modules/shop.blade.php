@@ -658,7 +658,7 @@
                     <h2 class="bread-crumb-title">shop</h2>
                     <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Shop grid list left sidebar</li>
+                        <li class="breadcrumb-item active" aria-current="page">Shop grid left sidebar</li>
                     </ol>
                 </div>
             </div>
@@ -677,10 +677,10 @@
                             <nav class="shop-grid-nav">
                                 <ul class="nav nav-tabs justify-content-center justify-content-md-start align-items-center" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link grid" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"></a>
+                                        <a class="nav-link grid active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"></a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link list active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"></a>
+                                        <a class="nav-link list" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"></a>
                                     </li>
                                     <li>
                                         <span class="total-products text-capitalize">Showing 1–12 of 19 results</span>
@@ -704,7 +704,7 @@
                         </div>
                     </div>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade" id="home" role="tabpanel">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel">
                             <div class="row grid-view mb-n5">
 
                                 <div class="col-sm-6 col-md-4 mb-5">
@@ -1022,7 +1022,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                        <div class="tab-pane fade" id="profile" role="tabpanel">
                             <div class="row mb-n5 grid-view-list overflow-hidden">
                                 <div class="col-12 mb-5">
                                     <!-- product card list start -->

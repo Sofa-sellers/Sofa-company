@@ -1,3 +1,8 @@
+@extends('client.master')
+@section('module','compare')
+@section('content')
+
+@endsection
 <!DOCTYPE html>
 <html lang="en">
 <!-- head start -->
