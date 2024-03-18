@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ShippingFeeController;
 use App\Http\Controllers\Admin\DeliveryOrderController;
 use App\Http\Controllers\Admin\WarrantyController;
+use App\Http\Controllers\Admin\DiscountCodeController;
+use App\Http\Controllers\Admin\RoleController;
 
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\ProductController as GuestProductController;
@@ -175,7 +177,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::get('ratingReview', [RatingReviewController::Class, 'ratingReview'])->name('ratingReview');
+    Route::prefix('ratingReview')->name('ratingReview.')->controller(RatingReviewController::Class)->group(function() {
+        Route::get('index', 'index')->name('index');
+
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::post('update/{id}', 'update')->name('update');
+
+        Route::get('destroy/{id}', 'destroy')->name('destroy');
+    });
     
     Route::prefix('shipping-fee')->name('shipping-fee.')->controller(ShippingFeeController::class)->group(function () {
         Route::get('index', 'index')->name('index');
@@ -202,6 +214,30 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('warranty')->name('warranty.')->controller(WarrantyController::class)->group(function () {
+        Route::get('index', 'index')->name('index');
+
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::post('update/{id}', 'update')->name('update');
+
+        Route::get('destroy/{id}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('promotion')->name('promotion.')->controller(DiscountCodeController::class)->group(function () {
+        Route::get('index', 'index')->name('index');
+
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::post('update/{id}', 'update')->name('update');
+
+        Route::get('destroy/{id}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('adminPermission')->name('adminPermission.')->controller(RoleController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');

@@ -36,7 +36,7 @@
               with font-awesome or any other icon font library -->
           <li class="nav-item">
               <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-sitemap"></i>
+                  <i class="fa fa-th-list" aria-hidden="true"></i>
                   <p>
                   Category
                   <i class="right fas fa-angle-left"></i>
@@ -99,6 +99,102 @@
                       </li>
                   <li class="nav-item">
                       <a href="{{ route('admin.user.index') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>List</p>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                  <p>
+                  Promotion
+                  <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{{ route('admin.promotion.create') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Create</p>
+                      </a>
+                      </li>
+                  <li class="nav-item">
+                      <a href="{{ route('admin.promotion.index') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>List</p>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="fa fa-cog" aria-hidden="true"></i>
+                  <p>
+                  Warranty
+                  <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{{ route('admin.warranty.create') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Create</p>
+                      </a>
+                      </li>
+                  <li class="nav-item">
+                      <a href="{{ route('admin.warranty.index') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>List</p>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="fa fa-comments" aria-hidden="true"></i>
+                  <p>
+                  Rating Review
+                  <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{{ route('admin.ratingReview.create') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Create</p>
+                      </a>
+                      </li>
+                  <li class="nav-item">
+                      <a href="{{ route('admin.ratingReview.index') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>List</p>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-sitemap"></i>
+                  <p>
+                  Admin Permission
+                  <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{{ route('admin.adminPermission.create') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Create</p>
+                      </a>
+                      </li>
+                  <li class="nav-item">
+                      <a href="{{ route('admin.adminPermission.index') }}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>List</p>
                       </a>
