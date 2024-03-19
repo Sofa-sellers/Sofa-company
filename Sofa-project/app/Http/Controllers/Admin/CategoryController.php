@@ -8,7 +8,7 @@ use App\Http\Requests\Admin\Brand\StoreRequest;
 use App\Http\Requests\Admin\Brand\UpdateRequest;
 use App\Models\Brand;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
