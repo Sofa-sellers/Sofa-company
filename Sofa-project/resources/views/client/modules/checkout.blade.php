@@ -8,7 +8,7 @@
                 <div class="col-lg-7">
                     <div class="billing-info-wrap">
                         <h3 class="title">Billing Details</h3>
-                        <form class="personal-information" action="assets/php/contact.php">
+                        <form class="personal-information" action="">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <div class="billing-info mb-5">
