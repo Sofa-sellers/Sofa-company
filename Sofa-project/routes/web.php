@@ -28,11 +28,6 @@ use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Client\ratingCommentController as ClientratingCommentController;
 use App\Http\Controllers\Client\AccountController;
 
-
-
-
-
-
 use Illuminate\Support\Facades\Route;
 
 /*
