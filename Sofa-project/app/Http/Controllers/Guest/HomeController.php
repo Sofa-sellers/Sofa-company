@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function emailPromotionPost(){
+    public function index(){
         return view('');
     }
 }

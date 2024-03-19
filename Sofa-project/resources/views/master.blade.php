@@ -6,23 +6,23 @@
 <head>
 
     <!-- Required meta tags -->
-    @include('client.partials.head')
+    @include('partials.head')
 
 </head>
 <!-- head end -->
 
 <body>
     <!-- offcanvas menu start -->
-    @include('client.partials.menu')
+    @include('partials.menu')
     <!-- offcanvas menu end -->
 
     <!-- header section start -->
-    @include('client.partials.header')
+    @include('partials.header')
     <!-- header section end -->
 
     <!-- main content start -->
     <!-- bread crumb section start -->
-    @include('client.partials.breadcrumb')
+    @include('partials.breadcrumb')
     <!-- bread crumb section end -->
 
     @yield('content')
@@ -30,7 +30,7 @@
 
     <!-- footer section start -->
     <!-- footer start -->
-    @include('client.partials.footer')
+    @include('partials.footer')
     <!-- footer end -->
     <!-- footer section end -->
 
@@ -39,7 +39,7 @@
 
     <!-- Vendor JS -->
 
-    @include('client.partials.link')
+    @include('partials.link')
 
 </body>
 
