@@ -3,29 +3,29 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\AttributeController;
-use App\Http\Controllers\Admin\AttributeValueController;
-use App\Http\Controllers\Admin\AddressController;
-use App\Http\Controllers\Admin\ratingCommentController;
+// use App\Http\Controllers\Admin\AttributeController;
+// use App\Http\Controllers\Admin\AttributeValueController;
+// use App\Http\Controllers\Admin\AddressController;
+// use App\Http\Controllers\Admin\ratingCommentController;
 use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\ShippingFeeController;
-use App\Http\Controllers\Admin\DeliveryOrderController;
-use App\Http\Controllers\Admin\WarrantyController;
-use App\Http\Controllers\Admin\PromotionController;
-use App\Http\Controllers\Admin\AdminPermissionController;
+// use App\Http\Controllers\Admin\ShippingFeeController;
+// use App\Http\Controllers\Admin\DeliveryOrderController;
+// use App\Http\Controllers\Admin\WarrantyController;
+// use App\Http\Controllers\Admin\PromotionController;
+// use App\Http\Controllers\Admin\AdminPermissionController;
 
 use App\Http\Controllers\Guest\HomeController;
-use App\Http\Controllers\Guest\ProductController as GuestProductController;
-use App\Http\Controllers\Guest\CompareController;
-use App\Http\Controllers\Guest\ContactController;
+// use App\Http\Controllers\Guest\ProductController as GuestProductController;
+// use App\Http\Controllers\Guest\CompareController;
+// use App\Http\Controllers\Guest\ContactController;
 
 use App\Http\Controllers\Auth\LoginController;
 
-use App\Http\Controllers\Client\RegisterController as ClientRegisterController;
-use App\Http\Controllers\Client\LoginController as ClientLoginController;
+// use App\Http\Controllers\Client\RegisterController as ClientRegisterController;
+// use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\CartController;
-use App\Http\Controllers\Client\WishlistController;
-use App\Http\Controllers\Client\ratingCommentController as ClientratingCommentController;
+// use App\Http\Controllers\Client\WishlistController;
+// use App\Http\Controllers\Client\ratingCommentController as ClientratingCommentController;
 use App\Http\Controllers\Client\AccountController;
 
 use Illuminate\Support\Facades\Route;
@@ -112,7 +112,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('attribute')->name('attribute.')->controller(AttributeController::class)->group(function () {
+    Route::prefix('attribute')->name('attribute.')->controller(ProductController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -124,7 +124,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('attribute-value')->name('attribute-value.')->controller(AttributeValueController::class)->group(function () {
+    Route::prefix('attribute-value')->name('attribute-value.')->controller(ProductController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -137,18 +137,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('user')->name('user.')->controller(UserController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
-
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
-
-    Route::prefix('address')->name('address.')->controller(AddressController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
