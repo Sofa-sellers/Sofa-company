@@ -23,7 +23,7 @@
                             <tbody>
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="assets/images/products/product2.jpg" alt="img">
+                                        <img src="{{asset('assets/images/products/product2.jpg')}}" alt="img">
                                     </th>
                                     <td class="text-center">
                                         <span class="whish-title">Gold Metal Clothing Rack With</span>
@@ -62,7 +62,7 @@
                                 </tr>
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="assets/images/products/product4.jpg" alt="img">
+                                        <img src="{{asset('assets/images/products/product4.jpg')}}" alt="img">
                                     </th>
                                     <td class="text-center">
                                         <span class="whish-title">Emmy Green Floral Wood Leg</span>
@@ -99,7 +99,7 @@
                                 </tr>
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="assets/images/products/product6.jpg" alt="img">
+                                        <img src="{{asset('assets/images/products/product6.jpg')}}" alt="img">
                                     </th>
                                     <td class="text-center">
                                         <span class="whish-title">Heirloom Gold Metal Folding Shelf</span>
@@ -149,7 +149,7 @@
                 <div class="col-lg-7">
                     <div class="billing-info-wrap">
                         <h3 class="title">calculate shipping</h3>
-                        <form class="personal-information" action="assets/php/contact.php">
+                        <form class="personal-information" action="">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <div class="billing-select">
