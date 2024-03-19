@@ -1,31 +1,16 @@
 <?php
 
-use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
-// use App\Http\Controllers\Admin\AttributeController;
-// use App\Http\Controllers\Admin\AttributeValueController;
-// use App\Http\Controllers\Admin\AddressController;
-// use App\Http\Controllers\Admin\ratingCommentController;
 use App\Http\Controllers\Admin\OrderController;
-// use App\Http\Controllers\Admin\ShippingFeeController;
-// use App\Http\Controllers\Admin\DeliveryOrderController;
-// use App\Http\Controllers\Admin\WarrantyController;
-// use App\Http\Controllers\Admin\PromotionController;
-// use App\Http\Controllers\Admin\AdminPermissionController;
 
-use App\Http\Controllers\Guest\HomeController;
-// use App\Http\Controllers\Guest\ProductController as GuestProductController;
-// use App\Http\Controllers\Guest\CompareController;
-// use App\Http\Controllers\Guest\ContactController;
+use App\Http\Controllers\Guest\GuestController;
+use App\Http\Controllers\Guest\CartController;
 
 use App\Http\Controllers\Auth\LoginController;
 
-// use App\Http\Controllers\Client\RegisterController as ClientRegisterController;
-// use App\Http\Controllers\Client\LoginController as ClientLoginController;
-use App\Http\Controllers\Client\CartController;
-// use App\Http\Controllers\Client\WishlistController;
-// use App\Http\Controllers\Client\ratingCommentController as ClientratingCommentController;
+
 use App\Http\Controllers\Client\AccountController;
 
 use Illuminate\Support\Facades\Route;
@@ -41,54 +26,85 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//ở trang guest và client có vài mục sẽ có post ko có get vì get chỉ để hiện lên trang đó thôi (vd như hiện trang create user), nhưng ở đây, vd trang home đã có luôn hiển thị email-promotion r nên chỉ ko càn get, chỉ cần post nhé mn
+//có 1 vài mục get và post của nó sẽ ở 2 Controller khác nhau (tùy vào có bắt buộc đăng nhập ko), vd như checkout của cart sẽ qua AccountController vì cần đăng nhập mới thực hiện đc
+Route::prefix('')->group(function () {
 
-    Route::get('/', [HomeController::Class, 'index'])->name('index');
-    Route::get('/email-promotion', [HomeController::Class, 'emailPromotionPost'])->name('emailPromotionPost');
-    Route::post('/email-promotion', [HomeController::Class, 'emailPromotion'])->name('emailPromotion');
-    Route::get('/search', [HomeController::Class, 'searchPost'])->name('searchPost');
-    Route::post('/search', [HomeController::Class, 'search'])->name('search');
-    Route::get('/brand/{id}', [GuestProductController::Class, 'brand'])->name('brand');
-    Route::get('/detail/{id}', [GuestProductController::Class, 'detail'])->name('detail');
-    Route::get('/compare', [CompareController::Class, 'compare'])->name('compare');
-    Route::get('/contact', [ContactController::Class, 'contact'])->name('contact');
-    Route::get('/about-us', [PagesController::Class, 'aboutUs'])->name('about-us');
-    
-Route::name('client.')->group(function () {
+    Route::controller(GuestController::class)->group(function () {
+        Route::get('', 'index')->name('index');
+        
+        Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
+        
+        Route::post('search', 'search')->name('search');
 
-    Route::get('/register', [RegisterController::class, 'showRegister'])->name('showRegister');
-    Route::post('/register', [RegisterController::class, 'register'])->name('register');
-    Route::get('/login', [ClientLoginController::class, 'showLogin'])->name('showLogin');
-    Route::post('/login', [ClientLoginController::class, 'login'])->name('login');
-    Route::get('/logout', [ClientLoginController::class, 'logout'])->name('logout');
-    Route::get('/forgotpassword', [ClientLoginController::class, 'forgotPassword'])->name('forgotPassword');
+        Route::get('category/{id}', 'category')->name('category');
 
-    Route::get('/add-to-cart/{id}/{quantity}', [CartController::Class, 'addToCart'])->name('addToCart');
-    Route::get('/cart', [CartController::Class, 'cart'])->name('cart');
-    Route::get('/cart-delete/{id}', [CartController::Class, 'cartDelete'])->name('cartDelete');
-    Route::post('/cart-update/{id}/{quantity}', [CartController::Class, 'cartUpdate'])->name('cartUpdate');
-    Route::get('/checkout', [CartController::Class, 'checkout'])->name('checkout');
-    Route::post('/checkout', [CartController::Class, 'checkoutPost'])->name('checkoutPost');
+        Route::get('detail/{id}', 'detail')->name('detail');
 
-    
-    Route::get('/wishlist', [WishlistController::Class, 'wishList'])->name('wishList');
-    Route::get('/rating-review', [ClientratingCommentController::Class, 'ratingComment'])->name('ratingComment');
+        Route::post('download/{id}', 'download')->name('download');
 
-    Route::prefix('/account')->name('account.')->controller(AccountController::class)->group(function () {
-        Route::get('dashboard', [AccountController::Class, 'dashboard'])->name('dashboard');
-        Route::get('orders', [AccountController::Class, 'orders'])->name('orders');
-        Route::get('download', [AccountController::Class, 'download'])->name('download');
-        Route::get('address', [AccountController::Class, 'address'])->name('address');
-        Route::get('account-details', [AccountController::Class, 'accountDetails'])->name('accountDetails');
+        Route::get('compare', 'showCompare')->name('showCompare');
+        Route::post('compare', 'compare')->name('compare');
+
+        Route::get('contact', 'contact')->name('contact');
+    });
+
+    Route::controller(CartController::class)->group(function () {
+        Route::get('add-to-cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::get('cart', 'cart')->name('cart');
+        Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
+        Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
+        Route::get('checkout', 'showCheckout')->name('showCheckout');
     });
 });
 
-Route::get('auth/login', [LoginController::class, 'showLogin'])->name('auth.showLogin');
-Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
-Route::get('auth/logout', [LoginController::class, 'logout'])->name('auth.logout');
+
+    // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
+    
+    Route::prefix('auth')->controller(LoginController::class)->group(function () {
+        
+        Route::post('register', 'register')->name('register');
+
+        Route::get('login', 'showLogin')->name('showLogin');
+        Route::post('login', 'login')->name('login');
+
+        Route::get('forgotpassword', 'showForgotPassword')->name('showForgotPassword');
+        Route::post('forgotpassword', 'forgotPassword')->name('forgotPassword');
+    });
+
+Route::name('client.')->group(function () {
+    
+    //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
+    Route::controller(AccountController::class)->group(function () {
+
+        Route::post('rating-review', 'ratingCommentStore')->name('ratingCommentStore');
+
+        Route::post('rating-review/{id}', 'ratingCommentUpdate')->name('ratingCommentUpdate');
+
+        //phần checkout của cart c đưa vào AccountController nhé Trân, vì login mới checkout đc nên c tách riêng phần này qua Account luôn
+        Route::post('checkout', 'checkout')->name('checkout');
+
+        Route::prefix('account')->name('account.')->group(function () {
+
+            Route::get('index', 'accountIndex')->name('index');
+
+            Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
+            Route::get('wishlist', 'showWishlist')->name('showWishlist');
+            Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
+            Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
+
+            Route::post('order', 'order')->name('order');
+            Route::post('address/{id}', 'addressUpdate')->name('address');
+            Route::post('account-details/{id}','accountDetailsUpdate')->name('accountDetails');
+            Route::get('logout','logout')->name('logout');
+    });
+});
+});
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::prefix('brand')->name('brand.')->controller(BrandController::class)->group(function () {
+
+    Route::prefix('category')->name('category.')->controller(CategoryController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -100,136 +116,99 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('product')->name('product.')->controller(ProductController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+    Route::controller(ProductController::class)->group(function () {
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+        Route::prefix('product')->name('product.')->group(function () {
+        Route::get('index', 'productIndex')->name('index');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+        Route::get('create', 'productCreate')->name('create');
+        Route::post('store', 'productStore')->name('store');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
+        Route::get('edit/{id}', 'productEdit')->name('edit');
+        Route::post('update/{id}', 'productUpdate')->name('update');
 
-    Route::prefix('attribute')->name('attribute.')->controller(ProductController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+        Route::get('destroy/{id}', 'productDestroy')->name('destroy');
+        });
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+        Route::prefix('attribute')->name('attribute.')->group(function () {
+            Route::get('index', 'attributeIndex')->name('index');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+            Route::get('create', 'attributeCreate')->name('create');
+            Route::post('store', 'attributeStore')->name('store');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
+            Route::get('edit/{id}', 'attributeEdit')->name('edit');
+            Route::post('update/{id}', 'attributeUpdate')->name('update');
 
-    Route::prefix('attribute-value')->name('attribute-value.')->controller(ProductController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+            Route::get('destroy/{id}', 'attributeDestroy')->name('destroy');
+        });
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+        Route::prefix('value')->name('value.')->group(function () {
+            Route::get('index', 'valueIndex')->name('index');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+            Route::get('create', 'valueCreate')->name('create');
+            Route::post('store', 'valueStore')->name('store');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
+            Route::get('edit/{id}', 'valueEdit')->name('edit');
+            Route::post('update/{id}', 'valueUpdate')->name('update');
 
-    Route::prefix('user')->name('user.')->controller(UserController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+            Route::get('destroy/{id}', 'valueDestroy')->name('destroy');
+        });
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
-
-    Route::prefix('order')->name('order.')->controller(OrderController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
-
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
-
-    Route::prefix('ratingComment')->name('ratingComment.')->controller(ratingCommentController::Class)->group(function() {
-        Route::get('index', 'index')->name('index');
-
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
+        //promotion hiện sẽ nhập vào productcontroller => e tạo các function theo tên bên dưới nhé Trân, r copy từ file promotion cũ của e vào, sửa lại các chi tiết tên
+        Route::prefix('promotion')->name('promotion.')->group(function () {
+            Route::get('index', 'promotionIndex')->name('index');
     
-    Route::prefix('shipping-fee')->name('shipping-fee.')->controller(ShippingFeeController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
-
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
+            Route::get('create', 'promotionCreate')->name('create');
+            Route::post('store', 'promotionStore')->name('store');
+    
+            Route::get('edit/{id}', 'promotionEdit')->name('edit');
+            Route::post('update/{id}', 'promotionUpdate')->name('update');
+    
+            Route::get('destroy/{id}', 'promotionDestroy')->name('destroy');
+        });
     });
 
-    Route::prefix('delivery-order')->name('delivery-order.')->controller(DeliveryOrderController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+    Route::controller(UserController::class)->group(function () {
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('index', 'userIndex')->name('index');
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+            Route::get('create', 'userCreate')->name('create');
+            Route::post('store', 'userStore')->name('store');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+            Route::get('edit/{id}', 'userEdit')->name('edit');
+            Route::post('update/{id}', 'userUpdate')->name('update');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
+            Route::get('destroy/{id}', 'userDestroy')->name('destroy');
+        });
+
+        //ratingComment hiện sẽ nhập vào usercontroller => e tạo các function theo tên bên dưới nhé Trân, r copy từ file ratingComment cũ của e vào, sửa lại các chi tiết tên
+        Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
+            Route::get('index', 'ratingCommentIndex')->name('index');
+
+            Route::get('create', 'ratingCommentCreate')->name('create');
+            Route::post('store', 'ratingCommentStore')->name('store');
+
+            Route::get('edit/{id}', 'ratingCommentEdit')->name('edit');
+            Route::post('update/{id}', 'ratingCommentUpdate')->name('update');
+
+            Route::get('destroy/{id}', 'ratingCommentDestroy')->name('destroy');
+        });
     });
 
-    Route::prefix('warranty')->name('warranty.')->controller(WarrantyController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+    //bảng order sẽ có thêm mục trạng thái giao hàng r để chuyển trạng thái vận đơn nhé Nam, tui nói là cái bảng database á, chứ ko phải code
+    Route::controller(OrderController::class)->group(function () {
+        Route::prefix('order')->name('order.')->group(function () {
+            Route::get('index', 'orderIndex')->name('index');
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+            Route::get('create', 'orderCreate')->name('create');
+            Route::post('store', 'orderStore')->name('store');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+            Route::get('edit/{id}', 'orderEdit')->name('edit');
+            Route::post('update/{id}', 'orderUpdate')->name('update');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
+            Route::get('destroy/{id}', 'orderDestroy')->name('destroy');
+        });
     });
 
-    Route::prefix('promotion')->name('promotion.')->controller(PromotionController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
-
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
-
-    Route::prefix('adminPermission')->name('adminPermission.')->controller(AdminPermissionController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
-
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
-
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
-
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
-    });
 });
 
