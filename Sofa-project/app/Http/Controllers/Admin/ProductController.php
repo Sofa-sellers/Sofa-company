@@ -5,139 +5,113 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\UpdateRequest;
 use App\Http\Requests\Admin\Product\StoreRequest;
-use App\Models\Category;
+use App\Models\Brand;
 use App\Models\Product;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
-        return view('admin.modules.product.index', [
-            'products' => $products
-        ]);
+        $products = Product::with('brand')->orderBy('created_at', 'DESC')->get();
+        return view('admin.modules.product.index', ['products' => $products]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $categories = Category::get();
+        $brands = Brand::get();
         return view('admin.modules.product.create', [
-            'categories' => $categories
+            'brands' => $brands
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request)
     {
         $product = new Product();
 
-        $file = $request->image;
+        $file = $request->product_image;
         $fileName = time() . '-' . $file->getClientOriginalName();
 
         $product->name = $request->name;
-        $product->price = $request->price;
+        $product->intro = $request->intro;
         $product->description = $request->description;
-        $product->content = $request->content;
-        $product->category_id = $request->category_id;
-        $product->status = $request->status;
-        $product->featured = $request->featured;
-        $product->image = $fileName;
+        $product->brand_id = $request->brand_id;
+        $product->isHot = $request->isHot;
+        $product->isNew = $request->isNew;
+        $product->document = $request->document;
+        $product->product_image = $fileName;
         $product->user_id = 1;
         $product->save();
         $file->move(public_path('uploads/'), $fileName);
-        return redirect()->route('admin.product.index')->with('success', 'create product successfully');
-
+        return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id)
+    public function edit(string $id)
     {
-        $categories = Category::get();
+        $brands = Brand::get();
         $products = Product::find($id);
         if ($products == null) {
             abort(404);
         }
         return view('admin.modules.product.edit', [
             'id' => $id,
-            'categories' => $categories,
+            'brands' => $brands,
             'product' => $products
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRequest $request, string $id)
     {
         $product = Product::find($id);
         if ($product == null) {
             abort(404);
         }
-        $file = $request->image;
+        $file = $request->product_image;
         if (!empty($file)) {
 
             $request->validate(
                 [
-                    'image' => 'required|mimes:jpg,png,bmp,jpeg',
+                    'product_image' => 'required|mimes:jpg,png,bmp,jpeg',
 
                 ],
                 [
-                    'image.required' => 'xin vui lòng úp hình ảnh',
-                    'image.mimes' => 'hình ảnh phải có đuôi jpg,png,bmp,jpeg'
+                    'product_image.required' => 'xin vui lòng úp hình ảnh',
+                    'product_image.mimes' => 'hình ảnh phải có đuôi jpg,png,bmp,jpeg'
                 ]
             );
-            $old_image_path = public_path('uploads/' . $product->image);
+            $old_image_path = public_path('uploads/' . $product->product_image);
             if (file_exists($old_image_path)) {
                 unlink($old_image_path);
             }
             $fileName = time() . '-' . $file->getClientOriginalName();
-            $product->image = $fileName;
+            $product->product_image = $fileName;
             $file->move(public_path('uploads/'), $fileName);
         }
 
-
-
         $product->name = $request->name;
-        $product->price = $request->price;
+        $product->intro = $request->intro;
         $product->description = $request->description;
-        $product->content = $request->content;
-        $product->category_id = $request->category_id;
-        $product->status = $request->status;
-        $product->featured = $request->featured;
+        $product->brand_id = $request->brand_id;
+        $product->isHot = $request->isHot;
+        $product->isNew = $request->isNew;
+        $product->document = $request->document;
         $product->user_id = 1;
         $product->save();
 
         return redirect()->route('admin.product.index')->with('success', 'update product successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $products = Product::find($id);
         if ($products == null) {
             abort(404);
         }
-        $old_image_path = public_path('uploads/' . $products->image);
+        $old_image_path = public_path('uploads/' . $products->product_image);
         if (file_exists($old_image_path)) {
             unlink($old_image_path);
         }

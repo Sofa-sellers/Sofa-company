@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('module', 'Product')
+@section('module', 'Promotion')
 @section('action', 'List')
 
 @push('css')
@@ -40,7 +40,7 @@ $(function () {
 <!-- Default box -->
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Product List</h3>
+        <h3 class="card-title">Promotion List</h3>
 
         <div class="card-tools">
         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -57,51 +57,33 @@ $(function () {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Intro</th>
-                    <th>Description</th>
-                    <th>Brand</th>
-                    <th>Status</th>
-                    <th>Is Hot</th>
-                    <th>Is New</th>
-                    <th>Document</th>
+                    <th>Code</th>
+                    <th>Discount</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
-            @foreach ($products as $product)
+            @foreach ($promotions as $promotion)
                 
             
             <tbody>
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$product->name}}</td>
-                    <td>{{$product->intro}}</td>
-                    <td>{{$product->description}}</td>
-                    <td>{{$product->brand->name}}</td>
-                    <td><span class="right badge badge-{{$product->status == 1 ?'success':'dark'}}">{{$product->status==1? 'Show' :'Hide'}}</span></td>
-                    <td><span class="right badge badge-{{$product->isHot == 1 ?'success':'dark'}}">{{$product->isHot==1? 'Hot' :'Not Hot'}}</span></td>
-                    <td><span class="right badge badge-{{$product->isNew == 1 ?'success':'dark'}}">{{$product->isNew==1? 'New' :'Not New'}}</span></td>
-                    <td>{{$product->document}}</td>
-                    <td>{{$product->created_at}}</td>
+                    <td>{{$promotion->code}}</td>
+                    <td>{{$promotion->discount}}%</td>
+                    <td>{{$promotion->created_at}}</td>
                     
-                    <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
-                    <td><a onclick="return confirmDelete ()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a></td>
+                    <td><a href="{{route('admin.promotion.edit',['id'=>$promotion->id])}}">Edit</a></td>
+                    <td><a onclick="return confirmDelete ()" href="{{route('admin.promotion.destroy',['id'=>$promotion->id])}}">Delete</a></td>
                 </tr>
             </tbody>
             @endforeach
             <tfoot>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Intro</th>
-                    <th>Description</th>
-                    <th>Brand</th>
-                    <th>Status</th>
-                    <th>Is Hot</th>
-                    <th>Is New</th>
-                    <th>Document</th>
+                    <th>Code</th>
+                    <th>Discount</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>

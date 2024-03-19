@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('module', 'Product')
+@section('module', 'Warranty')
 @section('action', 'List')
 
 @push('css')
@@ -40,7 +40,7 @@ $(function () {
 <!-- Default box -->
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Product List</h3>
+        <h3 class="card-title">Warranty List</h3>
 
         <div class="card-tools">
         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -57,51 +57,45 @@ $(function () {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Intro</th>
-                    <th>Description</th>
-                    <th>Brand</th>
+                    <th>Order ID</th>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Delivery Date</th>
                     <th>Status</th>
-                    <th>Is Hot</th>
-                    <th>Is New</th>
-                    <th>Document</th>
+                    <th>End Day</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
-            @foreach ($products as $product)
+            @foreach ($warranties as $warranty)
                 
             
             <tbody>
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$product->name}}</td>
-                    <td>{{$product->intro}}</td>
-                    <td>{{$product->description}}</td>
-                    <td>{{$product->brand->name}}</td>
-                    <td><span class="right badge badge-{{$product->status == 1 ?'success':'dark'}}">{{$product->status==1? 'Show' :'Hide'}}</span></td>
-                    <td><span class="right badge badge-{{$product->isHot == 1 ?'success':'dark'}}">{{$product->isHot==1? 'Hot' :'Not Hot'}}</span></td>
-                    <td><span class="right badge badge-{{$product->isNew == 1 ?'success':'dark'}}">{{$product->isNew==1? 'New' :'Not New'}}</span></td>
-                    <td>{{$product->document}}</td>
-                    <td>{{$product->created_at}}</td>
+                    <td>{{$warranty->order_id}}</td>
+                    <td>{{$warranty->product_id}}</td>
+                    <td>{{$warranty->quantity}}</td>
+                    <td>{{$warranty->delivery_date}}</td>
+                    <td>{{$warranty->status}}</td>
+                    <td>{{$warranty->end_day}}</td>
+                    <td>{{$warranty->created_at}}</td>
                     
-                    <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
-                    <td><a onclick="return confirmDelete ()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a></td>
+                    <td><a href="{{route('admin.warranty.edit',['id'=>$warranty->id])}}">Edit</a></td>
+                    <td><a onclick="return confirmDelete ()" href="{{route('admin.warranty.destroy',['id'=>$warranty->id])}}">Delete</a></td>
                 </tr>
             </tbody>
             @endforeach
             <tfoot>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Intro</th>
-                    <th>Description</th>
-                    <th>Brand</th>
+                    <th>Order ID</th>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Delivery Date</th>
                     <th>Status</th>
-                    <th>Is Hot</th>
-                    <th>Is New</th>
-                    <th>Document</th>
+                    <th>End Day</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
