@@ -49,8 +49,8 @@ Route::prefix('')->group(function () {
         Route::get('contact', 'contact')->name('contact');
     });
 
-    Route::controller(CartController::class)->group(function () {
-        Route::get('add-to-cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+    Route::controller(ClientController::class)->middleware('checkLogin')->group(function () {
+        Route::post('add-to-cart/{id}/{quantity}', 'addToCart')->name('addToCart');
         Route::get('cart', 'cart')->name('cart');
         Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
@@ -182,7 +182,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         //ratingComment hiện sẽ nhập vào usercontroller => e tạo các function theo tên bên dưới nhé Trân, r copy từ file ratingComment cũ của e vào, sửa lại các chi tiết tên
-        Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
+        Route::prefix('ratingComment')->name('ratingComment.')->middleware('checkLogin')->group(function() {
             Route::get('index', 'ratingCommentIndex')->name('index');
 
             Route::get('create', 'ratingCommentCreate')->name('create');
