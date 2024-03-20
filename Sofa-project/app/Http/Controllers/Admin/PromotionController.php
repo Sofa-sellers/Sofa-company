@@ -15,12 +15,12 @@ class PromotionController extends Controller
         return view('admin.modules.promotion.index', ['promotions' => $promotions]);
     }
 
-    public function create()
+    public function promoCreate()
     {
         return view('admin.modules.promotion.create');
     }
 
-    public function store(StoreRequest $request)
+    public function promoStore(StoreRequest $request)
     {
         $promotion = new Promotion();
 

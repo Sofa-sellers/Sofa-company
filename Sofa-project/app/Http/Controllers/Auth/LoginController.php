@@ -3,57 +3,33 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    public function showLogin(){
+        return view('login');
+    }
+
+    public function login(LoginRequest $request){
+        $credentials =[
+            'email' => $request->email,
+            'password' => $request->password,
+            'status' =>1
+        ];
+ 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->route('index');
+        }
+            return redirect()->back();
+    }
+
     public function register(Request $request){
 
-    }
-
-    public function ratingCommentStore(StoreRequest $request){
-        return view('guest.pages.login');
-    }
-
-    public function ratingCommentUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function checkout(Request $request){
-        //
-    }
-
-    public function accountIndex(){
-        return view('client.pages.account');
-    }
-
-    public function addToWishlist($id, $quantity){
-        //
-    }
-
-    public function showWishlist(){
-        return view('client.modules.wishlist');
-        
-    }
-
-    public function wishlistDelete($id){
-        //
-    }
-
-    public function wishlistUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function order(Request $request){
-        //
-    }
-
-    public function orderUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function accountDetailsUpdate(UpdateRequest $request, $id){
-//
     }
 
     public function logout(){

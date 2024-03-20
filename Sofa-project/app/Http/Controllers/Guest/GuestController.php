@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class GuestController extends Controller
 {
+    public function ratingCommentShow(StoreRequest $request){
+        return view('guest.pages.login');
+    }
     public function addToCart($id, $quantity){
         
     }
