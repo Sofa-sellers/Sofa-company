@@ -1,18 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\AdminController;
 
 use App\Http\Controllers\Guest\GuestController;
-use App\Http\Controllers\Guest\CartController;
-
+use App\Http\Controllers\Client\clientController;
 use App\Http\Controllers\Auth\LoginController;
-
-
-use App\Http\Controllers\Client\AccountController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,7 +67,7 @@ Route::prefix('')->group(function () {
 Route::name('client.')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
-    Route::controller(AccountController::class)->group(function () {
+    Route::controller(ClientController::class)->group(function () {
 
         Route::post('rating-review', 'ratingCommentStore')->name('ratingCommentStore');
 
@@ -104,7 +96,7 @@ Route::name('client.')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    Route::prefix('category')->name('category.')->controller(CategoryController::class)->group(function () {
+    Route::prefix('category')->name('category.')->controller(AdminController::class)->group(function () {
         Route::get('index', 'index')->name('index');
 
         Route::get('create', 'create')->name('create');
@@ -116,7 +108,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'destroy')->name('destroy');
     });
 
-    Route::controller(ProductController::class)->group(function () {
+    Route::controller(AdminController::class)->group(function () {
 
         Route::prefix('product')->name('product.')->group(function () {
         Route::get('index', 'productIndex')->name('index');
@@ -168,7 +160,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-    Route::controller(UserController::class)->group(function () {
+    Route::controller(clientController::class)->group(function () {
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('index', 'userIndex')->name('index');
 
@@ -182,7 +174,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         //ratingComment hiện sẽ nhập vào usercontroller => e tạo các function theo tên bên dưới nhé Trân, r copy từ file ratingComment cũ của e vào, sửa lại các chi tiết tên
-        Route::prefix('ratingComment')->name('ratingComment.')->middleware('checkLogin')->group(function() {
+        Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
             Route::get('index', 'ratingCommentIndex')->name('index');
 
             Route::get('create', 'ratingCommentCreate')->name('create');
@@ -196,7 +188,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     //bảng order sẽ có thêm mục trạng thái giao hàng r để chuyển trạng thái vận đơn nhé Nam, tui nói là cái bảng database á, chứ ko phải code
-    Route::controller(OrderController::class)->group(function () {
+    Route::controller(AdminController::class)->group(function () {
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('index', 'orderIndex')->name('index');
 
