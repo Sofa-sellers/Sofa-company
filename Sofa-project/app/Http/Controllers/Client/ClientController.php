@@ -51,6 +51,10 @@ class ClientController extends Controller
 //
     }
 
+    public function addToCart(UpdateRequest $request, $id){
+        //
+            }
+
 
     public function logout(){
         //
