@@ -28,4 +28,24 @@ class GuestController extends Controller
         return view('guest.pages.cart.checkout');
         
     }
+
+    public function index(){
+        return view('guest.pages.index');
+    }
+
+    public function viewShop(){
+        return view('guest.pages.shop');
+    }
+
+    public function detail($id){
+        return view('guest.pages.productdetail');
+    }
+
+    public function showCompare(){
+        return view('guest.modules.compare');
+    }
+
+    public function contact(){
+        return view('guest.modules.contact');
+    }
 }

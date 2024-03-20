@@ -11,12 +11,8 @@ class LoginController extends Controller
 
     }
 
-    public function showLogin(){
-        return view('guest.pages.login');
-    }
-
     public function ratingCommentStore(StoreRequest $request){
-
+        return view('guest.pages.login');
     }
 
     public function ratingCommentUpdate(UpdateRequest $request, $id){
@@ -52,7 +48,7 @@ class LoginController extends Controller
         //
     }
 
-    public function addressUpdate(UpdateRequest $request, $id){
+    public function orderUpdate(UpdateRequest $request, $id){
 //
     }
 
