@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->integer('discount');
+            $table->text('description');
+            $table->integer('discount_percent');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end');
+            $table->tinyInteger('status')->default(1)->comment('1 Active - 2 Unactive');
             $table->timestamps();
         });
     }

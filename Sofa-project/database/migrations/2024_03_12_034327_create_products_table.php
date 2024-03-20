@@ -14,16 +14,17 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('intro');
-            $table->string('product_image');
+            $table->string('image');
+            $table->text('content');
             $table->text('description');
-            $table->unsignedBigInteger('brand_id');
-            $table->foreign('brand_id')->references('id')->on('brands');
+            $table->double('price')->default(1000000);
+            $table->integer('quantity')->default(5);
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('isHot');
-            $table->integer('isNew');
-            $table->string('document');
+            $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide - 3 Hot - 4 New');
+            $table->string('file');
             $table->timestamps();
         });
     }

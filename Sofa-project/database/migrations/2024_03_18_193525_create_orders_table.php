@@ -16,21 +16,17 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('email');
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->string('houseNumber');
-            $table->string('apartmentNumber')->nullable();
-            $table->string('companyName')->nullable();
-            $table->string('ward');
-            $table->string('district');
-            $table->string('city');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('address');
             $table->string('postcode');
             $table->string('phone');
             $table->double('total_order');
-            $table->double('status');
+            $table->tinyInteger('status');
             $table->double('shippingFee');
             $table->double('discount_code')->nullable();
-            $table->double('note')->nullable();
+            $table->string('payment');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

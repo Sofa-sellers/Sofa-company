@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->integer('car_total')->default(1000000);
+            $table->double('cart_total');
             $table->datetime('cart_date');
             $table->tinyInteger('status');
             $table->unsignedBigInteger('user_id');

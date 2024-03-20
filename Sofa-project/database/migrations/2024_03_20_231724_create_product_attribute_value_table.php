@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rating_comments', function (Blueprint $table) {
+        Schema::create('product_attribute_value', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->tinyInteger('rating');
-            $table->text('comment')->nullable();
-            $table->tinyInteger('status');
+            $table->unsignedBigInteger('attribute_id');
+            $table->foreign('attribute_id')->references('id')->on('attributes');
+            $table->unsignedBigInteger('value_id');
+            $table->foreign('value_id')->references('id')->on('attribute_values');
+            $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rating_comments');
+        Schema::dropIfExists('product_attribute_value');
     }
 };
