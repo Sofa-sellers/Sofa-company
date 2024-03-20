@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warranties', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
+            $table->mediumInteger('quantity');
+            $table->double('price');
+            $table->double('total_product');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->integer('quantity');
-            $table->date('delivery_date');
-            $table->tinyInteger('status');
-            $table->date('end_day');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warranties');
+        Schema::dropIfExists('wishlists');
     }
 };
