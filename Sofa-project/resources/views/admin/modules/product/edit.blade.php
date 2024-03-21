@@ -51,9 +51,8 @@
 
                     <div class="form-group">
                         <label>File</label>
-                        <input type="text" class="form-control" placeholder="Enter file" name="file" value="{{old('file', $product->file)}}">
+                        <input type="file" class="form-control" name="file" accept=".pdf" value="{{old('file', $product->file)}}">
                     </div>
-                </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
@@ -62,16 +61,6 @@
                           <option value="0" {{old('category_id', $product->category_id)==0?'selected' : ''}}>----- Root -----</option>
                           @foreach ($categories as $category)
                           <option value="{{$category->id}}" {{old('category_id', $product->category_id)==$category->id?'selected' : ''}}>{{$category->name}}</option>
-                          @endforeach  
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>User</label>
-                        <select class="form-control" name="user_id">
-                          <option value="0" {{old('user_id', $product->user_id)==0?'selected' : ''}}>----- Root -----</option>
-                          @foreach ($users as $user)
-                          <option value="{{$user->id}}" {{old('user_id', $product->user_id)==$user->id?'selected' : ''}}>{{$user->name}}</option>
                           @endforeach  
                         </select>
                     </div>
@@ -88,7 +77,7 @@
 
                     <div class="form-group">
                         <label>Image</label>
-                        <input type="file" class="form-control" name="image"/>
+                        <input type="file" class="form-control" name="image" accept="image/jpg,image/png,image/bmp,image/jpeg"/>
                     </div>
                 </div>
             </div>

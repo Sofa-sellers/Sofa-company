@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\RatingComment;
-use App\Models\User;
+use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
+use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest as CategoryUpdateRequest;
 use App\Http\Requests\Admin\Product\StoreRequest as ProductStoreRequest;
@@ -16,11 +18,68 @@ use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
 use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
-use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
-use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 
 class AdminController extends Controller
 {
+    public function userIndex()
+    {
+        $users = User::orderBy('created_at', 'DESC')->get();
+        return view('admin.modules.user.index', ['users' => $users]);
+    }
+    
+    public function userCreate()
+    {
+        return view('admin.modules.user.create');
+    }
+    
+    public function userStore(UserStoreRequest $request)
+    {
+        $user = new User();
+        $user->username = $request->username;
+        $user->password = bcrypt($request->password);
+        $user->email = $request->email;
+        $user->status = $request->status;
+        $user->level = $request->level;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->save();
+    
+        return redirect()->route('admin.user.index')->with('success', 'Create user successfully');
+    }
+    
+    public function userEdit(string $id)
+    {
+        $user = User::find($id);
+        return view('admin.modules.user.edit', ['user' => $user]);
+    }
+    
+    public function userUpdate(UserUpdateRequest $request, string $id)
+    {
+        $user = User::find($id);
+        $user->username = $request->username;
+        $user->password = bcrypt($request->password);
+        $user->email = $request->email;
+        $user->status = $request->status;
+        $user->level = $request->level;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->save();
+    
+        return redirect()->route('admin.user.index')->with('success', 'Update user successfully');
+    }
+    
+    public function userDestroy(string $id)
+    {
+        $user = User::find($id);
+        $user->delete();
+    
+        return redirect()->route('admin.user.index')->with('success', 'Delete user successfully');
+    }
+
     public function cateIndex()
     {
         $categories=Category::orderBy('created_at','DESC')->get();
@@ -113,22 +172,33 @@ class AdminController extends Controller
 
     public function productStore(ProductStoreRequest $request)
     {
+        $request->validate([
+            'file' => 'required|mimes:pdf',
+            'image' => 'required|mimes:jpg,png,bmp,jpeg',
+        ]);
+    
         $product = new Product();
-
-        $file = $request->product_image;
+    
+        $file = $request->file;
         $fileName = time() . '-' . $file->getClientOriginalName();
-
-        $product->name = $request->name;
+        $file->move(public_path('uploads/'), $fileName);
+        $product->file = $fileName;
+    
+        $image = $request->image;
+        $imageName = time() . '-' . $image->getClientOriginalName();
+        $image->move(public_path('uploads/'), $imageName);
+        $product->image = $imageName;
+    
+        $product->name = $request->name ?? 'Default Name';
         $product->intro = $request->intro;
         $product->description = $request->description;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
         $product->category_id = $request->category_id;
-        $product->isHot = $request->isHot;
-        $product->isNew = $request->isNew;
-        $product->document = $request->document;
-        $product->product_image = $fileName;
         $product->user_id = 1;
+        $product->status = $request->status;
         $product->save();
-        $file->move(public_path('uploads/'), $fileName);
+    
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
 
@@ -146,44 +216,50 @@ class AdminController extends Controller
         ]);
     }
 
-    public function productUpdate(ProductUpdateRequest $request, string $id)
+    public function productUpdate(Request $request, string $id)
     {
+        $request->validate([
+            'file' => 'required|mimes:pdf',
+            'image' => 'required|mimes:jpg,png,bmp,jpeg',
+        ]);
+    
         $product = Product::find($id);
         if ($product == null) {
             abort(404);
         }
-        $file = $request->product_image;
+    
+        $file = $request->file;
         if (!empty($file)) {
-
-            $request->validate(
-                [
-                    'product_image' => 'required|mimes:jpg,png,bmp,jpeg',
-
-                ],
-                [
-                    'product_image.required' => 'please cover image',
-                    'product_image.mimes' => 'image must have extension jpg,png,bmp,jpeg'
-                ]
-            );
-            $old_image_path = public_path('uploads/' . $product->product_image);
+            $old_file_path = public_path('uploads/' . $product->file);
+            if (file_exists($old_file_path)) {
+                unlink($old_file_path);
+            }
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/'), $fileName);
+            $product->file = $fileName;
+        }
+    
+        $image = $request->image;
+        if (!empty($image)) {
+            $old_image_path = public_path('uploads/' . $product->image);
             if (file_exists($old_image_path)) {
                 unlink($old_image_path);
             }
-            $fileName = time() . '-' . $file->getClientOriginalName();
-            $product->product_image = $fileName;
-            $file->move(public_path('uploads/'), $fileName);
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/'), $imageName);
+            $product->image = $imageName;
         }
-
-        $product->name = $request->name;
+    
+        $product->name = $request->name ?? 'Default Name';
         $product->intro = $request->intro;
         $product->description = $request->description;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
         $product->category_id = $request->category_id;
-        $product->isHot = $request->isHot;
-        $product->isNew = $request->isNew;
-        $product->document = $request->document;
         $product->user_id = 1;
+        $product->status = $request->status;
         $product->save();
-
+    
         return redirect()->route('admin.product.index')->with('success', 'update product successfully');
     }
 
@@ -272,52 +348,14 @@ class AdminController extends Controller
 
     public function racomDestroy(){
         //
-    }
-
-    public function userIndex()
-    {
-        $users = User::orderBy('created_at', 'DESC')->get();
-        return view('admin.modules.user.index', ['users' => $users]);
-    }
-
-    public function userCreate()
-    {
-        return view('admin.modules.user.create');
-    }
-
-    public function userStore(UserStoreRequest $request)
-    {
-        $user = new User();
-        $user->username = $request->username;
-        $user->password = bcrypt($request->password);
-        $user->email = $request->email;
-        $user->status = $request->status;
-        $user->level = $request->level;
-        $user->save();
-
-        return redirect()->route('admin.user.index')->with('success', 'Create user successfully');
-    }
-
-    public function userEdit(string $id)
-    {
-        return view('admin.modules.user.edit');
-    }
-
-    public function userUpdate(UserUpdateRequest $request, string $id)
-    {
-        //
-    }
-
-    public function userDestroy(string $id)
-    {
-        //
-    }
+    } 
 
     public function promotionIndex()
     {
         $promotions = Promotion::orderBy('created_at', 'DESC')->get();
-        return view('admin.modules.promotion.index', ['promotions' => $promotions]);
-    }
+        $product = Product::first();
+        return view('admin.modules.promotion.index', ['promotions' => $promotions, 'product' => $product]);
+    }    
 
     public function promotionCreate()
     {

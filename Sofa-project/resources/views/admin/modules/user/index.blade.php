@@ -58,6 +58,10 @@ $(function () {
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Address</th>
+                    <th>Phone</th>
                     <th>Level</th>
                     <th>Status</th>
                     <th>Create At</th>
@@ -71,6 +75,10 @@ $(function () {
                     <td>{{$loop->iteration}}</td>
                     <td>{{$user->username}}</td>
                     <td>{{$user->email}}</td>
+                    <td>{{$user->firstname}}</td>
+                    <td>{{$user->lastname}}</td>
+                    <td>{{$user->address}}</td>
+                    <td>{{$user->phone}}</td>
                     <td><span class="right badge badge-{{$user->level == 2 ?'success':'dark'}}">{{$user->level==2? 'Admin' :'Member'}}</span></td>
                     <td><span class="right badge badge-{{$user->status == 1 ?'success':'dark'}}">{{$user->status==1? 'Show' :'Hide'}}</span></td> 
                     <td>{{$user->created_at}}</td>
@@ -84,6 +92,10 @@ $(function () {
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Address</th>
+                    <th>Phone</th>
                     <th>Level</th>
                     <th>Status</th>
                     <th>Create At</th>

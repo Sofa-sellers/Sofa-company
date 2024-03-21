@@ -83,7 +83,7 @@ $(function () {
                     <td>{{$product->price}}</td>
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->category->name}}</td>
-                    <td>{{$product->user->name}}</td>
+                    <td>{{$product->name = $request->name ?? 'Default Name'}}</td>
                     <td><span class="right badge badge-{{$product->status == 1 ?'success':($product->status == 2?'dark':($product->status == 3?'warning':'primary'))}}">{{$product->status==1? 'Show' :($product->status==2?'Hide':($product->status==3?'Hot':'New'))}}</span></td>
                     <td>{{$product->file}}</td>
                     <td>{{$product->created_at}}</td>

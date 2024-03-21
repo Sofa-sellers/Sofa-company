@@ -21,9 +21,8 @@ class StoreRequest extends FormRequest
             'price'=>'required|numeric',
             'quantity'=>'required|integer',
             'category_id'=>'required|exists:categories,id',
-            'user_id'=>'required|exists:users,id',
             'status'=>'required|integer',
-            'file'=>'required|string'
+            'file' => 'required|mimes:pdf',
         ];
     }
 
@@ -41,11 +40,9 @@ class StoreRequest extends FormRequest
             'quantity.integer'=>'Product quantity must be an integer',
             'category_id.required'=>'Please select category',
             'category_id.exists'=>'Category does not exist',
-            'user_id.required'=>'Please select user',
-            'user_id.exists'=>'User does not exist',
             'status.required'=>'Please select status',
             'status.integer'=>'Status value must be an integer',
-            'file.required'=>'Please enter file'
+            'file.required'=>'File must have extension pdf'
         ];
     }
 }

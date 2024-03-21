@@ -32,6 +32,26 @@
                 <input type="text" class="form-control" placeholder="Enter email" name="email" value="{{old('email')}}">
             </div>
 
+            <div class="form-group">
+                <label>Firstname</label>
+                <input type="text" class="form-control" placeholder="Enter firstname" name="firstname" value="{{old('firstname')}}">
+            </div>
+
+            <div class="form-group">
+                <label>Lastname</label>
+                <input type="text" class="form-control" placeholder="Enter lastname" name="lastname" value="{{old('lastname')}}">
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="Enter address" name="address" value="{{old('address')}}">
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" class="form-control" placeholder="Enter phone" name="phone" value="{{old('phone')}}">
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -43,7 +63,7 @@
                         <label>Status</label>
                         <select class="form-control" name="status">
                             <option value="1" {{old('status')==1?'selected':''}}>Show</option>
-                            <option value="0" {{old('status')==0?'selected':''}}>Hidden</option>
+                            <option value="2" {{old('status')==2?'selected':''}}>Hide</option>
                         </select>
                     </div>
                 </div>
