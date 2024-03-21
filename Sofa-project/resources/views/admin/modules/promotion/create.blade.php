@@ -22,8 +22,6 @@
         </div>
 
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-8">
                     <div class="form-group">
                         <label>Promotion Code</label>
                         <input type="text" class="form-control" placeholder="Enter promotion code" name="code" value="{{old('code')}}">
@@ -56,8 +54,6 @@
                             <option value="2" {{old('status')==2?'selected' : ''}}>Unactive</option>
                         </select>
                     </div>
-                </div>
-            </div>
         </div>
 
         <div class="card-footer">

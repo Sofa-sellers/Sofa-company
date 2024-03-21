@@ -1,5 +1,5 @@
-@extends('client.master')
-
+@extends('master')
+@section('module','account')
 @section('content')
 <div class="my-account section-padding-bottom">
     <div class="container">
