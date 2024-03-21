@@ -232,6 +232,11 @@ class AdminController extends Controller
         //
     }
 
+    public function orderDestroy()
+    {
+        //
+    }
+
     public function racomIndex()
     {
         $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
@@ -240,7 +245,7 @@ class AdminController extends Controller
 
 
 
-    public function racomStore(StoreRequest $request)
+    public function racomAccept(StoreRequest $request)
     {
         $ratingComment = new RatingComment();
 
@@ -254,13 +259,17 @@ class AdminController extends Controller
         return redirect()->route('admin.ratingComment.index')->with('success', 'Create rating comment successfully');
     }
 
+    public function racomDestroy(){
+        //
+    }
+
     public function userIndex()
     {
         $users = User::orderBy('created_at', 'DESC')->get();
         return view('admin.modules.user.index', ['users' => $users]);
     }
 
-    public function useCreate()
+    public function userCreate()
     {
         return view('admin.modules.user.create');
     }
@@ -277,8 +286,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.user.index')->with('success', 'Create user successfully');
     }
-
-
 
     public function userEdit(string $id)
     {
