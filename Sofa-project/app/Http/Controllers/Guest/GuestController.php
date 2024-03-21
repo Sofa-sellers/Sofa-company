@@ -27,4 +27,5 @@ class GuestController extends Controller
     public function contact(){
         return view('guest.modules.contact');
     }
+
 }

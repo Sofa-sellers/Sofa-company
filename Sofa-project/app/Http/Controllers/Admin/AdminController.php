@@ -216,7 +216,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function productUpdate(Request $request, string $id)
+    public function productUpdate(ProductUpdateRequest $request, string $id)
     {
         $request->validate([
             'file' => 'required|mimes:pdf',
