@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 
 @section('content')
     <!-- main content start -->

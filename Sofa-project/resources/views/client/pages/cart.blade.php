@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 
 @section('content')
 <div class="check-out-section section-padding-bottom">

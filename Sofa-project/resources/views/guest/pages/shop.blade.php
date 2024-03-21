@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 @section('module','Shop')
 @section('content')
     <!-- shop page layout start -->
