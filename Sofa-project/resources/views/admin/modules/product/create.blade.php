@@ -40,18 +40,38 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Document</label>
-                        <input type="text" class="form-control" placeholder="Enter document" name="document" value="{{old('document')}}">
+                        <label>Price</label>
+                        <input type="number" class="form-control" placeholder="Enter product price" name="price" value="{{old('price')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" class="form-control" placeholder="Enter product quantity" name="quantity" value="{{old('quantity')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>File</label>
+                        <input type="text" class="form-control" placeholder="Enter file" name="file" value="{{old('file')}}">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Brand</label>
-                        <select class="form-control" name="brand_id">
-                          <option value="0" {{old('brand_id')==0?'selected' : ''}}>----- Root -----</option>
-                          @foreach ($brands as $brand)
-                          <option value="{{$brand->id}}" {{old('brand_id')==$brand->id?'selected' : ''}}>{{$brand->name}}</option>
+                        <label>Category</label>
+                        <select class="form-control" name="category_id">
+                          <option value="0" {{old('category_id')==0?'selected' : ''}}>----- Root -----</option>
+                          @foreach ($categories as $category)
+                          <option value="{{$category->id}}" {{old('category_id')==$category->id?'selected' : ''}}>{{$category->name}}</option>
+                          @endforeach  
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>User</label>
+                        <select class="form-control" name="user_id">
+                          <option value="0" {{old('user_id')==0?'selected' : ''}}>----- Root -----</option>
+                          @foreach ($users as $user)
+                          <option value="{{$user->id}}" {{old('user_id')==$user->id?'selected' : ''}}>{{$user->name}}</option>
                           @endforeach  
                         </select>
                     </div>
@@ -60,29 +80,15 @@
                         <label>Status</label>
                         <select class="form-control" name="status">
                             <option value="1" {{old('status')==1?'selected' : ''}}>Show</option>
-                            <option value="0" {{old('status')==0?'selected' : ''}}>Hidden</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Is Hot</label>
-                        <select class="form-control" name="isHot">
-                            <option value="1" {{old('isHot')==1?'selected' : ''}}>Hot</option>
-                            <option value="0" {{old('isHot')==0?'selected' : ''}}>Not Hot</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Is New</label>
-                        <select class="form-control" name="isNew">
-                            <option value="1" {{old('isNew')==1?'selected' : ''}}>New</option>
-                            <option value="0" {{old('isNew')==0?'selected' : ''}}>Not New</option>
+                            <option value="2" {{old('status')==2?'selected' : ''}}>Hide</option>
+                            <option value="3" {{old('status')==3?'selected' : ''}}>Hot</option>
+                            <option value="4" {{old('status')==4?'selected' : ''}}>New</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Image</label>
-                        <input type="file" class="form-control" name="product_image"/>
+                        <input type="file" class="form-control" name="image"/>
                     </div>
                 </div>
             </div>

@@ -1,14 +1,14 @@
 @extends('admin.master')
-@section('module' ,'Brand')
-@section('action','Create')  
+@section('module' ,'Category')
+@section('action','Edit')  
 
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.brand.store')}}" method="post">
+    <form action="{{route('admin.category.update',['id'=>$id])}}" method="post">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Brand Create</h3>
+          <h3 class="card-title">Category Update</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -21,12 +21,12 @@
         <div class="card-body">
                 @csrf
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Brand Name</label>
-                    <input type="text" class="form-control" placeholder="Enter brand name" name="name" value="{{old('name')}}">
+                    <label for="exampleInputEmail1">Category Name</label>
+                    <input type="text" class="form-control" placeholder="Enter category name" name="name" value="{{old('name',$category->name)}}">
                   </div>
 
                   <div class="form-group">
-                    <label >Brand Parent</label>
+                    <label >Category Parent</label>
                     <select class="form-control" name="parent_id" ">
                         <option value="0">----Root----</option>
                     </select>
@@ -34,12 +34,12 @@
                   <div class="form-group">
                     <label >Status</label>
                     <select class="form-control" name="status">
-                        <option value="1" {{old('status')== 1? 'selected':' '}}>Show</option>
-                        <option value="2" {{old('status')== 2? 'selected':' '}}>Hide</option>
+                        <option value="1" {{old('status',$category->status)== 1? 'selected':' '}}>Show</option>
+                        <option value="2" {{old('status',$category->status)== 2? 'selected':' '}}>Hide</option>
                     </select>
                   </div>
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                   </div>
             </form>
             
