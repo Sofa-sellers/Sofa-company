@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 @section('module','Privacy')
 @section('content')
     <!-- main content start -->

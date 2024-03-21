@@ -60,7 +60,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="logo">
                         <a href="index.html">
-                            <img src="assets/images/logo/logo-dark.svg" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
                         </a>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
                                 <ul class="mini-cart">
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
-                                            <a href="#"><img src="assets/images/mini-cart/1.jpg" alt="image_not_found"></a>
+                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/1.jpg')}}" alt="image_not_found"></a>
                                         </div>
                                         <div class="mini-cart-content">
                                             <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
@@ -267,7 +267,7 @@
                                     <!-- mini cart item end -->
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
-                                            <a href="#"><img src="assets/images/mini-cart/2.jpg" alt="image_not_found"></a>
+                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/2.jpg')}}" alt="image_not_found"></a>
                                         </div>
                                         <div class="mini-cart-content">
                                             <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
@@ -278,7 +278,7 @@
                                     <!-- mini cart item end -->
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
-                                            <a href="#"><img src="assets/images/mini-cart/3.jpg" alt="image_not_found"></a>
+                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/3.jpg')}}" alt="image_not_found"></a>
                                         </div>
                                         <div class="mini-cart-content">
                                             <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
@@ -317,7 +317,7 @@
                 <div class="col-8 col-sm-4">
                     <div class="logo mx-auto">
                         <a href="index.html">
-                            <img src="assets/images/logo/logo-dark.svg" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
                         </a>
                     </div>
                 </div>
@@ -346,7 +346,7 @@
                                 <ul class="mini-cart">
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
-                                            <a href="#"><img src="assets/images/mini-cart/1.jpg" alt="image_not_found"></a>
+                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/1.jpg')}}" alt="image_not_found"></a>
                                         </div>
                                         <div class="mini-cart-content">
                                             <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
@@ -357,7 +357,7 @@
                                     <!-- mini cart item end -->
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
-                                            <a href="#"><img src="assets/images/mini-cart/2.jpg" alt="image_not_found"></a>
+                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/2.jpg')}}" alt="image_not_found"></a>
                                         </div>
                                         <div class="mini-cart-content">
                                             <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
@@ -368,7 +368,7 @@
                                     <!-- mini cart item end -->
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
-                                            <a href="#"><img src="assets/images/mini-cart/3.jpg" alt="image_not_found"></a>
+                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/3.jpg')}}" alt="image_not_found"></a>
                                         </div>
                                         <div class="mini-cart-content">
                                             <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>

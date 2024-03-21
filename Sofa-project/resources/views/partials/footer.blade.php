@@ -41,7 +41,7 @@
             <div class="col-lg-3 col-sm-6 mb-4">
                 <div class="footer-widget">
                     <a class="footer-brand" href="index.html">
-                        <img src="{{asset('assets/images/logo/logo-white.svg')}}" alt="images_not_found">
+                        <img src="{{asset('client/assets/images/logo/logo-white.svg')}}" alt="images_not_found">
                     </a>
                     <span class="need-help">Need Help?</span>
                     <p>
@@ -105,7 +105,7 @@
                             <div class="col-12 col-md-6 mb-4">
                                 <div class="payment text-center text-md-end">
                                     <a href="#">
-                                        <img src="{{asset('assets/images/logo/payment.png')}}" alt="images_not_found">
+                                        <img src="{{asset('client/assets/images/logo/payment.png')}}" alt="images_not_found">
                                     </a>
                                 </div>
                             </div>

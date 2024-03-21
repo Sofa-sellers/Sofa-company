@@ -1,5 +1,5 @@
-@extends('client.master')
-
+@extends('master')
+@section('module','cart')
 @section('content')
 <div class="check-out-section section-padding-bottom">
     <div class="container">

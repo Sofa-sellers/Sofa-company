@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 @section('module','Product Detail')
 @section('content')
     <!-- main content start -->
@@ -12,19 +12,19 @@
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('assets/images/products/large/1.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/large/1.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('assets/images/products/large/2.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/large/2.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('assets/images/products/large/3.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/large/3.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('assets/images/products/large/4.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/large/4.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('assets/images/products/large/5.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/large/5.jpg')}}" alt="image_not_found">
                                     </div>
                                 </div>
                             </div>
@@ -36,20 +36,20 @@
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
                                         <a href="javascript:void(0)">
-                                            <img src="{{asset('assets/images/products/small/1.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/small/1.jpg')}}" alt="image_not_found">
                                         </a>
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
-                                        <a href="javascript:void(0)"> <img src="{{asset('assets/images/products/small/2.jpg')}}" alt="image_not_found"></a>
+                                        <a href="javascript:void(0)"> <img src="{{asset('client/assets/images/products/small/2.jpg')}}" alt="image_not_found"></a>
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
-                                        <a href="javascript:void(0)"> <img src="{{asset('assets/images/products/small/3.jpg')}}" alt="image_not_found"></a>
+                                        <a href="javascript:void(0)"> <img src="{{asset('client/assets/images/products/small/3.jpg')}}" alt="image_not_found"></a>
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
-                                        <a href="javascript:void(0)"> <img src="{{asset('assets/images/products/small/4.jpg')}}" alt="image_not_found"></a>
+                                        <a href="javascript:void(0)"> <img src="{{asset('client/assets/images/products/small/4.jpg')}}" alt="image_not_found"></a>
                                     </div>
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
-                                        <a href="javascript:void(0)"> <img src="{{asset('assets/images/products/small/5.jpg')}}" alt="image_not_found"></a>
+                                        <a href="javascript:void(0)"> <img src="{{asset('client/assets/images/products/small/5.jpg')}}" alt="image_not_found"></a>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="media-body d-flex align-items-center">
                                     <div class="group-img mr-4">
-                                        <img src="{{asset('assets/images/products/small/1.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/small/1.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div>
                                         <h3 class="title">Cranberry Juice Drink</h3>
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="media-body d-flex align-items-center">
                                     <div class="group-img mr-4">
-                                        <img src="{{asset('assets/images/products/small/2.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/small/2.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div>
                                         <h3 class="title">Apple & Raspberry Juice Drink</h3>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="media-body d-flex align-items-center">
                                     <div class="group-img mr-4">
-                                        <img src="{{asset('assets/images/products/small/3.jpg')}}" alt="image_not_found">
+                                        <img src="{{asset('client/assets/images/products/small/3.jpg')}}" alt="image_not_found">
                                     </div>
                                     <div>
                                         <h3 class="title">Snacking Essentials Walnuts</h3>
@@ -242,7 +242,7 @@
                                 <div class="review-wrapper">
                                     <div class="single-review">
                                         <div class="review-img">
-                                            <img src="{{asset('assets/images/testimonial/1.png')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/testimonial/1.png')}}" alt="image_not_found">
                                         </div>
                                         <div class="review-content">
                                             <div class="review-top-wrap">
@@ -274,7 +274,7 @@
                                     </div>
                                     <div class="single-review child-review">
                                         <div class="review-img">
-                                            <img src="{{asset('assets/images/testimonial/2.png')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/testimonial/2.png')}}" alt="image_not_found">
                                         </div>
                                         <div class="review-content">
                                             <div class="review-top-wrap">
@@ -373,7 +373,7 @@
                                         <div class="product-card">
                                             <a href="shop-grid-left-sidebar.html" class="product-thumb">
                                                 <span class="onsale bg-danger">sale!</span>
-                                                <img src="{{asset('assets/images/products/product1.jpg')}}" alt="image_not_found">
+                                                <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="image_not_found">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
@@ -411,7 +411,7 @@
                                         <div class="product-card">
                                             <a href="shop-grid-left-sidebar.html" class="product-thumb">
                                                 <span class="onsale bg-danger">sale!</span>
-                                                <img src="{{asset('assets/images/products/product3.jpg')}}" alt="image_not_found">
+                                                <img src="{{asset('client/assets/images/products/product3.jpg')}}" alt="image_not_found">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
@@ -448,7 +448,7 @@
                                         <div class="product-card">
                                             <a href="shop-grid-left-sidebar.html" class="product-thumb">
                                                 <span class="onsale bg-warning">hot!</span>
-                                                <img src="{{asset('assets/images/products/product5.jpg')}}" alt="image_not_found">
+                                                <img src="{{asset('client/assets/images/products/product5.jpg')}}" alt="image_not_found">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
@@ -486,7 +486,7 @@
                                         <div class="product-card">
                                             <a href="shop-grid-left-sidebar.html" class="product-thumb">
                                                 <span class="onsale bg-warning">hot</span>
-                                                <img src="{{asset('assets/images/products/product7.jpg')}}" alt="image_not_found">
+                                                <img src="{{asset('client/assets/images/products/product7.jpg')}}" alt="image_not_found">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
@@ -524,7 +524,7 @@
                                         <div class="product-card">
                                             <a href="shop-grid-left-sidebar.html" class="product-thumb">
                                                 <span class="onsale bg-success">new</span>
-                                                <img src="{{asset('assets/images/products/product9.jpg')}}" alt="image_not_found">
+                                                <img src="{{asset('client/assets/images/products/product9.jpg')}}" alt="image_not_found">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
