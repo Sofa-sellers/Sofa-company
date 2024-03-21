@@ -70,7 +70,7 @@ Route::prefix('')->group(function () {
         Route::post('forgotpassword', 'forgotPassword')->name('forgotPassword');
     });
 
-Route::name('client.')->group(function () {
+Route::prefix('client')->name('client.')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
