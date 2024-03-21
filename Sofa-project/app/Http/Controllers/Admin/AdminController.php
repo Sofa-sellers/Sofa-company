@@ -267,7 +267,7 @@ class AdminController extends Controller
 
         $ratingComment->save();
 
-        return redirect()->route('admin.ratingComment.index')->with('success', 'Create rating comment successfully');
+        return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
     }
 
     public function racomDestroy(){
