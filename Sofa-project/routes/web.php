@@ -1,14 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\OrderController;
 
 use App\Http\Controllers\Guest\GuestController;
-use App\Http\Controllers\Guest\CartController;
-
 use App\Http\Controllers\Auth\LoginController;
 
 
@@ -182,6 +176,9 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('index', 'racomIndex')->name('index');
 
             Route::post('accept/{id}', 'racomAccept')->name('update');
+
+            Route::get('edit/{id}', 'ratingCommentEdit')->name('edit');
+            Route::post('update/{id}', 'ratingCommentUpdate')->name('update');
 
             Route::get('destroy/{id}', 'racomDestroy')->name('destroy');
         });
