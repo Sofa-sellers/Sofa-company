@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\Auth\LoginController;
 
-
 use App\Http\Controllers\Client\ClientController;
 
 use Illuminate\Support\Facades\Route;
@@ -21,8 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//ở trang guest và client có vài mục sẽ có post ko có get vì get chỉ để hiện lên trang đó thôi (vd như hiện trang create user), nhưng ở đây, vd trang home đã có luôn hiển thị email-promotion r nên chỉ ko càn get, chỉ cần post nhé mn
-//có 1 vài mục get và post của nó sẽ ở 2 Controller khác nhau (tùy vào có bắt buộc đăng nhập ko), vd như checkout của cart sẽ qua AccountController vì cần đăng nhập mới thực hiện đc
+
 Route::prefix('')->group(function () {
 
     Route::controller(GuestController::class)->group(function () {
@@ -54,9 +52,6 @@ Route::prefix('')->group(function () {
     });
 });
 
-
-    // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
-    
     Route::prefix('auth')->controller(LoginController::class)->group(function () {
         
         Route::post('register', 'register')->name('register');
@@ -70,16 +65,12 @@ Route::prefix('')->group(function () {
 
 Route::name('client.')->group(function () {
     
-    //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
 
         Route::post('rating-review', 'ratingCommentStore')->name('ratingCommentStore');
 
         Route::post('rating-review/{id}', 'ratingCommentUpdate')->name('ratingCommentUpdate');
 
-        //phần checkout của cart c đưa vào AccountController nhé Trân, vì login mới checkout đc nên c tách riêng phần này qua Account luôn
-        
-        
         Route::prefix('account')->name('account.')->group(function () {
 
             Route::get('index', 'accountIndex')->name('index');
@@ -96,7 +87,6 @@ Route::name('client.')->group(function () {
     });
 });
 });
-
 
 Route::prefix('admin')->name('admin.')->controller(AdminController::class)->group(function () {
 
