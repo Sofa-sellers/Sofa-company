@@ -21,7 +21,7 @@ use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 
 class AdminController extends Controller
 {
-    public function categoryIndex()
+    public function cateIndex()
     {
         $categories=Category::orderBy('created_at','DESC')->get();
         return view('admin.modules.category.index',[
@@ -32,7 +32,7 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function categoryCreate()
+    public function cateCreate()
     {
         return view('admin.modules.category.create');
     }
@@ -40,7 +40,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function categoryStore(CategoryStoreRequest $request)
+    public function cateStore(CategoryStoreRequest $request)
     {
         $category = new category();
  
@@ -59,7 +59,7 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function categoryEdit(int  $id)
+    public function cateEdit(int  $id)
     {   $categories=Category::find($id);
         return view('admin.modules.category.edit',[
             'id'=>$id,
@@ -70,7 +70,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function categoryUpdate(CategoryUpdateRequest $request, $id)
+    public function cateUpdate(CategoryUpdateRequest $request, $id)
     {
         $categories=Category::find($id);
         if($categories==null){
@@ -86,7 +86,7 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function categoryDestroy(int $id)
+    public function cateDestroy(int $id)
     {
         $categories = Category::find($id);
         if($categories==null){
@@ -243,7 +243,12 @@ class AdminController extends Controller
         //
     }
 
-    public function ratingCommentIndex()
+    public function orderDestroy()
+    {
+        //
+    }
+
+    public function racomIndex()
     {
         $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
@@ -251,7 +256,7 @@ class AdminController extends Controller
 
 
 
-    public function ratingCommentStore(RatingCommentStoreRequest $request)
+    public function racomAccept(StoreRequest $request)
     {
         $ratingComment = new RatingComment();
 
@@ -263,6 +268,10 @@ class AdminController extends Controller
         $ratingComment->save();
 
         return redirect()->route('admin.ratingComment.index')->with('success', 'Create rating comment successfully');
+    }
+
+    public function racomDestroy(){
+        //
     }
 
     public function userIndex()

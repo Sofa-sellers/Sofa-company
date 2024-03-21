@@ -10,16 +10,19 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function showLogin(){
-        return view('login');
+        return view('guest.pages.login');
     }
 
-    public function login(LoginRequest $request){
+    public function register(Request $request){
+        //
+    }
+
+    public function login(Request $request){
         $credentials =[
             'email' => $request->email,
             'password' => $request->password,
             'status' =>1
         ];
- 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
@@ -28,11 +31,11 @@ class LoginController extends Controller
             return redirect()->back();
     }
 
-    public function register(Request $request){
-
+    public function showForgotPassword(){
+        //
     }
 
-    public function logout(){
+    public function forgotPassword(Request $request){
         //
     }
 
