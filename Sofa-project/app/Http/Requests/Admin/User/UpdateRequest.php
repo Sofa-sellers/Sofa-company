@@ -18,7 +18,11 @@ class UpdateRequest extends FormRequest
             'password' => 'required|confirmed',
             'email' => 'required|email|unique:users,email,' . $this->user,
             'status' => 'required',
-            'level' => 'required'
+            'level' => 'required',
+            'firstname' => 'nullable',
+            'lastname' => 'nullable',
+            'address' => 'nullable',
+            'phone' => 'nullable'
         ];
     }
 

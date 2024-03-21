@@ -18,7 +18,11 @@ class StoreRequest extends FormRequest
             'password' => 'required|confirmed',
             'email' => 'required|email|unique:users,email',
             'status' => 'required',
-            'level' => 'required'
+            'level' => 'required',
+            'firstname' => 'nullable',
+            'lastname' => 'nullable',
+            'address' => 'nullable',
+            'phone' => 'nullable'
         ];
     }
 
