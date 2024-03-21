@@ -7,56 +7,23 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function register(Request $request){
-
-    }
-
-    public function ratingCommentStore(StoreRequest $request){
+    public function showLogin(){
         return view('guest.pages.login');
     }
 
-    public function ratingCommentUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function checkout(Request $request){
+    public function register(Request $request){
         //
     }
 
-    public function accountIndex(){
-        return view('client.pages.account');
-    }
-
-    public function addToWishlist($id, $quantity){
+    public function login(Request $request){
         //
     }
 
-    public function showWishlist(){
-        return view('client.modules.wishlist');
-        
-    }
-
-    public function wishlistDelete($id){
+    public function showForgotPassword(){
         //
     }
 
-    public function wishlistUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function order(Request $request){
-        //
-    }
-
-    public function orderUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function accountDetailsUpdate(UpdateRequest $request, $id){
-//
-    }
-
-    public function logout(){
+    public function forgotPassword(Request $request){
         //
     }
 

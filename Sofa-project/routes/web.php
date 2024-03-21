@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\Guest\CartController;
 use App\Http\Controllers\Auth\LoginController;
 
 
-use App\Http\Controllers\Client\AccountController;
+use App\Http\Controllers\Client\ClientController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -49,12 +50,13 @@ Route::prefix('')->group(function () {
         Route::get('contact', 'contact')->name('contact');
     });
 
-    Route::controller(CartController::class)->group(function () {
-        Route::get('add-to-cart/{id}/{quantity}', 'addToCart')->name('addToCart');
-        Route::get('cart', 'cart')->name('cart');
+    Route::controller(ClientController::class)->group(function () {
+        Route::post('add-to-cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::get('cart', 'showCart')->name('showCart');
         Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
         Route::get('checkout', 'showCheckout')->name('showCheckout');
+        Route::post('checkout', 'checkout')->name('checkout');
     });
 });
 
@@ -75,15 +77,15 @@ Route::prefix('')->group(function () {
 Route::name('client.')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
-    Route::controller(AccountController::class)->group(function () {
+    Route::controller(ClientController::class)->group(function () {
 
         Route::post('rating-review', 'ratingCommentStore')->name('ratingCommentStore');
 
         Route::post('rating-review/{id}', 'ratingCommentUpdate')->name('ratingCommentUpdate');
 
         //phần checkout của cart c đưa vào AccountController nhé Trân, vì login mới checkout đc nên c tách riêng phần này qua Account luôn
-        Route::post('checkout', 'checkout')->name('checkout');
-
+        
+        
         Route::prefix('account')->name('account.')->group(function () {
 
             Route::get('index', 'accountIndex')->name('index');
@@ -102,23 +104,21 @@ Route::name('client.')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->controller(AdminController::class)->group(function () {
 
-    Route::prefix('category')->name('category.')->controller(CategoryController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+    Route::prefix('category')->name('category.')->group(function () {
+        Route::get('index', 'cateIndex')->name('index');
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+        Route::get('create', 'cateCreate')->name('create');
+        Route::post('store', 'cateStore')->name('store');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+        Route::get('edit/{id}', 'cateEdit')->name('edit');
+        Route::post('update/{id}', 'cateUpdate')->name('update');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
+        Route::get('destroy/{id}', 'cateDestroy')->name('destroy');
     });
 
-    Route::controller(ProductController::class)->group(function () {
-
-        Route::prefix('product')->name('product.')->group(function () {
+    Route::prefix('product')->name('product.')->group(function () {
         Route::get('index', 'productIndex')->name('index');
 
         Route::get('create', 'productCreate')->name('create');
@@ -130,7 +130,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('destroy/{id}', 'productDestroy')->name('destroy');
         });
 
-        Route::prefix('attribute')->name('attribute.')->group(function () {
+    Route::prefix('attribute')->name('attribute.')->group(function () {
             Route::get('index', 'attributeIndex')->name('index');
 
             Route::get('create', 'attributeCreate')->name('create');
@@ -142,7 +142,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('destroy/{id}', 'attributeDestroy')->name('destroy');
         });
 
-        Route::prefix('value')->name('value.')->group(function () {
+    Route::prefix('value')->name('value.')->group(function () {
             Route::get('index', 'valueIndex')->name('index');
 
             Route::get('create', 'valueCreate')->name('create');
@@ -154,8 +154,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('destroy/{id}', 'valueDestroy')->name('destroy');
         });
 
-        //promotion hiện sẽ nhập vào productcontroller => e tạo các function theo tên bên dưới nhé Trân, r copy từ file promotion cũ của e vào, sửa lại các chi tiết tên
-        Route::prefix('promotion')->name('promotion.')->group(function () {
+    Route::prefix('promotion')->name('promotion.')->group(function () {
             Route::get('index', 'promotionIndex')->name('index');
     
             Route::get('create', 'promotionCreate')->name('create');
@@ -166,9 +165,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
             Route::get('destroy/{id}', 'promotionDestroy')->name('destroy');
         });
-    });
 
-    Route::controller(UserController::class)->group(function () {
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('index', 'userIndex')->name('index');
 
@@ -181,22 +178,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('destroy/{id}', 'userDestroy')->name('destroy');
         });
 
-        //ratingComment hiện sẽ nhập vào usercontroller => e tạo các function theo tên bên dưới nhé Trân, r copy từ file ratingComment cũ của e vào, sửa lại các chi tiết tên
         Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
-            Route::get('index', 'ratingCommentIndex')->name('index');
+            Route::get('index', 'racomIndex')->name('index');
 
-            Route::get('create', 'ratingCommentCreate')->name('create');
-            Route::post('store', 'ratingCommentStore')->name('store');
+            Route::post('accept/{id}', 'racomAccept')->name('update');
 
-            Route::get('edit/{id}', 'ratingCommentEdit')->name('edit');
-            Route::post('update/{id}', 'ratingCommentUpdate')->name('update');
-
-            Route::get('destroy/{id}', 'ratingCommentDestroy')->name('destroy');
+            Route::get('destroy/{id}', 'racomDestroy')->name('destroy');
         });
-    });
 
-    //bảng order sẽ có thêm mục trạng thái giao hàng r để chuyển trạng thái vận đơn nhé Nam, tui nói là cái bảng database á, chứ ko phải code
-    Route::controller(OrderController::class)->group(function () {
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('index', 'orderIndex')->name('index');
 
@@ -210,5 +199,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-});
 
