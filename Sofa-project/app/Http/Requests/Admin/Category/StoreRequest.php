@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Brand;
+namespace App\Http\Requests\Admin\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,14 +22,14 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:brands,name'
+            'name'=>'required|unique:categories,name'
         ];
     }
     public function messages(): array
     {
         return [
-            'name.required'=>'vui lòng nhập tên thể loại',
-            'name.unique'=>'tên thể loại này đã có . xin hãy nhập thên thể loại khác '
+            'name.required'=>'Please enter category name',
+            'name.unique'=>'This category name already exists. Please enter another category'
         ];
     }
 }

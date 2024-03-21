@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 
 use App\Http\Controllers\Guest\GuestController;
-use App\Http\Controllers\Client\clientController;
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -97,15 +97,15 @@ Route::name('client.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('category')->name('category.')->controller(AdminController::class)->group(function () {
-        Route::get('index', 'index')->name('index');
+        Route::get('index', 'categoryIndex')->name('index');
 
-        Route::get('create', 'create')->name('create');
-        Route::post('store', 'store')->name('store');
+        Route::get('create', 'categoryCreate')->name('create');
+        Route::post('store', 'categoryStore')->name('store');
 
-        Route::get('edit/{id}', 'edit')->name('edit');
-        Route::post('update/{id}', 'update')->name('update');
+        Route::get('edit/{id}', 'categoryEdit')->name('edit');
+        Route::post('update/{id}', 'categoryUpdate')->name('update');
 
-        Route::get('destroy/{id}', 'destroy')->name('destroy');
+        Route::get('destroy/{id}', 'categoryDestroy')->name('destroy');
     });
 
     Route::controller(AdminController::class)->group(function () {

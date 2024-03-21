@@ -17,29 +17,35 @@ class UpdateRequest extends FormRequest
             'name'=>'required|unique:products,name,'.$this->id,
             'intro'=>'required',
             'description'=>'required',
-            'product_image'=>'nullable|mimes:jpg,bmp,png,jpeg',
-            'brand_id'=>'required|exists:brands,id',
-            'isHot'=>'required|integer',
-            'isNew'=>'required|integer',
-            'document'=>'required|string'
+            'image'=>'required|mimes:jpg,bmp,png,jpeg',
+            'price'=>'required|numeric',
+            'quantity'=>'required|integer',
+            'category_id'=>'required|exists:categories,id',
+            'user_id'=>'required|exists:users,id',
+            'status'=>'required|integer',
+            'file'=>'required|string'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required'=>'vui lòng nhập tên sản phẩm',
-            'name.unique'=>'tên sản phẩm này đã có . xin hãy nhập thên sản phẩm khác ',
-            'intro.required'=>'vui lòng nhập giới thiệu sản phẩm',
-            'description.required'=>'xui vui lòng mô tả sản phẩm',
-            'product_image.mimes'=>'ảnh phải có đuôi jpg,png,bmp,jpeg',
-            'brand_id.required'=>'vui lòng chọn thương hiệu',
-            'brand_id.exists'=>'thương hiệu không tồn tại',
-            'isHot.required'=>'vui lòng chọn sản phẩm hot',
-            'isHot.integer'=>'giá trị sản phẩm hot phải là số nguyên',
-            'isNew.required'=>'vui lòng chọn sản phẩm mới',
-            'isNew.integer'=>'giá trị sản phẩm mới phải là số nguyên',
-            'document.required'=>'vui lòng nhập tài liệu sản phẩm'
+            'name.required'=>'Please enter product name',
+            'name.unique'=>'This product name already exists. Please enter another product name',
+            'intro.required'=>'Please enter product introduction',
+            'description.required'=>'Please describe the product',
+            'image.mimes'=>'Image must have extension jpg,png,bmp,jpeg',
+            'price.required'=>'Please enter product price',
+            'price.numeric'=>'Product price must be a number',
+            'quantity.required'=>'Please enter product quantity',
+            'quantity.integer'=>'Product quantity must be an integer',
+            'category_id.required'=>'Please select category',
+            'category_id.exists'=>'Category does not exist',
+            'user_id.required'=>'Please select user',
+            'user_id.exists'=>'User does not exist',
+            'status.required'=>'Please select status',
+            'status.integer'=>'Status value must be an integer',
+            'file.required'=>'Please enter file'
         ];
     }
 }

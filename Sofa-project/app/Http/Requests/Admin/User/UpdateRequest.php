@@ -25,15 +25,15 @@ class UpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'username.required' => 'vui lòng nhập tên người dùng',
-            'username.unique' => 'tên người dùng này đã có. xin hãy nhập tên người dùng khác',
-            'password.required' => 'xin vui lòng nhập mật khẩu',
-            'password.confirmed' => 'mật khẩu nhập lại không trùng khớp',
-            'email.required' => 'vui lòng nhập email',
-            'email.unique' => 'email này đã có. xin hãy nhập email khác',
-            'email.email' => 'vui lòng nhập dưới định dạng @gmail.com',
-            'status.required' => 'vui lòng nhập trạng thái',
-            'level.required' => 'vui lòng nhập cấp độ'
+            'username.required' => 'Please enter username',
+            'username.unique' => 'This username already exists. please enter another username',
+            'password.required' => 'Please enter password',
+            'password.confirmed' => 'Re-entered password does not match',
+            'email.required' => 'Please enter email',
+            'email.unique' => 'This email already exists. please enter another email',
+            'email.email' => 'Please enter as @gmail.com',
+            'status.required' => 'Please enter status',
+            'level.required' => 'Please enter level'
         ];
     }
 }

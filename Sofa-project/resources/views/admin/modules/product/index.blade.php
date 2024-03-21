@@ -60,11 +60,12 @@ $(function () {
                     <th>Name</th>
                     <th>Intro</th>
                     <th>Description</th>
-                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>User</th>
                     <th>Status</th>
-                    <th>Is Hot</th>
-                    <th>Is New</th>
-                    <th>Document</th>
+                    <th>File</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -79,11 +80,12 @@ $(function () {
                     <td>{{$product->name}}</td>
                     <td>{{$product->intro}}</td>
                     <td>{{$product->description}}</td>
-                    <td>{{$product->brand->name}}</td>
-                    <td><span class="right badge badge-{{$product->status == 1 ?'success':'dark'}}">{{$product->status==1? 'Show' :'Hide'}}</span></td>
-                    <td><span class="right badge badge-{{$product->isHot == 1 ?'success':'dark'}}">{{$product->isHot==1? 'Hot' :'Not Hot'}}</span></td>
-                    <td><span class="right badge badge-{{$product->isNew == 1 ?'success':'dark'}}">{{$product->isNew==1? 'New' :'Not New'}}</span></td>
-                    <td>{{$product->document}}</td>
+                    <td>{{$product->price}}</td>
+                    <td>{{$product->quantity}}</td>
+                    <td>{{$product->category->name}}</td>
+                    <td>{{$product->user->name}}</td>
+                    <td><span class="right badge badge-{{$product->status == 1 ?'success':($product->status == 2?'dark':($product->status == 3?'warning':'primary'))}}">{{$product->status==1? 'Show' :($product->status==2?'Hide':($product->status==3?'Hot':'New'))}}</span></td>
+                    <td>{{$product->file}}</td>
                     <td>{{$product->created_at}}</td>
                     
                     <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
@@ -97,11 +99,12 @@ $(function () {
                     <th>Name</th>
                     <th>Intro</th>
                     <th>Description</th>
-                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>User</th>
                     <th>Status</th>
-                    <th>Is Hot</th>
-                    <th>Is New</th>
-                    <th>Document</th>
+                    <th>File</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -111,6 +114,4 @@ $(function () {
     </div>
 </div>
 <!-- /.card -->
-
-
 @endsection

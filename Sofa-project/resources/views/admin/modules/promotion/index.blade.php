@@ -57,8 +57,12 @@ $(function () {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Code</th>
-                    <th>Discount</th>
+                    <th>Promotion Code</th>
+                    <th>Description</th>
+                    <th>Discount Percent</th>
+                    <th>Date Start</th>
+                    <th>Date End</th>
+                    <th>Status</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -71,7 +75,11 @@ $(function () {
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$promotion->code}}</td>
-                    <td>{{$promotion->discount}}%</td>
+                    <td>{{$promotion->description}}</td>
+                    <td>{{$promotion->discount_percent}}</td>
+                    <td>{{$promotion->date_start}}</td>
+                    <td>{{$promotion->date_end}}</td>
+                    <td><span class="right badge badge-{{$product->status == 1 ?'success':'dark'}}">{{$promotion->status==1? 'Active' :'Unactive'}}</span></td>
                     <td>{{$promotion->created_at}}</td>
                     
                     <td><a href="{{route('admin.promotion.edit',['id'=>$promotion->id])}}">Edit</a></td>
@@ -82,8 +90,12 @@ $(function () {
             <tfoot>
                 <tr>
                     <th>ID</th>
-                    <th>Code</th>
-                    <th>Discount</th>
+                    <th>Promotion Code</th>
+                    <th>Description</th>
+                    <th>Discount Percent</th>
+                    <th>Date Start</th>
+                    <th>Date End</th>
+                    <th>Status</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -93,6 +105,4 @@ $(function () {
     </div>
 </div>
 <!-- /.card -->
-
-
 @endsection

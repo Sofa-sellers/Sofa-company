@@ -3,41 +3,52 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
-
+use App\Models\Promotion;
+use App\Models\RatingComment;
+use App\Models\User;
+use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
+use App\Http\Requests\Admin\Category\UpdateRequest as CategoryUpdateRequest;
+use App\Http\Requests\Admin\Product\StoreRequest as ProductStoreRequest;
+use App\Http\Requests\Admin\Product\UpdateRequest as ProductUpdateRequest;
+use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
+use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
+use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
+use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
+use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
+use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 
 class AdminController extends Controller
 {
-    public function cateIndex()
+    public function categoryIndex()
     {
-        $brands=Brand::orderBy('created_at','DESC')->get();
-        return view('admin.modules.brand.index',[
-            'brands'=>$brands
+        $categories=Category::orderBy('created_at','DESC')->get();
+        return view('admin.modules.category.index',[
+            'categories'=>$categories
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function cateCreate()
+    public function categoryCreate()
     {
-        return view('admin.modules.brand.create');
+        return view('admin.modules.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function cateStore(StoreRequest $request)
+    public function categoryStore(CategoryStoreRequest $request)
     {
-        $brand = new brand();
+        $category = new category();
  
-        $brand->name = $request->name;
-        $brand->status = $request->status;
+        $category->name = $request->name;
+        $category->status = $request->status;
  
-        $brand->save();
-        return redirect()->route('admin.brand.index')->with('success','create brand successfully');
+        $category->save();
+        return redirect()->route('admin.category.index')->with('success','create category successfully');
     }
 
     /**
@@ -48,59 +59,59 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function cateEdit(int  $id)
-    {   $brands=Brand::find($id);
-        return view('admin.modules.brand.edit',[
+    public function categoryEdit(int  $id)
+    {   $categories=Category::find($id);
+        return view('admin.modules.category.edit',[
             'id'=>$id,
-            'brand'=>$brands
+            'category'=>$categories
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function cateUpdate(UpdateRequest $request, $id)
+    public function categoryUpdate(CategoryUpdateRequest $request, $id)
     {
-        $brands=Brand::find($id);
-        if($brands==null){
+        $categories=Category::find($id);
+        if($categories==null){
             abort(404);
         }
  
-        $brands->name=$request->name;
-        $brands->save();
-        return redirect()->route('admin.brand.index')->with('success','create brand successfully');
+        $categories->name=$request->name;
+        $categories->save();
+        return redirect()->route('admin.category.index')->with('success','create category successfully');
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function cateDestroy(int $id)
+    public function categoryDestroy(int $id)
     {
-        $brands = Brand::find($id);
-        if($brands==null){
+        $categories = Category::find($id);
+        if($categories==null){
             abort(404);
         }
  
-        $brands->delete();
-        return redirect()->route('admin.brand.index')->with('success','deleted brand successfully');
+        $categories->delete();
+        return redirect()->route('admin.category.index')->with('success','deleted category successfully');
     }
 
     public function productIndex()
     {
-        $products = Product::with('brand')->orderBy('created_at', 'DESC')->get();
+        $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
         return view('admin.modules.product.index', ['products' => $products]);
     }
 
     public function productCreate()
     {
-        $brands = Brand::get();
+        $categories = Category::get();
         return view('admin.modules.product.create', [
-            'brands' => $brands
+            'categories' => $categories
         ]);
     }
 
-    public function productStore(StoreRequest $request)
+    public function productStore(ProductStoreRequest $request)
     {
         $product = new Product();
 
@@ -110,7 +121,7 @@ class AdminController extends Controller
         $product->name = $request->name;
         $product->intro = $request->intro;
         $product->description = $request->description;
-        $product->brand_id = $request->brand_id;
+        $product->category_id = $request->category_id;
         $product->isHot = $request->isHot;
         $product->isNew = $request->isNew;
         $product->document = $request->document;
@@ -123,19 +134,19 @@ class AdminController extends Controller
 
     public function productEdit(string $id)
     {
-        $brands = Brand::get();
+        $categories = Category::get();
         $products = Product::find($id);
         if ($products == null) {
             abort(404);
         }
         return view('admin.modules.product.edit', [
             'id' => $id,
-            'brands' => $brands,
+            'categories' => $categories,
             'product' => $products
         ]);
     }
 
-    public function productUpdate(UpdateRequest $request, string $id)
+    public function productUpdate(ProductUpdateRequest $request, string $id)
     {
         $product = Product::find($id);
         if ($product == null) {
@@ -150,8 +161,8 @@ class AdminController extends Controller
 
                 ],
                 [
-                    'product_image.required' => 'xin vui lòng úp hình ảnh',
-                    'product_image.mimes' => 'hình ảnh phải có đuôi jpg,png,bmp,jpeg'
+                    'product_image.required' => 'please cover image',
+                    'product_image.mimes' => 'image must have extension jpg,png,bmp,jpeg'
                 ]
             );
             $old_image_path = public_path('uploads/' . $product->product_image);
@@ -166,7 +177,7 @@ class AdminController extends Controller
         $product->name = $request->name;
         $product->intro = $request->intro;
         $product->description = $request->description;
-        $product->brand_id = $request->brand_id;
+        $product->category_id = $request->category_id;
         $product->isHot = $request->isHot;
         $product->isNew = $request->isNew;
         $product->document = $request->document;
@@ -232,7 +243,7 @@ class AdminController extends Controller
         //
     }
 
-    public function racomIndex()
+    public function ratingCommentIndex()
     {
         $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
@@ -240,7 +251,7 @@ class AdminController extends Controller
 
 
 
-    public function racomStore(StoreRequest $request)
+    public function ratingCommentStore(RatingCommentStoreRequest $request)
     {
         $ratingComment = new RatingComment();
 
@@ -260,12 +271,12 @@ class AdminController extends Controller
         return view('admin.modules.user.index', ['users' => $users]);
     }
 
-    public function useCreate()
+    public function userCreate()
     {
         return view('admin.modules.user.create');
     }
 
-    public function userStore(StoreRequest $request)
+    public function userStore(UserStoreRequest $request)
     {
         $user = new User();
         $user->username = $request->username;
@@ -278,14 +289,12 @@ class AdminController extends Controller
         return redirect()->route('admin.user.index')->with('success', 'Create user successfully');
     }
 
-
-
     public function userEdit(string $id)
     {
         return view('admin.modules.user.edit');
     }
 
-    public function userUpdate(UpdateRequest $request, string $id)
+    public function userUpdate(UserUpdateRequest $request, string $id)
     {
         //
     }
@@ -293,5 +302,74 @@ class AdminController extends Controller
     public function userDestroy(string $id)
     {
         //
+    }
+
+    public function promotionIndex()
+    {
+        $promotions = Promotion::orderBy('created_at', 'DESC')->get();
+        return view('admin.modules.promotion.index', ['promotions' => $promotions]);
+    }
+
+    public function promotionCreate()
+    {
+        return view('admin.modules.promotion.create');
+    }
+
+    public function promotionStore(PromotionStoreRequest $request)
+    {
+        $promotion = new Promotion();
+
+        $promotion->code = $request->code;
+        $promotion->description = $request->description;
+        $promotion->discount_percent = $request->discount_percent;
+        $promotion->date_start = $request->date_start;
+        $promotion->date_end = $request->date_end;
+        $promotion->status = $request->status;
+
+        $promotion->save();
+
+        return redirect()->route('admin.promotion.index')->with('success', 'Create promotion successfully');
+    }
+
+    public function promotionEdit(string $id)
+    {
+        $promotion = Promotion::find($id);
+        if ($promotion == null) {
+            abort(404);
+        }
+        return view('admin.modules.promotion.edit', [
+            'id' => $id,
+            'promotion' => $promotion
+        ]);
+    }
+
+    public function promotionUpdate(PromotionUpdateRequest $request, string $id)
+    {
+        $promotion = Promotion::find($id);
+        if ($promotion == null) {
+            abort(404);
+        }
+
+        $promotion->code = $request->code;
+        $promotion->description = $request->description;
+        $promotion->discount_percent = $request->discount_percent;
+        $promotion->date_start = $request->date_start;
+        $promotion->date_end = $request->date_end;
+        $promotion->status = $request->status;
+
+        $promotion->save();
+
+        return redirect()->route('admin.promotion.index')->with('success', 'Update promotion successfully');
+    }
+
+    public function promotionDestroy(string $id)
+    {
+        $promotion = Promotion::find($id);
+        if ($promotion == null) {
+            abort(404);
+        }
+
+        $promotion->delete();
+        return redirect()->route('admin.promotion.index')->with('success', 'Deleted promotion successfully');
     }
 }
