@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 use App\Http\Controllers\Client\ClientController;
 
+use App\Http\Controllers\Logout;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,32 +45,30 @@ Route::prefix('')->group(function () {
         Route::get('contact', 'contact')->name('contact');
 
         Route::get('shop', 'viewShop')->name('contact');
+
+        Route::get('login', 'showLogin')->name('showLogin');
+        Route::post('login','login');
+
+        Route::get('register','showRegister')->name('showRegister');
+        Route::post('register','register');
+        
+        Route::get('forgotpassword','showForgotPassword')->name('showForgotPassword');
+        Route::post('forgotPassword','forgotPassword');
     });
 
     Route::controller(ClientController::class)->group(function () {
-        Route::post('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::post('cart/{id}/{quantity}', 'addToCart');
         Route::get('cart', 'showCart')->name('showCart');
         Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
-        Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
+        Route::post('cart-update/{id}/{quantity}', 'cartUpdate');
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout', 'checkout')->name('checkout');
     });
 });
-
+Route::get('Logout',Logout::class)->name('logout');
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
     
-    Route::prefix('')->controller(LoginController::class)->group(function () {
-        
-        Route::post('register', 'register')->name('register');
-
-        Route::get('login', 'showLogin')->name('showLogin');
-        Route::post('login', 'login')->name('login');
-
-        Route::get('forgotpassword', 'showForgotPassword')->name('showForgotPassword');
-        Route::post('forgotpassword', 'forgotPassword')->name('forgotPassword');
-    });
-
 Route::prefix('client')->name('client.')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
@@ -94,7 +93,6 @@ Route::prefix('client')->name('client.')->group(function () {
             Route::post('order', 'order')->name('order');
             Route::post('address/{id}', 'addressUpdate')->name('address');
             Route::post('account-details/{id}','accountDetailsUpdate')->name('accountDetails');
-            Route::get('logout','logout')->name('logout');
     });
 });
 });

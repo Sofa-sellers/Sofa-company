@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+    public function forgotPassword(Request $request){
+        //
+    }
 
     public function addToCart(Request $request, $id, $quantity){
         //
@@ -74,8 +77,4 @@ class ClientController extends Controller
     public function accountDetailsUpdate(Request $request, $id){
 //
     }
-
-    public function logout(){
-        //
-    }    
 }

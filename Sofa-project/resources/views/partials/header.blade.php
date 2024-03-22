@@ -33,7 +33,7 @@
                                 <!-- dropdown menu end -->
                             </li>
                             <li class="topbar-nav-item">
-                                <a class="topbar-nav-link" href="#">My Account</a>
+                                <a class="topbar-nav-link" href="">Account</a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="myaccount.html">My account</a>

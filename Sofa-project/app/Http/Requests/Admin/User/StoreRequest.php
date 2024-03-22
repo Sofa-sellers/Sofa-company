@@ -14,7 +14,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|unique:users,username',
+            'username' => 'required',
             'password' => 'required|confirmed',
             'email' => 'required|email|unique:users,email',
             'status' => 'required',
@@ -30,7 +30,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'username.required' => 'Please enter username',
-            'username.unique' => 'This username already exists. please enter another username',
             'password.required' => 'Please enter password',
             'password.confirmed' => 'Re-entered password does not match',
             'email.required' => 'Please enter email',

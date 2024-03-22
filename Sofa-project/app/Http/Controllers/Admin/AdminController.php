@@ -18,9 +18,25 @@ use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
 use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
+use Auth;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AdminController extends Controller
 {
+    public function adminLogin(LoginRequest $request){
+        $credentials =[
+            'email' => $request->email,
+            'password' => $request->password,
+            'status' =>1,
+            'level'=>2
+        ];
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->route('admin.category.index');
+        }
+        return redirect()->back();
+    }
     public function userIndex()
     {
         $users = User::orderBy('created_at', 'DESC')->get();
