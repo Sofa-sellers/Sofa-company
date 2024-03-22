@@ -58,12 +58,12 @@ $(function () {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Image</th>
                     <th>Intro</th>
                     <th>Description</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Category</th>
-                    <th>User</th>
                     <th>Status</th>
                     <th>File</th>
                     <th>Create At</th>
@@ -71,38 +71,40 @@ $(function () {
                     <th>Delete</th>
                 </tr>
             </thead>
-            @foreach ($products as $product)
-                
-            
             <tbody>
+                @foreach ($products as $product)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
+                    <td>
+                        <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
+                    </td>
                     <td>{{$product->intro}}</td>
                     <td>{{$product->description}}</td>
                     <td>{{$product->price}}</td>
                     <td>{{$product->quantity}}</td>
-                    <td>{{$product->category->name}}</td>
-                    <td>{{$product->name = $request->name ?? 'Default Name'}}</td>
+                    <td>{{$product->category ? $product->category->name : 'Please select 1 category'}}</td>
                     <td><span class="right badge badge-{{$product->status == 1 ?'success':($product->status == 2?'dark':($product->status == 3?'warning':'primary'))}}">{{$product->status==1? 'Show' :($product->status==2?'Hide':($product->status==3?'Hot':'New'))}}</span></td>
-                    <td>{{$product->file}}</td>
+                    <td>
+                        <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">{{ $product->file }}</a>
+                    </td>
                     <td>{{$product->created_at}}</td>
                     
                     <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
-                    <td><a onclick="return confirmDelete ()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a></td>
+                    <td><a onclick="return confirmDelete()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a></td>
                 </tr>
+                @endforeach
             </tbody>
-            @endforeach
             <tfoot>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Image</th>
                     <th>Intro</th>
                     <th>Description</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Category</th>
-                    <th>User</th>
                     <th>Status</th>
                     <th>File</th>
                     <th>Create At</th>
