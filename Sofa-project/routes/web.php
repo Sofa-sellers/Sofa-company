@@ -23,9 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 //ở trang guest và client có vài mục sẽ có post ko có get vì get chỉ để hiện lên trang đó thôi (vd như hiện trang create user), nhưng ở đây, vd trang home đã có luôn hiển thị email-promotion r nên chỉ ko càn get, chỉ cần post nhé mn
 //có 1 vài mục get và post của nó sẽ ở 2 Controller khác nhau (tùy vào có bắt buộc đăng nhập ko), vd như checkout của cart sẽ qua AccountController vì cần đăng nhập mới thực hiện đc
-Route::prefix('')->group(function () {
+Route::prefix('')->controller(GuestController::class)->group(function () {
 
-    Route::controller(GuestController::class)->group(function () {
         Route::get('', 'index')->name('index');
         
         Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
@@ -44,17 +43,9 @@ Route::prefix('')->group(function () {
         Route::get('contact', 'contact')->name('contact');
 
         Route::get('shop', 'viewShop')->name('contact');
+        
     });
 
-    Route::controller(ClientController::class)->group(function () {
-        Route::post('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
-        Route::get('cart', 'showCart')->name('showCart');
-        Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
-        Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
-        Route::get('checkout', 'showCheckout')->name('showCheckout');
-        Route::post('checkout', 'checkout')->name('checkout');
-    });
-});
 
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
@@ -75,28 +66,28 @@ Route::prefix('client')->name('client.')->group(function () {
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
 
-        Route::post('rating-review', 'ratingCommentStore')->name('ratingCommentStore');
 
-        Route::post('rating-review/{id}', 'ratingCommentUpdate')->name('ratingCommentUpdate');
+        Route::post('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::get('cart', 'showCart')->name('showCart');
+        Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
+        Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
+        Route::get('checkout', 'showCheckout')->name('showCheckout');
+        Route::post('checkout', 'checkout')->name('checkout');
 
-        //phần checkout của cart c đưa vào AccountController nhé Trân, vì login mới checkout đc nên c tách riêng phần này qua Account luôn
-        
-        
-        Route::prefix('account')->name('account.')->group(function () {
+        Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
+        Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
 
-            Route::get('index', 'accountIndex')->name('index');
+        Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
+        Route::get('wishlist', 'showWishlist')->name('showWishlist');
+        Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
+        Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
 
-            Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
-            Route::get('wishlist', 'showWishlist')->name('showWishlist');
-            Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
-            Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
-
-            Route::post('order', 'order')->name('order');
-            Route::post('address/{id}', 'addressUpdate')->name('address');
-            Route::post('account-details/{id}','accountDetailsUpdate')->name('accountDetails');
-            Route::get('logout','logout')->name('logout');
+        Route::get('account', 'accountIndex')->name('account');
+        Route::post('order', 'order')->name('order');
+        Route::post('address/{id}', 'addressUpdate')->name('address');
+        Route::post('account-details/{id}','accountDetailsUpdate')->name('accountDetails');
+        Route::get('logout','logout')->name('logout');
     });
-});
 });
 
 
@@ -178,9 +169,6 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('index', 'racomIndex')->name('index');
 
             Route::post('accept/{id}', 'racomAccept')->name('update');
-
-            Route::get('edit/{id}', 'ratingCommentEdit')->name('edit');
-            Route::post('update/{id}', 'ratingCommentUpdate')->name('update');
 
             Route::get('destroy/{id}', 'racomDestroy')->name('destroy');
         });

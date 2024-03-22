@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attributes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
-            $table->timestamps();
+        Schema::table('attributes', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attributes');
+        Schema::table('attributes', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
