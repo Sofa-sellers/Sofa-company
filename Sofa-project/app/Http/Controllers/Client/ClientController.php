@@ -37,11 +37,11 @@ class ClientController extends Controller
         //
     }
 
-    public function ratingCommentStore(Request $request){
+    public function racomStore(Request $request){
             //
     }
 
-    public function ratingCommentUpdate(Request $request, $id){
+    public function racomUpdate(Request $request, $id){
 //
     }
 

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\RatingComment;
+use App\Models\Attribute;
+use App\Models\Value;
 use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
@@ -18,8 +22,12 @@ use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
 use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
-use Auth;
-use App\Http\Requests\Auth\LoginRequest;
+
+use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
+use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
+use App\Http\Requests\Admin\Value\StoreRequest as ValueStoreRequest;
+use App\Http\Requests\Admin\Value\UpdateRequest as ValueUpdateRequest;
+
 
 class AdminController extends Controller
 {
@@ -68,22 +76,25 @@ class AdminController extends Controller
     public function userEdit(string $id)
     {
         $user = User::find($id);
-        return view('admin.modules.user.edit', ['user' => $user]);
-    }
+        if ($user == null) {
+            abort(404);
+        }
+        return view('admin.modules.user.edit', ['user' => $user, 'id' => $id]);
+    }    
     
     public function userUpdate(UserUpdateRequest $request, string $id)
     {
-        $user = User::find($id);
-        $user->username = $request->username;
-        $user->password = bcrypt($request->password);
-        $user->email = $request->email;
-        $user->status = $request->status;
-        $user->level = $request->level;
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
-        $user->address = $request->address;
-        $user->phone = $request->phone;
-        $user->save();
+        $users = User::find($id);
+        $users->username = $request->username;
+        $users->password = bcrypt($request->password);
+        $users->email = $request->email;
+        $users->status = $request->status;
+        $users->level = $request->level;
+        $users->firstname = $request->firstname;
+        $users->lastname = $request->lastname;
+        $users->address = $request->address;
+        $users->phone = $request->phone;
+        $users->save();
     
         return redirect()->route('admin.user.index')->with('success', 'Update user successfully');
     }
@@ -91,10 +102,14 @@ class AdminController extends Controller
     public function userDestroy(string $id)
     {
         $user = User::find($id);
+        if ($user == null) {
+            abort(404);
+        }
+
         $user->delete();
     
         return redirect()->route('admin.user.index')->with('success', 'Delete user successfully');
-    }
+    }    
 
     public function cateIndex()
     {
@@ -123,7 +138,7 @@ class AdminController extends Controller
         $category->status = $request->status;
  
         $category->save();
-        return redirect()->route('admin.category.index')->with('success','create category successfully');
+        return redirect()->route('admin.category.index')->with('success','Create category successfully');
     }
 
     /**
@@ -154,7 +169,7 @@ class AdminController extends Controller
  
         $categories->name=$request->name;
         $categories->save();
-        return redirect()->route('admin.category.index')->with('success','create category successfully');
+        return redirect()->route('admin.category.index')->with('success','Update category successfully');
 
     }
 
@@ -163,14 +178,15 @@ class AdminController extends Controller
      */
     public function cateDestroy(int $id)
     {
-        $categories = Category::find($id);
-        if($categories==null){
+        $category = Category::find($id);
+        if ($category == null) {
             abort(404);
         }
- 
-        $categories->delete();
-        return redirect()->route('admin.category.index')->with('success','deleted category successfully');
-    }
+        
+        $category->delete();
+    
+        return redirect()->route('admin.category.index')->with('success', 'Deleted category successfully');
+    }          
 
     public function productIndex()
     {
@@ -182,9 +198,9 @@ class AdminController extends Controller
     {
         $categories = Category::get();
         return view('admin.modules.product.create', [
-            'categories' => $categories
+            'categories' => $categories,
         ]);
-    }
+    }    
 
     public function productStore(ProductStoreRequest $request)
     {
@@ -205,18 +221,18 @@ class AdminController extends Controller
         $image->move(public_path('uploads/'), $imageName);
         $product->image = $imageName;
     
-        $product->name = $request->name ?? 'Default Name';
+        $product->name = $request->name;
         $product->intro = $request->intro;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
         $product->category_id = $request->category_id;
-        $product->user_id = 1;
         $product->status = $request->status;
         $product->save();
     
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
+    
 
     public function productEdit(string $id)
     {
@@ -239,44 +255,43 @@ class AdminController extends Controller
             'image' => 'required|mimes:jpg,png,bmp,jpeg',
         ]);
     
-        $product = Product::find($id);
-        if ($product == null) {
+        $products = Product::find($id);
+        if ($products == null) {
             abort(404);
         }
     
         $file = $request->file;
         if (!empty($file)) {
-            $old_file_path = public_path('uploads/' . $product->file);
+            $old_file_path = public_path('uploads/' . $products->file);
             if (file_exists($old_file_path)) {
                 unlink($old_file_path);
             }
             $fileName = time() . '-' . $file->getClientOriginalName();
             $file->move(public_path('uploads/'), $fileName);
-            $product->file = $fileName;
+            $products->file = $fileName;
         }
     
         $image = $request->image;
         if (!empty($image)) {
-            $old_image_path = public_path('uploads/' . $product->image);
+            $old_image_path = public_path('uploads/' . $products->image);
             if (file_exists($old_image_path)) {
                 unlink($old_image_path);
             }
             $imageName = time() . '-' . $image->getClientOriginalName();
             $image->move(public_path('uploads/'), $imageName);
-            $product->image = $imageName;
+            $products->image = $imageName;
         }
+
+        $products->name = $request->name;
+        $products->intro = $request->intro;
+        $products->description = $request->description;
+        $products->price = $request->price;
+        $products->quantity = $request->quantity;
+        $products->category_id = $request->category_id;
+        $products->status = $request->status;
+        $products->save();
     
-        $product->name = $request->name ?? 'Default Name';
-        $product->intro = $request->intro;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->category_id = $request->category_id;
-        $product->user_id = 1;
-        $product->status = $request->status;
-        $product->save();
-    
-        return redirect()->route('admin.product.index')->with('success', 'update product successfully');
+        return redirect()->route('admin.product.index')->with('success', 'Update product successfully');
     }
 
     public function productDestroy(string $id)
@@ -285,7 +300,7 @@ class AdminController extends Controller
         if ($products == null) {
             abort(404);
         }
-        $old_image_path = public_path('uploads/' . $products->product_image);
+        $old_image_path = public_path('uploads/' . $products->image);
         if (file_exists($old_image_path)) {
             unlink($old_image_path);
         }
@@ -295,7 +310,7 @@ class AdminController extends Controller
         }
 
         $products->delete();
-        return redirect()->route('admin.product.index')->with('success', 'deleted product successfully');
+        return redirect()->route('admin.product.index')->with('success', 'Deleted product successfully');
     }
 
     public function orderIndex()
@@ -396,43 +411,175 @@ class AdminController extends Controller
 
     public function promotionEdit(string $id)
     {
-        $promotion = Promotion::find($id);
-        if ($promotion == null) {
+        $promotions = Promotion::find($id);
+        if ($promotions == null) {
             abort(404);
         }
         return view('admin.modules.promotion.edit', [
             'id' => $id,
-            'promotion' => $promotion
+            'promotion' => $promotions
         ]);
     }
 
     public function promotionUpdate(PromotionUpdateRequest $request, string $id)
     {
-        $promotion = Promotion::find($id);
-        if ($promotion == null) {
+        $promotions = Promotion::find($id);
+        if ($promotions == null) {
             abort(404);
         }
 
-        $promotion->code = $request->code;
-        $promotion->description = $request->description;
-        $promotion->discount_percent = $request->discount_percent;
-        $promotion->date_start = $request->date_start;
-        $promotion->date_end = $request->date_end;
-        $promotion->status = $request->status;
+        $promotions->code = $request->code;
+        $promotions->description = $request->description;
+        $promotions->discount_percent = $request->discount_percent;
+        $promotions->date_start = $request->date_start;
+        $promotions->date_end = $request->date_end;
+        $promotions->status = $request->status;
 
-        $promotion->save();
+        $promotions->save();
 
         return redirect()->route('admin.promotion.index')->with('success', 'Update promotion successfully');
     }
 
     public function promotionDestroy(string $id)
     {
-        $promotion = Promotion::find($id);
-        if ($promotion == null) {
+        $promotions = Promotion::find($id);
+        if ($promotions == null) {
             abort(404);
         }
 
-        $promotion->delete();
+        $promotions->delete();
         return redirect()->route('admin.promotion.index')->with('success', 'Deleted promotion successfully');
+    }
+
+    public function attributeIndex()
+    {
+        $attributes=Attribute::orderBy('created_at','DESC')->get();
+        return view('admin.modules.attribute.index',[
+            'attributes'=>$attributes
+        ]);
+    }
+
+    
+    public function attributeCreate()
+    {
+        return view('admin.modules.attribute.create');
+    }
+
+    
+    public function attributeStore(AttributeStoreRequest $request)
+    {
+        $attribute = new attribute();
+ 
+        $attribute->name = $request->name;
+        $attribute->status = $request->status;
+ 
+        $attribute->save();
+        return redirect()->route('admin.attribute.index')->with('success','Create attribute successfully');
+    }
+
+    
+    public function attributeEdit(int  $id)
+    {   $attributes=Attribute::find($id);
+        return view('admin.modules.attribute.edit',[
+            'id'=>$id,
+            'attribute'=>$attributes
+        ]);
+    }
+
+    
+    public function attributeUpdate(AttributeUpdateRequest $request, $id)
+    {
+        $attributes=Attribute::find($id);
+        if($attributes == null){
+            abort(404);
+        }
+ 
+        $attributes->name = $request->name;
+        $attributes->update();
+        return redirect()->route('admin.attribute.index')->with('success','Update attribute successfully');
+
+    }
+
+    
+    public function attributeDestroy(int $id)
+    {
+        $attributes = Attribute::find($id);
+        if($attributes==null){
+            abort(404);
+        }
+ 
+        $attributes->softDeletes();
+        return redirect()->route('admin.attribute.index')->with('success','Delete attribute successfully');
+    }
+
+
+    public function valueIndex()
+    {
+        $values=Value::orderBy('created_at','DESC')->get();
+        return view('admin.modules.value.index',[
+            'values'=>$values
+        ]);
+    }
+
+    
+    public function valueCreate()
+    {
+        $data = Attribute::get();
+        
+        return view('admin.modules.value.create', ['attributes' => $data]);
+    }
+
+
+    public function valueStore(ValueStoreRequest $request)
+    {
+        $value = new value();
+ 
+        $value->name = $request->name;
+        $value->attribute_id = $request->attribute_id;
+        $value->status = $request->status;
+ 
+        $value->save();
+        return redirect()->route('admin.value.index')->with('success','Create value of attribute successfully');
+    }
+
+
+    public function valueEdit(int  $id)
+    {   $values = Value::find($id);
+        $data = Attribute::get();
+        
+        return view('admin.modules.value.edit',[
+            'id'=>$id,
+            'value'=>$values,
+            'attributes' => $data
+        ]);
+    }
+
+    
+    public function valueUpdate(ValueUpdateRequest $request, $id)
+    {
+        $values=Value::find($id);
+        if($values==null){
+            abort(404);
+        }
+ 
+        $values->name = $request->name;
+        $values->attribute_id = $request->attribute_id;
+        $values->status = $request->status;
+
+        $values->update();
+        return redirect()->route('admin.value.index')->with('success','Update value of attribute successfully');
+
+    }
+
+    
+    public function valueDestroy(int $id)
+    {
+        $values=Value::find($id);
+        if($values==null){
+            abort(404);
+        }
+ 
+        $values->delete();
+        return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
     }
 }

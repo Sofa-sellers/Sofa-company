@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('module', 'Product')
+@section('module', 'Value')
 @section('action', 'List')
 
 @push('css')
@@ -40,7 +40,7 @@ $(function () {
 <!-- Default box -->
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Product List</h3>
+        <h3 class="card-title">Value of Attribute List</h3>
 
         <div class="card-tools">
         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -58,55 +58,34 @@ $(function () {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Image</th>
-                    <th>Intro</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Category</th>
+                    <th>Attribute</th>
                     <th>Status</th>
-                    <th>File</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
+            @foreach ($values as $value)
+                
+            
             <tbody>
-                @foreach ($products as $product)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$product->name}}</td>
-                    <td>
-                        <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
-                    </td>
-                    <td>{{$product->intro}}</td>
-                    <td>{{$product->description}}</td>
-                    <td>{{$product->price}}</td>
-                    <td>{{$product->quantity}}</td>
-                    <td>{{$product->category ? $product->category->name : 'Please select 1 category'}}</td>
-                    <td><span class="right badge badge-{{$product->status == 1 ?'success':($product->status == 2?'dark':($product->status == 3?'warning':'primary'))}}">{{$product->status==1? 'Show' :($product->status==2?'Hide':($product->status==3?'Hot':'New'))}}</span></td>
-                    <td>
-                        <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">{{ $product->file }}</a>
-                    </td>
-                    <td>{{$product->created_at}}</td>
-                    
-                    <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
-                    <td><a onclick="return confirmDelete()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a></td>
+                    <td>{{$value->name}}</td>
+                    <td>{{$value->attribute->name}}</td>
+                    <td><span class="right badge badge-{{$value->status == 1 ?'success':'dark'}}">{{$value->status==1? 'Show' :'Hide'}}</span></td>
+                    <td>{{ date("d/m/Y - H:m:s", strtotime($value->created_at))}}</td>
+                    <td><a href="{{route('admin.value.edit',['id'=>$value->id])}}">Edit</a></td>
+                    <td><a onclick="return confirmDelete ()" href="{{route('admin.value.destroy',['id'=>$value->id])}}">Delete</a></td>
                 </tr>
-                @endforeach
             </tbody>
+            @endforeach
             <tfoot>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Image</th>
-                    <th>Intro</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Category</th>
+                    <th>Attribute</th>
                     <th>Status</th>
-                    <th>File</th>
                     <th>Create At</th>
                     <th>Edit</th>
                     <th>Delete</th>

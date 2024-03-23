@@ -79,7 +79,7 @@ $(function () {
                     <td>{{$promotion->discount_percent}}</td>
                     <td>{{$promotion->date_start}}</td>
                     <td>{{$promotion->date_end}}</td>
-                    <td><span class="right badge badge-{{$product->status == 1 ?'success':'dark'}}">{{$promotion->status==1? 'Active' :'Unactive'}}</span></td>
+                    <td><span class="right badge badge-{{$promotion->status == 1 ?'success':'dark'}}">{{$promotion->status==1? 'Active' :'Unactive'}}</span></td>
                     <td>{{$promotion->created_at}}</td>
                     
                     <td><a href="{{route('admin.promotion.edit',['id'=>$promotion->id])}}">Edit</a></td>
