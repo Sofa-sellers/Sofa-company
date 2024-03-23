@@ -55,7 +55,6 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout', 'checkout')->name('checkout');
     });
-});
 
 
 Route::get('login', [GuestController::class, 'showLogin'])->name('showLogin');
