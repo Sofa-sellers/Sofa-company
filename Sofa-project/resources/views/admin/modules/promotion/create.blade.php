@@ -26,7 +26,6 @@
                 <label>Promotion Code</label>
                 <input type="text" class="form-control" placeholder="Enter promotion code" name="code" value="{{old('code')}}">
             </div>
-
             <div class="form-group">
                 <label>Description</label>
                 <textarea class="form-control" rows="3" placeholder="Enter description" name="description">{{old('description')}}</textarea>
@@ -46,7 +45,6 @@
                 <label>Date End</label>
                 <input type="date" class="form-control" placeholder="Enter date end" name="date_end" value="{{old('date_end')}}">
             </div>
-
             <div class="form-group">
                 <label>Status</label>
                 <select class="form-control" name="status">

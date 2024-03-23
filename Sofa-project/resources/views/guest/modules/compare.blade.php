@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 @section('module','Compare')
 @section('content')
     <!-- main content start -->
@@ -13,13 +13,13 @@
                                 <tr>
                                     <th scope="col">product info</th>
                                     <th scope="col" class="text-center">
-                                        <img src="{{asset('assets/images/products/product1.jpg')}}" alt="images_not_found">
+                                        <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="images_not_found">
                                         <span class="sub-title d-block">Gold Metal Clothing Rack With</span>
                                         <a href="cart.html" class="btn btn-dark">
                                             add to cart</a>
                                     </th>
                                     <th scope="col" class="text-center">
-                                        <img src="{{asset('assets/images/products/product2.jpg')}}" alt="images_not_found">
+                                        <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="images_not_found">
                                         <span class="sub-title d-block">Emmy Green Floral Wood Leg</span>
                                         <a href="cart.html" class="btn btn-dark">
                                             add to cart</a>

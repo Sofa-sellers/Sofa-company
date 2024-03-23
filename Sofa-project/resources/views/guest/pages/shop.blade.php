@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 @section('module','Shop')
 @section('content')
     <!-- shop page layout start -->
@@ -46,7 +46,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product1.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -79,7 +79,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('assets/images/products/product2.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -111,7 +111,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product3.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product3.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -144,7 +144,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('assets/images/products/product4.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product4.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -176,7 +176,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-warning">hot!</span>
-                                            <img src="{{asset('assets/images/products/product5.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product5.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -209,7 +209,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('assets/images/products/product6.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product6.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -241,7 +241,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-warning">hot</span>
-                                            <img src="{{asset('assets/images/products/product7.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product7.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -274,7 +274,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product8.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product8.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -306,7 +306,7 @@
                                     <div class="product-card">
                                         <a href="single-product.html" class="product-thumb">
                                             <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('assets/images/products/product9.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product9.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -364,7 +364,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product1.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -406,7 +406,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product2.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -448,7 +448,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product3.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product3.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -490,7 +490,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product4.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product4.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -532,7 +532,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product5.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product5.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -574,7 +574,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product6.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product6.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -616,7 +616,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product7.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product7.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -658,7 +658,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product8.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product8.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
@@ -700,7 +700,7 @@
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('assets/images/products/product9.jpg')}}" alt="image_not_found">
+                                            <img src="{{asset('client/assets/images/products/product9.jpg')}}" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">

@@ -42,10 +42,12 @@ Route::prefix('')->group(function () {
         Route::post('compare', 'compare')->name('compare');
 
         Route::get('contact', 'contact')->name('contact');
+
+        Route::get('shop', 'viewShop')->name('contact');
     });
 
     Route::controller(ClientController::class)->group(function () {
-        Route::post('add-to-cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::post('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
         Route::get('cart', 'showCart')->name('showCart');
         Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
@@ -57,7 +59,7 @@ Route::prefix('')->group(function () {
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
     
-    Route::prefix('auth')->controller(LoginController::class)->group(function () {
+    Route::prefix('')->controller(LoginController::class)->group(function () {
         
         Route::post('register', 'register')->name('register');
 
@@ -68,7 +70,7 @@ Route::prefix('')->group(function () {
         Route::post('forgotpassword', 'forgotPassword')->name('forgotPassword');
     });
 
-Route::name('client.')->group(function () {
+Route::prefix('client')->name('client.')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {

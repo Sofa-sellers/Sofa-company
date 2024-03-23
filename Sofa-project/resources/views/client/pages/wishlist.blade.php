@@ -1,4 +1,4 @@
-@extends('client.master')
+@extends('master')
 @section('module','Wishlist')
 @section('content')
     <!-- main content start -->
@@ -23,7 +23,7 @@
                             <tbody>
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="{{asset('assets/images/products/product2.jpg')}}" alt="img">
+                                        <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="img">
                                     </th>
                                     <td class="text-center">
                                         <span class="whish-title">Gold Metal Clothing Rack With</span>
@@ -62,7 +62,7 @@
                                 </tr>
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="{{asset('assets/images/products/product4.jpg')}}" alt="img">
+                                        <img src="{{asset('client/assets/images/products/product4.jpg')}}" alt="img">
                                     </th>
                                     <td class="text-center">
                                         <span class="whish-title">Emmy Green Floral Wood Leg</span>
@@ -99,7 +99,7 @@
                                 </tr>
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="{{asset('assets/images/products/product6.jpg')}}" alt="img">
+                                        <img src="{{asset('client/assets/images/products/product6.jpg')}}" alt="img">
                                     </th>
                                     <td class="text-center">
                                         <span class="whish-title">Heirloom Gold Metal Folding Shelf</span>
