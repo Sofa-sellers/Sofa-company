@@ -21,8 +21,6 @@ return new class extends Migration
             $table->integer('quantity')->default(5);
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide - 3 Hot - 4 New');
             $table->string('file');
             $table->timestamps();
