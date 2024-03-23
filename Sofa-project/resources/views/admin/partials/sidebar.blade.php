@@ -81,6 +81,54 @@
                   </li>
               </ul>
           </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fa fa-th-list" aria-hidden="true"></i>
+                <p>
+                Attribute
+                <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('admin.attribute.create') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create</p>
+                    </a>
+                    </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.attribute.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>List</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fa fa-th-list" aria-hidden="true"></i>
+                <p>
+                Value of Attribute
+                <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('admin.value.create') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create</p>
+                    </a>
+                    </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.value.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>List</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
   
           <li class="nav-item">
               <a href="#" class="nav-link">
