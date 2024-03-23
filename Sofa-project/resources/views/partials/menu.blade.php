@@ -215,6 +215,8 @@
                             </li>
                             <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">Checkout</a>
                             </li>
+                            <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
+                            </li>
                         </ul>
                         <!-- dropdown menu end -->
                     </li>

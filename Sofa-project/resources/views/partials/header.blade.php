@@ -33,7 +33,7 @@
                                 <!-- dropdown menu end -->
                             </li>
                             <li class="topbar-nav-item">
-                                <a class="topbar-nav-link" href="#">My Account</a>
+                                <a class="topbar-nav-link" href="">a</a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="myaccount.html">My account</a>
@@ -42,6 +42,8 @@
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="wishlist.html">Wishlist</a>
                                     </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="checkout.html">Checkout</a>
+                                    </li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
                                     </li>
                                 </ul>
                                 <!-- dropdown menu end -->

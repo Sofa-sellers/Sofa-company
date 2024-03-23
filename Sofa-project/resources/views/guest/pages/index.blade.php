@@ -1,4 +1,5 @@
 @extends('master')
+@section('module','Home')
 @section('content')
     <!-- main content start -->
 

@@ -22,13 +22,29 @@ use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
 use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
+
 use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
 use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
 use App\Http\Requests\Admin\Value\StoreRequest as ValueStoreRequest;
 use App\Http\Requests\Admin\Value\UpdateRequest as ValueUpdateRequest;
 
+
 class AdminController extends Controller
 {
+    public function adminLogin(LoginRequest $request){
+        $credentials =[
+            'email' => $request->email,
+            'password' => $request->password,
+            'status' =>1,
+            'level'=>2
+        ];
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->route('admin.category.index');
+        }
+        return redirect()->back();
+    }
     public function userIndex()
     {
         $users = User::orderBy('created_at', 'DESC')->get();

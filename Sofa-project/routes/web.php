@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 use App\Http\Controllers\Client\ClientController;
 
+use App\Http\Controllers\Logout;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,22 +47,32 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         
     });
 
+    Route::controller(ClientController::class)->group(function () {
+        Route::post('cart/{id}/{quantity}', 'addToCart');
+        Route::get('cart', 'showCart')->name('showCart');
+        Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
+        Route::post('cart-update/{id}/{quantity}', 'cartUpdate');
+        Route::get('checkout', 'showCheckout')->name('showCheckout');
+        Route::post('checkout', 'checkout')->name('checkout');
+    });
+});
 
+
+Route::get('login', [GuestController::class, 'showLogin'])->name('showLogin');
+Route::post('login',[GuestController::class, 'login']);
+Route::post('login',[GuestController::class, 'adminLogin']);
+
+Route::get('register',[GuestController::class, 'showRegister'])->name('showRegister');
+Route::post('register',[GuestController::class, 'register']);
+        
+// Route::get('forgotpassword','showForgotPassword')->name('showForgotPassword');
+// Route::post('forgotPassword','forgotPassword');
+
+Route::get('Logout',Logout::class)->name('logout');
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
     
-    Route::prefix('')->controller(LoginController::class)->group(function () {
-        
-        Route::post('register', 'register')->name('register');
-
-        Route::get('login', 'showLogin')->name('showLogin');
-        Route::post('login', 'login')->name('login');
-
-        Route::get('forgotpassword', 'showForgotPassword')->name('showForgotPassword');
-        Route::post('forgotpassword', 'forgotPassword')->name('forgotPassword');
-    });
-
-Route::prefix('client')->name('client.')->group(function () {
+Route::prefix('client')->name('client.')->middleware('checkLogin')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
@@ -81,7 +92,6 @@ Route::prefix('client')->name('client.')->group(function () {
         Route::get('wishlist', 'showWishlist')->name('showWishlist');
         Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
         Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
-
         Route::get('account', 'accountIndex')->name('account');
         Route::post('order', 'order')->name('order');
         Route::post('address/{id}', 'addressUpdate')->name('address');

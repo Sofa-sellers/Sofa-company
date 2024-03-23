@@ -1,9 +1,5 @@
 @extends('master')
-<<<<<<< HEAD
-@extends('title','Account')
-=======
 @section('module','account')
->>>>>>> 1c57d37bff52091eae84e494f75f83c1a0057390
 @section('content')
 <div class="my-account section-padding-bottom">
     <div class="container">
@@ -27,7 +23,7 @@
                     <a href="#account-info" data-bs-toggle="tab" class="active"><i class="fa fa-user"></i> Account
                         Details</a>
 
-                    <a href="login.html"><i class="fa fa-sign-out"></i> Logout</a>
+                    <a href="{{route('logout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
             </div>
             <!-- My Account Tab Menu End -->

@@ -1,5 +1,5 @@
 @extends('master')
-@section('module','Login')
+@section('module','Register')
 @section('content')
     <!-- main content start -->
     <div class="login-register-area section-padding-bottom">
@@ -8,11 +8,10 @@
                 <div class="col-lg-7 col-md-12 mx-auto">
                     <div class="login-register-wrapper">
                         <div class="login-register-tab-list nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="active" data-bs-toggle="tab">
-                                <h4>login</h4>
+                            <a data-bs-toggle="tab" href="#lg1">
+                                <h4>register</h4>
                             </a>
                         </div>
-
                         <div class="tab-content">
                             <div id="lg1" class="tab-pane show active">
                                 <div class="login-form-container">
@@ -31,14 +30,13 @@
                                             <input type="email" name="email" placeholder="email" value="{{old('email')}}">
                                             <label>Password<span class="required">*</span></label>
                                             <input type="password" name="password" placeholder="Password">
+                                            <label>Confirm Passord<span class="required">*</span></label>
+                                            <input type="password" class="form-control" placeholder="Enter password" name="password_confirmation">
+                                            <label>Username<span class="required">*</span></label>
+                                            <input name="username" placeholder="user_name" value="{{old('username')}}">
                                             <div class="button-box">
-                                                <div class="login-toggle-btn">
-                                                    <input id="remember" type="checkbox">
-                                                    <label for="remember">Remember me</label>
-                                                    <a href="#">Forgot Password?</a>
-                                                </div>
                                                 <button type="submit" class="btn btn-dark">
-                                                        <span>Login</span>
+                                                    <span>Register</span>
                                                 </button>
                                             </div>
                                         </form>
