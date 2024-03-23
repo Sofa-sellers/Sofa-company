@@ -17,12 +17,11 @@ class checkLogin
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::check()==true){
-            if(Auth::user()->level == 2){
-                return redirect()->route('admin.category.index');
-            }else {
+            if(Auth::user()->level==1){
                 return redirect()->route('index');
+            }else{
+                return redirect()->route('admin.category.index');
             }
-        
         }
         return redirect()->route('showLogin');
     }

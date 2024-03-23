@@ -45,15 +45,6 @@ Route::prefix('')->group(function () {
         Route::get('contact', 'contact')->name('contact');
 
         Route::get('shop', 'viewShop')->name('contact');
-
-        Route::get('login', 'showLogin')->name('showLogin');
-        Route::post('login','login');
-
-        Route::get('register','showRegister')->name('showRegister');
-        Route::post('register','register');
-        
-        Route::get('forgotpassword','showForgotPassword')->name('showForgotPassword');
-        Route::post('forgotPassword','forgotPassword');
     });
 
     Route::controller(ClientController::class)->group(function () {
@@ -65,11 +56,22 @@ Route::prefix('')->group(function () {
         Route::post('checkout', 'checkout')->name('checkout');
     });
 });
+
+Route::get('login', [GuestController::class, 'showLogin'])->name('showLogin');
+Route::post('login',[GuestController::class, 'login']);
+Route::post('login',[GuestController::class, 'adminLogin']);
+
+Route::get('register',[GuestController::class, 'showRegister'])->name('showRegister');
+Route::post('register',[GuestController::class, 'register']);
+        
+// Route::get('forgotpassword','showForgotPassword')->name('showForgotPassword');
+// Route::post('forgotPassword','forgotPassword');
+
 Route::get('Logout',Logout::class)->name('logout');
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
     
-Route::prefix('client')->name('client.')->group(function () {
+Route::prefix('client')->name('client.')->middleware('checkLogin')->group(function () {
     
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
