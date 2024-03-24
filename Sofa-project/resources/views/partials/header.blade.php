@@ -33,7 +33,14 @@
                                 <!-- dropdown menu end -->
                             </li>
                             <li class="topbar-nav-item">
-                                <a class="topbar-nav-link" href="">a</a>
+                                <a class="topbar-nav-link" href="">
+                                <?php if(Auth::check())
+                                {
+                                    Auth::user()->fullname;
+                                }else {
+                                    echo 'Guest';
+                                }
+                                ?></a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="myaccount.html">My account</a>

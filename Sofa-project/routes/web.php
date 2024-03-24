@@ -57,15 +57,15 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
     });
 
 
-Route::get('login', [GuestController::class, 'showLogin'])->name('showLogin');
-Route::post('login',[GuestController::class, 'login']);
-Route::post('login',[GuestController::class, 'adminLogin']);
+Route::get('login', [LoginController::class, 'showLogin'])->name('showLogin');
+Route::post('login',[LoginController::class, 'login']);
+Route::post('login',[LoginController::class, 'adminLogin']);
 
-Route::get('register',[GuestController::class, 'showRegister'])->name('showRegister');
-Route::post('register',[GuestController::class, 'register']);
+Route::get('register',[LoginController::class, 'showRegister'])->name('showRegister');
+Route::post('register',[LoginController::class, 'register']);
         
-// Route::get('forgotpassword','showForgotPassword')->name('showForgotPassword');
-// Route::post('forgotPassword','forgotPassword');
+// Route::get('forgotpassword',[LoginController::class,'showForgotPassword'])->name('showForgotPassword');
+// Route::post('forgotPassword',[LoginController::class,'forgotPassword']);
 
 Route::get('Logout',Logout::class)->name('logout');
 
