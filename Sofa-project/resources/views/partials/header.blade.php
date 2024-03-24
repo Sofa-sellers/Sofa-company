@@ -34,9 +34,9 @@
                             </li>
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="">
-                                <?php if(Auth::check())
+                                <?php if(Auth::check()==true)
                                 {
-                                    Auth::user()->fullname;
+                                    echo Auth::user()->username;
                                 }else {
                                     echo 'Guest';
                                 }
