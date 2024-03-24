@@ -1,14 +1,14 @@
 @extends('admin.master')
-@section('module' ,'Value')
+@section('module' ,'Brand')
 @section('action','Create')  
 
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.value.store')}}" method="post">
+    <form action="{{route('admin.brand.store')}}" method="post">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Value of Attribute Create</h3>
+          <h3 class="card-title">Brand Create</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -21,18 +21,8 @@
         <div class="card-body">
                 @csrf
                 <div class="form-group">
-                  <label >Attribute</label>
-                  <select class="form-control" name="attribute_id">
-                    <option value="0" {{ old('attribute_id') == 0 ? 'selected' : ''}}>----Root----</option>
-                    @foreach ($attributes as $attribute)
-                      <option value="{{$attribute->id}}">{{$attribute->name}}</option>
-                    @endforeach
-                  </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Value Name</label>
-                    <input type="text" class="form-control" placeholder="Enter value name" name="name" value="{{old('name')}}">
+                    <label for="exampleInputEmail1">Brand Name</label>
+                    <input type="text" class="form-control" placeholder="Enter brand name" name="name" value="{{old('name')}}">
                   </div>
 
                   <div class="form-group">

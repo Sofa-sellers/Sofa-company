@@ -6,12 +6,15 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\AttributeValue;
+use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\RatingComment;
-use App\Models\Attribute;
-use App\Models\Value;
+use App\Models\Sku;
+use App\Models\Brand;
+
 use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
@@ -22,12 +25,13 @@ use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
 use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
-
+use App\Http\Requests\Admin\Brand\StoreRequest as BrandStoreRequest;
+use App\Http\Requests\Admin\Brand\UpdateRequest as BrandUpdateRequest;
 use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
 use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
 use App\Http\Requests\Admin\Value\StoreRequest as ValueStoreRequest;
 use App\Http\Requests\Admin\Value\UpdateRequest as ValueUpdateRequest;
-
+use App\Models\ProductImages;
 
 class AdminController extends Controller
 {
@@ -183,8 +187,10 @@ class AdminController extends Controller
     public function productCreate()
     {
         $categories = Category::get();
+        $brands = Brand::get();
         return view('admin.modules.product.create', [
             'categories' => $categories,
+            'brands' => $brands
         ]);
     }    
 
@@ -206,16 +212,43 @@ class AdminController extends Controller
         $imageName = time() . '-' . $image->getClientOriginalName();
         $image->move(public_path('uploads/'), $imageName);
         $product->image = $imageName;
+
+        $size = $request->size;
+        $sizeImage = time() . '-' . $size->getClientOriginalName();
+        $size->move(public_path('uploads/'), $sizeImage);
+        $product->size = $sizeImage;
     
         $product->name = $request->name;
-        $product->intro = $request->intro;
+        $product->name = $request->slug;
         $product->description = $request->description;
         $product->price = $request->price;
-        $product->quantity = $request->quantity;
+        $product->sale_price = $request->sale_price;
         $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
         $product->status = $request->status;
         $product->save();
-    
+
+        if(count($request->images) > 0){
+            $count = 0;
+            $data_images = [];
+            foreach ($request->images as $img_detail){
+                $count++;
+                $fileNameDetail = $count . '-' . time() . '-' . $img_detail->getClientOriginalName();
+                $img_detail->move(public_path('uploads/'), $fileNameDetail);
+
+                $data_images[]=[
+                    'name' => $fileNameDetail,
+                    'product_id' => $product->id,
+                    'created_at' =>new \DateTime(),
+                    'updated_at' =>new \DateTime()
+                ];
+
+            }
+
+            ProductImages :: insert($data_images);
+        }
+
+
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
     
@@ -269,11 +302,12 @@ class AdminController extends Controller
         }
 
         $products->name = $request->name;
-        $products->intro = $request->intro;
+        $products->name = $request->slug;
         $products->description = $request->description;
         $products->price = $request->price;
-        $products->quantity = $request->quantity;
+        $products->sale_price = $request->sale_price;
         $products->category_id = $request->category_id;
+        $products->brand_id = $request->brand_id;
         $products->status = $request->status;
         $products->save();
     
@@ -494,14 +528,14 @@ class AdminController extends Controller
             abort(404);
         }
  
-        $attributes->softDeletes();
+        $attributes->delete();
         return redirect()->route('admin.attribute.index')->with('success','Delete attribute successfully');
     }
 
 
     public function valueIndex()
     {
-        $values=Value::orderBy('created_at','DESC')->get();
+        $values = AttributeValue::orderBy('created_at','DESC')->get();
         return view('admin.modules.value.index',[
             'values'=>$values
         ]);
@@ -510,7 +544,7 @@ class AdminController extends Controller
     
     public function valueCreate()
     {
-        $data = Attribute::get();
+        $data = AttributeValue::get();
         
         return view('admin.modules.value.create', ['attributes' => $data]);
     }
@@ -518,7 +552,7 @@ class AdminController extends Controller
 
     public function valueStore(ValueStoreRequest $request)
     {
-        $value = new value();
+        $value = new AttributeValue();
  
         $value->name = $request->name;
         $value->attribute_id = $request->attribute_id;
@@ -530,7 +564,7 @@ class AdminController extends Controller
 
 
     public function valueEdit(int  $id)
-    {   $values = Value::find($id);
+    {   $values = AttributeValue::find($id);
         $data = Attribute::get();
         
         return view('admin.modules.value.edit',[
@@ -543,7 +577,7 @@ class AdminController extends Controller
     
     public function valueUpdate(ValueUpdateRequest $request, $id)
     {
-        $values=Value::find($id);
+        $values= AttributeValue::find($id);
         if($values==null){
             abort(404);
         }
@@ -560,12 +594,73 @@ class AdminController extends Controller
     
     public function valueDestroy(int $id)
     {
-        $values=Value::find($id);
+        $values= AttributeValue::find($id);
         if($values==null){
             abort(404);
         }
  
         $values->delete();
         return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
+    }
+
+    public function brandIndex()
+    {
+        $brands = Brand::orderBy('created_at','DESC')->get();
+        return view('admin.modules.brand.index',[
+            'brands'=>$brands
+        ]);
+    }
+
+    
+    public function brandCreate()
+    {
+        return view('admin.modules.brand.create');
+    }
+
+    
+    public function brandStore(BrandStoreRequest $request)
+    {
+        $brand = new Brand();
+ 
+        $brand->name = $request->name;
+        $brand->status = $request->status;
+ 
+        $brand->save();
+        return redirect()->route('admin.brand.index')->with('success','Create brand successfully');
+    }
+
+    
+    public function brandEdit(int  $id)
+    {   $brands=Brand::find($id);
+        return view('admin.modules.brand.edit',[
+            'id'=>$id,
+            'brand'=>$brands
+        ]);
+    }
+
+    
+    public function brandUpdate(BrandUpdateRequest $request, $id)
+    {
+        $brands=Brand::find($id);
+        if($brands == null){
+            abort(404);
+        }
+ 
+        $brands->name = $request->name;
+        $brands->update();
+        return redirect()->route('admin.brand.index')->with('success','Update brand successfully');
+
+    }
+
+    
+    public function brandDestroy(int $id)
+    {
+        $brands = Brand::find($id);
+        if($brands==null){
+            abort(404);
+        }
+ 
+        $brands->deletes();
+        return redirect()->route('admin.brand.index')->with('success','Delete brand successfully');
     }
 }

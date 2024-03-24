@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_attribute_value', function (Blueprint $table) {
+        Schema::create('skus', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('attribute_id')->references('id')->on('attributes');
             $table->unsignedBigInteger('value_id');
             $table->foreign('value_id')->references('id')->on('attribute_values');
+            $table->integer('quantity')->default(5);
+            $table->string('image');
             $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_attribute_value');
+        Schema::dropIfExists('skus');
     }
 };

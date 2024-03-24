@@ -62,6 +62,7 @@ $(function () {
                     <th>Intro</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>Sale price</th>
                     <th>Quantity</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -82,6 +83,7 @@ $(function () {
                     <td>{{$product->intro}}</td>
                     <td>{{$product->description}}</td>
                     <td>{{$product->price}}</td>
+                    <td>{{$product->sale_price}}</td>
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->category ? $product->category->name : 'Please select 1 category'}}</td>
                     <td><span class="right badge badge-{{$product->status == 1 ?'success':($product->status == 2?'dark':($product->status == 3?'warning':'primary'))}}">{{$product->status==1? 'Show' :($product->status==2?'Hide':($product->status==3?'Hot':'New'))}}</span></td>

@@ -22,7 +22,18 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'required|unique:attributes,name'.$this->id,
+            'status'=>'required|integer',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required'=>'Please enter attribute name',
+            'name.unique'=>'This attribute name already exists. Please enter another attribute name',
+            'status.required'=>'Please select status',
+            'status.integer'=>'Status value must be an integer',
         ];
     }
 }
