@@ -13,7 +13,13 @@
           <img src="{{ asset('administrator/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-            <a href="#" class="d-block">a</a>
+            <a href="#" class="d-block">
+                <?php if(Auth::check()==true)
+                {
+                    echo Auth::user()->username;
+                }else {
+                    echo 'Guest';
+                }?></a>
             <a href="{{route('logout')}}" class="d-block">Log out</a>
           {{-- <a href="#" class="d-block">{{Auth::user()->username}}</a> --}}
       </div>
