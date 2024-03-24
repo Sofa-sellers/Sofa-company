@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Product;
 
-class Category extends Model
+class Brand extends Model
 {
     use HasFactory, SoftDeletes;
     /**
@@ -15,7 +15,7 @@ class Category extends Model
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'brands';
      /**
      * The attributes that aren't mass assignable.
      *
@@ -23,7 +23,7 @@ class Category extends Model
      */
     protected $guarded =[];
 
-    public function products()
+    public function product()
     {
         return $this->hasMany(Product::class)->withTrashed();
     }

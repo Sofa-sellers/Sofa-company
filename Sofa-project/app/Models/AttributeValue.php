@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Attribute;
+use App\Models\Sku;
 
-class Value extends Model
+class AttributeValue extends Model
 {
     use HasFactory;
     /**
@@ -26,5 +27,10 @@ class Value extends Model
     public function attribute(): BelongsTo
     {
         return $this-> belongsTo(Attribute::class);
+    }
+
+    public function sku(): BelongsTo
+    {
+        return $this-> belongsTo(Sku::class);
     }
 }

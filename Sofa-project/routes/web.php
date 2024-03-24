@@ -193,6 +193,30 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
 
             Route::get('destroy/{id}', 'orderDestroy')->name('destroy');
         });
+
+        Route::prefix('brand')->name('brand.')->group(function () {
+            Route::get('index', 'brandIndex')->name('index');
+
+            Route::get('create', 'brandCreate')->name('create');
+            Route::post('store', 'brandStore')->name('store');
+
+            Route::get('edit/{id}', 'brandEdit')->name('edit');
+            Route::post('update/{id}', 'brandUpdate')->name('update');
+
+            Route::get('destroy/{id}', 'brandDestroy')->name('destroy');
+        });
+
+        Route::prefix('sku')->name('sku.')->group(function () {
+            Route::get('index', 'skuIndex')->name('index');
+
+            Route::get('create', 'skuCreate')->name('create');
+            Route::post('store', 'skuStore')->name('store');
+
+            Route::get('edit/{id}', 'skuEdit')->name('edit');
+            Route::post('update/{id}', 'skuUpdate')->name('update');
+
+            Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
+        });
     });
 
 
