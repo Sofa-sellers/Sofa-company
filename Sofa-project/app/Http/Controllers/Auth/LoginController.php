@@ -23,24 +23,6 @@ class LoginController extends Controller
         }
         return view('guest.pages.register');
     }
-    public function adminLogin(LoginRequest $request){
-        $credentials =[
-            'email' => $request->email,
-            'password' => $request->password,
-            'status' =>1,
-            'level'=>2
-        ];
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
-            return redirect()->route('admin.category.index');
-        }
-        return redirect()->back();
-    }
-
-    public function forgotPassword(Request $request){
-        //
-    }
 
     public function register(registerRequest $request){
         $user = new User();
@@ -49,15 +31,14 @@ class LoginController extends Controller
         $user->email = $request->email;
         $user->save();
     
-        return redirect()->route('index');
+        return redirect()->route('showLogin');
     }
 
     public function login(LoginRequest $request){
         $credentials =[
             'email' => $request->email,
             'password' => $request->password,
-            'status' =>$request->status==1,
-            'level'=>$request->level==1
+            'status' =>1,
         ];
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -65,5 +46,9 @@ class LoginController extends Controller
             return redirect()->route('index');
         }
         return redirect()->back();
+    }
+
+    public function forgotPassword(Request $request){
+        //
     }
 }
