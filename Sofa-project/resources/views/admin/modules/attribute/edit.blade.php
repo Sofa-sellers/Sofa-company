@@ -22,7 +22,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Attribute Name</label>
-                    <input type="text" class="form-control" placeholder="Enter attribute name" name="name" value="{{old('name',$category->name)}}">
+                    <input type="text" class="form-control" placeholder="Enter attribute name" name="name" value="{{old('name',$attribute->name)}}">
                   </div>
 
                   <div class="form-group">
