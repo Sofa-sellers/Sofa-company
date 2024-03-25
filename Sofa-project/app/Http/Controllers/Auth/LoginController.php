@@ -49,7 +49,7 @@ class LoginController extends Controller
                     return view('guest.index');
                 }
                 else if($userlevel==2){
-                    return view('admin.modules.category.index');
+                    return view('admin.modules.index');
                 }
                 else{
                     return redirect()->back();

@@ -31,6 +31,7 @@
                                             <input type="email" name="email" placeholder="email" value="{{old('email')}}">
                                             <label>Password<span class="required">*</span></label>
                                             <input type="password" name="password" placeholder="Password">
+                                            <a href="{{route('showRegister')}}" class="text-left">Register Now!</a>
                                             <div class="button-box">
                                                 <div class="login-toggle-btn">
                                                     <input id="remember" type="checkbox">

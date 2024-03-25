@@ -50,6 +50,8 @@
                                     </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="checkout.html">Checkout</a>
                                     </li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showLogin')}}">Log in</a>
+                                    </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
                                     </li>
                                 </ul>

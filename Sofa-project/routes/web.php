@@ -94,6 +94,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
 
 Route::prefix('admin')->name('admin.')->controller(AdminController::class)->group(function () {
+    Route::get('index', 'index')->name('index')->middleware(['auth','admin']);
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('index', 'cateIndex')->name('index')->middleware(['auth','admin']);
 

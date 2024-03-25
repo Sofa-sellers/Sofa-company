@@ -35,6 +35,10 @@ use App\Models\ProductImages;
 
 class AdminController extends Controller
 {
+    public function index()
+    {
+        return view('admin.modules.index');
+    }
     public function userIndex()
     {
         $users = User::orderBy('created_at', 'DESC')->get();
