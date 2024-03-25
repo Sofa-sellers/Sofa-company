@@ -12,6 +12,7 @@ use App\Models\Promotion;
 use App\Models\RatingComment;
 use App\Models\Attribute;
 use App\Models\Value;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
@@ -84,20 +85,25 @@ class AdminController extends Controller
     
     public function userUpdate(UserUpdateRequest $request, string $id)
     {
-        $users = User::find($id);
-        $users->username = $request->username;
-        $users->password = bcrypt($request->password);
-        $users->email = $request->email;
-        $users->status = $request->status;
-        $users->level = $request->level;
-        $users->firstname = $request->firstname;
-        $users->lastname = $request->lastname;
-        $users->address = $request->address;
-        $users->phone = $request->phone;
-        $users->save();
+        $user = User::find($id);
+    
+        if ($user->email !== null) {
+            return redirect()->route('admin.user.index')->with('error', 'Email cannot be edited.');
+        }
+    
+        $user->username = $request->username;
+        $user->password = bcrypt($request->password);
+        $user->email = $request->email;
+        $user->status = $request->status;
+        $user->level = $request->level;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->save();
     
         return redirect()->route('admin.user.index')->with('success', 'Update user successfully');
-    }
+    }    
     
     public function userDestroy(string $id)
     {
@@ -124,17 +130,21 @@ class AdminController extends Controller
      */
     public function cateCreate()
     {
-        return view('admin.modules.category.create');
+        $categories = Category::all();
+        $category = new Category();
+        return view('admin.modules.category.create', compact('categories', 'category'));
     }
+    
 
     /**
      * Store a newly created resource in storage.
      */
     public function cateStore(CategoryStoreRequest $request)
     {
-        $category = new category();
+        $category = new Category();
  
         $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
         $category->status = $request->status;
  
         $category->save();
@@ -149,45 +159,45 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function cateEdit(int  $id)
-    {   $categories=Category::find($id);
-        return view('admin.modules.category.edit',[
-            'id'=>$id,
-            'category'=>$categories
+    public function cateEdit(int $id)
+    {
+        $category = Category::findOrFail($id);
+        $categories = Category::where('id', '!=', $id)->get();
+    
+        return view('admin.modules.category.edit', [
+            'id' => $id,
+            'category' => $category,
+            'categories' => $categories,
         ]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function cateUpdate(CategoryUpdateRequest $request, $id)
     {
-        $categories=Category::find($id);
-        if($categories==null){
-            abort(404);
-        }
- 
-        $categories->name=$request->name;
-        $categories->save();
-        return redirect()->route('admin.category.index')->with('success','Update category successfully');
-
+        $category = Category::findOrFail($id);
+    
+        $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
+        $category->status = $request->status;
+    
+        $category->save();
+        return redirect()->route('admin.category.index')->with('success', 'Update category successfully');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function cateDestroy(int $id)
     {
-        $category = Category::find($id);
-        if ($category == null) {
-            abort(404);
-        }
-        
-        $category->delete();
+        $category = Category::findOrFail($id);
     
-        return redirect()->route('admin.category.index')->with('success', 'Deleted category successfully');
-    }          
+        if ($category->children->isNotEmpty()) {
+            Session::flash('error', 'Cannot delete a category that is a parent of other categories');
+            return redirect()->route('admin.category.index');
+        }
+    
+        $category->products()->update(['status' => 2]);
+        $category->delete();
 
+        return redirect()->route('admin.category.index')->with('success', 'Deleted category successfully');
+    }
+    
     public function productIndex()
     {
         $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
@@ -310,6 +320,7 @@ class AdminController extends Controller
         }
 
         $products->delete();
+
         return redirect()->route('admin.product.index')->with('success', 'Deleted product successfully');
     }
 
@@ -479,7 +490,8 @@ class AdminController extends Controller
 
     
     public function attributeEdit(int  $id)
-    {   $attributes=Attribute::find($id);
+    {   
+        $attributes=Attribute::find($id);
         return view('admin.modules.attribute.edit',[
             'id'=>$id,
             'attribute'=>$attributes
@@ -508,7 +520,7 @@ class AdminController extends Controller
             abort(404);
         }
  
-        $attributes->softDeletes();
+        $attributes->delete();
         return redirect()->route('admin.attribute.index')->with('success','Delete attribute successfully');
     }
 
