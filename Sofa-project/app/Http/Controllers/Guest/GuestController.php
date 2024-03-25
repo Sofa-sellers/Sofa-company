@@ -17,23 +17,23 @@ class GuestController extends Controller
     }
 
     public function index(){
-        return view('guest.pages.index');
+        return view('guest.index');
     }
 
     public function viewShop(){
-        return view('guest.pages.shop');
+        return view('guest.shop');
     }
 
     public function detail($id){
-        return view('guest.pages.productdetail');
+        return view('guest.productdetail');
     }
 
     public function showCompare(){
-        return view('guest.modules.compare');
+        return view('guest.compare');
     }
 
     public function contact(){
-        return view('guest.modules.contact');
+        return view('guest.contact');
     }
 
 }

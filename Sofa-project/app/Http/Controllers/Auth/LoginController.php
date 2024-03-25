@@ -15,13 +15,13 @@ class LoginController extends Controller
         if(Auth::check()){
             return redirect()->back();
         }
-        return view('guest.pages.login');
+        return view('guest.login');
     }
     public function showRegister(){
         if(Auth::check()){
             return redirect()->back();
         }
-        return view('guest.pages.register');
+        return view('guest.register');
     }
 
     public function register(registerRequest $request){
@@ -43,9 +43,19 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->route('index');
+            if(Auth::id()){
+                $userlevel=Auth()->user()->level;
+                if($userlevel==1){
+                    return view('guest.index');
+                }
+                else if($userlevel==2){
+                    return view('admin.modules.category.index');
+                }
+                else{
+                    return redirect()->back();
+                }
+            }
         }
-        return redirect()->back();
     }
 
     public function forgotPassword(Request $request){
