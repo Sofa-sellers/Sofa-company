@@ -6,6 +6,7 @@
 @section('content')
     <!-- Default box -->
     <form action="{{route('admin.category.update',['id'=>$id])}}" method="post">
+      @csrf
     <div class="card">
         <div class="card-header">
           <h3 class="card-title">Category Update</h3>

@@ -58,6 +58,7 @@ $(function () {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>SKU</th>
                     <th>Image</th>
                     <th>Intro</th>
                     <th>Description</th>
@@ -77,6 +78,7 @@ $(function () {
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
+                    <td><a href="{{ route('admin.sku.edit',['id'=>$product->id]) }}"></a>Manage SKU</td>
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
                     </td>

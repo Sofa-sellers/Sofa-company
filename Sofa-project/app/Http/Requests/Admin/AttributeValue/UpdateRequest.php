@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Attribute;
+namespace App\Http\Requests\Admin\AttributeValue;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,16 +22,20 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:attributes,name'.$this->id,
-            'status'=>'required|integer',
+            // 'code'=>'required|max:1|unique:attribute_values,code'.$this->id,
+            // 'value'=>'required|unique:attribute_values,value',
+            'status'=>'required|integer'.$this->id,
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required'=>'Please enter attribute name',
-            'name.unique'=>'This attribute name already exists. Please enter another attribute name',
+            // 'code.required'=>'Please enter the code of value\'s attribute',
+            // 'code.max'=>'The code of value\'s attribute must have a character',
+            // 'code.unique'=>'This value code already exists. Please enter another value code',
+            // 'value.required'=>'Please enter the value of attribute',
+            // 'value.unique'=>'This value already exists. Please enter/choose another value',
             'status.required'=>'Please select status',
             'status.integer'=>'Status value must be an integer',
         ];

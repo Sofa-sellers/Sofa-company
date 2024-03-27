@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('image');
             $table->string('slug');
+            // $table->string('code');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands');
+            $table->string('intro');
             $table->text('description');
             $table->double('price')->default(1000000);
             $table->double('sale_price')->nullable();

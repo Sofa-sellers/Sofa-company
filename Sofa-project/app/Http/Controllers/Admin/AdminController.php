@@ -6,14 +6,14 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\AttributeValue;
 use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\RatingComment;
-use App\Models\Sku;
 use App\Models\Brand;
+use App\Models\Sku;
 
 use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest as UserUpdateRequest;
@@ -27,10 +27,9 @@ use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequ
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
 use App\Http\Requests\Admin\Brand\StoreRequest as BrandStoreRequest;
 use App\Http\Requests\Admin\Brand\UpdateRequest as BrandUpdateRequest;
-use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
-use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
-use App\Http\Requests\Admin\Value\StoreRequest as ValueStoreRequest;
-use App\Http\Requests\Admin\Value\UpdateRequest as ValueUpdateRequest;
+use App\Http\Requests\Admin\AttributeValue\StoreRequest as AttributeValueStoreRequest;
+use App\Http\Requests\Admin\AttributeValue\UpdateRequest as AttributeValueUpdateRequest;
+
 use App\Models\ProductImages;
 
 class AdminController extends Controller
@@ -191,10 +190,15 @@ class AdminController extends Controller
     public function productCreate()
     {
         $categories = Category::get();
+        $color = AttributeValue::where('attribute_id','1')->get();
+        // dd($color);
+        $material = AttributeValue::where('attribute_id','2')->get();
         $brands = Brand::get();
         return view('admin.modules.product.create', [
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
+            'colors'=>$color,
+            'materials'=>$material
         ]);
     }    
 
@@ -252,6 +256,17 @@ class AdminController extends Controller
             ProductImages :: insert($data_images);
         }
 
+        foreach ($request->value_id as $value){
+            
+            $skus[]=[
+                'product_id' => $product->id,
+                'value_id'=>$value,
+                'created_at' =>new \DateTime(),
+                'updated_at' =>new \DateTime()
+            ];
+        }
+
+        Sku :: insert($skus);
 
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
@@ -306,7 +321,7 @@ class AdminController extends Controller
         }
 
         $products->name = $request->name;
-        $products->name = $request->slug;
+        $products->slug = $request->slug;
         $products->description = $request->description;
         $products->price = $request->price;
         $products->sale_price = $request->sale_price;
@@ -475,90 +490,35 @@ class AdminController extends Controller
         return redirect()->route('admin.promotion.index')->with('success', 'Deleted promotion successfully');
     }
 
-    public function attributeIndex()
-    {
-        $attributes=Attribute::orderBy('created_at','DESC')->get();
-        return view('admin.modules.attribute.index',[
-            'attributes'=>$attributes
-        ]);
-    }
-
-    
-    public function attributeCreate()
-    {
-        return view('admin.modules.attribute.create');
-    }
-
-    
-    public function attributeStore(AttributeStoreRequest $request)
-    {
-        $attribute = new attribute();
- 
-        $attribute->name = $request->name;
-        $attribute->status = $request->status;
- 
-        $attribute->save();
-        return redirect()->route('admin.attribute.index')->with('success','Create attribute successfully');
-    }
-
-    
-    public function attributeEdit(int  $id)
-    {   $attributes=Attribute::find($id);
-        return view('admin.modules.attribute.edit',[
-            'id'=>$id,
-            'attribute'=>$attributes
-        ]);
-    }
-
-    
-    public function attributeUpdate(AttributeUpdateRequest $request, $id)
-    {
-        $attributes=Attribute::find($id);
-        if($attributes == null){
-            abort(404);
-        }
- 
-        $attributes->name = $request->name;
-        $attributes->update();
-        return redirect()->route('admin.attribute.index')->with('success','Update attribute successfully');
-
-    }
-
-    
-    public function attributeDestroy(int $id)
-    {
-        $attributes = Attribute::find($id);
-        if($attributes==null){
-            abort(404);
-        }
- 
-        $attributes->delete();
-        return redirect()->route('admin.attribute.index')->with('success','Delete attribute successfully');
-    }
-
 
     public function valueIndex()
     {
-        $values = AttributeValue::orderBy('created_at','DESC')->get();
-        return view('admin.modules.value.index',[
-            'values'=>$values
-        ]);
+        $values = AttributeValue::with('attribute')->orderBy('created_at','DESC')->get();
+    
+            return view('admin.modules.value.index',[
+                'values'=>$values,
+            ]);
     }
 
     
     public function valueCreate()
     {
-        $data = AttributeValue::get();
+        $attribute = Attribute::get();
         
-        return view('admin.modules.value.create', ['attributes' => $data]);
+        return view('admin.modules.value.create', ['attributes' => $attribute]);
     }
 
 
-    public function valueStore(ValueStoreRequest $request)
+    public function valueStore(AttributeValueStoreRequest $request)
     {
         $value = new AttributeValue();
  
-        $value->name = $request->name;
+        if ($request->has('value')) {
+            $value->value = $request->value;
+        } else {
+            $value->value = 1;
+        }
+       
         $value->attribute_id = $request->attribute_id;
         $value->status = $request->status;
  
@@ -567,45 +527,47 @@ class AdminController extends Controller
     }
 
 
-    public function valueEdit(int  $id)
+    public function valueEdit($id)
     {   $values = AttributeValue::find($id);
-        $data = Attribute::get();
         
         return view('admin.modules.value.edit',[
             'id'=>$id,
-            'value'=>$values,
-            'attributes' => $data
+            'value'=>$values
         ]);
     }
 
     
-    public function valueUpdate(ValueUpdateRequest $request, $id)
+    public function valueUpdate(AttributeValueUpdateRequest $request, $id)
     {
         $values= AttributeValue::find($id);
+        dd($values);
         if($values==null){
             abort(404);
         }
  
-        $values->name = $request->name;
         $values->attribute_id = $request->attribute_id;
+        
+        // $values->code = $request->code;
+        $values->value = $request->value;
+        
         $values->status = $request->status;
 
-        $values->update();
+        $values->save();
         return redirect()->route('admin.value.index')->with('success','Update value of attribute successfully');
 
     }
 
     
-    public function valueDestroy(int $id)
-    {
-        $values= AttributeValue::find($id);
-        if($values==null){
-            abort(404);
-        }
+    // public function valueDestroy(int $id)
+    // {
+    //     $values= AttributeValue::find($id);
+    //     if($values==null){
+    //         abort(404);
+    //     }
  
-        $values->delete();
-        return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
-    }
+    //     $values->delete();
+    //     return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
+    // }
 
     public function brandIndex()
     {
@@ -666,5 +628,37 @@ class AdminController extends Controller
  
         $brands->deletes();
         return redirect()->route('admin.brand.index')->with('success','Delete brand successfully');
+    }
+
+
+    public function skuIndex($product_id){
+        $product = Product::find($product_id);
+        $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+
+        return view('admin.modules.sku.index',[
+            'skus'=>$skus,
+            'product'=>$product
+        ]);
+
+    }
+
+
+    public function skuUpdate(SkuUpdateRequest $request, $product_id)
+    {   
+        $product = Product::find($product_id);
+        $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+        
+        $data = $request->all();
+ 
+        foreach ($data['id'] as $key=>$val){
+            $sku = Sku::find($val);
+            $skus->product_id = $product_id;
+            $skus->attribute_id = $data['attribute_id'][$key];
+            $skus->value_id = $data['value_id'][$key];
+            $skus->quantity = $data['quantity'][$key];
+        }
+        
+        $skus->save();
+        return redirect()->route('admin.modules.sku.index')->with('success','Update sku successfully');
     }
 }

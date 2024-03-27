@@ -5,10 +5,10 @@
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.value.update',['id'=>$id])}}" method="post">
+    <form action="{{route('admin.value.update', ['id'=>$id])}}" method="post">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Value of Attribute Update</h3>
+          <h3 class="card-title">Value of Attribute Edit</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -20,29 +20,39 @@
         </div>
         <div class="card-body">
                 @csrf
+
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Value Name</label>
-                    <input type="text" class="form-control" placeholder="Enter value of attribute name" name="name" value="{{old('name',$value->name)}}">
+                  <label for="exampleInputEmail1">Attribute</label>
+                  <input type="text" class="form-control" name="attribute_id" value="{{$value->attribute_id}}" disabled>
+                </div>
+
+                {{-- <div class="form-group">
+                  <label for="exampleInputEmail1">Value Code</label>
+                  <input type="text" class="form-control" name="code" value="{{ old('code',$value->code) }}">
+                </div> --}}
+
+                  
+                  <div class="form-group value-color">
+                    <label for="exampleInputEmail1">Value</label>
+                    
+                    @if($value->attribute_id == 1)
+                    <input type="color" class="form-control" name="value" value="{{$value->value}}" style="background: {{$value->value}}" disabled>
+
+                    @else
+                      <input type="text" class="form-control" name="value" value="{{$value->value}}" disabled>
+                    
+                    @endif
                   </div>
 
                   <div class="form-group">
-                    <label >Attribute</label>
-                    <select class="form-control" name="attribute_id">
-                        <option value="0" {{ old('attribute_id') == 0 ? 'selected' : ''}}>----Root----</option>
-                        @foreach ($attributes as $attribute)
-                          <option value="{{$attribute->id}}">{{$attribute->name}}</option>
-                        @endforeach
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label >Status</label>
+                    <label>Status</label>
                     <select class="form-control" name="status">
-                        <option value="1" {{old('status',$value->status)== 1? 'selected':' '}}>Show</option>
-                        <option value="2" {{old('status',$value->status)== 2? 'selected':' '}}>Hide</option>
+                        <option value="1" {{ old('status', $value->status) == 1 ? 'selected' : '' }}>Show</option>
+                        <option value="2" {{ old('status', $value->status) == 2 ? 'selected' : '' }}>Hide</option>
                     </select>
-                  </div>
+                </div>
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary">Update Value of Attribute</button>
                   </div>
             </form>
             
