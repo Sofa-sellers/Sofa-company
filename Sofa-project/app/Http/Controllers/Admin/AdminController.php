@@ -29,6 +29,8 @@ use App\Http\Requests\Admin\Brand\StoreRequest as BrandStoreRequest;
 use App\Http\Requests\Admin\Brand\UpdateRequest as BrandUpdateRequest;
 use App\Http\Requests\Admin\AttributeValue\StoreRequest as AttributeValueStoreRequest;
 use App\Http\Requests\Admin\AttributeValue\UpdateRequest as AttributeValueUpdateRequest;
+use App\Http\Requests\Admin\Sku\StoreRequest as SkuStoreRequest;
+use App\Http\Requests\Admin\Sku\UpdateRequest as SkuUpdateRequest;
 
 use App\Models\ProductImages;
 
@@ -229,6 +231,7 @@ class AdminController extends Controller
         $product->name = $request->name;
         $product->name = $request->slug;
         $product->description = $request->description;
+        $product->intro = $request->intro;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
         $product->category_id = $request->category_id;
@@ -236,37 +239,29 @@ class AdminController extends Controller
         $product->status = $request->status;
         $product->save();
 
-        if(count($request->images) > 0){
-            $count = 0;
-            $data_images = [];
-            foreach ($request->images as $img_detail){
-                $count++;
-                $fileNameDetail = $count . '-' . time() . '-' . $img_detail->getClientOriginalName();
-                $img_detail->move(public_path('uploads/'), $fileNameDetail);
+        if(is_array($request->images) || $request->images instanceof Countable) {
+            if(count($request->images) > 0){
+                $count = 0;
+                $data_images = [];
+                foreach ($request->images as $img_detail){
+                    $count++;
+                    $fileNameDetail = $count . '-' . time() . '-' . $img_detail->getClientOriginalName();
+                    $img_detail->move(public_path('uploads/'), $fileNameDetail);
 
-                $data_images[]=[
-                    'name' => $fileNameDetail,
-                    'product_id' => $product->id,
-                    'created_at' =>new \DateTime(),
-                    'updated_at' =>new \DateTime()
-                ];
+                    $data_images[]=[
+                        'name' => $fileNameDetail,
+                        'product_id' => $product->id,
+                        'created_at' =>new \DateTime(),
+                        'updated_at' =>new \DateTime()
+                    ];
 
+                }
+
+                ProductImages :: insert($data_images);
+            }else{
+                echo '<script>alert("Please choose the images");</script>';
             }
-
-            ProductImages :: insert($data_images);
         }
-
-        foreach ($request->value_id as $value){
-            
-            $skus[]=[
-                'product_id' => $product->id,
-                'value_id'=>$value,
-                'created_at' =>new \DateTime(),
-                'updated_at' =>new \DateTime()
-            ];
-        }
-
-        Sku :: insert($skus);
 
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
@@ -631,16 +626,57 @@ class AdminController extends Controller
     }
 
 
-    public function skuIndex($product_id){
-        $product = Product::find($product_id);
-        $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+    public function skuIndex(){
+        $product = Product::get();
+        $sku = Sku::orderBy('created_at','DESC')->get();
+        $color = AttributeValue::where('attribute_id','1')->get();
+        // dd($color);
+        $material = AttributeValue::where('attribute_id','2')->get();
 
         return view('admin.modules.sku.index',[
-            'skus'=>$skus,
-            'product'=>$product
+            'skus'=>$sku,
+            'product'=>$product,
+            'colors'=>$color,
+            'materials'=>$material
         ]);
 
     }
+
+    public function skuCreate($product_id){
+        $product = Product::find($product_id);
+        
+        $color = AttributeValue::where('attribute_id','1')->get();
+        // dd($color);
+        $material = AttributeValue::where('attribute_id','2')->get();
+        
+        return view('admin.modules.sku.create', [
+            'product'=>$product,
+            'colors'=>$color,
+            'materials'=>$material
+        ]);
+    }
+
+    public function skuStore(SkuUpdateRequest $request, $product_id){
+        $product = Product::find($product_id);
+            $sku = new Sku();
+        
+        
+            $image = $request->image;
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/'), $imageName);
+            $sku->image = $imageName;
+        
+            $sku->product_id = $product_id;
+            $sku->color_id = $request->slug;
+            $sku->material_id = $request->slug;
+            $sku->quantity = $request->quantity;
+            $product->description = $request->description;
+           
+            $sku->save();
+    
+            return redirect()->route('admin.sku.index')->with('success', 'Create SKU successfully');
+        }
+
 
 
     public function skuUpdate(SkuUpdateRequest $request, $product_id)

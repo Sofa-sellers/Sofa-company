@@ -200,12 +200,15 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         });
 
         Route::prefix('sku')->name('sku.')->group(function () {
-            Route::get('index/{product_id}', 'skuIndex')->name('index');
+            Route::get('index/{product_id}', 'skuIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'skuEdit')->name('edit');
-            Route::post('update/{id}', 'skuUpdate')->name('update');
+            Route::get('create/{product_id}', 'skuCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('update/{product_id}', 'skuStore')->name('update')->middleware(['auth','admin']);
 
-        //     Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
+            Route::get('edit/{id}', 'skuEdit')->name('edit')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'skuUpdate')->name('update')->middleware(['auth','admin']);
+
+            Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
         });
 });
 

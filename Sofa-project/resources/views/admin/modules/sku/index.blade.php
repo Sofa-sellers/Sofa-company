@@ -35,7 +35,6 @@ $(function () {
 @endpush
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.sku.update',['id'=>$id])}}" method="post">
     <div class="card">
         <div class="card-header">
           <h3 class="card-title">Sku List</h3>
@@ -48,16 +47,13 @@ $(function () {
             </button>
             </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">{{$product->name}}</label>
-            <input type="text" class="form-control" name="product_id" value="{{old('product_id',$skus->product_id)}}" disabled>
-          </div>
 
         <div class="card-body">
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Product</th>
                         <th>Color</th>
                         <th>Material</th>
                         <th>Quantity</th>
@@ -70,15 +66,9 @@ $(function () {
                     @foreach ($skus as $sku)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-
-                        @if (($sku->attribute_id == 1))
-                            <td>{{$sku->value}}</td>
-                        @else
-                            <td>{{$sku->value}}</td>
-                        @endif
-                        <td>
-                            <input type="number" class="form-control" placeholder="Enter quantity" name="quantity" value="{{old('quantity',$sku->quantity)}}">
-                        </td>
+                        <td>{{$products->name}}</td>
+                        <td>{{$colors->value}}</td>
+                        <td>{{$materials->value}}</td>
                         {{-- <td><span class="right badge badge-{{$sku->status == 1 ?'success':'dark'}}">{{$sku->status==1? 'Show' :'Hide'}}</span></td> --}}
                         <td>
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -91,6 +81,7 @@ $(function () {
                 <tfoot>
                     <tr>
                         <th>ID</th>
+                        <th>Product</th>
                         <th>Color</th>
                         <th>Material</th>
                         <th>Quantity</th>
@@ -105,5 +96,43 @@ $(function () {
         <!-- /.card-footer-->
       </div>
       <!-- /.card -->
-    </form>
 @endsection
+
+<div class="form-group" >
+    <label>Attribute</label>
+    <div style="display: flex; ">
+        <label>Color</label>
+       
+        @foreach ($colors as $color)
+        <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
+            <input class="form-check-input" type="checkbox" value="{{ old('color_id') == $color->id ? 'checked' : '' }}" id="flexCheckDefault" name="value_id[]">
+            <label class="form-check-label" for="flexCheckDefault">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="8"/>
+                  </svg>
+            </label>
+          </div>
+        @endforeach                           
+    </div>
+
+    <div style="display:flex">
+        <label>Material</label>
+       
+        @foreach ($materials as $material)
+        <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
+            <input class="form-check-input" type="checkbox" value="{{ old('material_id') == $material->id ? 'checked' : '' }}" id="flexCheckDefault" name="value_id[]">
+            <label class="form-check-label" for="flexCheckDefault">{{$material->value}}</label>
+          </div>
+        @endforeach                           
+    </div>
+
+    </div>
+
+<div class="sku-detail">
+    <div class="row">
+        <button type="button" class="btn btn-info w-100" id="add-sku">
+            <i class="fas fa-plus"></i> Add SKU detail
+        </button>
+    </div>
+</div>
+</div>

@@ -16,10 +16,10 @@ return new class extends Migration
             // $table->string('code');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('attribute_id');
-            $table->foreign('attribute_id')->references('id')->on('attributes');
-            $table->unsignedBigInteger('value_id');
-            $table->foreign('value_id')->references('id')->on('attribute_values');
+            $table->unsignedBigInteger('color_id');
+            $table->foreign('color_id')->references('id')->on('attribute_values');
+            $table->unsignedBigInteger('material_id');
+            $table->foreign('material_id')->references('id')->on('attribute_values');
             $table->integer('quantity')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
