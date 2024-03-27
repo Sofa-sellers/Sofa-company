@@ -535,7 +535,7 @@ class AdminController extends Controller
     public function valueUpdate(AttributeValueUpdateRequest $request, $id)
     {
         $values= AttributeValue::find($id);
-        dd($values);
+        
         if($values==null){
             abort(404);
         }
@@ -642,22 +642,22 @@ class AdminController extends Controller
 
     }
 
-    public function skuCreate($product_id){
-        $product = Product::find($product_id);
+    public function skuManage($id){
+        $product = Product::find($id);
         
         $color = AttributeValue::where('attribute_id','1')->get();
         // dd($color);
         $material = AttributeValue::where('attribute_id','2')->get();
         
         return view('admin.modules.sku.create', [
-            'product'=>$product,
+            'id'=>$product,
             'colors'=>$color,
             'materials'=>$material
         ]);
     }
 
-    public function skuStore(SkuUpdateRequest $request, $product_id){
-        $product = Product::find($product_id);
+    public function skuStore(SkuUpdateRequest $request){
+        $product = Product::find()->get();
             $sku = new Sku();
         
         

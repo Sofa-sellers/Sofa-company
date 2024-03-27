@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.sku.store',['id'=>$id])}}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin.sku.store')}}" method="post" enctype="multipart/form-data">
     <div class="card">
         <div class="card-header">
           <h3 class="card-title">SKU Create</h3>

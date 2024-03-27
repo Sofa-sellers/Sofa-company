@@ -147,12 +147,12 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('admin.sku.create') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Create</p>
                     </a>
-                    </li>
+                    </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.sku.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>

@@ -98,7 +98,7 @@ $(function () {
       <!-- /.card -->
 @endsection
 
-<div class="form-group" >
+{{-- <div class="form-group" >
     <label>Attribute</label>
     <div style="display: flex; ">
         <label>Color</label>
@@ -126,13 +126,4 @@ $(function () {
         @endforeach                           
     </div>
 
-    </div>
-
-<div class="sku-detail">
-    <div class="row">
-        <button type="button" class="btn btn-info w-100" id="add-sku">
-            <i class="fas fa-plus"></i> Add SKU detail
-        </button>
-    </div>
-</div>
-</div>
+    </div> --}}
