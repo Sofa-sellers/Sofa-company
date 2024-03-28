@@ -6,6 +6,7 @@
 @section('content')
     <!-- Default box -->
     <form action="{{route('admin.category.update',['id'=>$id])}}" method="post">
+      @csrf
     <div class="card">
         <div class="card-header">
           <h3 class="card-title">Category Update</h3>
@@ -27,7 +28,7 @@
 
                   <div class="form-group">
                     <label >Category Parent</label>
-                    <select class="form-control" name="parent_id" ">
+                    <select class="form-control" name="parent_id" >
                         <option value="0">----Root----</option>
                     </select>
                   </div>

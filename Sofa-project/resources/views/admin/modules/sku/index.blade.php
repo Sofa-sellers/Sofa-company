@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('module' ,'Value')
+@section('module' ,'Sku')
 @section('action','List')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -35,9 +35,10 @@ $(function () {
 @endpush
 @section('content')
     <!-- Default box -->
+    <form action="{{route('admin.sku.update',['id'=>$id])}}" method="post">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Value of Attribute List</h3>
+          <h3 class="card-title">Sku List</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -47,42 +48,54 @@ $(function () {
             </button>
             </div>
         </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">{{$product->name}}</label>
+            <input type="text" class="form-control" name="product_id" value="{{old('product_id',$skus->product_id)}}" disabled>
+          </div>
+
         <div class="card-body">
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Attribute</th>
-                        <th>Value</th>
-                        {{-- <th>Code</th> --}}
-                        <th>Status</th>
-                        <th>Manage</th>
+                        <th>Color</th>
+                        <th>Material</th>
+                        <th>Quantity</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
-                @foreach ($values as $value)
+                
                 <tbody>
+                    @foreach ($skus as $sku)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$value->attribute->name}}</td>
-                        @if($value->attribute_id == 1)
-                            <td style="background: {{$value->value}}">{{$value->value}}</td>
+
+                        @if (($sku->attribute_id == 1))
+                            <td>{{$sku->value}}</td>
                         @else
-                            <td>{{$value->value}}</td>
+                            <td>{{$sku->value}}</td>
                         @endif
-                        {{-- <td>{{$value->code}}</td> --}}
-                        <td><span class="right badge badge-{{$value->status == 1 ?'success':'dark'}}">{{$value->status==1? 'Show' :'Hide'}}</span></td>
-                        <td><a href="{{route('admin.value.edit',['id'=>$value->id])}}">Edit</a>/<a onclick="return confirmDelete ()" href="{{route('admin.value.destroy',['id'=>$value->id])}}">Delete</a></td>
+                        <td>
+                            <input type="number" class="form-control" placeholder="Enter quantity" name="quantity" value="{{old('quantity',$sku->quantity)}}">
+                        </td>
+                        {{-- <td><span class="right badge badge-{{$sku->status == 1 ?'success':'dark'}}">{{$sku->status==1? 'Show' :'Hide'}}</span></td> --}}
+                        <td>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </td>
+                        <td><a onclick="return confirmDelete ()" href="{{route('admin.sku.destroy',['id'=>$sku->id])}}">Delete</a></td>
                     </tr>
+                    @endforeach
                 </tbody>
-                @endforeach
+                
                 <tfoot>
                     <tr>
                         <th>ID</th>
-                        <th>Attribute</th>
-                        <th>Value</th>
-                        {{-- <th>Code</th> --}}
-                        <th>Status</th>
-                        <th>Manage</th>
+                        <th>Color</th>
+                        <th>Material</th>
+                        <th>Quantity</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                 </tfoot>
               </table>
@@ -92,5 +105,5 @@ $(function () {
         <!-- /.card-footer-->
       </div>
       <!-- /.card -->
-
+    </form>
 @endsection

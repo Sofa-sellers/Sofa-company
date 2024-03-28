@@ -209,15 +209,12 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         });
 
         Route::prefix('sku')->name('sku.')->group(function () {
-            Route::get('index', 'skuIndex')->name('index');
-
-            Route::get('create', 'skuCreate')->name('create');
-            Route::post('store', 'skuStore')->name('store');
+            Route::get('index/{product_id}', 'skuIndex')->name('index');
 
             Route::get('edit/{id}', 'skuEdit')->name('edit');
             Route::post('update/{id}', 'skuUpdate')->name('update');
 
-            Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
+        //     Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
         });
 });
 

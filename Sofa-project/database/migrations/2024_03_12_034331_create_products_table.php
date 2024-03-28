@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('slug');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands');
+            $table->string('intro');
             $table->text('description');
             $table->double('price')->default(1000000);
             $table->double('sale_price')->nullable();
-            $table->string('size');
+            $table->integer('quantity');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide - 3 Hot - 4 New');
