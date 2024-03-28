@@ -1,4 +1,4 @@
-@extends('admin.master')
+{{-- @extends('admin.master')
 @section('module' ,'Attribute')
 @section('action','List')  
 @push('css')
@@ -84,4 +84,4 @@ $(function () {
       </div>
       <!-- /.card -->
 
-@endsection
+@endsection --}}

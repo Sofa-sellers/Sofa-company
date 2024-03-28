@@ -35,13 +35,14 @@
                     <input type="text" class="form-control" placeholder="Enter value code" name="code" value="{{old('code')}}">
                   </div> --}}
 
-                  <div class="form-group value-color">
+                  
+                  {{-- <div class="form-group value-color">
                     <label for="exampleInputEmail1">Value</label>
                     <input type="color" class="form-control" placeholder="Enter value" name="color" value="{{old('color')}}">
                   
-                  </div>
+                  </div> --}}
 
-                  <div class="form-group value" style="display:none">
+                  <div class="form-group value" >
                     <label for="exampleInputEmail1">Value</label>
                     <input type="text" class="form-control" placeholder="Enter value" name="value" value="{{old('value')}}">
                   </div>
@@ -75,18 +76,16 @@
 
       <script>
         // $(document).ready(function() {
-            $('#inputAttribute').change(function(event) {
-              
-                var input = $(this).val(); 
-                
-                if (input == 1) {
-                    $('.value-color').show();
-                    $('.value').hide();
-                } else if (input == 2){
-                    $('.value-color').hide();
-                    $('.value').show();
-                }
-            });
+          // $('#inputAttribute').change(function(event) {
+          //     var input = $(this).val(); 
+          //     if (input == 1) {
+          //         $('.value-color').show();
+          //         $('.value').hide();
+          //     } else {
+          //         $('.value-color').hide();
+          //         $('.value').show();
+          //     }
+          //   });
         // });
     </script>
 @endsection

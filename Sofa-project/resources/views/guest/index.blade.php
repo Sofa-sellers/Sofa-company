@@ -154,27 +154,32 @@
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
+
+                                            @foreach($products_lastest as $item)
                                             <div class="product-list">
                                                 <div class="product-card">
                                                     <a href="single-product.html" class="product-thumb">
                                                         <span class="onsale bg-danger">sale!</span>
-                                                        <img src="{{asset('client/assets/images/products/product1.jpg')}}"
-                                                            alt="image_not_found">
+                                                        <img src="{{ asset('uploads/'.$item->image) }}"
+                                                            alt="image_not_found" class="img-fluid">
                                                     </a>
                                                     <!-- thumb end -->
+
+                                                    
                                                     <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">3 Tier
-                                                                Wood With Metal Shelf</a></h4>
+                                                        <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
                                                         <div class="product-group">
                                                             <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
+                                                                    class="old-price">{{ $item->price }}</del> <span
+                                                                    class="new-price">{{ $item->sale_price }}</span></h5>
                                                             <button data-bs-toggle="modal"
                                                                 data-bs-target="#addto-cart-modal"
                                                                 class="product-btn">Add to cart</button>
                                                         </div>
 
                                                     </div>
+                                                    
+
                                                     <!-- actions  -->
                                                     <ul class="actions actions-verticale">
                                                         <li class="action whish-list">
@@ -197,6 +202,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            @endforeach
                                             <!-- product list end -->
                                             <div class="product-list">
                                                 <div class="product-card">
