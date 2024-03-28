@@ -120,7 +120,7 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         });
 
     Route::prefix('attribute')->name('attribute.')->group(function () {
-            // Route::get('index', 'attributeIndex')->name('index')->middleware(['auth','admin']);
+            Route::get('index', 'attributeIndex')->name('index')->middleware(['auth','admin']);
 
             Route::get('create', 'attributeCreate')->name('create')->middleware(['auth','admin']);
             Route::post('store', 'attributeStore')->name('store')->middleware(['auth','admin']);

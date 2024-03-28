@@ -35,11 +35,11 @@
                   <div class="form-group value-color">
                     <label for="exampleInputEmail1">Value</label>
                     
-                    @if($value->attribute_id == 1)
-                    <input type="color" class="form-control" name="value" value="{{$value->value}}" style="background: {{$value->value}}" disabled>
+                    @if($value->attribute_id == "color")
+                    <input type="color" class="form-control" name="value" value="{{ old('value',$value->value) }}" style="background: {{$value->value}}" >
 
                     @else
-                      <input type="text" class="form-control" name="value" value="{{$value->value}}" disabled>
+                      <input type="text" class="form-control" name="value" value="{{ old('value',$value->value) }}" >
                     
                     @endif
                   </div>

@@ -192,15 +192,19 @@ class AdminController extends Controller
     public function productCreate()
     {
         $categories = Category::get();
-        $color = AttributeValue::where('attribute_id','1')->get();
-        // dd($color);
-        $material = AttributeValue::where('attribute_id','2')->get();
+
+        $attributes=AttributeValue::get();
+
+        // $color = AttributeValue::where('attribute_id','1')->get();
+        
+        // $material = AttributeValue::where('attribute_id','2')->get();
         $brands = Brand::get();
         return view('admin.modules.product.create', [
             'categories' => $categories,
             'brands' => $brands,
-            'colors'=>$color,
-            'materials'=>$material
+            'attributes' =>$attributes,
+            // 'colors'=>$color,
+            // 'materials'=>$material
         ]);
     }    
 
@@ -530,7 +534,8 @@ class AdminController extends Controller
 
 
     public function valueEdit($id)
-    {   $values = AttributeValue::find($id);
+    {   
+        $values = AttributeValue::find($id);
         
         return view('admin.modules.value.edit',[
             'id'=>$id,
@@ -549,7 +554,6 @@ class AdminController extends Controller
  
         $values->attribute_id = $request->attribute_id;
         
-        // $values->code = $request->code;
         $values->value = $request->value;
         
         $values->status = $request->status;
@@ -560,16 +564,16 @@ class AdminController extends Controller
     }
 
     
-    // public function valueDestroy(int $id)
-    // {
-    //     $values= AttributeValue::find($id);
-    //     if($values==null){
-    //         abort(404);
-    //     }
+    public function valueDestroy(int $id)
+    {
+        $values= AttributeValue::find($id);
+        if($values==null){
+            abort(404);
+        }
  
-    //     $values->delete();
-    //     return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
-    // }
+        $values->delete();
+        return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
+    }
 
     public function brandIndex()
     {
@@ -672,15 +676,14 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function cateStore(CategoryStoreRequest $request)
+    public function attributeStore(AttributeStoreRequest $request)
     {
-        $category = new category();
+        $attribute = new Attribute();
  
-        $category->name = $request->name;
-        $category->status = $request->status;
+        $attribute->name = $request->name;
  
-        $category->save();
-        return redirect()->route('admin.category.index')->with('success','Create category successfully');
+        $attribute->save();
+        return redirect()->route('admin.attribute.index')->with('success','Create attribute successfully');
     }
 
     /**
@@ -691,27 +694,27 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function cateEdit(int  $id)
-    {   $categories=Category::find($id);
-        return view('admin.modules.category.edit',[
+    public function attributeEdit(int $id)
+    {   $attributes=Attribute::find($id);
+        return view('admin.modules.attribute.edit',[
             'id'=>$id,
-            'category'=>$categories
+            'attribute'=>$attributes
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function cateUpdate(CategoryUpdateRequest $request, $id)
+    public function attributeUpdate(AttributeUpdateRequest $request, $id)
     {
-        $categories=Category::find($id);
-        if($categories==null){
+        $attributes=Attribute::find($id);
+        if($attributes==null){
             abort(404);
         }
  
-        $categories->name=$request->name;
-        $categories->save();
-        return redirect()->route('admin.category.index')->with('success','Update category successfully');
+        $attributes->name=$request->name;
+        $attributes->save();
+        return redirect()->route('admin.attribute.index')->with('success','Update attribute successfully');
 
     }
 }

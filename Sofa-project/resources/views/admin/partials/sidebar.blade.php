@@ -105,12 +105,12 @@
                         <p>Create</p>
                     </a>
                     </li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('admin.brand.index') }}" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('admin.attribute.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>List</p>
                     </a>
-                </li> --}}
+                </li>
             </ul>
         </li>
   

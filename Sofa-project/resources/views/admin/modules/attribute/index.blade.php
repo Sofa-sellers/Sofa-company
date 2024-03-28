@@ -1,5 +1,5 @@
-{{-- @extends('admin.master')
-@section('module' ,'Category')
+@extends('admin.master')
+@section('module' ,'Attribute')
 @section('action','List')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -37,7 +37,7 @@ $(function () {
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Category List</h3>
+          <h3 class="card-title">Attribute List</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -53,7 +53,6 @@ $(function () {
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -71,11 +70,10 @@ $(function () {
                 @endforeach
                 <tfoot>
                     <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </tfoot>
               </table>
@@ -86,4 +84,4 @@ $(function () {
       </div>
       <!-- /.card -->
 
-@endsection --}}
+@endsection

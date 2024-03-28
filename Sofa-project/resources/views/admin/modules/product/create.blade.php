@@ -109,10 +109,11 @@
                         <input type="number" class="form-control" placeholder="Enter product sale price" name="sale_price" value="{{ old('sale_price') }}">
                     </div>
                     
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label>Quantity</label>
                         <input type="number" class="form-control" placeholder="Enter product quantity" name="quantity" value="{{ old('quantity') }}">
-                    </div> --}}
+                    </div>
+
                     <div class="form-group">
                         <label>File</label>
                         <div class="custom-file">
@@ -153,11 +154,12 @@
                     </div>
 
                     <div class="form-group" >
+                        @foreach()
                         <label>Attribute</label>
                         <div style="display: flex; ">
                             <label>Color</label>
                            
-                            @foreach ($colors as $color)
+                            {{-- @foreach ($colors as $color) --}}
                             <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
                                 <input class="form-check-input" type="checkbox" value="{{ old('color_id') == $color->id ? 'checked' : '' }}" id="flexCheckDefault" name="value_id[]">
                                 <label class="form-check-label" for="flexCheckDefault">
@@ -166,7 +168,7 @@
                                       </svg>
                                 </label>
                               </div>
-                            @endforeach                           
+                            {{-- @endforeach                            --}}
                         </div>
 
                         <div style="display:flex">
