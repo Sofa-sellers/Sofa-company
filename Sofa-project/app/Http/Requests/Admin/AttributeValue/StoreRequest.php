@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             //'value'=>'required|unique:attribute_values,value',
+
             'status'=>'required',
         ];
     }

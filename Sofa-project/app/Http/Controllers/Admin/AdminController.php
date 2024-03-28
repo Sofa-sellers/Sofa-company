@@ -199,28 +199,19 @@ class AdminController extends Controller
 
         foreach ($attributes as $attribute) {
             $values = $attribute->attributevalue;
-            // dd($values);
-            // Xử lý $values ở đây, ví dụ: lặp qua và hiển thị các giá trị
-            // foreach ($values as $value) {
-            //     echo $value->value;
-            // }
         }
-        // $color = AttributeValue::where('attribute_id','1')->get();
-        
-        // $material = AttributeValue::where('attribute_id','2')->get();
+
         $brands = Brand::get();
         return view('admin.modules.product.create', [
             'categories' => $categories,
             'brands' => $brands,
             'attributes' =>$attributes,
             'values'=>$values,
-            // 'colors'=>$color,
-            // 'materials'=>$material
         ]);
     }    
 
     public function productStore(Request $request)
-    {dd($request->all());
+    {
         $request->validate([
             'file' => 'required|mimes:pdf',
             'image' => 'required|mimes:jpg,png,bmp,jpeg',
@@ -249,7 +240,7 @@ class AdminController extends Controller
         $product->quantity = $request->quantity;
         $product->brand_id = $request->brand_id;
         $product->status = $request->status;
-        $product->value_id = $request->value_id;
+        // $product->value_id = $request->value_id;
         
         $product->save();
 
@@ -274,14 +265,16 @@ class AdminController extends Controller
         }
 
         foreach ($request->value_id as $value){
+            $attribute = AttributeValue::find($value)->attribute;
             
             $skus[]=[
+                'attribute_id'=>$attribute->id,
                 'product_id' => $product->id,
                 'value_id'=>$value,
                 'created_at' =>new \DateTime(),
                 'updated_at' =>new \DateTime()
             ];
-            dd($skus);
+
         }
 
         Sku :: insert($skus);
@@ -531,13 +524,18 @@ class AdminController extends Controller
     {
         $value = new AttributeValue();
  
-        if ($request->has('color')) {
-            $value->value = $request->color;
-        } else {
-            $value->value = $request->value;
-        }
+        // $request->validate([
+        //     'color' => 'string|regex:/^#[a-fA-F0-9]{6}$/',
+        // ]);
+        
 
-       
+        // if ($request->exists('value')) {
+        //     $value->value = $request->value;
+        // } elseif ($request->exists('color')) {
+        //     $value->value = $request->color;
+        // }
+
+        $value->value = $request->value;
         $value->attribute_id = $request->attribute_id;
         $value->status = $request->status;
  
@@ -696,7 +694,7 @@ class AdminController extends Controller
         $attribute->name = $request->name;
  
         $attribute->save();
-        return redirect()->route('admin.attribute.index')->with('success','Create attribute successfully');
+        return redirect()->route('admin.attribute.create')->with('success','Create attribute successfully');
     }
 
     /**

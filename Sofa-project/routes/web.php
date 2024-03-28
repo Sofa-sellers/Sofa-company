@@ -48,7 +48,7 @@ route::post('resetPassword',[LoginController::class,'resetPasswordPost'])
 
 Route::get('Logout',Logout::class)->name('logout');
 
-Route::prefix('')->controller(GuestController::class)->group(function () {
+Route::prefix('/')->controller(GuestController::class)->group(function () {
 
         Route::get('', 'index')->name('index');
 
