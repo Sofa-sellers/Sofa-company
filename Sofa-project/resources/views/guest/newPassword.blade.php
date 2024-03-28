@@ -1,5 +1,5 @@
 @extends('master')
-@section('module','Register')
+@section('module','Forgot Password')
 @section('content')
     <!-- main content start -->
     <div class="login-register-area section-padding-bottom">
@@ -8,15 +8,16 @@
                 <div class="col-lg-7 col-md-12 mx-auto">
                     <div class="login-register-wrapper">
                         <div class="login-register-tab-list nav nav-tabs" id="nav-tab" role="tablist">
-                            <a data-bs-toggle="tab" href="#lg1">
-                                <h4>register</h4>
+                            <a class="active" data-bs-toggle="tab">
+                                <h4>Retake Password</h4>
                             </a>
                         </div>
+
                         <div class="tab-content">
                             <div id="lg1" class="tab-pane show active">
                                 <div class="login-form-container">
                                     <div class="login-register-form">
-                                        <form action="" method="POST">
+                                        <form action="{{route('reset.password.post')}}" method="POST">
                                             @if ($errors->any())
                                             <div class="alert alert-danger alert-dismissible">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -24,6 +25,13 @@
                                             @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                             @endforeach
+                                            @if ($message = Session::has('error'))
+                                            <div class="alert alert-error alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                            {{Session::get('error')}}
+                                            </div>
+                                            @endif
                                             </div>
                                             @endif
                                             @if ($message = Session::has('success'))
@@ -34,19 +42,16 @@
                                             </div>
                                             @endif
                                             @csrf
-                                            <label>Email<span class="required">*</span></label>
-                                            <input type="email" name="email" placeholder="email" value="{{old('email')}}">
-                                            <label>Password<span class="required">*</span></label>
-                                            <input type="password" name="password" placeholder="Password">
-                                            <label>Confirm Passord<span class="required">*</span></label>
-                                            <input type="password" class="form-control" placeholder="Enter password" name="password_confirmation">
-                                            <label>Username<span class="required">*</span></label>
-                                            <input name="username" placeholder="user_name" value="{{old('username')}}">
-                                            <a href="{{route('showLogin')}}" class="text-center">I already have a membership</a>
+                                            <input type="text" hidden value="{{$token}}" name="token">
+                                            <input type="text" disabled value="{{$email}}" name="email">
+                                            <label>New Password<span class="required">*</span></label>
+                                            <input type="password" name="password" placeholder="Enter New Password">
+                                            <label>Confirm New Passord<span class="required">*</span></label>
+                                            <input type="password" class="form-control" placeholder="Confirm New password" name="password_confirmation">
                                             <div class="button-box">
-                                                <button type="submit" class="btn btn-dark">
-                                                    <span>Register</span>
-                                                </button>
+                                            <button type="submit" class="btn btn-dark">
+                                                    <span>Reset</span>
+                                            </button>
                                             </div>
                                         </form>
                                     </div>

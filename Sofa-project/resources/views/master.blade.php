@@ -24,7 +24,6 @@
     <!-- bread crumb section start -->
     @include('partials.breadcrumb')
     <!-- bread crumb section end -->
-
     @yield('content')
     <!-- main content end -->
 

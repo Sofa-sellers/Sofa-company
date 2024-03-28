@@ -7,13 +7,13 @@
                         <div class="col-lg-10 col-xl-9 mb-4">
                             <div class="news-letter-wrap">
                                 <div class="news-letter-title">
-                                    <h3 class="title">Subscribe to Our Newsletter</h3>
-                                    <p>Sign up for our e-mail to get latest news.
+                                    <h3 class="title">Subscribe to sofa seller</h3>
+                                    <p>Sign up for our e-mail to get latest news or coupon.
                                     </p>
                                 </div>
 
-                                <form id="mc-form" class="news-letter-form" action="#">
-                                    <input id="mc-email" class="form-control" name="email" type="email" placeholder="Your email address">
+                                <form id="mc-form" class="news-letter-form" action="{{route('registerPost')}}">
+                                    <input id="mc-email" class="form-control" name="email" type="email" placeholder="Your email address" value="{{old('email')}}">
                                     <button class="sign-up-btn" type="submit">Sign up</button>
                                 </form>
                             </div>

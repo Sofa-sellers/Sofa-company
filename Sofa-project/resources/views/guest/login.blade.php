@@ -19,24 +19,39 @@
                                     <div class="login-register-form">
                                         <form action="" method="POST">
                                             @if ($errors->any())
-                                                <div class="alert alert-danger alert-dismissible">
-                                                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                                </div>
+                                            <div class="alert alert-danger alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                            @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                            @endforeach
+                                            </div>
+                                            @endif
+                                            @if ($message = Session::has('error'))
+                                            <div class="alert alert-error alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                            {{Session::get('error')}}
+                                            </div>
+                                            @endif
+                                            @if ($message = Session::has('success'))
+                                            <div class="alert alert-success alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                            {{Session::get('success')}}
+                                            </div>
                                             @endif
                                             @csrf
                                             <label>Email<span class="required">*</span></label>
                                             <input type="email" name="email" placeholder="email" value="{{old('email')}}">
                                             <label>Password<span class="required">*</span></label>
                                             <input type="password" name="password" placeholder="Password">
-                                            <a href="{{route('showRegister')}}" class="text-left">Register Now!</a>
+                                            <a href="{{route('showRegister')}}">Register Now!</a>
                                             <div class="button-box">
                                                 <div class="login-toggle-btn">
                                                     <input id="remember" type="checkbox">
                                                     <label for="remember">Remember me</label>
-                                                    <a href="#">Forgot Password?</a>
+                                                    <a href="{{route('forget.password')}}">Forgot Password?</a>
                                                 </div>
                                                 <button type="submit" class="btn btn-dark">
                                                         <span>Login</span>

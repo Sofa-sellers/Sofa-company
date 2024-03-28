@@ -27,17 +27,32 @@ use App\Http\Controllers\HomeController;
 //ở trang guest và client có vài mục sẽ có post ko có get vì get chỉ để hiện lên trang đó thôi (vd như hiện trang create user), nhưng ở đây, vd trang home đã có luôn hiển thị email-promotion r nên chỉ ko càn get, chỉ cần post nhé mn
 //có 1 vài mục get và post của nó sẽ ở 2 Controller khác nhau (tùy vào có bắt buộc đăng nhập ko), vd như checkout của cart sẽ qua AccountController vì cần đăng nhập mới thực hiện đc
 
-Route::get('login', [LoginController::class, 'showLogin'])->name('showLogin');
+Route::get('login', [LoginController::class, 'showLogin'])
+->name('showLogin');
 Route::post('login',[LoginController::class, 'login']);
 
-Route::get('register',[LoginController::class, 'showRegister'])->name('showRegister');
-Route::post('register',[LoginController::class, 'register']);
+Route::get('register',[LoginController::class, 'showRegister'])
+->name('showRegister');
+Route::post('register',[LoginController::class, 'register'])->name('registerPost');
+        
+Route::get('forgetPassword',[LoginController::class,'showForgotPassword'])
+->name('forget.password');
+Route::post('forgetPassword',[LoginController::class,'forgotPassword'])
+->name('forget.password.post');
+
+route::get('resetPassword/{token}',[LoginController::class,'resetPassword'])
+->name('reset.password');
+route::post('resetPassword',[LoginController::class,'resetPasswordPost'])
+->name('reset.password.post');
+
 
 Route::get('Logout',Logout::class)->name('logout');
 
 Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('', 'index')->name('index');
+
+        Route::get('shop', 'viewShop')->name('shop');
         
         Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
         
@@ -53,14 +68,8 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::post('compare', 'compare')->name('compare');
 
         Route::get('contact', 'contact')->name('contact');
-
-        Route::get('shop', 'viewShop')->name('contact');
         
     });
-        
-// Route::get('forgotpassword',[LoginController::class,'showForgotPassword'])->name('showForgotPassword');
-// Route::post('forgotPassword',[LoginController::class,'forgotPassword']);
-
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
     
