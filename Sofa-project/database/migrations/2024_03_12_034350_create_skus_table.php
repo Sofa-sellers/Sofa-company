@@ -20,8 +20,6 @@ return new class extends Migration
             $table->foreign('attribute_id')->references('id')->on('attributes');
             $table->unsignedBigInteger('value_id');
             $table->foreign('value_id')->references('id')->on('attribute_values');
-            $table->integer('quantity')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

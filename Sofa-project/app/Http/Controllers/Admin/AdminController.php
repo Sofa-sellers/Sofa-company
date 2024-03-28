@@ -29,6 +29,8 @@ use App\Http\Requests\Admin\Brand\StoreRequest as BrandStoreRequest;
 use App\Http\Requests\Admin\Brand\UpdateRequest as BrandUpdateRequest;
 use App\Http\Requests\Admin\AttributeValue\StoreRequest as AttributeValueStoreRequest;
 use App\Http\Requests\Admin\AttributeValue\UpdateRequest as AttributeValueUpdateRequest;
+use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
+use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
 
 use App\Models\ProductImages;
 
@@ -660,5 +662,56 @@ class AdminController extends Controller
         
         $skus->save();
         return redirect()->route('admin.modules.sku.index')->with('success','Update sku successfully');
+    }
+
+    public function attributeCreate()
+    {
+        return view('admin.modules.attribute.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function cateStore(CategoryStoreRequest $request)
+    {
+        $category = new category();
+ 
+        $category->name = $request->name;
+        $category->status = $request->status;
+ 
+        $category->save();
+        return redirect()->route('admin.category.index')->with('success','Create category successfully');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function cateEdit(int  $id)
+    {   $categories=Category::find($id);
+        return view('admin.modules.category.edit',[
+            'id'=>$id,
+            'category'=>$categories
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function cateUpdate(CategoryUpdateRequest $request, $id)
+    {
+        $categories=Category::find($id);
+        if($categories==null){
+            abort(404);
+        }
+ 
+        $categories->name=$request->name;
+        $categories->save();
+        return redirect()->route('admin.category.index')->with('success','Update category successfully');
+
     }
 }

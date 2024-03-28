@@ -22,9 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'code'=>'required|max:1|unique:attribute_values,code',
-            // 'attribute_id'=>'required|exists:attributes,id',
-            // 'value'=>'required|unique:attribute_values,value',
+            'value'=>'required|unique:attribute_values,value',
             'status'=>'required',
         ];
     }
@@ -32,12 +30,8 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            // 'code.required'=>'Please enter the code of value\'s attribute',
-            // 'code.max'=>'The code of value\'s attribute must have a character',
-            // 'code.unique'=>'This value code already exists. Please enter another value code',
-            // 'attribute_id'=>'Please choose the attribute',
-            // 'value.required'=>'Please enter the value of attribute',
-            // 'value.unique'=>'This value already exists. Please enter/choose another value',
+            'value.required'=>'Please enter the value of attribute',
+            'value.unique'=>'This value already exists. Please enter/choose another value',
             'status.required'=>'Please select status',
             // 'status.integer'=>'Status value must be an integer',
         ];

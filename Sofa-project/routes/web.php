@@ -119,17 +119,17 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::get('destroy/{id}', 'productDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
-    // Route::prefix('attribute')->name('attribute.')->group(function () {
+    Route::prefix('attribute')->name('attribute.')->group(function () {
             // Route::get('index', 'attributeIndex')->name('index')->middleware(['auth','admin']);
 
-            // Route::get('create', 'attributeCreate')->name('create')->middleware(['auth','admin']);
-    //         Route::post('store', 'attributeStore')->name('store')->middleware(['auth','admin']);
+            Route::get('create', 'attributeCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('store', 'attributeStore')->name('store')->middleware(['auth','admin']);
 
-    //         Route::get('edit/{id}', 'attributeEdit')->name('edit');
-    //         Route::post('update/{id}', 'attributeUpdate')->name('update')->middleware(['auth','admin']);
+            Route::get('edit/{id}', 'attributeEdit')->name('edit');
+            Route::post('update/{id}', 'attributeUpdate')->name('update')->middleware(['auth','admin']);
 
-    //         Route::get('destroy/{id}', 'attributeDestroy')->name('destroy')->middleware(['auth','admin']);
-        // });
+            Route::get('destroy/{id}', 'attributeDestroy')->name('destroy')->middleware(['auth','admin']);
+        });
 
     Route::prefix('value')->name('value.')->group(function () {
             Route::get('index', 'valueIndex')->name('index')->middleware(['auth','admin']);

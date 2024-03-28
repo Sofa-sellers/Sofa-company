@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\AttributeValue;
+namespace App\Http\Requests\Admin\Attribute;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,18 +22,17 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value'=>'required|unique:attribute_values,value'.$this->id,
-            'status'=>'required',
+            'name'=>'required|unique:attributes,name',
+            // 'status'=>'required',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'value.required'=>'Please enter the value of attribute',
-            'value.unique'=>'This value already exists. Please enter/choose another value',
-            'status.required'=>'Please select status',
-            // 'status.integer'=>'Status value must be an integer',
+            'name.required'=>'Please enter attribute name',
+            'name.unique'=>'This attribute name already exists. Please enter another'
+            // 'status.required'=>'Please select status',
         ];
     }
 }
