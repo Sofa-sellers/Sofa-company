@@ -31,7 +31,9 @@ use App\Http\Requests\Admin\AttributeValue\StoreRequest as AttributeValueStoreRe
 use App\Http\Requests\Admin\AttributeValue\UpdateRequest as AttributeValueUpdateRequest;
 use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
 use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
-
+use App\Http\Requests\Admin\Sku\StoreRequest as SkuStoreRequest;
+use App\Http\Requests\Admin\Sku\UpdateRequest as SkuUpdateRequest;
+use Illuminate\Http\Request;
 use App\Models\ProductImages;
 
 class AdminController extends Controller
@@ -193,8 +195,16 @@ class AdminController extends Controller
     {
         $categories = Category::get();
 
-        $attributes=AttributeValue::get();
+        $attributes = Attribute::with('attributevalue')->get();
 
+        foreach ($attributes as $attribute) {
+            $values = $attribute->attributevalue;
+            // dd($values);
+            // Xử lý $values ở đây, ví dụ: lặp qua và hiển thị các giá trị
+            // foreach ($values as $value) {
+            //     echo $value->value;
+            // }
+        }
         // $color = AttributeValue::where('attribute_id','1')->get();
         
         // $material = AttributeValue::where('attribute_id','2')->get();
@@ -203,13 +213,14 @@ class AdminController extends Controller
             'categories' => $categories,
             'brands' => $brands,
             'attributes' =>$attributes,
+            'values'=>$values,
             // 'colors'=>$color,
             // 'materials'=>$material
         ]);
     }    
 
-    public function productStore(ProductStoreRequest $request)
-    {
+    public function productStore(Request $request)
+    {dd($request->all());
         $request->validate([
             'file' => 'required|mimes:pdf',
             'image' => 'required|mimes:jpg,png,bmp,jpeg',
@@ -227,19 +238,19 @@ class AdminController extends Controller
         $image->move(public_path('uploads/'), $imageName);
         $product->image = $imageName;
 
-        $size = $request->size;
-        $sizeImage = time() . '-' . $size->getClientOriginalName();
-        $size->move(public_path('uploads/'), $sizeImage);
-        $product->size = $sizeImage;
     
         $product->name = $request->name;
-        $product->name = $request->slug;
+        $product->slug = $request->slug;
+        $product->intro = $request->intro;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
         $product->category_id = $request->category_id;
+        $product->quantity = $request->quantity;
         $product->brand_id = $request->brand_id;
         $product->status = $request->status;
+        $product->value_id = $request->value_id;
+        
         $product->save();
 
         if(count($request->images) > 0){
@@ -270,6 +281,7 @@ class AdminController extends Controller
                 'created_at' =>new \DateTime(),
                 'updated_at' =>new \DateTime()
             ];
+            dd($skus);
         }
 
         Sku :: insert($skus);
@@ -519,11 +531,12 @@ class AdminController extends Controller
     {
         $value = new AttributeValue();
  
-        if ($request->has('value')) {
-            $value->value = $request->value;
+        if ($request->has('color')) {
+            $value->value = $request->color;
         } else {
-            $value->value = 1;
+            $value->value = $request->value;
         }
+
        
         $value->attribute_id = $request->attribute_id;
         $value->status = $request->status;

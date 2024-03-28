@@ -37,13 +37,14 @@
 
                   <div class="form-group value-color">
                     <label for="exampleInputEmail1">Value</label>
-                    <input type="text" class="form-control" placeholder="Enter value" name="value" value="{{old('value')}}">
+                    <input type="color" class="form-control" placeholder="Enter value" name="color" value="{{old('color')}}">
+                  
                   </div>
 
-                  {{-- <div class="form-group value-material" style="display:none">
+                  <div class="form-group value" style="display:none">
                     <label for="exampleInputEmail1">Value</label>
                     <input type="text" class="form-control" placeholder="Enter value" name="value" value="{{old('value')}}">
-                  </div> --}}
+                  </div>
 
                   <div class="form-group">
                     <label >Status</label>
@@ -70,7 +71,7 @@
       </div>
       <!-- /.card -->
 
-      {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
       <script>
         // $(document).ready(function() {
@@ -80,12 +81,12 @@
                 
                 if (input == 1) {
                     $('.value-color').show();
-                    $('.value-material').hide();
+                    $('.value').hide();
                 } else if (input == 2){
                     $('.value-color').hide();
-                    $('.value-material').show();
+                    $('.value').show();
                 }
             });
         // });
-    </script> --}}
+    </script>
 @endsection

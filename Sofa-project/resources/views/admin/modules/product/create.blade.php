@@ -82,13 +82,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Size</label>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="size" accept="image/jpg,image/png,image/bmp,image/jpeg" value="{{ old('size') }}"/>
-                            <label class="custom-file-label" for="customImage">Choose file</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label>Product Slug</label>
                         <input type="text" class="form-control"  name="slug" value="{{ old('slug') }}">
                     </div>
@@ -154,33 +147,41 @@
                     </div>
 
                     <div class="form-group" >
-                        @foreach()
                         <label>Attribute</label>
+                        @foreach($attributes as $attribute)
                         <div style="display: flex; ">
-                            <label>Color</label>
+                            <label>{{$attribute->name}}</label>
                            
-                            {{-- @foreach ($colors as $color) --}}
+                            @foreach ($attribute->attributevalue as $value)
+                            {{-- <div>{{$value}}</div> --}}
                             <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
-                                <input class="form-check-input" type="checkbox" value="{{ old('color_id') == $color->id ? 'checked' : '' }}" id="flexCheckDefault" name="value_id[]">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                        <circle cx="8" cy="8" r="8"/>
-                                      </svg>
-                                </label>
+                                <input class="form-check-input" type="checkbox" value="{{ $value->id }}" id="flexCheckDefault" name="value_id[]">
+                                
+                                    @if ($attribute->name == 'Color')
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$value->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8"/>
+                                            </svg>
+                                        </label>
+                                    @elseif($attribute->name !== 'Color')
+                                        <label class="form-check-label" for="flexCheckDefault">{{$value->value}}</label>
+                                    @endif
                               </div>
-                            {{-- @endforeach                            --}}
+                            @endforeach
                         </div>
 
-                        <div style="display:flex">
+                        @endforeach
+
+                        {{-- <div style="display:flex">
                             <label>Material</label>
                            
                             @foreach ($materials as $material)
                             <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
                                 <input class="form-check-input" type="checkbox" value="{{ old('material_id') == $material->id ? 'checked' : '' }}" id="flexCheckDefault" name="value_id[]">
-                                <label class="form-check-label" for="flexCheckDefault">{{$material->value}}</label>
+                                
                               </div>
                             @endforeach                           
-                        </div>
+                        </div> --}}
 
                         </div>
 

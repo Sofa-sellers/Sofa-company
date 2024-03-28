@@ -26,7 +26,7 @@ class Attribute extends Model
 
     public function attributevalue()
     {
-        return $this->hasMany(AttributeValue::class)->withTrashed();
+        return $this->hasMany(AttributeValue::class);
     }
-
+    
 }
