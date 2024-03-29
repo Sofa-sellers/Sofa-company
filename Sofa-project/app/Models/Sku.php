@@ -4,15 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AttributeValue;
-use App\Models\Product;
-
-
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Sku extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     /**
      * The table associated with the model.
      *
@@ -26,13 +22,14 @@ class Sku extends Model
      */
     protected $guarded =[];
 
-    public function attributevalue()
-    {
-        return $this->hasMany(AttributeValue::class)->withTrashed();
-    }
-
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function attributevalue()
+    {
+        return $this->belongsTo(AttributeValue::class);
+    }
+
 }

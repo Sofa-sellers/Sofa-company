@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AttributeValue;
 
-
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attribute extends Model
@@ -27,7 +26,7 @@ class Attribute extends Model
 
     public function attributevalue()
     {
-        return $this->hasMany(AttributeValue::class)->withTrashed();
+        return $this->hasMany(AttributeValue::class);
     }
-
+    
 }

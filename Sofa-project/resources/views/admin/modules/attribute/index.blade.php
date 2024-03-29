@@ -1,4 +1,4 @@
-@extends('admin.master')
+{{-- @extends('admin.master')
 @section('module' ,'Attribute')
 @section('action','List')  
 @push('css')
@@ -53,21 +53,18 @@ $(function () {
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Status</th>
-                        <th>Create At</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
-                @foreach ($attributes as $attribute)
+                @foreach ($categories as $category)
                 <tbody>
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$attribute->name}}</td>
-                        <td><span class="right badge badge-{{$attribute->status == 1 ?'success':'dark'}}">{{$attribute->status==1? 'Show' :'Hide'}}</span></td>
-                        <td>{{ date("d/m/Y - H:m:s", strtotime($attribute->created_at))}}</td>
-                        <td><a href="{{route('admin.attribute.edit',['id'=>$attribute->id])}}">Edit</a></td>
-                        <td><a onclick="return confirmDelete ()" href="{{route('admin.attribute.destroy',['id'=>$attribute->id])}}">Delete</a></td>
+                        <td>{{$category->name}}</td>
+                        <td><span class="right badge badge-{{$category->status == 1 ?'success':'dark'}}">{{$category->status==1? 'Show' :'Hide'}}</span></td>
+                        <td><a href="{{route('admin.category.edit',['id'=>$category->id])}}">Edit</a></td>
+                        <td><a onclick="return confirmDelete ()" href="{{route('admin.category.destroy',['id'=>$category->id])}}">Delete</a></td>
                     </tr>
                 </tbody>
                 @endforeach
@@ -75,8 +72,6 @@ $(function () {
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Status</th>
-                        <th>Create At</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -89,4 +84,4 @@ $(function () {
       </div>
       <!-- /.card -->
 
-@endsection
+@endsection --}}

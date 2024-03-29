@@ -1,14 +1,15 @@
 @extends('admin.master')
-@section('module' ,'Attribute')
+@section('module' ,'Category')
 @section('action','Edit')  
 
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.attribute.update',['id'=>$id])}}" method="post">
+    <form action="{{route('admin.category.update',['id'=>$id])}}" method="post">
+      @csrf
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Attribute Update</h3>
+          <h3 class="card-title">Category Update</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -23,13 +24,21 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Attribute Name</label>
                     <input type="text" class="form-control" placeholder="Enter attribute name" name="name" value="{{old('name',$attribute->name)}}">
+                    <label for="exampleInputEmail1">Category Name</label>
+                    <input type="text" class="form-control" placeholder="Enter category name" name="name" value="{{old('name',$category->name)}}">
                   </div>
 
                   <div class="form-group">
+                    <label >Category Parent</label>
+                    <select class="form-control" name="parent_id" ">
+                        <option value="0">----Root----</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
                     <label >Status</label>
                     <select class="form-control" name="status">
-                        <option value="1" {{old('status', $attribute->status)== 1? 'selected':' '}}>Show</option>
-                        <option value="2" {{old('status', $attribute->status)== 2? 'selected':' '}}>Hide</option>
+                        <option value="1" {{old('status',$category->status)== 1? 'selected':' '}}>Show</option>
+                        <option value="2" {{old('status',$category->status)== 2? 'selected':' '}}>Hide</option>
                     </select>
                   </div>
                   <div class="card-footer">

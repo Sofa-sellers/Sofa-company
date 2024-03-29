@@ -11,17 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skus', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            // $table->string('code');
             $table->unsignedBigInteger('attribute_id');
             $table->foreign('attribute_id')->references('id')->on('attributes');
-            $table->unsignedBigInteger('value_id');
-            $table->foreign('value_id')->references('id')->on('attribute_values');
-            $table->integer('quantity')->default(5);
-            $table->string('image');
-            $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
+            $table->string('value');
+            $table->tinyInteger('status')->default(1)->comment('1 show - 2 hide - 4 delete');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skus');
+        Schema::dropIfExists('attribute_values');
     }
 };

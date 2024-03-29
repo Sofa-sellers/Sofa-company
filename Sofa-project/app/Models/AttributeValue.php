@@ -26,11 +26,11 @@ class AttributeValue extends Model
 
     public function attribute(): BelongsTo
     {
-        return $this-> belongsTo(Attribute::class);
+        return $this->belongsTo(Attribute::class);
     }
 
-    public function sku(): BelongsTo
+    public function sku()
     {
-        return $this-> belongsTo(Sku::class);
+        return $this->hasMany(Sku::class)->withTrashed();
     }
 }

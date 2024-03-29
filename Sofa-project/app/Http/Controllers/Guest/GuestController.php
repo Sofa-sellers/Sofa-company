@@ -9,6 +9,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\Product;
+
 class GuestController extends Controller
 {
 
@@ -17,7 +19,10 @@ class GuestController extends Controller
     }
 
     public function index(){
-        return view('guest.index');
+        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(4)->get();
+        return view('guest.index',[
+            'products_lastest' => $products_lastest,
+        ]);
     }
 
     public function viewShop(){

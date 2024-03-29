@@ -4,7 +4,7 @@
 @section('action', 'Create')
 
 @section('content')
-<form method="post" action="{{ route('admin.user.store') }}">
+<form method="post" action="{{ route('admin.user.store') }}" onsubmit="return confirmEmail()">
     @csrf
     <!-- Default box -->
     <div class="card">
@@ -91,4 +91,14 @@
     </div>
     <!-- /.card -->
 </form>
+
+<script>
+    function confirmEmail() {
+        if (confirm("Please check your email carefully before registering, because your email is the only thing that cannot be edited.")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 @endsection

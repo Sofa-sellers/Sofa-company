@@ -23,7 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name'=>'required|unique:attributes,name'.$this->id,
-            'status'=>'required|integer',
+            // 'status'=>'required',
         ];
     }
 
@@ -31,9 +31,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required'=>'Please enter attribute name',
-            'name.unique'=>'This attribute name already exists. Please enter another attribute name',
-            'status.required'=>'Please select status',
-            'status.integer'=>'Status value must be an integer',
+            'name.unique'=>'This attribute name already exists. Please enter another'
+            // 'status.required'=>'Please select status',
         ];
     }
 }
