@@ -554,10 +554,10 @@ class AdminController extends Controller
         return redirect()->route('admin.value.index')->with('success','Create value of attribute successfully');
     }
   
-    public function attributeEdit(int  $id)
-    {   
-        $attributes=Attribute::find($id);
-        return view('admin.modules.attribute.edit',[
+    // public function attributeEdit(int  $id)
+    // {   
+    //     $attributes=Attribute::find($id);
+    //     return view('admin.modules.attribute.edit',[
 
     public function valueEdit($id)
     {   
