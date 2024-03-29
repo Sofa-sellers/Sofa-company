@@ -60,8 +60,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -93,8 +92,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -125,8 +123,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -158,8 +155,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -190,8 +186,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -223,8 +218,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -255,8 +249,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -288,8 +281,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -321,8 +313,7 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
                                             <li class="action quick-view">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>

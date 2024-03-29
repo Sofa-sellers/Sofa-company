@@ -596,8 +596,6 @@ class AdminController extends Controller
         if($values==null){
             abort(404);
         }
-        $attributes->delete();
-        return redirect()->route('admin.attribute.index')->with('success','Delete attribute successfully');
         $values->delete();
         return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
     }
