@@ -27,151 +27,21 @@
 
                 <ul>
                     <li>
-                        <a href="javascript:void(0)">Home</a>
-                        <!-- home sub menu -->
-                        <ul>
-                            <li><a href="index.html">Home 1</a></li>
-                            <li><a href="index-2.html">Home 2</a></li>
-                            <li><a href="index-3.html">Home 3</a></li>
-                            <li><a href="index-4.html">Home 4</a></li>
-                        </ul>
-                        <!-- home sub menu end-->
+                        <a href="{{route('index')}}">Home</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">shop</a>
-
-                        <!-- shop mega menu -->
-
-                        <ul>
-                            <li>
-                                <a href="#"> Shop Grid</a>
-                                <ul>
-                                    <li><a href="shop-grid-3-column.html">
-                                            Shop Grid 3 Column
-                                        </a>
-                                    </li>
-                                    <li><a href="shop-grid-4-column.html">
-                                            Shop Grid 4 Column
-                                        </a>
-                                    </li>
-                                    <li><a href="shop-grid-left-sidebar.html">
-                                            Shop Grid Left Sidebar
-                                        </a>
-                                    </li>
-                                    <li><a href="shop-grid-right-sidebar.html">
-                                            hop Grid Right Sidebar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Shop List</a>
-                                <ul>
-                                    <li><a href="shop-grid-list.html">
-                                            Shop List
-                                        </a></li>
-                                    <li><a href="shop-grid-list-left-sidebar.html">
-                                            Shop List Left Sidebar
-                                        </a></li>
-                                    <li><a href="shop-grid-list-right-sidebar.html">
-                                            Shop List Right Sidebar
-                                        </a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Product Types</a>
-                                <ul>
-                                    <li><a href="single-product.html">
-                                            Shop Single
-                                        </a>
-                                    </li>
-                                    <li><a href="single-product-configurable.html">
-                                            Shop Variable
-                                        </a>
-                                    </li>
-                                    <li><a href="single-product-affiliate.html">
-                                            Shop Affiliate
-                                        </a>
-                                    </li>
-                                    <li><a href="single-product-group.html">
-                                            Shop Group
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <!-- shop mega menu end-->
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">Blog</a>
-                        <!-- blog sub menu -->
-                        <ul>
-                            <li>
-                                <a href="#">Blog Layouts</a>
-                                <ul>
-                                    <li><a href="blog-grid-3-column.html">
-                                            Blog Grid 3 column
-                                        </a>
-                                    </li>
-                                    <li><a href="blog-grid-left-sidebar.html">
-                                            Blog Grid Left Sidebar
-                                        </a>
-                                    </li>
-                                    <li><a href="blog-grid-right-sidebar.html">
-                                            Blog Grid Right Sidebar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Blog List</a>
-                                <ul>
-                                    <li><a href="blog-list.html">
-                                            Blog list
-                                        </a>
-                                    </li>
-                                    <li><a href="blog-list-left-sidebar.html">
-                                            Blog List Left Sidebar
-                                        </a></li>
-                                    <li><a href="blog-list-right-sidebar.html">
-                                            Blog List Right Sidebar
-                                        </a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"> Blog details</a>
-                                <ul>
-                                    <li><a href="blog-details-left-sidebar.html">
-                                            Blog details Left Sidebar
-                                        </a>
-                                    </li>
-                                    <li><a href="blog-details-right-sidebar.html">
-                                            Blog details Right Sidbar
-                                        </a>
-                                    </li>
-                                    <li><a href="blog-no-sidebar.html">
-                                            No Sidebar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <!-- blog sub menu end-->
+                        <a href="{{route('shop')}}">shop</a>
                     </li>
                     <li><a href="#">Pages</a>
                         <!-- sub menu start -->
                         <ul>
-                            <li><a href="about-us.html">About Page</a></li>
-                            <li><a href="cart.html">Cart Page</a></li>
-                            <li><a href="checkout.html">Checkout Page</a></li>
-                            <li><a href="compare.html">Compare Page</a></li>
-                            <li><a href="login.html">Login &amp; Register Page</a></li>
-                            <li><a href="myaccount.html">Account Page</a></li>
-                            <li><a href="wishlist.html">Wishlist Page</a></li>
-                            <li><a href="frequently.html">Frequently Questions</a>
-                            </li>
-                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="404.html">Error 404</a></li>
+                            <li><a href="{{route('aboutus')}}">About Page</a></li>
+                            <li><a href="{{route('client.showCart')}}">Cart Page</a></li>
+                            <li><a href="{{route('client.showCheckout')}}">Checkout Page</a></li>
+                            <li><a href="{{route('compare')}}">Compare Page</a></li>
+                            <li><a href="{{route('client.account')}}">Account Page</a></li>
+                            <li><a href="{{route('client.showWishlist')}}">Wishlist Page</a></li>
+                            <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
                         </ul>
                         <!-- sub menu end -->
                     </li>

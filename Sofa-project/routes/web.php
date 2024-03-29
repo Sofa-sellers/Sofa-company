@@ -68,6 +68,10 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::post('compare', 'compare')->name('compare');
 
         Route::get('contact', 'contact')->name('contact');
+
+        Route::get('aboutUs', 'aboutUs')->name('aboutus');
+
+        Route::get('privacy', 'privacy')->name('privacy');
         
     });
 

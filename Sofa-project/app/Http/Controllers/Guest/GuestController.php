@@ -36,4 +36,12 @@ class GuestController extends Controller
         return view('guest.contact');
     }
 
+    public function aboutUs(){
+        return view('guest.aboutus');
+    }
+
+    public function privacy(){
+        return view('guest.privacy');
+    }
+
 }

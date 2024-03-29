@@ -86,7 +86,7 @@ class LoginController extends Controller
         return redirect()->to(route('forget.password'))->with("success", "We have send an email to reset your password");
     }
     public function resetPassword($token){
-        $jsonString=DB::table('password_reset_tokens')->select('email')->first();
+        $jsonString=DB::table('password_reset_tokens')->select('email')->where('token',$token)->first();
         $email = $jsonString->email; 
         return view('guest.newPassword',compact('token','email'));
     }
