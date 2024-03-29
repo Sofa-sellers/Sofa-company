@@ -185,7 +185,6 @@
             <nav class="simple-menu topbar-default">
                 <ul class="topbar-nav nav flex-column">
                     <li class="topbar-nav-item">
-                        <a class="topbar-nav-link" href="#">Lang</a>
                         <!-- dropdown menu start -->
                         <ul class="topbar-dropdown-menu menu-position-right">
                             <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">ENG</a>
@@ -215,8 +214,15 @@
                             </li>
                             <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">Checkout</a>
                             </li>
-                            <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
-                            </li>
+                            <?
+                                    if(Auth::checked()==true){?>
+                                        <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showLogin')}}">Log in</a>
+                                        </li>
+                                    <?}else {?>
+                                        <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
+                                        </li>
+                                    <?}
+                                    ?>
                         </ul>
                         <!-- dropdown menu end -->
                     </li>

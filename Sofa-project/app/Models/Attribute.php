@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\AttributeValue;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,4 +23,10 @@ class Attribute extends Model
      * @var array
      */
     protected $guarded =[];
+
+    public function attributevalue()
+    {
+        return $this->hasMany(AttributeValue::class);
+    }
+    
 }

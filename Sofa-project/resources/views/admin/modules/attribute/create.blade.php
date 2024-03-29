@@ -25,13 +25,13 @@
                     <input type="text" class="form-control" placeholder="Enter attribute name" name="name" value="{{old('name')}}">
                   </div>
 
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label >Status</label>
                     <select class="form-control" name="status">
                         <option value="1" {{old('status')== 1? 'selected':' '}}>Show</option>
                         <option value="2" {{old('status')== 2? 'selected':' '}}>Hide</option>
                     </select>
-                  </div>
+                  </div> --}}
                   <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Create</button>
                   </div>

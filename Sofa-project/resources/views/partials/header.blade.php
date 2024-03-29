@@ -33,18 +33,30 @@
                                 <!-- dropdown menu end -->
                             </li>
                             <li class="topbar-nav-item">
-                                <a class="topbar-nav-link" href="">a</a>
+                                <a class="topbar-nav-link" href="">
+                                <?php if(Auth::check()==true)
+                                {
+                                    echo Auth::user()->username;
+                                }else {
+                                    echo 'Guest';
+                                }
+                                ?></a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="myaccount.html">My account</a>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account')}}">My account</a>
                                     </li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="cart.html">Cart</a></li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="wishlist.html">Wishlist</a>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart')}}">Cart</a></li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist')}}">Wishlist</a>
                                     </li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="checkout.html">Checkout</a>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCheckout')}}">Checkout</a>
                                     </li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
-                                    </li>
+                                    @if(Auth::check())
+                                        <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
+                                        </li>
+                                    @else
+                                        <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showLogin')}}">Log in</a>
+                                        </li>
+                                    @endif
                                 </ul>
                                 <!-- dropdown menu end -->
                             </li>
@@ -69,148 +81,12 @@
                 <div class="col-6 col-lg-6 text-center">
                     <nav class="d-inline-block position-relative">
                         <ul class="main-menu nav align-items-center @@justifyCenter">
-                            <li class="main-menu-item"><a class="main-menu-link active" href="#">Home</a>
-                                <!-- sub menu start -->
-                                <ul class="sub-menu">
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="index.html">Home 1</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="index-2.html">Home 2</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="index-3.html">Home 3</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="index-4.html">Home 4</a></li>
-                                </ul>
-                                <!-- sub menu end -->
+                            <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
+                            
+                            
 
-                            </li>
-                            <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Shop</a>
-                                <!-- mega menu start -->
-                                <ul class="mega-menu">
-                                    <li class="mega-menu-item">
-                                        Shop Grid
-                                        <!-- sub-mega-menu start -->
-                                        <ul class="sub-mega-menu">
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-3-column.html">
-                                                    Shop Grid 3 Column
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-4-column.html">
-                                                    Shop Grid 4 Column
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-left-sidebar.html">
-                                                    Shop Grid Left Sidebar
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-right-sidebar.html">
-                                                    shop Grid Right Sidebar
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <!-- sub-mega-menu end -->
-                                    </li>
-                                    <li class="mega-menu-item">
-                                        Shop List
-                                        <!-- sub-mega-menu start -->
-                                        <ul class="sub-mega-menu">
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-list.html">
-                                                    Shop List
-                                                </a></li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-list-left-sidebar.html">
-                                                    Shop List Left Sidebar
-                                                </a></li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="shop-grid-list-right-sidebar.html">
-                                                    Shop List Right Sidebar
-                                                </a></li>
-                                        </ul>
-                                        <!-- sub-mega-menu end -->
-                                    </li>
-                                    <li class="mega-menu-item">
-                                        Product Types
-                                        <!-- sub-mega-menu start -->
-                                        <ul class="sub-mega-menu">
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="single-product.html">
-                                                    Shop Single
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="single-product-configurable.html">
-                                                    Shop Variable
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="single-product-affiliate.html">
-                                                    Shop Affiliate
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="single-product-group.html">
-                                                    Shop Group
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <!-- sub-mega-menu end -->
-                                    </li>
-                                </ul>
-                                <!-- mega menu end -->
-
-                            </li>
-                            <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a>
-                                <!-- mega menu start -->
-                                <ul class="mega-menu">
-                                    <li class="mega-menu-item">
-                                        Blog Layouts
-                                        <!-- sub-mega-menu start -->
-                                        <ul class="sub-mega-menu">
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-grid-3-column.html">
-                                                    Blog Grid 3 column
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-grid-left-sidebar.html">
-                                                    Blog Grid Left Sidebar
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-grid-right-sidebar.html">
-                                                    Blog Grid Right Sidebar
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <!-- sub-mega-menu end -->
-                                    </li>
-                                    <li class="mega-menu-item">
-                                        Blog List
-                                        <!-- sub-mega-menu start -->
-                                        <ul class="sub-mega-menu">
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-list.html">
-                                                    Blog list
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-list-left-sidebar.html">
-                                                    Blog List Left Sidebar
-                                                </a></li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-list-right-sidebar.html">
-                                                    Blog List Right Sidebar
-                                                </a></li>
-                                        </ul>
-                                        <!-- sub-mega-menu end -->
-                                    </li>
-                                    <li class="mega-menu-item">
-                                        Blog details
-                                        <!-- sub-mega-menu start -->
-                                        <ul class="sub-mega-menu">
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-details-left-sidebar.html">
-                                                    Blog details Left Sidebar
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-details-right-sidebar.html">
-                                                    Blog details Right Sidbar
-                                                </a>
-                                            </li>
-                                            <li class="sub-mega-menu-item"><a class="sub-mega-menu-link" href="blog-no-sidebar.html">
-                                                    No Sidebar
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <!-- sub-mega-menu end -->
-                                    </li>
-                                </ul>
-                                <!-- mega menu end -->
-
-                            </li>
+                            <li class="main-menu-item position-static"><a href="{{route('shop')}}" style="color:black" class="main-menu">Shop</a></li>
+                            {{-- <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li> --}}
                             <li class="main-menu-item"><a href="javascript:void(0)" class="main-menu-link">Pages</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
@@ -229,7 +105,7 @@
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
-                            <li class="main-menu-item"><a href="contact-us.html" class="main-menu-link contact">Contact</a></li>
+                            <li class="main-menu-item"><a href="contact-us.html" class="main-menu" style="color:black">Contact</a></li>
                         </ul>
                     </nav>
                 </div>

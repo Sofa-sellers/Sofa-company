@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image');
-            $table->text('intro');
+            $table->string('slug');
+            $table->unsignedBigInteger('brand_id');
+            $table->foreign('brand_id')->references('id')->on('brands');
+            $table->string('intro');
             $table->text('description');
             $table->double('price')->default(1000000);
-            $table->integer('quantity')->default(5);
+            $table->double('sale_price')->nullable();
+            $table->integer('quantity');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide - 3 Hot - 4 New');

@@ -7,16 +7,12 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function forgotPassword(Request $request){
-        //
-    }
-
     public function addToCart(Request $request, $id, $quantity){
         //
     }
 
     public function showCart(){
-        return view('client.pages.cart');
+        return view('client.cart');
         
     }
 
@@ -29,7 +25,7 @@ class ClientController extends Controller
     }
 
     public function showCheckout(){
-        return view('client.pages.checkout');
+        return view('client.checkout');
         
     }
 
@@ -46,7 +42,7 @@ class ClientController extends Controller
     }
 
     public function accountIndex(){
-        return view('client.pages.account');
+        return view('client.account');
     }
 
     public function addToWishlist($id, $quantity){
@@ -54,7 +50,7 @@ class ClientController extends Controller
     }
 
     public function showWishlist(){
-        return view('client.pages.wishlist');
+        return view('client.wishlist');
         
     }
 

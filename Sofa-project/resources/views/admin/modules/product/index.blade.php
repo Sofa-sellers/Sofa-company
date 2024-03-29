@@ -61,10 +61,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>SKU</th>
                     <th>Image</th>
                     <th>Intro</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>Sale price</th>
                     <th>Quantity</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -79,6 +81,7 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
+                    <td><a href="{{ route('admin.sku.edit',['id'=>$product->id]) }}"></a>Manage SKU</td>
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
                             style="max-width: 200px; max-height: 200px;">
@@ -86,6 +89,7 @@
                     <td>{{$product->intro}}</td>
                     <td>{{$product->description}}</td>
                     <td>{{$product->price}}</td>
+                    <td>{{$product->sale_price}}</td>
                     <td>{{$product->quantity}}</td>
                     <td>
                         @if (!$product->category)

@@ -9,82 +9,36 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\Product;
+
 class GuestController extends Controller
 {
-    public function showLogin(){
-        if(Auth::check()){
-            return redirect()->back();
-        }
-        return view('guest.pages.login');
-    }
-    public function showRegister(){
-        if(Auth::check()){
-            return redirect()->back();
-        }
-        return view('guest.pages.register');
-    }
-
-    public function register(registerRequest $request){
-        $user = new User();
-        $user->username = $request->username;
-        $user->password = bcrypt($request->password);
-        $user->email = $request->email;
-        $user->save();
-    
-        return redirect()->route('index');
-    }
-
-    public function login(LoginRequest $request){
-        $credentials =[
-            'email' => $request->email,
-            'password' => $request->password,
-            'status' =>1,
-            'level'=>1
-        ];
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
-            return redirect()->route('index');
-        }
-        return redirect()->back();
-    }
-    public function adminLogin(LoginRequest $request){
-        $credentials =[
-            'email' => $request->email,
-            'password' => $request->password,
-            'status' =>1,
-            'level'=>2
-        ];
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
-            return redirect()->route('admin.category.index');
-        }
-        return redirect()->back();
-    }
 
     public function showForgotPassword(){
         //
     }
 
     public function index(){
-        return view('guest.pages.index');
+        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(4)->get();
+        return view('guest.index',[
+            'products_lastest' => $products_lastest,
+        ]);
     }
 
     public function viewShop(){
-        return view('guest.pages.shop');
+        return view('guest.shop');
     }
 
     public function detail($id){
-        return view('guest.pages.productdetail');
+        return view('guest.productdetail');
     }
 
     public function showCompare(){
-        return view('guest.modules.compare');
+        return view('guest.compare');
     }
 
     public function contact(){
-        return view('guest.modules.contact');
+        return view('guest.contact');
     }
 
 }

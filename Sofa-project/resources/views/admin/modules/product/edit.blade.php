@@ -53,6 +53,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Sale price</label>
+                        <input type="number" class="form-control" placeholder="Enter product sale price" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}">
+                    </div>
+
+                    <div class="form-group">
                         <label>Quantity</label>
                         <input type="number" class="form-control" placeholder="Enter product quantity" name="quantity" value="{{ old('quantity', $product->quantity) }}">
                     </div>
