@@ -1,3 +1,13 @@
-<h1>Reset Password</h1>
-<p>click the link below to reset the password for your account</p>
-<a href="{{route('reset.password',$token)}}">Reset Password</a>
+@component('mail::message')
+    
+Hi,{{$user->name}}. Forgot Password?
+
+<p>It happens.</p>
+
+@component('mail::button',['url'=>url('resetPassword/'.$user->remember_token)])
+Reset Your Password
+@endcomponent
+
+Thanks, <br>
+{{config('app.name')}}
+@endcomponent

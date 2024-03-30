@@ -90,18 +90,13 @@
                             <li class="main-menu-item"><a href="javascript:void(0)" class="main-menu-link">Pages</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="about-us.html">About Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="cart.html">Cart Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="checkout.html">Checkout Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="compare.html">Compare Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="login.html">Login &amp; Register Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="myaccount.html">Account Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="wishlist.html">Wishlist Page</a></li>
-
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="frequently.html">Frequently Questions</a>
-                                    </li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="privacy-policy.html">Privacy Policy</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="404.html">Error 404</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('aboutus')}}">About Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Cart Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout')}}">Checkout Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('compare')}}">Compare Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account')}}">Account Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Wishlist Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('privacy')}}">Privacy Policy</a></li>
                                 </ul>
                                 <!-- sub menu end -->
                             </li>

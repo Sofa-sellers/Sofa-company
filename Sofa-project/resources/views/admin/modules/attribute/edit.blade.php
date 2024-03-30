@@ -22,6 +22,8 @@
         <div class="card-body">
                 @csrf
                 <div class="form-group">
+                    <label for="exampleInputEmail1">Attribute Name</label>
+                    <input type="text" class="form-control" placeholder="Enter attribute name" name="name" value="{{old('name',$attribute->name)}}">
                     <label for="exampleInputEmail1">Category Name</label>
                     <input type="text" class="form-control" placeholder="Enter category name" name="name" value="{{old('name',$category->name)}}">
                   </div>

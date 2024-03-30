@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
+
 @push('js')
 <script src="{{asset('administrator/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -22,33 +23,35 @@
 <script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 @endpush
+
 @push('handlejs')
 <script>
-$(function () {
-    $("#example1").DataTable({
-    "responsive": true, "lengthChange": false, "autoWidth": false,
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-    function confirmDelete(){
-        return confirm('Do you want to delete it ?');
+
+    function confirmDelete() {
+        return confirm('Do you want to delete it?');
     }
 </script>
 @endpush
 
 @section('content')
-<!-- Default box -->
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Product List</h3>
-
         <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-            <i class="fas fa-minus"></i>
-        </button>
-        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-            <i class="fas fa-times"></i>
-        </button>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 
@@ -86,8 +89,22 @@ $(function () {
                     <td>{{$product->price}}</td>
                     <td>{{$product->sale_price}}</td>
                     <td>{{$product->quantity}}</td>
-                    <td>{{$product->category ? $product->category->name : 'Please select 1 category'}}</td>
-                    <td><span class="right badge badge-{{$product->status == 1 ?'success':($product->status == 2?'dark':($product->status == 3?'warning':'primary'))}}">{{$product->status==1? 'Show' :($product->status==2?'Hide':($product->status==3?'Hot':'New'))}}</span></td>
+                    <td>
+                        @if (!$product->category)
+                            <span style="display: inline-block; padding: 5px 10px; background-color: #FFD700;">
+                                <span style="color: black; font-weight: bold;">
+                                    Please select 1 category
+                                </span>
+                            </span>
+                        @else
+                            {{$product->category->name}}
+                        @endif
+                    </td>
+                    <td>
+                        <span class="right badge badge-{{$product->status == 1 ? 'success' : ($product->status == 2 ? 'dark' : ($product->status == 3 ? 'warning' : 'primary'))}}">
+                            {{$product->status == 1 ? 'Show' : ($product->status == 2 ? 'Hide' : ($product->status == 3 ? 'Hot' : 'New'))}}
+                        </span>
+                    </td>
                     <td>
                         <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">{{ $product->file }}</a>
                     </td>
@@ -121,5 +138,6 @@ $(function () {
         </table>
     </div>
 </div>
-<!-- /.card -->
+
 @endsection
+
