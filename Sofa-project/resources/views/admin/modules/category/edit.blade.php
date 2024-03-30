@@ -28,9 +28,9 @@
                 <label>Category Parent</label>
                 <select class="form-control" name="parent_id">
                     <option value="0">----Root----</option>
-                    @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}" {{ $category->parent_id == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
-                    @endforeach
+                    @php
+                        recursiveCategory($categories, old('parent_id', $category->parent_id));
+                    @endphp
                 </select>
             </div>
             <div class="form-group">
