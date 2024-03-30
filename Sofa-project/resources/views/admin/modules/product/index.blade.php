@@ -64,7 +64,7 @@
                     <th>SKU</th>
                     <th>Image</th>
                     <th>Intro</th>
-                    <th>Description</th>
+                    {{-- <th>Description</th> --}}
                     <th>Price</th>
                     <th>Sale price</th>
                     <th>Quantity</th>
@@ -72,8 +72,7 @@
                     <th>Status</th>
                     <th>File</th>
                     <th>Create At</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Edit / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,11 +82,10 @@
                     <td>{{$product->name}}</td>
                     <td><a href="{{ route('admin.sku.edit',['id'=>$product->id]) }}"></a>Manage SKU</td>
                     <td>
-                        <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
-                            style="max-width: 200px; max-height: 200px;">
+                        <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: 200px;">
                     </td>
                     <td>{{$product->intro}}</td>
-                    <td>{{$product->description}}</td>
+                    {{-- <td>{{$product->description}}</td> --}}
                     <td>{{$product->price}}</td>
                     <td>{{$product->sale_price}}</td>
                     <td>{{$product->quantity}}</td>
@@ -111,9 +109,9 @@
                         <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">{{ $product->file }}</a>
                     </td>
                     <td>{{$product->created_at}}</td>
-
-                    <td><a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a></td>
+                    
                     <td>
+                        <a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a> / 
                         <a onclick="return confirmDelete()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a>
                     </td>
                 </tr>
@@ -123,17 +121,18 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>SKU</th>
                     <th>Image</th>
                     <th>Intro</th>
-                    <th>Description</th>
+                    {{-- <th>Description</th> --}}
                     <th>Price</th>
+                    <th>Sale price</th>
                     <th>Quantity</th>
                     <th>Category</th>
                     <th>Status</th>
                     <th>File</th>
                     <th>Create At</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Edit / Delete</th>
                 </tr>
             </tfoot>
         </table>
