@@ -207,7 +207,7 @@ class AdminController extends Controller
         $categories = Category::get();
 
         $attributes = Attribute::with('attributevalue')->get();
-
+        $values=null;
         foreach ($attributes as $attribute) {
             $values = $attribute->attributevalue;
         }
