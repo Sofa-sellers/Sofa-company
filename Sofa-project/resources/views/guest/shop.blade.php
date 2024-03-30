@@ -17,8 +17,15 @@
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link list" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"></a>
                                     </li>
-                                    <li>
-                                        <span class="total-products text-capitalize">Showing 1–12 of 19 results</span>
+                                    <li class="nav-item" role="presentation">
+                                        <div class="dropdown select-featured">
+                                            <select class="form-select" name="size" id="pagezise">
+                                                <option value="9"  {{$size==9?'selected':''}}>9 Products per page</option>
+                                                <option value="12" {{$size==12?'selected':''}}>12 Products per page</option>
+                                                <option value="15" {{$size==15?'selected':''}}>15 Products per page</option>
+                                                <option value="18" {{$size==18?'selected':''}}>18 Products per page</option>
+                                            </select>
+                                        </div>
                                     </li>
                                 </ul>
                             </nav>
@@ -26,14 +33,15 @@
                         <div class="col-12 col-md-6">
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
                                 <span class="sort-by">Sort by:</span>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected="" value="1">Sort by popularity</option>
-                                    <option value="2">Default sorting</option>
+                                <select class="form-select" name="orderby" id="orderby">
+                                    <option value="-1" {{$order==-1?'selected':''}}>Default sorting</option>
+                                    {{-- <option value="2">Default sorting</option>
                                     <option value="3">Sort by popularity</option>
-                                    <option value="4">Sort by average rating</option>
-                                    <option value="5">Sort by latest</option>
-                                    <option value="6">Sort by price: low to high</option>
-                                    <option value="7">Sort by price: high to low</option>
+                                    <option value="4">Sort by average rating</option> --}}
+                                    <option value="1" {{$order==1?'selected':''}}>Sort by latest</option>
+                                    <option value="2" {{$order==2?'selected':''}}>Sort by oldest</option>
+                                    <option value="3" {{$order==3?'selected':''}}>Sort by price: low to high</option>
+                                    <option value="4" {{$order==4?'selected':''}}>Sort by price: high to low</option>
                                 </select>
                             </div>
                         </div>
@@ -44,15 +52,26 @@
 
                                 <div class="col-sm-6 col-md-4 mb-5">
                                     <div class="product-card">
+                                        @foreach ($product as $products)
+                                            
                                         <a href="single-product.html" class="product-thumb">
+                                            @if ($products->status==1)
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="image_not_found">
+                                            @endif
+                                            @if ($products->status==3)
+                                            <span class="onsale bg-success">Hot!</span>
+                                            @endif
+                                            @if ($products->status==4)
+                                            <span class="onsale bg-warning">New!</span>
+                                            @endif
+                                            <img src="{{ asset('uploads/' . $products->image) }}" alt="{{ $products->name }}"
+                                            style="max-width: 200px; max-height: 200px;" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">3 Tier Wood With Metal Shelf</a></h4>
+                                            <h4><a href="single-product.html" class="product-title">{{$products->name}}</a></h4>
                                             <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
+                                                <h5 class="product-price"><del class="old-price">{{$products->price}}</del> <span class="new-price">{{$products->sale_price}}</span></h5>
                                                 <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
                                             </div>
 
@@ -69,265 +88,13 @@
                                             <li class="action compare">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
                                             </li>
-
                                         </ul>
+                                        @endforeach
                                     </div>
                                 </div>
-
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">63in. White Stucco Floor Lamp</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price">$85.00</h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product3.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">68in. Bronze Metal Coat Rack</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price">$85.00 - $60.00</h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('client/assets/images/products/product4.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">Emmy Green Floral Wood Leg</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-warning">hot!</span>
-                                            <img src="{{asset('client/assets/images/products/product5.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">Gold Circle Mirrored Shelf Bar Cart</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('client/assets/images/products/product6.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">Gold Metal Clothing Rack With</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-warning">hot</span>
-                                            <img src="{{asset('client/assets/images/products/product7.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">Gold Metal Fox Design Trinket Tray</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product8.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">Heirloom Gold Metal Folding Shelf</a></h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4 mb-5">
-                                    <div class="product-card">
-                                        <a href="single-product.html" class="product-thumb">
-                                            <span class="onsale bg-success">new</span>
-                                            <img src="{{asset('client/assets/images/products/product9.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">Parkview 5 Tier Metal & Wood</a>
-                                            </h4>
-                                            <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                            </div>
-
-                                        </div>
-                                        <!-- actions  -->
-                                        <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
+                                {{$product->links("partials.pagination")}}
                                 <!-- pagination -->
-                                <div class="col-12 mb-5">
+                                {{-- <div class="col-12 mb-5">
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination justify-content-center">
                                             <li class="page-item active">
@@ -345,37 +112,44 @@
                                             </li>
                                         </ul>
                                     </nav>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel">
                             <div class="row mb-n5 grid-view-list overflow-hidden">
                                 <div class="col-12 mb-5">
                                     <!-- product card list start -->
+                                    @foreach ($product as $products)
                                     <div class="product-card-list row mb-n5">
                                         <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
+                                            @if ($products->status==1)
                                             <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="image_not_found">
+                                            @endif
+                                            @if ($products->status==3)
+                                            <span class="onsale bg-success">Hot!</span>
+                                            @endif
+                                            @if ($products->status==4)
+                                            <span class="onsale bg-warning">New!</span>
+                                            @endif
+                                            <img src="{{ asset('uploads/' . $products->image) }}" alt="{{ $products->name }}"
+                                            style="max-width: 200px; max-height: 200px;" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
                                             <div class="product-category-links">
                                                 <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
                                             </div>
-                                            <h4><a href="single-product.html" class="product-title">3 Tier Wood With Metal Shelf</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
+                                            <h4><a href="single-product.html" class="product-title">{{$products->name}}</a></h4>
+                                            <h5 class="product-price-list"><del class="old-price">{{$products->price}}</del> <span class="new-price">{{$products->sale_price}}</span>
                                             </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
+                                            <p>{{$products->description}}</p>
                                             <!-- actions  -->
                                             <ul class="actions actions-horizontal">
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
                                                 </li>
                                                 <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                                 </li>
                                                 <li class="action quick-view">
                                                     <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
@@ -387,349 +161,14 @@
 
                                             </ul>
                                         </div>
+                                        @endforeach
                                     </div>
                                     <!-- product card list end -->
                                 </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">63in. White Stucco Floor Lamp</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product3.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">68in. Bronze Metal Coat Rack</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product4.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">Emmy Green Floral Wood Leg</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product5.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">Gold Circle Mirrored Shelf Bar Cart</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product6.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">Gold Metal Clothing Rack With</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product7.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">Gold Metal Fox Design Trinket Tray</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product8.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">Heirloom Gold Metal Folding Shelf</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
-                                <!-- col-12 mb-5 end -->
-                                <div class="col-12 mb-5">
-                                    <!-- product card list start -->
-                                    <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            <span class="onsale bg-danger">sale!</span>
-                                            <img src="{{asset('client/assets/images/products/product9.jpg')}}" alt="image_not_found">
-                                        </a>
-                                        <!-- thumb end -->
-                                        <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">Parkview 5 Tier Metal & Wood</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">$85.00</del> <span class="new-price">$60.00</span>
-                                            </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                                gravida et mattis vulputate, tristique ut lectus</p>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-horizontal">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
-                                                </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product card list end -->
-                                </div>
-
+                                {{$product->links("partials.pagination")}}
                                 <!-- col-12 mb-5 end -->
                                 <!-- pagination -->
-                                <div class="col-12 mb-5">
+                                {{-- <div class="col-12 mb-5">
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination justify-content-center">
                                             <li class="page-item active">
@@ -747,7 +186,7 @@
                                             </li>
                                         </ul>
                                     </nav>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -882,4 +321,23 @@
     <!-- shop page layout end -->
 
     <!-- main content end -->
+    <form id="frmfilter" method="GET">
+        <input type="hidden" name="page" id="page" value="{{$page}}">
+        <input type="hidden" name="size" id="size" value="{{$size}}">
+        <input type="hidden" name="order" id="order" value="{{$order}}">
+    </form>
+        
 @endsection
+
+@push("scripts")
+    <script>
+        $("#pagezise").on("change",function(){
+            $("#size").val($("#pagezise option:selected").val());
+            $("#frmfilter").submit();
+        })
+        $("#orderby").on("change",function(){
+            $("#order").val($("#orderby option:selected").val());
+            $("#frmfilter").submit();
+        })
+    </script>
+@endpush
