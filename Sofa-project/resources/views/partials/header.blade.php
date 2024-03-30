@@ -100,7 +100,7 @@
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
-                            <li class="main-menu-item"><a href="contact-us.html" class="main-menu" style="color:black">Contact</a></li>
+                            <li class="main-menu-item"><a href="{{route('contact')}}" class="main-menu" style="color:black">Contact</a></li>
                         </ul>
                     </nav>
                 </div>

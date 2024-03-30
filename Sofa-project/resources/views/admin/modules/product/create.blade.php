@@ -152,7 +152,7 @@
                         <div style="display: flex; ">
                             <label>{{$attribute->name}}</label>
                            
-                            @foreach ($attribute->attributevalue as $value)
+                            @foreach (z as $value)
                             {{-- <div>{{$value}}</div> --}}
                             <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
                                 <input class="form-check-input" type="checkbox" value="{{ $value->id }}" id="flexCheckDefault" name="value_id[]">
