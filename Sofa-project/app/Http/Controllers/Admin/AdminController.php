@@ -36,6 +36,8 @@ use App\Http\Requests\Admin\Sku\UpdateRequest as SkuUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\ProductImages;
 
+use function Laravel\Prompts\alert;
+
 class AdminController extends Controller
 {
     public function index()
@@ -210,7 +212,7 @@ class AdminController extends Controller
         ]);
     }    
 
-    public function productStore(Request $request)
+    public function productStore(ProductStoreRequest $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf',
@@ -244,7 +246,8 @@ class AdminController extends Controller
         
         $product->save();
 
-        if(count($request->images) > 0){
+        if ($request->images !== null) {
+        // if(count($request->images) > 0){
             $count = 0;
             $data_images = [];
             foreach ($request->images as $img_detail){
@@ -262,22 +265,26 @@ class AdminController extends Controller
             }
 
             ProductImages :: insert($data_images);
+        }else{
+            alert('Please add more product images');
         }
 
-        foreach ($request->value_id as $value){
-            $attribute = AttributeValue::find($value)->attribute;
-            
-            $skus[]=[
-                'attribute_id'=>$attribute->id,
-                'product_id' => $product->id,
-                'value_id'=>$value,
-                'created_at' =>new \DateTime(),
-                'updated_at' =>new \DateTime()
-            ];
-
+        if ($request->value_id !== null) {
+            foreach ($request->value_id as $value){
+                $attribute = AttributeValue::find($value)->attribute;
+                
+                $skus[]=[
+                    'attribute_id'=>$attribute->id,
+                    'product_id' => $product->id,
+                    'value_id'=>$value,
+                    'created_at' =>new \DateTime(),
+                    'updated_at' =>new \DateTime()
+                ];
+            }
+            Sku :: insert($skus);
+        }else{
+            alert('Please choose attribute values');
         }
-
-        Sku :: insert($skus);
 
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
     }
@@ -347,6 +354,7 @@ class AdminController extends Controller
     public function productDestroy(string $id)
     {
         $products = Product::find($id);
+        $images = ProductImages::where('product_id',$id)->get();
         if ($products == null) {
             abort(404);
         }
@@ -354,6 +362,14 @@ class AdminController extends Controller
         if (file_exists($old_image_path)) {
             unlink($old_image_path);
         }
+
+        foreach($images as $image){
+            $old_image_path = public_path('uploads/' . $image->name);
+            if (file_exists($old_image_path)) {
+                unlink($old_image_path);
+            }
+        }
+        
 
         if ($products == null) {
             abort(404);
@@ -519,10 +535,18 @@ class AdminController extends Controller
         return view('admin.modules.value.create', ['attributes' => $attribute]);
     }
 
-
+    
     public function valueStore(AttributeValueStoreRequest $request)
     {
         $value = new AttributeValue();
+        $value->attribute_id = $request->attribute_id;
+
+        if($value->attribute_id == 2)
+        $validatedData = $request->validate([
+            'value' => 'required|regex:/^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2})\s*x\s*){2}(?:300|[1-2]?\d{1,2}))$/',
+        ], [
+            'value.regex' => 'Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300',
+        ]);
  
         // $request->validate([
         //     'color' => 'string|regex:/^#[a-fA-F0-9]{6}$/',
@@ -536,7 +560,7 @@ class AdminController extends Controller
         // }
 
         $value->value = $request->value;
-        $value->attribute_id = $request->attribute_id;
+        
         $value->status = $request->status;
  
         $value->save();
@@ -643,7 +667,7 @@ class AdminController extends Controller
             abort(404);
         }
  
-        $brands->deletes();
+        $brands->delete();
         return redirect()->route('admin.brand.index')->with('success','Delete brand successfully');
     }
 

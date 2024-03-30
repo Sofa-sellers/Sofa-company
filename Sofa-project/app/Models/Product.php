@@ -37,6 +37,11 @@ class Product extends Model
 
     public function sku()
     {
-        return $this->hasMany(Sku::class)->withTrashed();
+        return $this->hasMany(Sku::class);
+    }
+
+    public function productimages()
+    {
+        return $this->hasMany(ProductImages::class)->withTrashed();
     }
 }
