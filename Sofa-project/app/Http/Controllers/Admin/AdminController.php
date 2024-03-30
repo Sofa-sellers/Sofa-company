@@ -11,6 +11,8 @@ use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
+use App\Models\Sku;
+use App\Models\Brand;
 use App\Models\RatingComment;
 use App\Models\Value;
 use Illuminate\Support\Facades\Session;

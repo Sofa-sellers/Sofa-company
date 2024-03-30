@@ -89,7 +89,7 @@
                     <div class="banner">
                         <!-- thumb-nail start -->
                         <a href="#" class="thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner1.jpg')}}" alt="image_not_found">
+                            <img src="https://www.liveenhanced.com/wp-content/uploads/2019/12/9-curved-sofa.jpg" alt="image_not_found" style="max-height: 600px; min-height:600px;" class="img-fluid">
                         </a>
                         <!-- thumb-nail end -->
                         <div class="banner-content banner-position-top-left">
@@ -105,7 +105,7 @@
                     <div class="banner">
                         <!-- thumb-nail start -->
                         <a href="#" class="thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner2.jpg')}}" alt="image_not_found">
+                            <img src="https://img2.cgtrader.com/items/662848/928da42182/sofa-boconcept-hampton-3d-model-max-obj-fbx.jpg" alt="image_not_found"  style="max-height: 600px; min-height:600px;" class="img-fluid">
                         </a>
                         <!-- thumb-nail end -->
                         <div class="banner-content banner-position-bottom-left">
@@ -182,7 +182,10 @@
                                                                         class="new-price">{{ $item->sale_price }}</span></h5>
                                                                 <button data-bs-toggle="modal"
                                                                     data-bs-target="#addto-cart-modal"
-                                                                    class="product-btn">Add to cart</button>
+                                                                    class="product-btn">
+                                                                    <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                    
+                                                                </button>
                                                             </div>
     
                                                         </div>
@@ -1606,19 +1609,21 @@
             <div class="decoration-slider-active swiper-arrow arrow-position-center-fixed">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
+                        @foreach($categories as $cate)
                         <div class="swiper-slide">
                             <div class="decoration">
                                 <a class="decoration-thumb" href="shop-grid-left-sidebar.html">
-                                    <img src="{{asset('client/assets/images/decoration/1.jpg')}}" alt="image_not_found">
+                                    <img src="https://i.pinimg.com/originals/1b/75/52/1b755295f7959123be58a813e735a8e7.jpg" alt="image_not_found" class="img-fluid">
                                 </a>
                                 <div class="decoration-content">
-                                    <h3 class="decoration-title">Kitchen Room</h3>
-                                    <a href="shop-grid-left-sidebar.html" class="btn btn-outline-dark">Discover Now</a>
+                                    <h3 class="decoration-title">{{$cate->name}}</h3>
+                                    <a href="{{ route('shop')}}" class="btn btn-outline-dark">Discover Now</a>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                         <!-- swiper-slide end -->
-                        <div class="swiper-slide">
+                        {{-- <div class="swiper-slide">
                             <div class="decoration">
                                 <a class="decoration-thumb" href="shop-grid-left-sidebar.html">
                                     <img src="{{asset('client/assets/images/decoration/2.jpg')}}" alt="image_not_found">
@@ -1641,7 +1646,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- swiper-slide end -->
+                        <!-- swiper-slide end --> --}}
                     </div>
                 </div>
                 <!-- If we need navigation buttons -->
@@ -1666,18 +1671,18 @@
                     </div>
                     <!-- large-banner-content end -->
                     <a href="shop-grid-left-sidebar.html" class="thumb-nail">
-                        <img src="{{asset('client/assets/images/banner/banner3.jpg')}}" alt="image_not_found">
+                        <img src="{{asset('client/assets/images/banner/banner3.jpg')}}" alt="image_not_found" style="width:460px; height:400px" class="img-fluid">
                     </a>
                     <!-- thumb-nail end-->
                 </div>
                 <div class="col-lg-8 mb-4">
                     <div class="large-banner-wrap position-relative">
                         <a href="shop-grid-left-sidebar.html" class="large-thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner4.jpg')}}" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/banner/banner4.jpg')}}" alt="image_not_found" style="width:570px; height:700px" class="img-fluid">
                         </a>
                         <!-- thumb-nail end-->
                         <a href="shop-grid-left-sidebar.html" class="small-thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner5.jpg')}}" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/banner/banner5.jpg')}}" alt="image_not_found" style="width:416px; height:406px" class="img-fluid">
                         </a>
                         <!-- thumb-nail end-->
                     </div>
@@ -1717,7 +1722,9 @@
                                                     <h5 class="product-price"><del class="old-price">{{ $item->price }}</del> <span
                                                             class="new-price">{{ $item->sale_price }}</span></h5>
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"
-                                                        class="product-btn">Add to cart</button>
+                                                        class="product-btn">
+                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                    </button>
                                                 </div>
 
                                             </div>
