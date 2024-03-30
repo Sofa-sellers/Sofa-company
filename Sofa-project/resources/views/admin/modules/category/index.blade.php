@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('module' ,'Category')
-@section('action','List')  
+@section('action','List')
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -56,7 +56,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Parent Category</th>
+                        <th>Parent</th>
                         <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -67,7 +67,14 @@
                         <tr class="{{ $category->status == 0 ? 'category-hide' : '' }}">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $category->name }}</td>
-                            <td>{{ $category->parent ? $category->parent->name : ' ' }}</td>
+                            <td>
+                                @php
+                                    if ($category->parent_id != 0) {
+                                        $parent_category = DB::table('categories')->select('name', 'parent_id')->where('id', $category->parent_id)->first();
+                                        echo $parent_category->name;
+                                    }
+                                @endphp
+                            </td>
                             <td>
                                 <span class="right badge badge-{{ $category->status == 1 ? 'success' : 'dark' }}">
                                     {{ $category->status == 1 ? 'Show' : 'Hide' }}
@@ -84,7 +91,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Parent Category</th>
+                        <th>Parent</th>
                         <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>

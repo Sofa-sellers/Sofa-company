@@ -5,7 +5,7 @@
 @section('content')
     <!-- Default box -->
     <form action="{{ route('admin.category.store') }}" method="post">
-    <div class="card">
+      <div class="card">
         <div class="card-header">
           <h3 class="card-title">Category Create</h3>
           <div class="card-tools">
@@ -27,26 +27,26 @@
             <div class="form-group">
               <label>Category Parent</label>
               <select class="form-control" name="parent_id">
-                  <option value="0">----Root----</option>
-                  @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ $category->parent_id == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
-                  @endforeach
+                <option value="0">----Root----</option>
+                @php
+                  recursiveCategory($categories, old('parent_id', 0));
+                @endphp
               </select>
-          </div>
+            </div>
 
             <div class="form-group">
-                <label>Status</label>
-                <select class="form-control" name="status">
-                    <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Show</option>
-                    <option value="2" {{ old('status') == 2 ? 'selected' : '' }}>Hide</option>
-                </select>
+              <label>Status</label>
+              <select class="form-control" name="status">
+                <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Show</option>
+                <option value="2" {{ old('status') == 2 ? 'selected' : '' }}>Hide</option>
+              </select>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Create</button>
+              <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </div>
         <!-- /.card-body -->
-    </div>
+      </div>
     <!-- /.card -->
     </form>
 @endsection
