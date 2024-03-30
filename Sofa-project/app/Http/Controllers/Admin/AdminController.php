@@ -12,7 +12,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\RatingComment;
-use App\Models\Value;
+use App\Models\Brand;
+use App\Models\Sku;
 use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
