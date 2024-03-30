@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Sku;
 
 class GuestController extends Controller
 {
@@ -19,18 +20,68 @@ class GuestController extends Controller
     }
 
     public function index(){
-        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(4)->get();
+        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(8)->get();
         return view('guest.index',[
             'products_lastest' => $products_lastest,
         ]);
     }
 
-    public function viewShop(){
-        return view('guest.shop');
+    public function viewShop(Request $request){
+        $page=$request->query("page");
+        $size=$request->query("size");
+
+        if(!$page){
+            $page=1;
+        }
+        if(!$size){
+            $size=9;
+        }
+        $order=$request->query("order");
+        if(!$order){
+            $order=-1;
+        }
+        $o_column="";
+        $o_order="";
+        switch($order){
+            case 1:
+                $o_column="created_at";
+                $o_order="DESC";
+                break;
+            case 2:
+                $o_column="created_at";
+                $o_order="ASC";
+                break;    
+            case 3:
+                $o_column="sale_price";
+                $o_order="ASC";
+                break;
+            case 4:
+                $o_column="sale_price";
+                $o_order="DESC";
+                break;
+            default:
+                $o_column="id";
+                $o_order="DESC";
+                break;
+        }
+        $products=Product::orderBy('created_at','DESC')->orderBy($o_column,$o_order)->paginate(12);
+        return view('guest.shop',[
+            'product'=>$products,
+            'page'=>$page,
+            'size'=>$size,
+            'order'=>$order
+        ]);
     }
 
     public function detail($id){
-        return view('guest.productdetail');
+
+        $product = Product::with('category', 'productimages','sku')->where('id',$id)->first();
+        $skus = Sku::with('attributevalue')->where('product_id',$id)->get();
+        
+        return view('guest.productdetail',[
+            'product'=>$product,
+            'skus'=>$skus,
+        ]);
     }
 
     public function showCompare(){

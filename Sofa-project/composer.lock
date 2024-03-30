@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75e9bff312fef3761e664566fb5650e5",
+    "content-hash": "95983df5333eb279355ca6550de48987",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3375,6 +3375,68 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.2"
             },
             "time": "2024-03-17T01:53:00+00:00"
+        },
+        {
+            "name": "quoctuan9901/laravel-cart-package",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/quoctuan9901/laravel-cart-package.git",
+                "reference": "65e264685e0f61064772f5c717c9e76e29b66387"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/quoctuan9901/laravel-cart-package/zipball/65e264685e0f61064772f5c717c9e76e29b66387",
+                "reference": "65e264685e0f61064772f5c717c9e76e29b66387",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/events": "^7.0|^8.0|^9.0|^10.0|^11.0",
+                "illuminate/session": "^7.0|^8.0|^9.0|^10.0|^11.0",
+                "illuminate/support": "^7.0|^8.0|^9.0|^10.0|^11.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^7",
+                "phpunit/phpunit": "^9.5|^10.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider"
+                    ],
+                    "aliases": {
+                        "Cart": "Gloudemans\\Shoppingcart\\Facades\\Cart"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gloudemans\\Shoppingcart\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Quoc Tuan",
+                    "email": "contact.quoctuan@gmail.com"
+                }
+            ],
+            "description": "Laravel Shopping cart",
+            "keywords": [
+                "laravel",
+                "shoppingcart"
+            ],
+            "support": {
+                "issues": "https://github.com/quoctuan9901/laravel-cart-package/issues",
+                "source": "https://github.com/quoctuan9901/laravel-cart-package/tree/main"
+            },
+            "time": "2024-03-29T11:28:47+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -8607,7 +8669,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "quoctuan9901/laravel-cart-package": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

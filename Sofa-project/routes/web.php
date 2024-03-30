@@ -138,7 +138,7 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('create', 'attributeCreate')->name('create')->middleware(['auth','admin']);
             Route::post('store', 'attributeStore')->name('store')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'attributeEdit')->name('edit');
+            Route::get('edit/{id}', 'attributeEdit')->name('edit')->middleware(['auth','admin']);
             Route::post('update/{id}', 'attributeUpdate')->name('update')->middleware(['auth','admin']);
 
             Route::get('destroy/{id}', 'attributeDestroy')->name('destroy')->middleware(['auth','admin']);
@@ -165,7 +165,7 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('edit/{id}', 'promotionEdit')->name('edit')->middleware(['auth','admin']);
             Route::post('update/{id}', 'promotionUpdate')->name('update')->middleware(['auth','admin']);
     
-            Route::get('destroy/{id}', 'promotionDestroy')->name('destroy');
+            Route::get('destroy/{id}', 'promotionDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
         Route::prefix('user')->name('user.')->group(function () {
@@ -201,22 +201,22 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         });
 
         Route::prefix('brand')->name('brand.')->group(function () {
-            Route::get('index', 'brandIndex')->name('index');
+            Route::get('index', 'brandIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('create', 'brandCreate')->name('create');
-            Route::post('store', 'brandStore')->name('store');
+            Route::get('create', 'brandCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('store', 'brandStore')->name('store')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'brandEdit')->name('edit');
-            Route::post('update/{id}', 'brandUpdate')->name('update');
+            Route::get('edit/{id}', 'brandEdit')->name('edit')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'brandUpdate')->name('update')->middleware(['auth','admin']);
 
-            Route::get('destroy/{id}', 'brandDestroy')->name('destroy');
+            Route::get('destroy/{id}', 'brandDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
         Route::prefix('sku')->name('sku.')->group(function () {
-            Route::get('index/{product_id}', 'skuIndex')->name('index');
+            Route::get('index/{product_id}', 'skuIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'skuEdit')->name('edit');
-            Route::post('update/{id}', 'skuUpdate')->name('update');
+            Route::get('edit/{id}', 'skuEdit')->name('edit')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'skuUpdate')->name('update')->middleware(['auth','admin']);
 
         //     Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
         });
