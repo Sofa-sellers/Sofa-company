@@ -31,7 +31,7 @@
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
     function confirmDelete(){
-        return confirm('Are you sure you want to delete? After you delete this category, the products in this category will disappear');
+        return confirm('Are you sure you want to delete? Please check the following 2 things:\n\n1. If the category you want to delete is the parent category of another category, the deletion command will not be performed and we will report an error\n\n2. If the category you want to delete contains products, the products that originally belonged to that category will no longer have a category, and you will need to select a new category for them in the product list.');
     }
 </script>
 @endpush
