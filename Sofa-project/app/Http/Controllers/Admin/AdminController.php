@@ -12,7 +12,6 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\RatingComment;
-use App\Models\Attribute;
 use App\Models\Value;
 use Illuminate\Support\Facades\Session;
 
