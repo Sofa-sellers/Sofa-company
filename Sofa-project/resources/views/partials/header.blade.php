@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <nav class="simple-menu">
                         <ul class="topbar-nav nav justify-content-end">
-                            <li class="topbar-nav-item">
+                            {{-- <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Lang</a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
@@ -21,8 +21,8 @@
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">FR</a></li>
                                 </ul>
                                 <!-- dropdown menu end -->
-                            </li>
-                            <li class="topbar-nav-item">
+                            </li> --}}
+                            {{-- <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Currency</a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
@@ -31,7 +31,7 @@
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">EUR</a></li>
                                 </ul>
                                 <!-- dropdown menu end -->
-                            </li>
+                            </li> --}}
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="">
                                 <?php if(Auth::check()==true)

@@ -13,6 +13,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sku;
 use App\Models\Promotion;
+use App\Models\Sku;
+use App\Models\Brand;
 use App\Models\RatingComment;
 use Illuminate\Support\Facades\Session;
 

@@ -9,3 +9,4 @@
 <script src="{{asset('client/assets/js/plugins/jquery-ui.min.js')}}"></script>
 <script src="{{asset('client/assets/js/plugins/scroll-up.js')}}"></script>
 <script src="{{asset('client/assets/js/main.js')}}"></script>
+@stack('js')
