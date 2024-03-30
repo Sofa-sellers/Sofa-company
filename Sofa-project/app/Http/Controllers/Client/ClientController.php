@@ -3,12 +3,28 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function addToCart(Request $request, $id, $quantity){
-        //
+    public function addToCart($id, $quantity){
+        $product = Product::find($id);
+        $skus = Sku::where('product_id',$id);
+
+        $price = $product->sale_price ?? $product->price;
+        Cart::add([
+            'id' => $product->id,
+            'name' => $product->name,
+            'qty' => $quantity,
+            'price' => $product->price,
+            'options' => [
+                'dimensions' => 'large',
+                'color' => 'red',
+                'material' => 'red'
+            ]
+        ]);
     }
 
     public function showCart(){

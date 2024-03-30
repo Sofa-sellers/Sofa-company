@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Sku;
 
 class GuestController extends Controller
 {
@@ -19,7 +20,7 @@ class GuestController extends Controller
     }
 
     public function index(){
-        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(4)->get();
+        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(8)->get();
         return view('guest.index',[
             'products_lastest' => $products_lastest,
         ]);
@@ -73,11 +74,13 @@ class GuestController extends Controller
     }
 
     public function detail($id){
-        $product=Product::where('id',$id)->first();
-        $rproducts =Product::where('id','!=',$id)->inRandomOrder('id')->get()->take(8);
+
+        $product = Product::with('category', 'productimages','sku')->where('id',$id)->first();
+        $skus = Sku::with('attributevalue')->where('product_id',$id)->get();
+        
         return view('guest.productdetail',[
             'product'=>$product,
-            'rproducts'=>$rproducts
+            'skus'=>$skus,
         ]);
     }
 
