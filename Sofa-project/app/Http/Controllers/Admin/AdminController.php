@@ -13,8 +13,6 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sku;
 use App\Models\Promotion;
-use App\Models\Sku;
-use App\Models\Brand;
 use App\Models\RatingComment;
 use Illuminate\Support\Facades\Session;
 
@@ -211,17 +209,21 @@ class AdminController extends Controller
         $categories = Category::get();
 
         $attributes = Attribute::with('attributevalue')->get();
+         $values=null;
 
         foreach ($attributes as $attribute) {
             $values = $attribute->attributevalue;
+           
         }
 
+        
         $brands = Brand::get();
         return view('admin.modules.product.create', [
             'categories' => $categories,
             'brands' => $brands,
             'attributes' =>$attributes,
             'values'=>$values,
+           
         ]);
     }
 
@@ -255,7 +257,7 @@ class AdminController extends Controller
         $product->quantity = $request->quantity;
         $product->brand_id = $request->brand_id;
         $product->status = $request->status;
-        $product->value_id = $request->value_id;
+        // $product->value_id = $request->value_id;
 
         $product->save();
 
