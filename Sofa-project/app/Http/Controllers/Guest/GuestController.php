@@ -87,18 +87,23 @@ class GuestController extends Controller
         ->paginate(4);
 
 
-        // $skus = Sku::with('attributevalue')->where('product_id',$id)->get();
+        $skus = Sku::with('attributevalue')->where('product_id',$id)->get();
 
-        // foreach ($skus as $sku) {
-        //     // Kiểm tra xem attributevalue có tồn tại không trước khi truy cập
-        //     if ($sku->attribute_id == 1) {
-        //         $color = $sku->attributevalue->value;
-        //     }elseif($sku->attribute_id == 3){
-        //         $material = $sku->attributevalue->value;
-        //     }
-        // }
+        
+        dd($skus);
+        $color=null;
+        $material=null;
+        foreach ($skus as $sku) {
 
-        // dd($color);
+                if ($sku->attribute_id == 1) {
+                $color = $sku->attributevalue;
+                dd($sku);
+            }elseif($sku->attribute_id == 3){
+                $material = $sku->attributevalue->value;
+            }
+        }
+
+        dd($color);
         
         return view('guest.productdetail',[
             'product'=>$product,

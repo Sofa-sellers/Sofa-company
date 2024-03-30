@@ -208,26 +208,28 @@ class AdminController extends Controller
     {
         $categories = Category::get();
 
-        $attributes = Attribute::with('attributevalue')->get();
-         $values=null;
+        $attributes = Attribute::get();
+         
+        $colors = AttributeValue::where('attribute_id',1)->get();
+        
+        $dimensions = AttributeValue::where('attribute_id',2)->get();
 
-        foreach ($attributes as $attribute) {
-            $values = $attribute->attributevalue;
-           
-        }
-
+        $materials = AttributeValue::where('attribute_id',3)->get();
         
         $brands = Brand::get();
+
         return view('admin.modules.product.create', [
             'categories' => $categories,
             'brands' => $brands,
             'attributes' =>$attributes,
-            'values'=>$values,
+            'colors'=>$colors,
+            'materials'=>$materials,
+            'dimensions'=>$dimensions
            
         ]);
     }
 
-    public function productStore(ProductStoreRequest $request)
+    public function productStore(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf',

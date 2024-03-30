@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="product-variants">
-                            {{-- <div class="product-variants-item">
+                            <div class="product-variants-item">
                                 <span class="control-label">Dimensions</span>
                                 <select class="form-control form-control-select">
                                     @foreach($skus->where('attribute_id', 2) as $dimensions)
@@ -102,7 +102,7 @@
            
                                     @endforeach
                                 </select>
-                            </div> --}}
+                            </div>
                             <div class="product-variants-item">
                                 <span class="control-label">Color</span>
                                 <ul>

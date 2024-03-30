@@ -149,27 +149,39 @@
                     <div class="form-group" >
                         <label>Attribute</label>
                         @foreach($attributes as $attribute)
-                        <div style="display: flex; ">
+                        <div style="display: flex; flex-wrap: wrap;margin-top:10px">
                             <label>{{$attribute->name}}</label>
-
-                           
-                            @foreach ($values as $value)
-                            <div>{{$values}}</div>
-                            <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
-                                <input class="form-check-input" type="checkbox" value="{{ $value->id }}" id="flexCheckDefault" name="value_id[]">
-
-                                    @if ($attribute->name == 'Color')
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$value->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                                <circle cx="8" cy="8" r="8"/>
-                                            </svg>
-                                        </label>
-                                    @elseif($attribute->name !== 'Color')
-                                        <label class="form-check-label" for="flexCheckDefault">{{$value->value}}</label>
-                                    @endif
-                              </div>
-                            @endforeach
+                        
+                            <div class="attribute-values" style="display:flex; flex-wrap: wrap; margin-left: 10px;">
+                                @if ($attribute->id == 1)
+                                    @foreach ($colors as $color)
+                                        <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
+                                            <input class="form-check-input" type="checkbox" value="{{$color->id}}" id="color_{{$color->id}}" name="value_id[]">
+                                            <label class="form-check-label" for="color_{{$color->id}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                    <circle cx="8" cy="8" r="8"/>
+                                                </svg>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                @elseif($attribute->id == 2)
+                                    @foreach ($dimensions as $dimension)
+                                        <div class="form-check" style="display:flex; align-items:center; margin-right:20px; ">
+                                            <input class="form-check-input" type="checkbox" value="{{$dimension->id}}" id="dimension_{{$dimension->id}}" name="value_id[]">
+                                            <label class="form-check-label" for="dimension_{{$dimension->id}}">{{$dimension->value}}</label>
+                                        </div>
+                                    @endforeach
+                                @elseif($attribute->id == 3)
+                                    @foreach ($materials as $material)
+                                        <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
+                                            <input class="form-check-input" type="checkbox" value="{{$material->id}}" id="material_{{$material->id}}" name="value_id[]">
+                                            <label class="form-check-label" for="material_{{$material->id}}">{{$material->value}}</label>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
+                        
 
                         @endforeach
 
