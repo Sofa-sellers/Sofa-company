@@ -30,21 +30,20 @@
                   </select>
               </div>
 
-                {{-- <div class="form-group">
-                    <label for="exampleInputEmail1">Value Code</label>
-                    <input type="text" class="form-control" placeholder="Enter value code" name="code" value="{{old('code')}}">
-                  </div> --}}
+                <div class="form-group value-color">
+                    <label for="exampleInputEmail1">Value</label>
+                    <input type="color" class="form-control" placeholder="Enter value color" name="color" value="{{old('color')}}" >
+                  </div>
 
                   
-                  {{-- <div class="form-group value-color">
+                  <div class="form-group value-dimension">
                     <label for="exampleInputEmail1">Value</label>
-                    <input type="color" class="form-control" placeholder="Enter value" name="color" value="{{old('color')}}">
-                  
-                  </div> --}}
+                    <input type="text" class="form-control" placeholder="Enter value dimension" name="dimension" value="{{old('dimension')}}" pattern="^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2}) x ){2}(?:300|[1-2]?\d{1,2}))$" title="Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300.">
+                  </div>
 
-                  <div class="form-group value" >
+                  <div class="form-group value-material" >
                     <label for="exampleInputEmail1">Value</label>
-                    <input type="text" class="form-control" placeholder="Enter value" name="value" value="{{old('value')}}">
+                    <input type="text" class="form-control" placeholder="Enter value material" name="material" value="{{old('material')}}">
                   </div>
 
                   <div class="form-group">
@@ -75,17 +74,24 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
       <script>
-        // $(document).ready(function() {
-          // $('#inputAttribute').change(function(event) {
-          //     var input = $(this).val(); 
-          //     if (input == 1) {
-          //         $('.value-color').show();
-          //         $('.value').hide();
-          //     } else {
-          //         $('.value-color').hide();
-          //         $('.value').show();
-          //     }
-          //   });
-        // });
+        $(document).ready(function() {
+          $('.value-color, .value-dimension, .value-material').hide();
+            $('#inputAttribute').change(function(event) {
+                var input = $(this).val(); 
+                if (input == 1) {
+                    $('.value-color').show();
+                    $('.value-dimension').hide();
+                    $('.value-material').hide();
+                } else if (input == 2) {
+                    $('.value-color').hide();
+                    $('.value-dimension').show();
+                    $('.value-material').hide();
+                } else {
+                    $('.value-color').hide();
+                    $('.value-dimension').hide();
+                    $('.value-material').show();
+                }
+            });
+        });
     </script>
 @endsection
