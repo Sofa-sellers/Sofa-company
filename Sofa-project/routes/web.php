@@ -83,10 +83,10 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
     Route::controller(ClientController::class)->group(function () {
 
 
-        Route::post('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::get('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
         Route::get('cart', 'showCart')->name('showCart');
         Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
-        Route::post('cart-update/{id}/{quantity}', 'cartUpdate')->name('cartUpdate');
+        Route::post('cart-update', 'cartUpdate')->name('cartUpdate');
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout', 'checkout')->name('checkout');
 

@@ -79,9 +79,9 @@
                         <label>Category</label>
                         <select class="form-control" name="category_id">
                             <option value="0" {{ old('category_id', $product->category_id) == 0 ? 'selected' : '' }}>----- Root -----</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                            @endforeach
+                            @php
+                                recursiveCategory($categories, old('category_id', $product->category_id));
+                            @endphp
                         </select>
                     </div>
                     <div class="form-group">

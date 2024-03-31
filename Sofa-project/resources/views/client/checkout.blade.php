@@ -7,44 +7,27 @@
             <div class="col-lg-7">
                 <div class="billing-info-wrap">
                     <h3 class="title">Billing Details</h3>
-                    <form class="personal-information" action="assets/php/contact.php">
+                    <form class="personal-information" action="{{ route('client.checkout')}}">
+                        @csrf
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>First Name</label>
-                                    <input type="text">
+                                    <input type="text" name="firstname">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Last Name</label>
-                                    <input type="text">
+                                    <input type="text" name="lastname">
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-5">
-                                    <label>Company Name</label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-select mb-5">
-                                    <label for="inputState" class="form-label">Country</label>
-                                    <select id="inputState" class="form-select mb-3">
-                                        <option>Select a country</option>
-                                        <option>Azerbaijan</option>
-                                        <option>Bahamas</option>
-                                        <option>Bahrain</option>
-                                        <option>Bangladesh</option>
-                                        <option>Barbados</option>
-                                    </select>
-                                </div>
-                            </div>
+                           
+                      
                             <div class="col-lg-12">
                                 <div class="billing-info mb-5">
                                     <label>Street Address</label>
-                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text">
-                                    <input placeholder="Apartment, suite, unit etc." type="text">
+                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="address">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -53,12 +36,7 @@
                                     <input type="text">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-5">
-                                    <label>State / County</label>
-                                    <input type="text">
-                                </div>
-                            </div>
+                    
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Postcode / ZIP</label>
@@ -74,7 +52,7 @@
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Email Address</label>
-                                    <input type="text">
+                                    <input type="text" disabled>
                                 </div>
                             </div>
                         </div>

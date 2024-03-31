@@ -30,11 +30,11 @@
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('uploads/'.$product->image)}}" alt="image_not_found" class="img-fluid">
+                                        <img src="{{asset('uploads/'.$product->image)}}" alt="image_not_found" class="img-fluid" style="height: 600px;">
                                     </div>
                                     @foreach($product->productimages as $pi)
                                     <div class="swiper-slide product-modal-gallery-item">
-                                        <img src="{{asset('uploads/'.$pi->name)}}" alt="image_not_found" class="img-fluid">
+                                        <img src="{{asset('uploads/'.$pi->name)}}" alt="image_not_found" class="img-fluid" style="height: 600px;">
                                     </div>
                                     @endforeach
                                     
@@ -48,14 +48,14 @@
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
-                                        <a href="javascript:void(0)"> <img src="{{asset('uploads/'.$product->image)}}" alt="image_not_found" class="img-fluid"></a>
+                                        <a href="javascript:void(0)"> <img src="{{asset('uploads/'.$product->image)}}" alt="image_not_found" class="img-fluid" style="height: 150px;"></a>
                                     </div>
 
                                     @foreach($product->productimages as $pi)
                                     
                                     <div class="swiper-slide product-modal-gallery-thumbs-item">
                                         <a href="javascript:void(0)">
-                                            <img src="{{asset('uploads/'.$pi->name)}}" alt="image_not_found" class="img-fluid">
+                                            <img src="{{asset('uploads/'.$pi->name)}}" alt="image_not_found" class="img-fluid" style="height: 150px;">
                                         </a>
                                     </div>
                                     @endforeach
@@ -82,17 +82,15 @@
                         <div class="product-price-wrapp-lg">
                             <span class="product-regular-price-lg">{{$product->price}}</span>
                             <span class="product-price-on-sale-lg">{{$product->sale_price}}</span>
-                            <span class="badge badge-lg bg-dark">Save {{$product->sale_price / $product->price * 100}}%</span>
+                            <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
                         </div>
 
                         <div class="product-description-short">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum,
-                                gravida et mattis vulputate, tristique ut lectus</p>
+                            <p>{{$product->intro}}</p>
                         </div>
 
                         <div class="product-variants">
-                            {{-- <div class="product-variants-item">
+                            <div class="product-variants-item">
                                 <span class="control-label">Dimensions</span>
                                 <select class="form-control form-control-select">
                                     @foreach($skus->where('attribute_id', 2) as $dimensions)
@@ -104,24 +102,20 @@
            
                                     @endforeach
                                 </select>
-                            </div> --}}
+                            </div>
                             <div class="product-variants-item">
                                 <span class="control-label">Color</span>
                                 <ul>
-                                    @foreach($skus->where('attribute_id', 1) as $color)
-                                    <li class="input-container">
+                                    {{-- @foreach($skus->where('attribute_id', 1) as $color)
+                                    {{$color}} --}}
+                                    {{-- <li class="input-container">
                                         <label>
-                                            <input class="input-color" type="checkbox" name="color" value="{{ $color->value_id}}">
-                                            <span class="color"></span>
+                                            <input class="input-color" type="checkbox" name="color[]" value="{{ $color->value_id}}">
+                                            <span class="color" style="background-color: {{ $color->attributevalue->value }} ">{{$color->attributevalue->value}}</span>
                                         </label>
-                                    </li>
-                                    @endforeach
-                                    <li class="input-container">
-                                        <label>
-                                            <input class="input-color" type="checkbox" checked="checked">
-                                            <span class="color"></span>
-                                        </label>
-                                    </li>
+                                    </li> --}}
+                                    {{-- @endforeach --}}
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -196,13 +190,7 @@
                         <div class="col-12">
                             <div class="single-product-desc">
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit, sed
-                                    do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commo consequat. Duis
-                                    aute irure dolor in reprehend in voluptate velit esse cillum
-                                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt
+                                    {{$product->description}}
                                 </p>
                             </div>
                         </div>
@@ -214,12 +202,7 @@
                             <div class="single-product-desc">
                                 <div class="product-anotherinfo-wrapper">
                                     <ul>
-                                        <li><span>Weight</span> 400 g</li>
                                         <li><span>Dimensions</span>10 x 10 x 15 cm</li>
-                                        <li><span>Materials</span> 60% cotton, 40% polyester</li>
-                                        <li>
-                                            <span>Other Info</span> American heirloom jean shorts
-                                            pug seitan letterpress
                                         </li>
                                     </ul>
                                 </div>
@@ -233,9 +216,9 @@
                             <div class="col-lg-7">
                                 <div class="review-wrapper">
                                     <div class="single-review">
-                                        <div class="review-img">
+                                        {{-- <div class="review-img">
                                             <img src="{{asset('client/assets/images/testimonial/1.png')}}" alt="">
-                                        </div>
+                                        </div> --}}
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -265,9 +248,9 @@
                                         </div>
                                     </div>
                                     <div class="single-review child-review">
-                                        <div class="review-img">
+                                        {{-- <div class="review-img">
                                             <img src="{{asset('client/assets/images/testimonial/2.png')}}" alt="">
-                                        </div>
+                                        </div> --}}
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -359,198 +342,61 @@
                         <!-- Slider main container -->
                         <div class="swiper-container">
                             <!-- Additional required wrapper -->
+                            
                             <div class="swiper-wrapper">
+                                @foreach($products_related as $pr)
                                 <div class="swiper-slide">
                                     <div class="product-list">
                                         <div class="product-card">
                                             <a href="shop-grid-left-sidebar.html" class="product-thumb">
                                                 <span class="onsale bg-danger">sale!</span>
-                                                <img src="{{asset('client/assets/images/products/product1.jpg')}}" alt="image_not_found">
+                                                <img src="{{asset('uploads/'.$pr->image)}}" alt="image_not_found" class="img-fluid" style="height: 415px;">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">3 Tier Wood With Metal Shelf</a></h4>
+                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">{{$pr->name}}</a></h4>
                                                 <div class="product-group">
-                                                    <h5 class="product-price"><del class="old-price">$85.00</del> <span
-                                          class="new-price">$60.00</span></h5>
+                                                    <h5 class="product-price"><del class="old-price">{{$pr->price}}</del> <span class="new-price">{{$pr->sale_price}}</span></h5>
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
                                                 </div>
 
                                             </div>
                                             <!-- actions  -->
                                             <ul class="actions actions-verticale">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
+                                                <li class="action wish-list">
+                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
+                                                        <a href="{{ route('client.showWishlist') }}">
+                                                            <i class="ion-ios-heart-outline"></i>
+                                                        </a>
+                                                    </button>
                                                 </li>
                                                 <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
+                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal">
+                                                        <a href="{{ route('detail',['id'=>$pr->id]) }}">
+                                                            <i class="ion-ios-eye-outline"></i>
+                                                        </a>
+                                                    </button>
                                                 </li>
 
                                                 <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
+                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
+                                                        <a href="{{ route('showCompare') }}">
+                                                            <i class="ion-android-sync"></i>
+                                                        </a>
+                                                    </button>
                                                 </li>
 
                                             </ul>
+                                            
                                         </div>
                                     </div>
                                     <!-- product list end -->
 
                                 </div>
                                 <!-- swiper-slide end -->
-                                <div class="swiper-slide">
-                                    <div class="product-list">
-                                        <div class="product-card">
-                                            <a href="shop-grid-left-sidebar.html" class="product-thumb">
-                                                <span class="onsale bg-danger">sale!</span>
-                                                <img src="{{asset('client/assets/images/products/product3.jpg')}}" alt="image_not_found">
-                                            </a>
-                                            <!-- thumb end -->
-                                            <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">68in. Bronze Metal Coat Rack</a></h4>
-                                                <div class="product-group">
-                                                    <h5 class="product-price">$85.00 - $60.00</h5>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                                </div>
-
-                                            </div>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-verticale">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product list end -->
-
-                                </div>
-                                <!-- swiper-slide end -->
-                                <div class="swiper-slide">
-                                    <div class="product-list">
-                                        <div class="product-card">
-                                            <a href="shop-grid-left-sidebar.html" class="product-thumb">
-                                                <span class="onsale bg-warning">hot!</span>
-                                                <img src="{{asset('client/assets/images/products/product5.jpg')}}" alt="image_not_found">
-                                            </a>
-                                            <!-- thumb end -->
-                                            <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">Gold Circle Mirrored Shelf Bar Cart</a></h4>
-                                                <div class="product-group">
-                                                    <h5 class="product-price"><del class="old-price">$85.00</del> <span
-                                          class="new-price">$60.00</span></h5>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                                </div>
-
-                                            </div>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-verticale">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product list end -->
-
-                                </div>
-                                <!-- swiper-slide end -->
-                                <div class="swiper-slide">
-                                    <div class="product-list">
-                                        <div class="product-card">
-                                            <a href="shop-grid-left-sidebar.html" class="product-thumb">
-                                                <span class="onsale bg-warning">hot</span>
-                                                <img src="{{asset('client/assets/images/products/product7.jpg')}}" alt="image_not_found">
-                                            </a>
-                                            <!-- thumb end -->
-                                            <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">Gold Metal Fox Design Trinket Tray</a></h4>
-                                                <div class="product-group">
-                                                    <h5 class="product-price"><del class="old-price">$85.00</del> <span
-                                          class="new-price">$60.00</span></h5>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                                </div>
-
-                                            </div>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-verticale">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product list end -->
-
-                                </div>
-                                <!-- swiper-slide end -->
-                                <div class="swiper-slide">
-                                    <div class="product-list">
-                                        <div class="product-card">
-                                            <a href="shop-grid-left-sidebar.html" class="product-thumb">
-                                                <span class="onsale bg-success">new</span>
-                                                <img src="{{asset('client/assets/images/products/product9.jpg')}}" alt="image_not_found">
-                                            </a>
-                                            <!-- thumb end -->
-                                            <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">Parkview 5 Tier Metal & Wood</a>
-                                                </h4>
-                                                <div class="product-group">
-                                                    <h5 class="product-price"><del class="old-price">$85.00</del> <span
-                                          class="new-price">$60.00</span></h5>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
-                                                </div>
-
-                                            </div>
-                                            <!-- actions  -->
-                                            <ul class="actions actions-verticale">
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i
-            class="ion-ios-heart-outline"></i></button>
-                                                </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
-
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- product list end -->
-
-                                </div>
-                                <!-- swiper-slide end -->
+                                @endforeach
                             </div>
+                           
                         </div>
                         <!-- If we need navigation buttons -->
                         <div class="featured-product swiper-button-prev"></div>

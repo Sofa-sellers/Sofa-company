@@ -9,26 +9,34 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+
     public function addToCart($id, $quantity){
         $product = Product::find($id);
-        $skus = Sku::where('product_id',$id);
+        // $skus = Sku::where('product_id',$id);
 
         $price = $product->sale_price ?? $product->price;
         Cart::add([
             'id' => $product->id,
             'name' => $product->name,
             'qty' => $quantity,
-            'price' => $product->price,
-            'options' => [
-                'dimensions' => 'large',
-                'color' => 'red',
-                'material' => 'red'
-            ]
+            'price' => $price,
+            // 'options' => [
+            //     'dimensions' => 'large',
+            //     'color' => 'red',
+            //     'material' => 'red'
+            // ]
         ]);
+
+        return redirect()->route('client.showCart');
     }
 
     public function showCart(){
-        return view('client.cart');
+        $cartCollection = Cart::content();
+
+        // dd($cartCollection);
+        return view('client.cart',[
+            'cartCollection' => $cartCollection
+        ]);
         
     }
 
@@ -36,8 +44,21 @@ class ClientController extends Controller
         //
     }
 
-    public function cartUpdate(Request $request, $id, $quantity){
-        //
+    public function cartUpdate(Request $request){
+
+        $id = $request->id;
+        $quantity = $request->quantity;
+
+        Cart::update($id, array(
+            'qty'=>array(
+                'relative'=>false,
+                'value'=>$quantity
+            ),
+        )); // Will update the quantity
+
+        return response()->json([
+            'status'=>200,
+        ]);
     }
 
     public function showCheckout(){

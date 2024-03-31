@@ -31,6 +31,6 @@ class AttributeValue extends Model
 
     public function sku()
     {
-        return $this->hasMany(Sku::class)->withTrashed();
+        return $this->hasMany(Sku::class);
     }
 }

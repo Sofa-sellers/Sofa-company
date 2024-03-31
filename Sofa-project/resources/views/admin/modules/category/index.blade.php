@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('module' ,'Category')
-@section('action','List')  
+@section('action','List')
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -31,7 +31,7 @@
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
     function confirmDelete(){
-        return confirm('Are you sure you want to delete? After you delete this category, the products in this category will disappear');
+        return confirm('Are you sure you want to delete? Please check the following 2 things:\n\n1. If the category you want to delete is the parent category of another category, the deletion command will not be performed and we will report an error\n\n2. If the category you want to delete contains products, the products that originally belonged to that category will no longer have a category, and you will need to select a new category for them in the product list.');
     }
 </script>
 @endpush
@@ -56,7 +56,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Parent Category</th>
+                        <th>Parent</th>
                         <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -67,7 +67,14 @@
                         <tr class="{{ $category->status == 0 ? 'category-hide' : '' }}">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $category->name }}</td>
-                            <td>{{ $category->parent ? $category->parent->name : ' ' }}</td>
+                            <td>
+                                @php
+                                    if ($category->parent_id != 0) {
+                                        $parent_category = DB::table('categories')->select('name', 'parent_id')->where('id', $category->parent_id)->first();
+                                        echo $parent_category->name;
+                                    }
+                                @endphp
+                            </td>
                             <td>
                                 <span class="right badge badge-{{ $category->status == 1 ? 'success' : 'dark' }}">
                                     {{ $category->status == 1 ? 'Show' : 'Hide' }}
@@ -84,7 +91,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Parent Category</th>
+                        <th>Parent</th>
                         <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
