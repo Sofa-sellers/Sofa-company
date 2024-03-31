@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Admin\AttributeValue;
+namespace App\Http\Requests\Admin\Sku;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -22,19 +23,21 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-
-            // 'status'=>'required|integer',
+            'product_id' => [
+                'required',
+                Rule::unique('skus')->where(function ($query) {
+                    return $query->where('attribute_id', $this->column2)
+                                 ->where('value_id', $this->column3);
+                })
+            ]
         ];
     }
 
     public function messages(): array
     {
         return [
-            // 'value.required'=>'Please enter the value of attribute',
-            // 'value.unique'=>'This value already exists. Please enter/choose another value',
-            // 'status.required'=>'Please select status',
-            // 'status.integer'=>'Status value must be an integer',
+            'product_id.required'=>'The value is exists. Please choose another value of attribute',
+
         ];
     }
 }
