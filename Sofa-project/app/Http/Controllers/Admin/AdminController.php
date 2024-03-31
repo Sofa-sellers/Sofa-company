@@ -310,6 +310,7 @@ class AdminController extends Controller
     public function productEdit(string $id)
     {
         $categories = Category::get();
+        $brands = Brand::get();
         $products = Product::find($id);
         if ($products == null) {
             abort(404);
@@ -317,7 +318,8 @@ class AdminController extends Controller
         return view('admin.modules.product.edit', [
             'id' => $id,
             'categories' => $categories,
-            'product' => $products
+            'product' => $products,
+            'brands'=>$brands
         ]);
     }
 

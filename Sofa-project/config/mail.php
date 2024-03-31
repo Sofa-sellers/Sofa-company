@@ -108,7 +108,7 @@ return [
     */
 
     'from' => [
-        ['address' => env('MAIL_FROM'), 'name' => env('MAIL_NAME')],
+        ['address' => env('MAIL_FROM_ADDRESS'), 'name' => env('MAIL_FROM_NAME')],
     ],
 
     /*
