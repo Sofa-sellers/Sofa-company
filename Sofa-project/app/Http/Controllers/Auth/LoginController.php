@@ -14,6 +14,7 @@ use Mail;
 use Hash;
 use App\Models\Product;
 use App\Mail\ForgotPasswordMail;
+use App\Models\Category;
 
 class LoginController extends Controller
 {
@@ -35,13 +36,10 @@ class LoginController extends Controller
             if(Auth::id()){
                 $userlevel=Auth()->user()->level;
                 if($userlevel==1){
-                    $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(4)->get();
-                    return view('guest.index',[
-                        'products_lastest' => $products_lastest,
-                    ]);
+                    return redirect()->route('index');
                 }
                 else if($userlevel==2){
-                    return view('admin.modules.index');
+                    return redirect()->route('admin.index');
                 }
                 else{
                     return redirect()->back();
