@@ -37,11 +37,11 @@ return [
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST'),
-            'port' => env('MAIL_PORT'),
+            'host' => env('MAIL_HOST','smtp.gmail.com'),
+            'port' => env('MAIL_PORT','465'),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'username' => env('MAIL_USERNAME','seolosofa@gmail.com'),
+            'password' => env('MAIL_PASSWORD','euxdfqwbuszjdlsa'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
@@ -108,7 +108,8 @@ return [
     */
 
     'from' => [
-        ['address' => env('MAIL_FROM_ADDRESS'), 'name' => env('MAIL_FROM_NAME')],
+        ['address' =>'seolosofa@gmail.com', 
+        'name' =>'sofa'],
     ],
 
     /*

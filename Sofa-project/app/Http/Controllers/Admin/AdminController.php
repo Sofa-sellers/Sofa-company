@@ -208,19 +208,11 @@ class AdminController extends Controller
     {
         $categories = Category::get();
 
-<<<<<<< HEAD
-        $attributes = Attribute::with('attributevalue')->get();
-        $values=null;
-        foreach ($attributes as $attribute) {
-            $values = $attribute->attributevalue;
-        }
-=======
         $attributes = Attribute::get();
          
         $colors = AttributeValue::where('attribute_id',1)->get();
         
         $dimensions = AttributeValue::where('attribute_id',2)->get();
->>>>>>> d72d529251e790591fec15e2bc145dd78fbf741a
 
         $materials = AttributeValue::where('attribute_id',3)->get();
         
