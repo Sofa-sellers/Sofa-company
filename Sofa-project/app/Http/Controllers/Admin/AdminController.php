@@ -560,38 +560,34 @@ class AdminController extends Controller
 
         $value->attribute_id = $request->attribute_id;
 
-        // if($value->attribute_id == 2)
-        // $validatedData = $request->validate([
-        //     'value' => 'required|regex:/^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2})\s*x\s*){2}(?:300|[1-2]?\d{1,2}))$/',
-        // ], [
-        //     'value.regex' => 'Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300',
-        // ]);
- 
-        // $request->validate([
-        //     'color' => 'string|regex:/^#[a-fA-F0-9]{6}$/',
-        // ]);
-
-        if($value->attribute_id == 1){
+        if ($value->attribute_id == 1) {
             $value->value = $request->color;
-        }elseif($value->attribute_id == 2){
+        }
+        elseif ($value->attribute_id == 2) {
             $value->value = $request->dimension;
-            // dd($value->value);
-        }else{
+        }
+        else {
             $value->value = $request->material;
         }
-       
-        // $value->value = $request->value;
-        
-        $value->status = $request->status;
 
-        $value->save();
-        return redirect()->route('admin.value.index')->with('success','Create value of attribute successfully');
+        
+        $existingValue = AttributeValue::where('attribute_id', $value->attribute_id)
+                                    ->where('value', $value->value)
+                                    ->first();
+        
+        if($value->value == null){
+            $value->delete();
+            return redirect()->route('admin.value.index')->with('failed', 'Failed to create value of attribute. Value cannot be null');
+        }elseif($existingValue){
+            return redirect()->route('admin.value.index')->with('failed', 'Failed to create value of attribute. Value must be unique');
+        }else{
+            $value->status = $request->status;
+            $value->save();
+            return redirect()->route('admin.value.index')->with('success','Create value of attribute successfully');
+        }
+        
     }
 
-    // public function attributeEdit(int  $id)
-    // {
-    //     $attributes=Attribute::find($id);
-    //     return view('admin.modules.attribute.edit',[
 
     public function valueEdit($id)
     {

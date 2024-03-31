@@ -208,15 +208,17 @@
                             @endforeach
                         </table>
                         </div>
-                    </div>
 
-                    <div class="sku-detail">
-                        <div class="row">
-                            <button type="button" class="btn btn-info w-100" id="add-sku">
-                                <i class="fas fa-plus"></i> Add Image detail
-                            </button>
+                        <div class="sku-detail">
+                            <div class="row">
+                                <button type="button" class="btn btn-info w-100" id="add-sku">
+                                    <i class="fas fa-plus"></i> Add Image detail
+                                </button>
+                            </div>
                         </div>
                     </div>
+
+                    
                 </div>
             </div>
         </div>

@@ -28,9 +28,9 @@
                       <option value="{{ $attr->id }}" {{ old('attribute_id') == $attr->id ? 'selected' : '' }}>{{ $attr->name }}</option>
                       @endforeach
                   </select>
-              </div>
+                </div>
 
-                <div class="form-group value-color">
+                  <div class="form-group value-color">
                     <label for="exampleInputEmail1">Value</label>
                     <input type="color" class="form-control" placeholder="Enter value color" name="color" value="{{old('color')}}" >
                   </div>
@@ -38,7 +38,9 @@
                   
                   <div class="form-group value-dimension">
                     <label for="exampleInputEmail1">Value</label>
-                    <input type="text" class="form-control" placeholder="Enter value dimension" name="dimension" value="{{old('dimension')}}" pattern="^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2}) x ){2}(?:300|[1-2]?\d{1,2}))$" title="Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300.">
+                    <input type="text" class="form-control" placeholder="Enter value dimension" name="dimension" value="{{old('dimension')}}" 
+                    pattern="^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2}) x ){2}(?:300|[1-2]?\d{1,2}))$" 
+                    title="Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300.">
                   </div>
 
                   <div class="form-group value-material" >
@@ -53,12 +55,7 @@
                         <option value="2" {{old('status')== 2? 'selected':' '}}>Hide</option>
                     </select>
                   </div>
-                  {{-- <div class="field_wrapper">
-                    <div>
-                        <input type="text" name="field_name[]" value=""/>
-                        <a href="javascript:void(0);" class="add_button" title="Add field"><img src="images/add-icon.png"/></a>
-                    </div>
-                </div> --}}
+                  
                   <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Create Value of Attribute</button>
                   </div>

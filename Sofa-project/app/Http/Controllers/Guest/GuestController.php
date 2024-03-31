@@ -93,15 +93,17 @@ class GuestController extends Controller
         
         // dd($product);
         $skus = $product->sku;
-        dd($skus);
-        $color=null;
+        
+        $color[]=null;
        
         foreach ($skus as $sku) {
             if($sku->attribute_id == 1){
-                $color=Sku::get();
+                $color[]=$sku->value_id;
                 
             }
         }
+
+        dd($color);
         
         // $material=null;
         // foreach ($skus as $sku) {
