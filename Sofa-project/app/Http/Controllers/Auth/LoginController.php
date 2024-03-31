@@ -46,7 +46,7 @@ class LoginController extends Controller
                 }
             }
         } else {
-            return redirect()->back()->with('error','Email hoặc Password không chính xác');
+            return redirect()->back()->with('error','Email or Password is incorrect');
         }
     }
     public function showRegister(){
