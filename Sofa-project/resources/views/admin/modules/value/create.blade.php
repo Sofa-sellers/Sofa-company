@@ -39,7 +39,8 @@
                   <div class="form-group value-dimension">
                     <label for="exampleInputEmail1">Value</label>
                     <input type="text" class="form-control" placeholder="Enter value dimension" name="dimension" value="{{old('dimension')}}" 
-                    pattern="^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2}) x ){2}(?:300|[1-2]?\d{1,2}))$" title="Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300.">
+                    pattern="^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2}) x ){2}(?:300|[1-2]?\d{1,2}))$" 
+                    title="Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300.">
                   </div>
 
                   <div class="form-group value-material" >
