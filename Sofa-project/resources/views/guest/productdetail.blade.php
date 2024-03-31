@@ -203,7 +203,7 @@
                                 <div class="product-anotherinfo-wrapper">
                                     <ul>
                                         <li><span>Dimensions</span>10 x 10 x 15 cm</li>
-                                        </li>
+                                        <li><a href="{{ route('download')}}">Download  Direction for Use</a></li>
                                     </ul>
                                 </div>
                             </div>

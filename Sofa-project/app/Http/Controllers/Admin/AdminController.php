@@ -560,25 +560,27 @@ class AdminController extends Controller
 
         $value->attribute_id = $request->attribute_id;
 
-        if($value->attribute_id == 2)
-        $validatedData = $request->validate([
-            'value' => 'required|regex:/^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2})\s*x\s*){2}(?:300|[1-2]?\d{1,2}))$/',
-        ], [
-            'value.regex' => 'Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300',
-        ]);
+        // if($value->attribute_id == 2)
+        // $validatedData = $request->validate([
+        //     'value' => 'required|regex:/^(?!0+$)(?:(?:(?:500|[1-9]\d{0,2})\s*x\s*){2}(?:300|[1-2]?\d{1,2}))$/',
+        // ], [
+        //     'value.regex' => 'Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300',
+        // ]);
  
         // $request->validate([
         //     'color' => 'string|regex:/^#[a-fA-F0-9]{6}$/',
         // ]);
 
-
-        // if ($request->exists('value')) {
-        //     $value->value = $request->value;
-        // } elseif ($request->exists('color')) {
-        //     $value->value = $request->color;
-        // }
-
-        $value->value = $request->value;
+        if($value->attribute_id == 1){
+            $value->value = $request->color;
+        }elseif($value->attribute_id == 2){
+            $value->value = $request->dimension;
+            // dd($value->value);
+        }else{
+            $value->value = $request->material;
+        }
+       
+        // $value->value = $request->value;
         
         $value->status = $request->status;
 
