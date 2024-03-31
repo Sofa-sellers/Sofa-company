@@ -24,6 +24,11 @@ class AttributeValue extends Model
      */
     protected $guarded =[];
 
+    protected $fillable = [
+        'value', // Đảm bảo cột 'value' được bảo vệ bởi $fillable
+        // Các cột khác mà bạn muốn phép gán dữ liệu
+    ];
+
     public function attribute(): BelongsTo
     {
         return $this->belongsTo(Attribute::class);

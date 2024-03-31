@@ -84,6 +84,17 @@
                             @endphp
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select class="form-control" name="brand_id">
+                            <option value="0" {{ old('brand_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                            @php
+                                recursiveCategory($brands, old('brand_id', $product->brand_id));
+                            @endphp
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">

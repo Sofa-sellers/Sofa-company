@@ -48,7 +48,7 @@ route::post('resetPassword',[LoginController::class,'resetPasswordPost'])
 
 Route::get('Logout',Logout::class)->name('logout');
 
-Route::prefix('/')->controller(GuestController::class)->group(function () {
+Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('', 'index')->name('index');
 
@@ -62,7 +62,7 @@ Route::prefix('/')->controller(GuestController::class)->group(function () {
 
         Route::get('detail/{id}', 'detail')->name('detail');
 
-        Route::post('download/{id}', 'download')->name('download');
+        Route::get('download/{id}', 'download')->name('download');
 
         Route::get('compare', 'showCompare')->name('showCompare');
         Route::post('compare', 'compare')->name('compare');

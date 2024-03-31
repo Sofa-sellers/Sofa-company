@@ -16,7 +16,7 @@ return new class extends Migration
             // $table->string('code');
             $table->unsignedBigInteger('attribute_id');
             $table->foreign('attribute_id')->references('id')->on('attributes');
-            $table->string('value');
+            $table->string('value')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1 show - 2 hide - 4 delete');
             $table->timestamps();
         });

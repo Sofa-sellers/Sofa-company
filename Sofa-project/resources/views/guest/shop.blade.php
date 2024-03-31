@@ -53,23 +53,20 @@
                                 <div class="col-sm-6 col-md-4 mb-5">
                                     <div class="product-card">
                                         @foreach ($product as $products)
-                                            
-                                        <a href="single-product.html" class="product-thumb">
+                                        <a href="detail/{{$products->id}}" class="product-thumb">
                                             @if ($products->status==1)
                                             <span class="onsale bg-danger">sale!</span>
-                                            @endif
-                                            @if ($products->status==3)
+                                            @elseif ($products->status==3)
                                             <span class="onsale bg-success">Hot!</span>
-                                            @endif
-                                            @if ($products->status==4)
+                                            @else
                                             <span class="onsale bg-warning">New!</span>
                                             @endif
                                             <img src="{{ asset('uploads/' . $products->image) }}" alt="{{ $products->name }}"
-                                            style="max-width: 200px; max-height: 200px;" alt="image_not_found">
+                                            style="max-width: 400px; max-height: 500px;" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
-                                            <h4><a href="single-product.html" class="product-title">{{$products->name}}</a></h4>
+                                            <h4><a href="'detail/{{$products->id}}" class="product-title">{{$products->name}}</a></h4>
                                             <div class="product-group">
                                                 <h5 class="product-price"><del class="old-price">{{$products->price}}</del> <span class="new-price">{{$products->sale_price}}</span></h5>
                                                 <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>

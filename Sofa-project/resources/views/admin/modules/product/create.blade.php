@@ -49,10 +49,29 @@
         });
 
     })
+
+ 
+    // // Đợi cho tài liệu (document) được tải xong
+    // $(document).ready(function(){
+    //     // Lắng nghe sự kiện submit của form
+    //     $(document).getElementById("create-product").addEventListener("submit", function(event) {
+    //         // Kiểm tra trạng thái của các checkbox
+    //         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    //         var atLeastOneChecked = Array.from(checkboxes).some(function(checkbox) {
+    //             return checkbox.checked;
+    //         });
+    //         // Nếu không có checkbox nào được chọn, ngăn chặn gửi form và hiển thị thông báo
+    //         if (!atLeastOneChecked) {
+    //             event.preventDefault(); // Ngăn chặn gửi form
+    //             alert("Vui lòng chọn ít nhất một checkbox."); // Thông báo cho người dùng
+    //         }
+    //     });
+    // });
+
 </script>
 
 @section('content')
-<form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
+<form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data" id="create-product">
     @csrf
     <!-- Default box -->
     <div class="card">
@@ -148,63 +167,58 @@
 
                     <div class="form-group" >
                         <label>Attribute</label>
-                        @foreach($attributes as $attribute)
-                        <div style="display: flex; flex-wrap: wrap;margin-top:10px">
-                            <label>{{$attribute->name}}</label>
-                        
-                            <div class="attribute-values" style="display:flex; flex-wrap: wrap; margin-left: 10px;">
-                                @if ($attribute->id == 1)
-                                    @foreach ($colors as $color)
-                                        <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
-                                            <input class="form-check-input" type="checkbox" value="{{$color->id}}" id="color_{{$color->id}}" name="value_id[]">
-                                            <label class="form-check-label" for="color_{{$color->id}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                                    <circle cx="8" cy="8" r="8"/>
-                                                </svg>
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                @elseif($attribute->id == 2)
-                                    @foreach ($dimensions as $dimension)
-                                        <div class="form-check" style="display:flex; align-items:center; margin-right:20px; ">
-                                            <input class="form-check-input" type="checkbox" value="{{$dimension->id}}" id="dimension_{{$dimension->id}}" name="value_id[]">
-                                            <label class="form-check-label" for="dimension_{{$dimension->id}}">{{$dimension->value}}</label>
-                                        </div>
-                                    @endforeach
-                                @elseif($attribute->id == 3)
-                                    @foreach ($materials as $material)
-                                        <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
-                                            <input class="form-check-input" type="checkbox" value="{{$material->id}}" id="material_{{$material->id}}" name="value_id[]">
-                                            <label class="form-check-label" for="material_{{$material->id}}">{{$material->value}}</label>
-                                        </div>
-                                    @endforeach
-                                @endif
+                        <table>
+                            @foreach($attributes as $attribute)
+                            <tr>
+                                <td>
+                                    <div style="display: flex; flex-wrap: wrap;margin-top:10px">
+                                        <label>{{$attribute->name}}</label>
+                                </td>
+                                <td>
+                                    <div class="attribute-values" id="value-check" style="display:flex; flex-wrap: wrap; margin-left: 10px;">
+                                        @if ($attribute->id == 1)
+                                            @foreach ($colors as $color)
+                                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
+                                                    <input class="form-check-input" type="checkbox" value="{{$color->id}}" id="color_{{$color->id}}" name="value_id[]" >
+                                                    <label class="form-check-label" for="color_{{$color->id}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                            <circle cx="8" cy="8" r="8"/>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        @elseif($attribute->id == 2)
+                                            @foreach ($dimensions as $dimension)
+                                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px; ">
+                                                    <input class="form-check-input" type="checkbox" value="{{$dimension->id}}" id="dimension_{{$dimension->id}}" name="value_id[]" >
+                                                    <label class="form-check-label" for="dimension_{{$dimension->id}}">{{$dimension->value}}</label>
+                                                </div>
+                                            @endforeach
+                                        @elseif($attribute->id == 3)
+                                            @foreach ($materials as $material)
+                                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
+                                                    <input class="form-check-input" type="checkbox" value="{{$material->id}}" id="material_{{$material->id}}" name="value_id[]" >
+                                                    <label class="form-check-label" for="material_{{$material->id}}">{{$material->value}}</label>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </table>
+                        </div>
+
+                        <div class="sku-detail">
+                            <div class="row">
+                                <button type="button" class="btn btn-info w-100" id="add-sku">
+                                    <i class="fas fa-plus"></i> Add Image detail
+                                </button>
                             </div>
                         </div>
-                        
-
-                        @endforeach
-
-                        {{-- <div style="display:flex">
-                            <label>Material</label>
-
-                            @foreach ($materials as $material)
-                            <div class="form-check" style="width: 100%; margin: 10px; text-align: right;">
-                                <input class="form-check-input" type="checkbox" value="{{ old('material_id') == $material->id ? 'checked' : '' }}" id="flexCheckDefault" name="value_id[]">
-
-                              </div>
-                            @endforeach
-                        </div> --}}
-
-                        </div>
-
-                    <div class="sku-detail">
-                        <div class="row">
-                            <button type="button" class="btn btn-info w-100" id="add-sku">
-                                <i class="fas fa-plus"></i> Add SKU detail
-                            </button>
-                        </div>
                     </div>
+
+                    
                 </div>
             </div>
         </div>

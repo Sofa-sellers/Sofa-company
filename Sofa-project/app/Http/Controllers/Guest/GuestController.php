@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\Sku;
 use App\Models\AttributeValue;
 use App\Models\Category;
+use App\Models\Attribute;
 
 class GuestController extends Controller
 {
@@ -87,23 +88,35 @@ class GuestController extends Controller
         ->paginate(4);
 
 
-        $skus = Sku::with('attributevalue')->where('product_id',$id)->get();
-
         
-        dd($skus);
-        $color=null;
-        $material=null;
+        
+        
+        // dd($product);
+        $skus = $product->sku;
+        
+        $color[]=null;
+       
         foreach ($skus as $sku) {
-
-                if ($sku->attribute_id == 1) {
-                $color = $sku->attributevalue;
-                dd($sku);
-            }elseif($sku->attribute_id == 3){
-                $material = $sku->attributevalue->value;
+            if($sku->attribute_id == 1){
+                $color[]=$sku->value_id;
+                
             }
         }
 
         dd($color);
+        
+        // $material=null;
+        // foreach ($skus as $sku) {
+
+        //         if ($sku->attribute_id == 1) {
+        //         $color = $sku->attributevalue->value;
+        //         dd($color);
+        //     }elseif($sku->attribute_id == 3){
+        //         $material = $sku->attributevalue->value;
+        //     }
+        // }
+
+        // dd($color);
         
         return view('guest.productdetail',[
             'product'=>$product,
@@ -126,6 +139,13 @@ class GuestController extends Controller
 
     public function privacy(){
         return view('guest.privacy');
+    }
+
+    public function download($id){
+        $product=Product::where('id', $id)->first();
+        $filePath = public_path('uploads/'.$product->file); // Đường dẫn tới tệp cần tải xuống
+
+    return view('guest.productdetail', ['filePath' => $filePath]);
     }
 
 }
