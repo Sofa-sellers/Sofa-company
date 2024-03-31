@@ -8,9 +8,9 @@
         "php": "^8.2",
         "laravel/fortify": "^1.21",
         "laravel/framework": "^11.0",
-        "laravel/jetstream": "^5.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "mailersend/laravel-driver": "^2.4",
         "quoctuan9901/laravel-cart-package": "main-dev"
     },
     "require-dev": {
