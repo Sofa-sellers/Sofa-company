@@ -105,7 +105,7 @@ class GuestController extends Controller
             ->join('products', 'attribute_values.id', '=', 'products.material_id')
             ->select('attribute_values.value')
             ->where('products.id',$id)
-            ->where('attribute_values.attribute_id',7)
+            ->where('attribute_values.attribute_id',3)
             ->get();
 
             $dimension = DB::table('attribute_values')
