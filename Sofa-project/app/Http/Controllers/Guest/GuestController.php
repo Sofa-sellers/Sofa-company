@@ -26,11 +26,15 @@ class GuestController extends Controller
 
     public function index(){
         $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        $products_sale = Product::where('is_sale',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        $products_featured = Product::where('featured',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         $categories = Category::get();
 
         return view('guest.index',[
             'products_lastest' => $products_lastest,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'products_sale' => $products_sale,
+            'products_featured' => $products_featured,
         ]);
     }
 
@@ -81,9 +85,9 @@ class GuestController extends Controller
         ]);
     }
 
-    public function detail($id){
+    public function detail($slug){
 
-        $product = Product::with('category', 'productimages','sku','attributevalue')->where('id',$id)->first();
+        $product = Product::with('category', 'productimages','sku','attributevalue')->where('slug',$slug)->first();
         $products_related = Product::with('category')
         ->where('category_id', $product->category->id)
         ->where('id','!=',$product->id)
@@ -104,14 +108,14 @@ class GuestController extends Controller
         $material = DB::table('attribute_values')
             ->join('products', 'attribute_values.id', '=', 'products.material_id')
             ->select('attribute_values.value')
-            ->where('products.id',$id)
+            ->where('products.slug',$slug)
             ->where('attribute_values.attribute_id',7)
             ->get();
 
             $dimension = DB::table('attribute_values')
             ->join('products', 'attribute_values.id', '=', 'products.dimension_id')
             ->select('attribute_values.value')
-            ->where('products.id',$id)
+            ->where('products.slug',$slug)
             ->where('attribute_values.attribute_id',2)
             ->get('');   
 

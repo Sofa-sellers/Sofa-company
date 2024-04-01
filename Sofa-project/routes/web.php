@@ -60,7 +60,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('category/{id}', 'category')->name('category');
 
-        Route::get('detail/{id}', 'detail')->name('detail');
+        Route::get('detail/{slug}', 'detail')->name('detail');
 
         Route::get('download/{id}', 'download')->name('download');
 

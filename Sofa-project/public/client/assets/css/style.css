@@ -1552,14 +1552,14 @@ svg {
 }
 
 .slide-bg1 {
-  background-image: url("../images/slider/slide1.jpg");
+  background-image: url("../images/slider/image1.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0% center;
 }
 
 .slide-bg2 {
-  background-image: url("../images/slider/slide2.jpg");
+  background-image: url("../images/slider/image2.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0% center;

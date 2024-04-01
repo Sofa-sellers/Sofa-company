@@ -105,10 +105,8 @@
                         <option value="{{ $d->id }}" {{ old('dimension_id') == $d->id ? 'selected' : '' }}>{{ $d->value }}</option>
                         {{$dimensions}}
                         @endforeach
-                        
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Material</label>
                         <select class="form-control" name="material_id">
@@ -116,10 +114,8 @@
                         @foreach ($materials as $m)
                         <option value="{{ $m->id }}" {{ old('material_id') == $m->id ? 'selected' : '' }}>{{ $m->value }}</option>
                         @endforeach
-                        
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Description</label>
                         <textarea class="form-control" name="description">{{ old('description') }}</textarea>
@@ -170,7 +166,6 @@
                         <option value="2" {{ old('is_sale') == 2 ? 'selected' : '' }}>Not sale</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Featured</label>
                         <select class="form-control" name="featured">
@@ -178,7 +173,6 @@
                         <option value="2" {{ old('featured') == 2 ? 'selected' : '' }}>Unfeatured</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">
@@ -189,7 +183,6 @@
                     <div class="form-group" >
                         <label></label>
                         <table>
-                            
                             <tr>
                                 <td>
                                     <div style="display: flex; flex-wrap: wrap;margin-top:10px">
@@ -197,7 +190,6 @@
                                 </td>
                                 <td>
                                 <div class="attribute-values" id="value-check" style="display:flex; flex-wrap: wrap; margin-left: 10px;">
-                            
                                 @foreach ($colors as $color)
                                 <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
                                 <input class="form-check-input" type="checkbox" value="{{$color->id}}" id="color_{{$color->id}}" name="value_id[]" >
@@ -208,11 +200,9 @@
                                 </label>
                                 </div>
                                 @endforeach
-    
                                 </div>
                                 </td>
                             </tr>
-                
                         </table>
                         </div>
                         <div class="sku-detail">

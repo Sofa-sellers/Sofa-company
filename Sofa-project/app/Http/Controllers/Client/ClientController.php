@@ -44,7 +44,7 @@ class ClientController extends Controller
         //
     }
 
-    public function cartUpdate(Request $request){
+    public function cartUpdate(Request $request, $id, $quantity){
 
         $id = $request->id;
         $quantity = $request->quantity;
