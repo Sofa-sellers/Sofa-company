@@ -16,10 +16,11 @@ return new class extends Migration
             // $table->string('code');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('attribute_id');
+            $table->unsignedBigInteger('attribute_id')->default(1);
             $table->foreign('attribute_id')->references('id')->on('attributes');
             $table->unsignedBigInteger('value_id');
             $table->foreign('value_id')->references('id')->on('attribute_values');
+            $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
             $table->timestamps();
         });
     }

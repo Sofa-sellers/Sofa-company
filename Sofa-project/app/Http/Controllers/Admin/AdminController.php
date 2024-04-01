@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Brand;
@@ -207,21 +209,17 @@ class AdminController extends Controller
     public function productCreate()
     {
         $categories = Category::get();
-
-        $attributes = Attribute::get();
-         
-        $colors = AttributeValue::where('attribute_id',1)->get();
         
+        $colors = AttributeValue::where('attribute_id',1)->get();
         $dimensions = AttributeValue::where('attribute_id',2)->get();
 
-        $materials = AttributeValue::where('attribute_id',3)->get();
+        $materials = AttributeValue::where('attribute_id',7)->get();
         
         $brands = Brand::get();
 
         return view('admin.modules.product.create', [
             'categories' => $categories,
             'brands' => $brands,
-            'attributes' =>$attributes,
             'colors'=>$colors,
             'materials'=>$materials,
             'dimensions'=>$dimensions
@@ -250,17 +248,32 @@ class AdminController extends Controller
 
 
         $product->name = $request->name;
-        $product->slug = $request->slug;
-        $product->intro = $request->intro;
+        $product->brand_id = $request->brand_id;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
-        $product->category_id = $request->category_id;
+        $product->dimension_id = $request->dimension_id;
+       
+        $product->material_id = $request->material_id;
         $product->quantity = $request->quantity;
-        $product->brand_id = $request->brand_id;
+        $product->category_id = $request->category_id;
+        $product->featured = $request->featured;
+        $product->is_sale = $request->is_sale;
         $product->status = $request->status;
-        // $product->value_id = $request->value_id;
 
+        $d = AttributeValue::where('id', $product->dimension_id)->value('value');
+        
+        $m = AttributeValue::where('id', $product->material_id)->value('value');
+
+        $array = [$product->name, $d, $m];
+       
+        
+        $intro = implode(' - ', $array);
+       
+        $product->intro = $intro;
+        $slug = Str::slug($intro, '-');
+        
+        $product->slug = $slug;
         $product->save();
 
         if ($request->images !== null) {
@@ -282,8 +295,6 @@ class AdminController extends Controller
             }
 
             ProductImages :: insert($data_images);
-        }else{
-            alert('Please add more product images');
         }
 
         if ($request->value_id !== null) {
@@ -299,8 +310,6 @@ class AdminController extends Controller
                 ];
             }
             Sku :: insert($skus);
-        }else{
-            alert('Please choose attribute values');
         }
 
         return redirect()->route('admin.product.index')->with('success', 'Create product successfully');
@@ -323,12 +332,14 @@ class AdminController extends Controller
 
     public function productUpdate(ProductUpdateRequest $request, string $id)
     {
+        // dd($id);
+        $products = Product::where('id', $id)->first();
         $request->validate([
             'file' => 'required|mimes:pdf',
             'image' => 'required|mimes:jpg,png,bmp,jpeg',
         ]);
 
-        $products = Product::find($id);
+        
         if ($products == null) {
             abort(404);
         }
@@ -356,12 +367,12 @@ class AdminController extends Controller
         }
 
         $products->name = $request->name;
-        $products->slug = $request->slug;
+        // $products->slug = $request->slug;
         $products->description = $request->description;
         $products->price = $request->price;
         $products->sale_price = $request->sale_price;
         $products->category_id = $request->category_id;
-        $products->brand_id = $request->brand_id;
+        // $products->brand_id = $request->brand_id;
         $products->status = $request->status;
         $products->save();
 
@@ -692,21 +703,51 @@ class AdminController extends Controller
     }
 
 
-    public function skuIndex($product_id){
-        $product = Product::find($product_id);
-        $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+    public function skuIndex($product_id) {
+        $product = Product::findOrFail($product_id);
+    
+        $skus = Sku::with('attributevalue')->where('product_id', $product->id)->orderBy('created_at', 'DESC')->get();
+    
+        $attributeIds = [];
+    $values = [];
+
+    // Retrieve unique attribute IDs from skus
+    foreach ($skus as $sku) {
+        // Check if the attributevalue relationship exists
+        if ($sku->attributevalue) {
+            // Retrieve the attribute and value for this SKU
+            $attribute = Attribute::where('id', $sku->attributevalue->attribute_id)->orderBy('id', 'DESC')->first();
+            $value = $sku->attributevalue->first();
+            
+            // Add the attribute and value to their respective arrays
+            $attributeIds[] = $attribute;
+            $values[] = $value;
+        }
+    }
+    dd($values);
+        
+        return view('admin.modules.sku.index',[
+            'product'=>$product,
+            'skus'=>$skus,
+            'attributes'=>$attributeIds,
+            'values'=>$values
+        ]);
+    }
+    
+
+    public function skuCreate($product_id){
+        $product = Product::findOrFail($product_id);
 
         return view('admin.modules.sku.index',[
-            'skus'=>$skus,
             'product'=>$product
         ]);
 
     }
 
 
-    public function skuUpdate(SkuUpdateRequest $request, $product_id)
+    public function skuStore(Request $request, $product_id)
     {
-        $product = Product::find($product_id);
+        $product = Product::findOrFail($id);
         $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
 
         $data = $request->all();

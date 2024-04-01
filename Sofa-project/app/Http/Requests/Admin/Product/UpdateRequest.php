@@ -14,10 +14,11 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:products,name'.$this->id,
+            'id'=>'unique:products,id'.$this->id,
+            'name'=>'required|unique:products,name',
             'image'=>'required|mimes:jpg,bmp,png,jpeg',
             'intro'=>'required|unique:products,intro',
-            'brand_id'=>'required|exists:brands,id',
+            // 'brand_id'=>'required|exists:brands,id',
             'description'=>'required',
             'price'=>'required|numeric|min:0',
             'sale_price'=>'numeric|min:0',

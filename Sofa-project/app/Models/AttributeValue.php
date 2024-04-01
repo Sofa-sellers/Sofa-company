@@ -25,8 +25,7 @@ class AttributeValue extends Model
     protected $guarded =[];
 
     protected $fillable = [
-        'value', // Đảm bảo cột 'value' được bảo vệ bởi $fillable
-        // Các cột khác mà bạn muốn phép gán dữ liệu
+        'value', 
     ];
 
     public function attribute(): BelongsTo

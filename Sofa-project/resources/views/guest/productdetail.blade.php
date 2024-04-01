@@ -93,28 +93,28 @@
                             <div class="product-variants-item">
                                 <span class="control-label">Dimensions</span>
                                 <select class="form-control form-control-select">
-                                    @foreach($skus->where('attribute_id', 2) as $dimensions)
+                                    {{-- @foreach($skus->where('attribute_id', 2) as $dimensions)
                                     <option value="{{$dimensions->value_id}}" >
                                    
                                         {{$dimensions->attributevalue->value}}
                                     
                                     </option>
            
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                             <div class="product-variants-item">
                                 <span class="control-label">Color</span>
                                 <ul>
-                                    {{-- @foreach($skus->where('attribute_id', 1) as $color)
-                                    {{$color}} --}}
-                                    {{-- <li class="input-container">
+                                    @foreach($color as $c)
+                                    
+                                    <li class="input-container">
                                         <label>
-                                            <input class="input-color" type="checkbox" name="color[]" value="{{ $color->value_id}}">
-                                            <span class="color" style="background-color: {{ $color->attributevalue->value }} ">{{$color->attributevalue->value}}</span>
+                                            <input class="input-color" type="checkbox" name="color[]" value="{{ $c->value_id}}">
+                                            <span class="color" style="background-color: {{ $c->attributevalue->value }} ">{{$c->attributevalue->value}}</span>
                                         </label>
-                                    </li> --}}
-                                    {{-- @endforeach --}}
+                                    </li>
+                                    @endforeach
                                     
                                 </ul>
                             </div>
