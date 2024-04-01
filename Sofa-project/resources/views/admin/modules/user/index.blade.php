@@ -80,7 +80,7 @@ $(function () {
                     <td>{{$user->address}}</td>
                     <td>{{$user->phone}}</td>
                     <td><span class="right badge badge-{{$user->level == 2 ?'dark':'success'}}">{{$user->level==2? 'Admin' :'Member'}}</span></td>
-                    <td><span class="right badge badge-{{$user->status == 1 ?'success':'dark'}}">{{$user->status==1? 'Show' :'Hide'}}</span></td> 
+                    <td><span class="right badge badge-{{$user->status == 1 ?'success':'dark'}}">{{$user->status==1? 'Show' :'Hide'}}</span></td>
                     <td>{{$user->created_at}}</td>
                     <td><a href="{{route('admin.user.edit',['id'=>$user->id])}}">Edit</a></td>
                     <td><a onclick="return confirmDelete ()" href="{{route('admin.user.destroy',['id'=>$user->id])}}">Delete</a></td>

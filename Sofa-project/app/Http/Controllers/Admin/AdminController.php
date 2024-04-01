@@ -210,6 +210,8 @@ class AdminController extends Controller
 
         $attributes = Attribute::with('attributevalue')->get();
 
+        $values=null;
+        
         foreach ($attributes as $attribute) {
             $values = $attribute->attributevalue;
         }
@@ -283,7 +285,7 @@ class AdminController extends Controller
         if ($request->value_id !== null) {
             foreach ($request->value_id as $value){
                 $attribute = AttributeValue::find($value)->attribute;
-                
+
                 $skus[]=[
                     'attribute_id'=>$attribute->id,
                     'product_id' => $product->id,
@@ -380,7 +382,7 @@ class AdminController extends Controller
                 unlink($old_image_path);
             }
         }
-        
+
 
         if ($products == null) {
             abort(404);
@@ -547,7 +549,7 @@ class AdminController extends Controller
         return view('admin.modules.value.create', ['attributes' => $attribute]);
     }
 
-    
+
     public function valueStore(AttributeValueStoreRequest $request)
     {
         $value = new AttributeValue();
@@ -560,7 +562,7 @@ class AdminController extends Controller
         ], [
             'value.regex' => 'Please enter the correct format: length x width x height (a x b x c), with a, b, c greater than 0, and a, b < 500, c < 300',
         ]);
- 
+
         // $request->validate([
         //     'color' => 'string|regex:/^#[a-fA-F0-9]{6}$/',
         // ]);
@@ -573,7 +575,7 @@ class AdminController extends Controller
         // }
 
         $value->value = $request->value;
-        
+
         $value->status = $request->status;
 
         $value->save();
@@ -682,7 +684,7 @@ class AdminController extends Controller
         if($brands==null){
             abort(404);
         }
- 
+
         $brands->delete();
         return redirect()->route('admin.brand.index')->with('success','Delete brand successfully');
     }
