@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Attribute;
 use App\Models\Sku;
+use App\Models\Product;
 
 class AttributeValue extends Model
 {
@@ -36,5 +37,10 @@ class AttributeValue extends Model
     public function sku()
     {
         return $this->hasMany(Sku::class);
+    }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class);
     }
 }

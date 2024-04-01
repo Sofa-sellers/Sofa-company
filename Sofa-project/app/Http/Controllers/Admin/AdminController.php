@@ -321,6 +321,10 @@ class AdminController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
         $products = Product::find($id);
+        $colors = AttributeValue::where('attribute_id',1)->get();
+        $dimensions = AttributeValue::where('attribute_id',2)->get();
+
+        $materials = AttributeValue::where('attribute_id',7)->get();
         if ($products == null) {
             abort(404);
         }
@@ -328,7 +332,10 @@ class AdminController extends Controller
             'id' => $id,
             'categories' => $categories,
             'product' => $products,
-            'brands'=>$brands
+            'brands'=>$brands,
+            'colors'=>$colors,
+            'materials'=>$materials,
+            'dimensions'=>$dimensions
         ]);
     }
 
