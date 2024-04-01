@@ -324,7 +324,7 @@ class AdminController extends Controller
         $colors = AttributeValue::where('attribute_id',1)->get();
         $dimensions = AttributeValue::where('attribute_id',2)->get();
 
-        $materials = AttributeValue::where('attribute_id',7)->get();
+        $materials = AttributeValue::where('attribute_id',3)->get();
         if ($products == null) {
             abort(404);
         }
