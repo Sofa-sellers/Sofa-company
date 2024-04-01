@@ -8,6 +8,8 @@ use App\Http\Requests\Auth\registerRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Sku;
@@ -81,41 +83,47 @@ class GuestController extends Controller
 
     public function detail($id){
 
-        $product = Product::with('category', 'productimages','sku')->where('id',$id)->first();
+        $product = Product::with('category', 'productimages','sku','attributevalue')->where('id',$id)->first();
         $products_related = Product::with('category')
         ->where('category_id', $product->category->id)
         ->where('id','!=',$product->id)
         ->paginate(4);
 
-        // dd($product);
+       
         $skus = $product->sku;
-        
-        $color[]=null;
+  
+        $colors[]=null;
        
         foreach ($skus as $sku) {
             if($sku->attribute_id == 1){
-                $color[]=$sku;
+                $color = AttributeValue::where('id', $sku->value_id)->first();
+                $colors[] = $color;
             }
         }
 
-        // $material=null;
-        // foreach ($skus as $sku) {
+        $material = DB::table('attribute_values')
+            ->join('products', 'attribute_values.id', '=', 'products.material_id')
+            ->select('attribute_values.value')
+            ->where('products.id',$id)
+            ->where('attribute_values.attribute_id',7)
+            ->get();
 
-        //         if ($sku->attribute_id == 1) {
-        //         $color = $sku->attributevalue->value;
-        //         dd($color);
-        //     }elseif($sku->attribute_id == 3){
-        //         $material = $sku->attributevalue->value;
-        //     }
-        // }
+            $dimension = DB::table('attribute_values')
+            ->join('products', 'attribute_values.id', '=', 'products.dimension_id')
+            ->select('attribute_values.value')
+            ->where('products.id',$id)
+            ->where('attribute_values.attribute_id',2)
+            ->get('');   
 
-        // dd($color);
-        
+    // dd($dimension);
+
         return view('guest.productdetail',[
             'product'=>$product,
             // 'skus'=>$skus,
             'products_related'=>$products_related,
-            'color'=>$color
+            'colors'=>$colors,
+            'material'=>$material,
+            'dimension'=>$dimension
         ]);
     }
 

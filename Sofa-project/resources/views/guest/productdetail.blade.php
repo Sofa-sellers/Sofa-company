@@ -80,9 +80,13 @@
                         </div>
 
                         <div class="product-price-wrapp-lg">
-                            <span class="product-regular-price-lg">{{$product->price}}</span>
-                            <span class="product-price-on-sale-lg">{{$product->sale_price}}</span>
-                            <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
+                            @if(!$product->sale_price)
+                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{$product->price}}</h4>
+                            @else
+                                <span class="product-regular-price-lg">$ {{$product->price}}</span>
+                                <span class="product-price-on-sale-lg">$ {{$product->sale_price}}</span>
+                                <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
+                            @endif 
                         </div>
 
                         <div class="product-description-short">
@@ -90,30 +94,19 @@
                         </div>
 
                         <div class="product-variants">
-                            <div class="product-variants-item">
-                                <span class="control-label">Dimensions</span>
-                                <select class="form-control form-control-select">
-                                    {{-- @foreach($skus->where('attribute_id', 2) as $dimensions)
-                                    <option value="{{$dimensions->value_id}}" >
-                                   
-                                        {{$dimensions->attributevalue->value}}
-                                    
-                                    </option>
-           
-                                    @endforeach --}}
-                                </select>
-                            </div>
+                        
                             <div class="product-variants-item">
                                 <span class="control-label">Color</span>
                                 <ul>
-                                    @foreach($color as $c)
-                                    
+                                    @foreach($colors as $c)
+                                    @if($c)
                                     <li class="input-container">
                                         <label>
-                                            <input class="input-color" type="checkbox" name="color[]" value="{{ $c->value_id}}">
-                                            <span class="color" style="background-color: {{ $c->attributevalue->value }} ">{{$c->attributevalue->value}}</span>
+                                            <input class="input-color" type="checkbox" name="color[]" value="{{$c->id}}">
+                                            <span class="color" style="background-color: {{ $c->value }} "></span>
                                         </label>
                                     </li>
+                                    @endif
                                     @endforeach
                                     
                                 </ul>
@@ -202,8 +195,17 @@
                             <div class="single-product-desc">
                                 <div class="product-anotherinfo-wrapper">
                                     <ul>
-                                        <li><span>Dimensions</span>10 x 10 x 15 cm</li>
-                                        <li><a href="{{ route('download')}}">Download  Direction for Use</a></li>
+                                        <li><span>Material</span>
+                                            @foreach ($material as $item)
+                                                {{$item->value}}
+                                            @endforeach
+                                        </li>
+                                        <li><span>Dimensions</span>
+                                            @foreach ($dimension as $item)
+                                            {{$item->value}}
+                                            @endforeach
+                                        </li>
+                                        <li><a href='//'>Download  Direction for Use</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -356,7 +358,7 @@
                                             <div class="product-content">
                                                 <h4><a href="shop-grid-left-sidebar.html" class="product-title">{{$pr->name}}</a></h4>
                                                 <div class="product-group">
-                                                    <h5 class="product-price"><del class="old-price">{{$pr->price}}</del> <span class="new-price">{{$pr->sale_price}}</span></h5>
+                                                    <h5 class="product-price"><del class="old-price">$ {{$pr->price}}</del> <span class="new-price">$ {{$pr->sale_price}}</span></h5>
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
                                                 </div>
 

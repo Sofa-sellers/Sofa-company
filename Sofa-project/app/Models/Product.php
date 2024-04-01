@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Sku;
+use App\Models\AttributeValue;
 
 class Product extends Model
 {
@@ -43,5 +44,10 @@ class Product extends Model
     public function productimages()
     {
         return $this->hasMany(ProductImages::class)->withTrashed();
+    }
+
+    public function attributevalue()
+    {
+        return $this->belongsTo(AttributeValue::class);
     }
 }

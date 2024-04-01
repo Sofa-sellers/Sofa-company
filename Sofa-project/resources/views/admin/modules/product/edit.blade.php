@@ -38,9 +38,37 @@
                             <img src="{{ asset('uploads/' . $product->image) }}" alt="Product Image" width='200px' height='200px'>
                         @endif
                     </div>
+
+                    <div class="form-group">
+                        <label>Dimension</label>
+                        <select class="form-control" name="dimension_id">
+                        <option value="0" {{ old('dimension_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        @foreach ($dimensions as $d)
+                        <option value="{{ $d->id }}" {{ old('dimension_id', $product->dimension_id) == $product->dimension_id ? 'selected' : '' }}>{{ $d->value }}</option>
+                        {{$dimensions}}
+                        @endforeach
+                        
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Material</label>
+                        <select class="form-control" name="material_id">
+                        <option value="0" {{ old('material_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        @foreach ($materials as $m)
+                        <option value="{{ $m->id }}" {{ old('material_id', $product->material_id) == $product->material_id ? 'selected' : '' }}>{{ $m->value }}</option>
+                        @endforeach
+                        
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>Intro</label>
                         <textarea class="form-control" name="intro">{{ old('intro', $product->intro) }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <textarea class="form-control" name="slug">{{ old('intro', $product->slug) }}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -96,12 +124,26 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Is_sale</label>
+                        <select class="form-control" name="is_sale">
+                        <option value="1" {{ old('is_sale', $product->is_sale) == 1 ? 'selected' : '' }}>Sale</option>
+                        <option value="2" {{ old('is_sale', $product->is_sale) == 2 ? 'selected' : '' }}>Not sale</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Featured</label>
+                        <select class="form-control" name="featured">
+                        <option value="1" {{ old('featured', $product->featured) == 1 ? 'selected' : '' }}>Featured</option>
+                        <option value="2" {{ old('featured', $product->featured) == 2 ? 'selected' : '' }}>Unfeatured</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">
                             <option value="1" {{ old('status', $product->status) == 1 ? 'selected' : '' }}>Show</option>
                             <option value="2" {{ old('status', $product->status) == 2 ? 'selected' : '' }}>Hide</option>
-                            <option value="3" {{ old('status', $product->status) == 3 ? 'selected' : '' }}>Hot</option>
-                            <option value="4" {{ old('status', $product->status) == 4 ? 'selected' : '' }}>New</option>
                         </select>
                     </div>
                 </div>
