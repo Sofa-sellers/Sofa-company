@@ -2,14 +2,14 @@
 
 namespace App\Mail;
 
-use Carbon\Traits\Serialization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ForgotPasswordMail extends Mailable 
 {
-    use Queueable,Serialization;
+    use Queueable,SerializesModels;
 
     public $user;
 
@@ -18,7 +18,8 @@ class ForgotPasswordMail extends Mailable
     }
 
     public function build(){
-        return $this->markdown('emails.forgetPassword')
+        return $this->from('seolosofa@gmail.com')
+        ->markdown('emails.forgetPassword')
         ->subject(config('app.name').',Forgot Password');
     }
 }

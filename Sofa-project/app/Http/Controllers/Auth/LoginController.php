@@ -46,7 +46,7 @@ class LoginController extends Controller
                 }
             }
         } else {
-            return redirect()->back()->with('error','Email hoặc Password không chính xác');
+            return redirect()->back()->with('error','Email or Password is incorrect');
         }
     }
     public function showRegister(){
@@ -87,30 +87,23 @@ class LoginController extends Controller
         }
     }
     public function resetPassword($token){
-        $jsonString=User::select('email')->where('token',$token)->first();
+        $jsonString=User::select('email')->where('remember_token',$token)->first();
         $email = $jsonString->email; 
         return view('guest.newPassword',compact('token','email'));
     }
 
     public function resetPasswordPost(Request $request){
-        $jsonString=User::select('email')->first();
-        $email = $jsonString->email; 
         $request->validate([
             "password"=>"required|string|confirmed",
             "password_confirmation"=>"required"
         ]);
-
-        $updatePass=DB::table('password_reset_tokens')->where([
-            "token"=>$request->token,
-        ])->first();
-
+        $updatePass=User::where("remember_token",$request->token)->get();
         if(!$updatePass){
-            return redirect()->to(route('forget.password'))->with('error','Invalid');
+            return redirect()->to(route('forget.password'))->with('error','Update failed');
         }
 
-        User::where("email",$email)
+        User::where("remember_token",$request->token)
         ->update(["password" => Hash::make($request->password)]);
-
         return redirect()->to(route('forget.password'))->with("success","password successfully changes");
     }
 }
