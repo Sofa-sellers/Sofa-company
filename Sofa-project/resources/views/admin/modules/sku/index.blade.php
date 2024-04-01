@@ -22,88 +22,102 @@
 @endpush
 @push('handlejs')
 <script>
-$(function () {
-    $("#example1").DataTable({
-    "responsive": true, "lengthChange": false, "autoWidth": false,
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-    function confirmDelete(){
-        return confirm('Do you want to delete it ?');
-    }
+    $(function () {
+        $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+        function confirmDelete(){
+            return confirm('Do you want to delete it ?');
+        }
 </script>
 @endpush
 @section('content')
-    <!-- Default box -->
-    <form action="{{route('admin.sku.update',['id'=>$id])}}" method="post">
+<!-- Default box -->
+<form action="{{route('admin.brand.store')}}" method="post">
     <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Sku List</h3>
-          <div class="card-tools">
+    <div class="card-header">
+        <h3 class="card-title">Brand Create</h3>
+        <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
+            <i class="fas fa-minus"></i>
             </button>
             <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
+            <i class="fas fa-times"></i>
             </button>
-            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">{{$product->name}}</label>
-            <input type="text" class="form-control" name="product_id" value="{{old('product_id',$skus->product_id)}}" disabled>
-          </div>
-
-        <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Color</th>
-                        <th>Material</th>
-                        <th>Quantity</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    @foreach ($skus as $sku)
-                    <tr>
-                        <td>{{$loop->iteration}}</td>
-
-                        @if (($sku->attribute_id == 1))
-                            <td>{{$sku->value}}</td>
-                        @else
-                            <td>{{$sku->value}}</td>
-                        @endif
-                        <td>
-                            <input type="number" class="form-control" placeholder="Enter quantity" name="quantity" value="{{old('quantity',$sku->quantity)}}">
-                        </td>
-                        {{-- <td><span class="right badge badge-{{$sku->status == 1 ?'success':'dark'}}">{{$sku->status==1? 'Show' :'Hide'}}</span></td> --}}
-                        <td>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </td>
-                        <td><a onclick="return confirmDelete ()" href="{{route('admin.sku.destroy',['id'=>$sku->id])}}">Delete</a></td>
-                    </tr>
+    </div>
+    <div class="card-body">
+    @csrf
+    <div class="form-group">
+        <label for="exampleInputEmail1">Brand Name</label>
+        <input type="text" class="form-control" placeholder="Enter brand name" name="name" value="{{old('name')}}">
+    </div>
+    <div class="form-group">
+        <label >Status</label>
+        <select class="form-control" name="status">
+        <option value="1" {{old('status')== 1? 'selected':' '}}>Show</option>
+        <option value="2" {{old('status')== 2? 'selected':' '}}>Hide</option>
+        </select>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Sku List</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+            <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+            <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">{{$product->name}}</label>
+        <input type="text" class="form-control" name="product_id" value="{{old('product_id',$product->id)}}" disabled>
+    </div>
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($skus as $sku)
+                <tr>
+                    <td>{{$loop->iteration}}</td>
+                    @foreach($attributes as $index => $attr)
+                    @if($sku->attribute_id == 1)
+                    <td>{{$attr->name}}</td>
+                    <td style="background: {{$values[$loop->index]->value}}">{{$values[$loop->index]->value}}</td>
+                    @else
+                    <td>{{$attr->name}}</td>
+                    <td>{{$values[$loop->index]->value}}</td>
+                    @endif
                     @endforeach
-                </tbody>
-                
-                <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Color</th>
-                        <th>Material</th>
-                        <th>Quantity</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                </tfoot>
-              </table>
-        </div>
-        <!-- /.card-body -->
-        
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
-    </form>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                    <th>Delete</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+    <!-- /.card-footer-->
+</div>
+<!-- /.card -->
 @endsection

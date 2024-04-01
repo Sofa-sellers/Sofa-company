@@ -132,17 +132,17 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::get('destroy/{id}', 'productDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
-    Route::prefix('attribute')->name('attribute.')->group(function () {
-            Route::get('index', 'attributeIndex')->name('index')->middleware(['auth','admin']);
+    // Route::prefix('attribute')->name('attribute.')->group(function () {
+    //         Route::get('index', 'attributeIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('create', 'attributeCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store', 'attributeStore')->name('store')->middleware(['auth','admin']);
+    //         Route::get('create', 'attributeCreate')->name('create')->middleware(['auth','admin']);
+    //         Route::post('store', 'attributeStore')->name('store')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'attributeEdit')->name('edit')->middleware(['auth','admin']);
-            Route::post('update/{id}', 'attributeUpdate')->name('update')->middleware(['auth','admin']);
+    //         Route::get('edit/{id}', 'attributeEdit')->name('edit')->middleware(['auth','admin']);
+    //         Route::post('update/{id}', 'attributeUpdate')->name('update')->middleware(['auth','admin']);
 
-            Route::get('destroy/{id}', 'attributeDestroy')->name('destroy')->middleware(['auth','admin']);
-        });
+    //         Route::get('destroy/{id}', 'attributeDestroy')->name('destroy')->middleware(['auth','admin']);
+    //     });
 
     Route::prefix('value')->name('value.')->group(function () {
             Route::get('index', 'valueIndex')->name('index')->middleware(['auth','admin']);
@@ -150,8 +150,8 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('create', 'valueCreate')->name('create')->middleware(['auth','admin']);
             Route::post('store', 'valueStore')->name('store')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'valueEdit')->name('edit')->middleware(['auth','admin']);
-            Route::post('update/{id}', 'valueUpdate')->name('update')->middleware(['auth','admin']);
+            // Route::get('edit/{id}', 'valueEdit')->name('edit')->middleware(['auth','admin']);
+            // Route::post('update/{id}', 'valueUpdate')->name('update')->middleware(['auth','admin']);
 
             Route::get('destroy/{id}', 'valueDestroy')->name('destroy')->middleware(['auth','admin']);
         });
@@ -215,10 +215,10 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::prefix('sku')->name('sku.')->group(function () {
             Route::get('index/{product_id}', 'skuIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('edit/{id}', 'skuEdit')->name('edit')->middleware(['auth','admin']);
-            Route::post('update/{id}', 'skuUpdate')->name('update')->middleware(['auth','admin']);
+            Route::get('create/{product_id}', 'skuCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('store/{id}', 'skuStore')->name('store')->middleware(['auth','admin']);
 
-        //     Route::get('destroy/{id}', 'skuDestroy')->name('destroy');
+            Route::get('destroy/{id}', 'skuDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 });
 

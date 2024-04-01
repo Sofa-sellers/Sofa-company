@@ -87,10 +87,6 @@ class GuestController extends Controller
         ->where('id','!=',$product->id)
         ->paginate(4);
 
-
-        
-        
-        
         // dd($product);
         $skus = $product->sku;
         
@@ -98,13 +94,10 @@ class GuestController extends Controller
        
         foreach ($skus as $sku) {
             if($sku->attribute_id == 1){
-                $color[]=$sku->value_id;
-                
+                $color[]=$sku;
             }
         }
 
-        dd($color);
-        
         // $material=null;
         // foreach ($skus as $sku) {
 
@@ -121,7 +114,8 @@ class GuestController extends Controller
         return view('guest.productdetail',[
             'product'=>$product,
             // 'skus'=>$skus,
-            'products_related'=>$products_related
+            'products_related'=>$products_related,
+            'color'=>$color
         ]);
     }
 

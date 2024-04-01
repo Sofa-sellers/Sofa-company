@@ -64,7 +64,7 @@
                     <th>SKU</th>
                     <th>Image</th>
                     <th>Intro</th>
-                    {{-- <th>Description</th> --}}
+                    <th>Slug</th>
                     <th>Price</th>
                     <th>Sale price</th>
                     <th>Quantity</th>
@@ -80,12 +80,12 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
-                    <td><a href="{{ route('admin.sku.edit',['id'=>$product->id]) }}"></a>Manage SKU</td>
+                    <td><a href="{{ route('admin.sku.index',['product_id'=>$product->id]) }}">Manage Attribute</a></td>
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: 200px;">
                     </td>
                     <td>{{$product->intro}}</td>
-                    {{-- <td>{{$product->description}}</td> --}}
+                    <td>{{$product->slug}}</td>
                     <td>{{$product->price}}</td>
                     <td>{{$product->sale_price}}</td>
                     <td>{{$product->quantity}}</td>
@@ -124,7 +124,7 @@
                     <th>SKU</th>
                     <th>Image</th>
                     <th>Intro</th>
-                    {{-- <th>Description</th> --}}
+                    <th>Slug</th>
                     <th>Price</th>
                     <th>Sale price</th>
                     <th>Quantity</th>

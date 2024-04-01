@@ -54,7 +54,6 @@ $(function () {
                         <th>ID</th>
                         <th>Attribute</th>
                         <th>Value</th>
-                        {{-- <th>Code</th> --}}
                         <th>Status</th>
                         <th>Manage</th>
                     </tr>
@@ -69,9 +68,9 @@ $(function () {
                         @else
                             <td>{{$value->value}}</td>
                         @endif
-                        {{-- <td>{{$value->code}}</td> --}}
+
                         <td><span class="right badge badge-{{$value->status == 1 ?'success':'dark'}}">{{$value->status==1? 'Show' :'Hide'}}</span></td>
-                        <td><a href="{{route('admin.value.edit',['id'=>$value->id])}}">Edit</a>/<a onclick="return confirmDelete ()" href="{{route('admin.value.destroy',['id'=>$value->id])}}">Delete</a></td>
+                        <td><a href="//">Edit</a>/<a onclick="return confirmDelete ()" href="{{route('admin.value.destroy',['id'=>$value->id])}}">Delete</a></td>
                     </tr>
                 </tbody>
                 @endforeach
@@ -80,7 +79,6 @@ $(function () {
                         <th>ID</th>
                         <th>Attribute</th>
                         <th>Value</th>
-                        {{-- <th>Code</th> --}}
                         <th>Status</th>
                         <th>Manage</th>
                     </tr>

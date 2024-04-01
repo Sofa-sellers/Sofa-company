@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('firstname');
             $table->string('address');
             $table->string('phone');
             $table->double('cart_total');

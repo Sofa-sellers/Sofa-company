@@ -1,8 +1,6 @@
 @extends('admin.master')
-
 @section('module', 'Product')
 @section('action', 'Create')
-
 @push('handlejs')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -10,7 +8,7 @@
         var imageCount = 0;
         $( "#add-sku").click(function(){
             imageCount++;
-
+    
             var newRow = `
             <div class="row d-flex align-items-center">
                 <div class="col-md-2">
@@ -25,32 +23,32 @@
                     </button>
                 </div>
             </div>`;
-
+    
             $(".sku-detail").append(newRow);
         })
-
+    
         $(".sku-detail").on('click', '.delete-image', function(){
             var imageNumber = $(this).data("image")
             $("#image-" + imageNumber).closest(".row").remove();
         });
-
+    
         $(".sku-detail").on('change', 'input[name="images[]"]', function(){
             var imageNumber = $(this).data("image")
             var file = this.files[0];
-
+    
             if(file){
                 var reader = new FileReader();
                 reader.onload = function(e){
                     $("#image-" + imageCount).attr("src", e.target.result)
                 }
-
+    
                 reader.readAsDataURL(file);
             }
         });
-
+    
     })
-
- 
+    
+    
     // // Đợi cho tài liệu (document) được tải xong
     // $(document).ready(function(){
     //     // Lắng nghe sự kiện submit của form
@@ -67,9 +65,8 @@
     //         }
     //     });
     // });
-
+    
 </script>
-
 @section('content')
 <form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data" id="create-product">
     @csrf
@@ -79,10 +76,10 @@
             <h3 class="card-title">Product Create</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
+                <i class="fas fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i>
                 </button>
             </div>
         </div>
@@ -101,13 +98,28 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Product Slug</label>
-                        <input type="text" class="form-control"  name="slug" value="{{ old('slug') }}">
+                        <label>Dimension</label>
+                        <select class="form-control" name="dimension_id">
+                        <option value="0" {{ old('dimension_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        @foreach ($dimensions as $d)
+                        <option value="{{ $d->id }}" {{ old('dimension_id') == $d->id ? 'selected' : '' }}>{{ $d->value }}</option>
+                        {{$dimensions}}
+                        @endforeach
+                        
+                        </select>
                     </div>
+
                     <div class="form-group">
-                        <label>Intro</label>
-                        <textarea class="form-control" name="intro">{{ old('intro') }}</textarea>
+                        <label>Material</label>
+                        <select class="form-control" name="material_id">
+                        <option value="0" {{ old('material_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        @foreach ($materials as $m)
+                        <option value="{{ $m->id }}" {{ old('material_id') == $m->id ? 'selected' : '' }}>{{ $m->value }}</option>
+                        @endforeach
+                        
+                        </select>
                     </div>
+
                     <div class="form-group">
                         <label>Description</label>
                         <textarea class="form-control" name="description">{{ old('description') }}</textarea>
@@ -120,12 +132,10 @@
                         <label>Sale price</label>
                         <input type="number" class="form-control" placeholder="Enter product sale price" name="sale_price" value="{{ old('sale_price') }}">
                     </div>
-
                     <div class="form-group">
                         <label>Quantity</label>
                         <input type="number" class="form-control" placeholder="Enter product quantity" name="quantity" value="{{ old('quantity') }}">
                     </div>
-
                     <div class="form-group">
                         <label>File</label>
                         <div class="custom-file">
@@ -138,87 +148,81 @@
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" name="category_id">
-                            <option value="0" {{ old('category_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
-                            @php
-                                recursiveCategory($categories, old('category_id', 0));
-                            @endphp
+                        <option value="0" {{ old('category_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        @php
+                        recursiveCategory($categories, old('category_id', 0));
+                        @endphp
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select class="form-control" name="brand_id">
+                        <option value="0" {{ old('brand_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Is_sale</label>
+                        <select class="form-control" name="is_sale">
+                        <option value="1" {{ old('is_sale') == 1 ? 'selected' : '' }}>Sale</option>
+                        <option value="2" {{ old('is_sale') == 2 ? 'selected' : '' }}>Not sale</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Brand</label>
-                        <select class="form-control" name="brand_id">
-                            <option value="0" {{ old('brand_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
-                            @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
-                            @endforeach
+                        <label>Featured</label>
+                        <select class="form-control" name="featured">
+                        <option value="1" {{ old('featured') == 1 ? 'selected' : '' }}>Featured</option>
+                        <option value="2" {{ old('featured') == 2 ? 'selected' : '' }}>Unfeatured</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">
-                            <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Show</option>
-                            <option value="2" {{ old('status') == 2 ? 'selected' : '' }}>Hide</option>
-                            <option value="3" {{ old('status') == 3 ? 'selected' : '' }}>Hot</option>
-                            <option value="4" {{ old('status') == 4 ? 'selected' : '' }}>New</option>
+                        <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Show</option>
+                        <option value="2" {{ old('status') == 2 ? 'selected' : '' }}>Hide</option>
                         </select>
                     </div>
-
                     <div class="form-group" >
-                        <label>Attribute</label>
+                        <label></label>
                         <table>
-                            @foreach($attributes as $attribute)
+                            
                             <tr>
                                 <td>
                                     <div style="display: flex; flex-wrap: wrap;margin-top:10px">
-                                        <label>{{$attribute->name}}</label>
+                                        <label>Color</label>
                                 </td>
                                 <td>
-                                    <div class="attribute-values" id="value-check" style="display:flex; flex-wrap: wrap; margin-left: 10px;">
-                                        @if ($attribute->id == 1)
-                                            @foreach ($colors as $color)
-                                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
-                                                    <input class="form-check-input" type="checkbox" value="{{$color->id}}" id="color_{{$color->id}}" name="value_id[]" >
-                                                    <label class="form-check-label" for="color_{{$color->id}}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                                            <circle cx="8" cy="8" r="8"/>
-                                                        </svg>
-                                                    </label>
-                                                </div>
-                                            @endforeach
-                                        @elseif($attribute->id == 2)
-                                            @foreach ($dimensions as $dimension)
-                                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px; ">
-                                                    <input class="form-check-input" type="checkbox" value="{{$dimension->id}}" id="dimension_{{$dimension->id}}" name="value_id[]" >
-                                                    <label class="form-check-label" for="dimension_{{$dimension->id}}">{{$dimension->value}}</label>
-                                                </div>
-                                            @endforeach
-                                        @elseif($attribute->id == 3)
-                                            @foreach ($materials as $material)
-                                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
-                                                    <input class="form-check-input" type="checkbox" value="{{$material->id}}" id="material_{{$material->id}}" name="value_id[]" >
-                                                    <label class="form-check-label" for="material_{{$material->id}}">{{$material->value}}</label>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </div>
+                                <div class="attribute-values" id="value-check" style="display:flex; flex-wrap: wrap; margin-left: 10px;">
+                            
+                                @foreach ($colors as $color)
+                                <div class="form-check" style="display:flex; align-items:center; margin-right:20px;">
+                                <input class="form-check-input" type="checkbox" value="{{$color->id}}" id="color_{{$color->id}}" name="value_id[]" >
+                                <label class="form-check-label" for="color_{{$color->id}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="{{$color->value}}" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                <circle cx="8" cy="8" r="8"/>
+                                </svg>
+                                </label>
+                                </div>
+                                @endforeach
+    
+                                </div>
                                 </td>
                             </tr>
-                            @endforeach
+                
                         </table>
                         </div>
-
                         <div class="sku-detail">
                             <div class="row">
                                 <button type="button" class="btn btn-info w-100" id="add-sku">
-                                    <i class="fas fa-plus"></i> Add Image detail
+                                <i class="fas fa-plus"></i> Add Images 
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    
                 </div>
             </div>
         </div>
@@ -228,7 +232,6 @@
     </div>
     <!-- /.card -->
 </form>
-
 <!-- JavaScript to update custom file label -->
 <script>
     document.querySelectorAll('.custom-file-input').forEach(function(input) {
