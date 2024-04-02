@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('value_id');
             $table->foreign('value_id')->references('id')->on('attribute_values');
             $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

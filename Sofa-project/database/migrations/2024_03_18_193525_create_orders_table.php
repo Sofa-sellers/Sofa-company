@@ -27,6 +27,7 @@ return new class extends Migration
             $table->double('discount_code')->nullable();
             $table->string('payment');
             $table->text('note')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
