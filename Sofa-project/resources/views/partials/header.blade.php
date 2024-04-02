@@ -86,7 +86,7 @@
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
                             <?php
-                                $categories=DB::table('categories')->get();
+                                $categories=DB::table('categories')->where('parent_id','!=',0)->get();
                             ?>
                             <li class="main-menu-item">
                                 <a href="javascript:void(0)" class="main-menu-link">Category</a>
