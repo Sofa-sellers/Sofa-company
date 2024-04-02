@@ -9,7 +9,7 @@
                 <div class="col-lg-9 mb-5">
 
                     <div class="row align-items-center mb-5">
-                        <div class="col-12 col-md-6 ">
+                        <div class="col-12 col-md-6">
                             <nav class="shop-grid-nav">
                                 <ul class="nav nav-tabs justify-content-center justify-content-md-start align-items-center" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
@@ -40,10 +40,9 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel">
                             <div class="row grid-view mb-n5">
-
+                                @foreach ($products as $product)
                                 <div class="col-sm-6 col-md-4 mb-5">
                                     <div class="product-card">
-                                        @foreach ($products as $product)
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb">
                                             @if ($product->status==1)
                                             <span class="onsale bg-danger">sale!</span>
@@ -53,7 +52,7 @@
                                             <span class="onsale bg-warning">New!</span>
                                             @endif
                                             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
-                                            style="max-width: 400px; max-height: 500px;" alt="image_not_found">
+                                            width="500" height="400" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
@@ -77,9 +76,10 @@
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
                                             </li>
                                         </ul>
-                                        @endforeach
                                     </div>
                                 </div>
+                                @endforeach
+
                                 {{$products->links("partials.pagination")}}
                                 <!-- pagination -->
                                 {{-- <div class="col-12 mb-5">
@@ -105,9 +105,9 @@
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel">
                             <div class="row mb-n5 grid-view-list overflow-hidden">
+                                @foreach ($products as $product)
                                 <div class="col-12 mb-5">
                                     <!-- product card list start -->
-                                    @foreach ($products as $product)
                                     <div class="product-card-list row mb-n5">
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb-list col-md-4 mb-5">
                                             @if ($product->status==1)
@@ -146,32 +146,11 @@
 
                                             </ul>
                                         </div>
-                                        @endforeach
                                     </div>
                                     <!-- product card list end -->
                                 </div>
+                                @endforeach
                                 {{$products->links("partials.pagination")}}
-                                <!-- col-12 mb-5 end -->
-                                <!-- pagination -->
-                                {{-- <div class="col-12 mb-5">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item active">
-                                                <a class="page-link" href="#">
-                                                    <span class="ion-android-arrow-dropleft"></span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">
-                                                    <span class="ion-android-arrow-dropright"></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -255,49 +234,6 @@
                                 </ul>
                             </nav>
                         </div>
-                        <!-- sidebar widget end -->
-                        <div class="sidebar-widget">
-                            <h3 class="widget-title">Price Filter</h3>
-                            <div class="price-filter">
-                                <div id="slider-range"></div>
-                                <div class="price-slider-amount">
-                                    <span class="price-range">Price:</span>
-                                    <input type="text" id="amount" name="price" readonly placeholder="Add Your Price" />
-                                </div>
-                            </div>
-                        </div>
-                        <!-- sidebar widget end -->
-                        <div class="sidebar-widget">
-                            <h3 class="widget-title">Price Filter</h3>
-                            <div class="widget-colors">
-                                <ul class="colors">
-                                    <li><a href="javascript:void(0)">Amber <span>(4)</span></a></li>
-                                    <li><a href="javascript:void(0)">Beige <span>(4)</span></a></li>
-                                    <li><a href="javascript:void(0)">Bronze <span>(4)</span></a></li>
-                                    <li><a href="javascript:void(0)">Purple <span>(5)</span></a></li>
-                                    <li><a href="javascript:void(0)">Green <span>(5)</span></a></li>
-                                    <li><a href="javascript:void(0)">Red <span>(5)</span></a></li>
-                                    <li><a href="javascript:void(0)">White <span>(4)</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- sidebar widget end -->
-                        <div class="sidebar-widget">
-                            <h3 class="widget-title">Price Filter</h3>
-                            <div class="tag-clouds">
-                                <a href="#" class="tag-cloud-link">Bedroom</a>
-                                <a href="#" class="tag-cloud-link">Classic</a>
-                                <a href="#" class="tag-cloud-link">Furniture</a>
-                                <a href="#" class="tag-cloud-link">Kitchen</a>
-                                <a href="#" class="tag-cloud-link">Living Room</a>
-                                <a href="#" class="tag-cloud-link">Modern</a>
-                                <a href="#" class="tag-cloud-link">Rugs</a>
-                                <a href="#" class="tag-cloud-link">Steel</a>
-                                <a href="#" class="tag-cloud-link">Wall</a>
-                                <a href="#" class="tag-cloud-link">Wood</a>
-                            </div>
-                        </div>
-                        <!-- sidebar widget end -->
                     </aside>
                 </div>
             </div>
