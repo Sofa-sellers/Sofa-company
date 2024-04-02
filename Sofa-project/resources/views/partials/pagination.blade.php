@@ -1,48 +1,14 @@
-@if ($paginator->hasPages())
-<div class="col-12 mb-5">
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            @if($paginator->onFirstPage())
-            <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" style="color:black">
-                <span class="ion-android-arrow-dropleft"></span>
-                </a>
-            </li>
-            @else
-            <li class="page-item">
-                <a class="page-link" href="{{$paginator->previousPageUrl()}}">
-                <span class="ion-android-arrow-dropleft"></span>
-                </a>
-            </li>
-            @endif
-            @foreach ($elements as $element)
-            @if (is_string($element))
-            <li class="page-item disabled"><a class="page-link" href="javascript:void(0)">{{$element}}</a></li>
-            @endif
-            @if(is_array($element))
-            @foreach ($element as $page=>$url)
-            @if ($page==$paginator->currentPage())
-            <li class="page-item active"><a class="page-link" href="javascript:void(0)">{{$page}}</a></li>
-            @else
-            <li class="page-item"><a class="page-link" href="{{$url}}">{{$page}}</a></li>
-            @endif
-            @endforeach
-            @endif
-            @endforeach
-            @if($paginator->hasMorePages())
-            <li class="page-item">
-                <a class="page-link" href="{{$paginator->nextPageUrl()}}">
-                <span class="ion-android-arrow-dropright"></span>
-                </a>
-            </li>
-            @else
-            <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" style="color:black">
-                <span class="ion-android-arrow-dropright"></span>
-                </a>
-            </li>
-            @endif
-        </ul>
-    </nav>
+<div class="paginatoin-area">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <ul class="pagination-box">
+                @for ($i = 1; $i <= $paginator->lastPage(); $i++)
+                <li class="active"><a href="{{$paginator->url($i)}}">{{$i}}</a></li>
+                @endfor
+                <li>
+                    <a class="Next" href="{{$paginator->url($i)}}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
-@endif

@@ -198,7 +198,7 @@
                                                         <!-- actions  -->
                                                         {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist" style="color: black">
                                                                     <a href="{{ route('client.showWishlist') }}">
                                                                         <i class="ion-ios-heart-outline"></i>
                                                                     </a>
@@ -1284,12 +1284,12 @@
                         @foreach($categories as $cate)
                         <div class="swiper-slide">
                             <div class="decoration">
-                                <a class="decoration-thumb" href="shop-grid-left-sidebar.html">
+                                <a class="decoration-thumb" href="{{ route('shop',['id'=>$cate->id])}}">
                                     <img src="https://i.pinimg.com/originals/1b/75/52/1b755295f7959123be58a813e735a8e7.jpg" alt="image_not_found" class="img-fluid">
                                 </a>
                                 <div class="decoration-content">
                                     <h3 class="decoration-title">{{$cate->name}}</h3>
-                                    <a href="{{ route('shop')}}" class="btn btn-outline-dark">Discover Now</a>
+                                    <a href="{{ route('shop',['id'=>$cate->id])}}" class="btn btn-outline-dark">Discover Now</a>
                                 </div>
                             </div>
                         </div>

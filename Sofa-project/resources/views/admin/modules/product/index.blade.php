@@ -72,7 +72,7 @@
                     <th>Status</th>
                     <th>File</th>
                     <th>Create At</th>
-                    <th>Edit / Delete</th>
+                    <th>Manage</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,9 +109,9 @@
                         <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">{{ $product->file }}</a>
                     </td>
                     <td>{{$product->created_at}}</td>
-                    
+
                     <td>
-                        <a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a> / 
+                        <a href="{{route('admin.product.edit',['id'=>$product->id])}}">Edit</a> /
                         <a onclick="return confirmDelete()" href="{{route('admin.product.destroy',['id'=>$product->id])}}">Delete</a>
                     </td>
                 </tr>
@@ -132,7 +132,7 @@
                     <th>Status</th>
                     <th>File</th>
                     <th>Create At</th>
-                    <th>Edit / Delete</th>
+                    <th>Manage</th>
                 </tr>
             </tfoot>
         </table>

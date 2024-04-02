@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Default box -->
-    <form action="{{ route('admin.category.store') }}" method="post">
+    <form method="post" action="{{ route('admin.category.store') }}" enctype="multipart/form-data">
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Category Create</h3>
@@ -35,6 +35,14 @@
             </div>
 
             <div class="form-group">
+                <label>Photo</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customPhoto" name="photo" accept="photo/jpg,photo/png,photo/bmp,photo/jpeg" value="{{ old('photo') }}"/>
+                    <label class="custom-file-label" for="customPhoto">Choose file</label>
+                </div>
+            </div>
+
+            <div class="form-group">
               <label>Status</label>
               <select class="form-control" name="status">
                 <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Show</option>
@@ -49,4 +57,15 @@
       </div>
     <!-- /.card -->
     </form>
+
+<!-- JavaScript to update custom file label -->
+<script>
+    document.querySelectorAll('.custom-file-input').forEach(function(input) {
+        input.addEventListener('change', function(e) {
+            var fileName = e.target.files[0].name;
+            var label = e.target.nextElementSibling;
+            label.innerText = fileName;
+        });
+    });
+</script>
 @endsection

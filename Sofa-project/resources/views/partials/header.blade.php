@@ -76,8 +76,8 @@
             <div class="row align-items-center">
                 <div class="col-6 col-lg-3">
                     <div class="logo">
-                        <a href="index.html">
-                        <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
+                        <a href="{{route('index')}}">
+                            <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
                         </a>
                     </div>
                 </div>

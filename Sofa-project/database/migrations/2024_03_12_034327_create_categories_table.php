@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->integer('parent_id')->nullable();
+            $table->string('photo');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
