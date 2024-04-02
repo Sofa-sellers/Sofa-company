@@ -77,7 +77,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="logo">
                         <a href="{{route('index')}}">
-                            <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}" style="width:400;height:100" alt="image_not_found">
                         </a>
                     </div>
                 </div>
@@ -85,7 +85,19 @@
                     <nav class="d-inline-block position-relative">
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
-                            <li class="main-menu-item position-static"><a href="{{route('shop')}}" style="color:black" class="main-menu">Shop</a></li>
+                            <?php
+                                $categories=DB::table('categories')->get();
+                            ?>
+                            <li class="main-menu-item">
+                                <a href="javascript:void(0)" class="main-menu-link">Category</a>
+                                <!-- sub menu start -->
+                                <ul class="sub-menu">
+                                    @foreach ($categories as $item)
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('shop',['id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    @endforeach
+                                </ul>
+                                <!-- sub menu end -->
+                            </li>
                             {{-- 
                             <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li>
                             --}}
@@ -189,7 +201,7 @@
                 <div class="col-8 col-sm-4">
                     <div class="logo mx-auto">
                         <a href="index.html">
-                        <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
+                        <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}"  style="width:400;height:100" alt="image_not_found">
                         </a>
                     </div>
                 </div>

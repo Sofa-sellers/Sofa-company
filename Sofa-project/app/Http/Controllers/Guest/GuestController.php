@@ -38,50 +38,22 @@ class GuestController extends Controller
         ]);
     }
 
-    public function viewShop(Request $request){
-        $page=$request->query("page");
-        $size=$request->query("size");
+    public function viewShop($id){
 
-        if(!$page){
-            $page=1;
-        }
-        if(!$size){
-            $size=9;
-        }
-        $order=$request->query("order");
-        if(!$order){
-            $order=-1;
-        }
-        $o_column="";
-        $o_order="";
-        switch($order){
-            case 1:
-                $o_column="created_at";
-                $o_order="DESC";
-                break;
-            case 2:
-                $o_column="created_at";
-                $o_order="ASC";
-                break;    
-            case 3:
-                $o_column="sale_price";
-                $o_order="ASC";
-                break;
-            case 4:
-                $o_column="sale_price";
-                $o_order="DESC";
-                break;
-            default:
-                $o_column="id";
-                $o_order="DESC";
-                break;
-        }
-        $products=Product::orderBy('created_at','DESC')->orderBy($o_column,$o_order)->paginate(12);
-        return view('guest.shop',[
-            'product'=>$products,
-            'page'=>$page,
-            'size'=>$size,
-            'order'=>$order
+        $categories = Category::find($id);
+        
+        $products = Product::with('category')->where('category_id', $id)->paginate(6);
+        
+        $category_list = DB::table('categories')->get();
+
+        
+        return view('guest.shop',compact('products'), 
+        [
+            'id' => $id,
+            'products' => $products,
+            'categories' => $categories,
+            'category_list' => $category_list
+            
         ]);
     }
 
