@@ -82,8 +82,9 @@ class ClientController extends Controller
         return view('client.account');
     }
 
-    public function addToWishlist($id, $quantity){
-        //
+    public function addToWishlist(Request $request){
+        Cart::instance("wishlist")->add($request->id,$request->name,1,$request->price)->associate('App\Models\Product');
+        return response()->json(['status'=>200,'message'=>'success! Item successfully added to your wishlist.']);
     }
 
     public function showWishlist(){
@@ -110,4 +111,9 @@ class ClientController extends Controller
     public function accountDetailsUpdate(Request $request, $id){
 //
     }
+
+    public function showCompare(){
+        return view('guest.compare');
+    }
+
 }

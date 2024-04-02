@@ -3,25 +3,12 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
-use Hash;
-use App\Http\Requests\Auth\registerRequest;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\Request;
-use Auth;
-use App\Models\User;
 use App\Models\Product;
-use App\Models\Sku;
-use App\Models\AttributeValue;
 use App\Models\Category;
-use App\Models\Attribute;
+use App\Models\Brand;
 
 class GuestController extends Controller
 {
-
-    public function showForgotPassword(){
-        //
-    }
-
     public function index(){
         $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(8)->get();
         $categories = Category::get();
@@ -30,53 +17,114 @@ class GuestController extends Controller
             'products_lastest' => $products_lastest,
             'categories'=>$categories
         ]);
+    }   
+    public function productGrids(){
+        $products=Product::query();
+        
+        if(!empty($_GET['category'])){
+            $slug=explode(',',$_GET['category']);
+            // dd($slug);
+            $cat_ids=Category::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+            // dd($cat_ids);
+            $products->whereIn('cat_id',$cat_ids);
+            // return $products;
+        }
+        if(!empty($_GET['brand'])){
+            $brandName=explode(',',$_GET['brand']);
+            $brand_ids=Brand::select('id')->whereIn('name',$brandName)->pluck('id')->toArray();
+            return $brand_ids;
+            $products->whereIn('brand_id',$brand_ids);
+        }
+        if(!empty($_GET['sortBy'])){
+            if($_GET['sortBy']=='title'){
+                $products=$products->where('status',1)->orderBy('title','ASC');
+            }
+            if($_GET['sortBy']=='price'){
+                $products=$products->orderBy('price','ASC');
+            }
+        }
+
+        if(!empty($_GET['price'])){
+            $price=explode('-',$_GET['price']);
+            // return $price;
+            // if(isset($price[0]) && is_numeric($price[0])) $price[0]=floor(Helper::base_amount($price[0]));
+            // if(isset($price[1]) && is_numeric($price[1])) $price[1]=ceil(Helper::base_amount($price[1]));
+            
+            $products->whereBetween('price',$price);
+        }
+
+        $recent_products=Product::where('status',1)->orderBy('id','DESC')->limit(3)->get();
+        // Sort by number
+        if(!empty($_GET['show'])){
+            $products=$products->where('status',1)->paginate($_GET['show']);
+        }
+        else{
+            $products=$products->where('status',1)->paginate(9);
+        }
+        // Sort by name , price, category
+
+      
+        return view('frontend.pages.product-grids')->with('products',$products)->with('recent_products',$recent_products);
     }
+    public function productLists(){
+        $products=Product::query();
+        
+        if(!empty($_GET['category'])){
+            $slug=explode(',',$_GET['category']);
+            // dd($slug);
+            $cat_ids=Category::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+            // dd($cat_ids);
+            $products->whereIn('cat_id',$cat_ids)->paginate;
+            // return $products;
+        }
+        if(!empty($_GET['brand'])){
+            $slugs=explode(',',$_GET['brand']);
+            $brand_ids=Brand::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
+            return $brand_ids;
+            $products->whereIn('brand_id',$brand_ids);
+        }
+        if(!empty($_GET['sortBy'])){
+            if($_GET['sortBy']=='title'){
+                $products=$products->where('status',1)->orderBy('title','ASC');
+            }
+            if($_GET['sortBy']=='price'){
+                $products=$products->orderBy('price','ASC');
+            }
+        }
 
-    public function viewShop(Request $request){
-        $page=$request->query("page");
-        $size=$request->query("size");
+        if(!empty($_GET['price'])){
+            $price=explode('-',$_GET['price']);
+            // return $price;
+            // if(isset($price[0]) && is_numeric($price[0])) $price[0]=floor(Helper::base_amount($price[0]));
+            // if(isset($price[1]) && is_numeric($price[1])) $price[1]=ceil(Helper::base_amount($price[1]));
+            
+            $products->whereBetween('price',$price);
+        }
 
-        if(!$page){
-            $page=1;
+        $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        // Sort by number
+        if(!empty($_GET['show'])){
+            $products=$products->where('status','active')->paginate($_GET['show']);
         }
-        if(!$size){
-            $size=9;
+        else{
+            $products=$products->where('status','active')->paginate(6);
         }
-        $order=$request->query("order");
-        if(!$order){
-            $order=-1;
-        }
-        $o_column="";
-        $o_order="";
-        switch($order){
-            case 1:
-                $o_column="created_at";
-                $o_order="DESC";
-                break;
-            case 2:
-                $o_column="created_at";
-                $o_order="ASC";
-                break;    
-            case 3:
-                $o_column="sale_price";
-                $o_order="ASC";
-                break;
-            case 4:
-                $o_column="sale_price";
-                $o_order="DESC";
-                break;
-            default:
-                $o_column="id";
-                $o_order="DESC";
-                break;
-        }
-        $products=Product::orderBy('created_at','DESC')->orderBy($o_column,$o_order)->paginate(12);
-        return view('guest.shop',[
-            'product'=>$products,
-            'page'=>$page,
-            'size'=>$size,
-            'order'=>$order
-        ]);
+        // Sort by name , price, category
+
+      
+        return view('guest.product-lists')->with('products',$products)->with('recent_products',$recent_products);
+    }
+    public function productSearch(){
+        
+    }
+    public function productCat(){
+        
+    }
+    public function productSubCat(){
+        
+    }
+    public function productBrand(){
+        
     }
 
     public function detail($id){
@@ -117,10 +165,6 @@ class GuestController extends Controller
             'products_related'=>$products_related,
             'color'=>$color
         ]);
-    }
-
-    public function showCompare(){
-        return view('guest.compare');
     }
 
     public function contact(){

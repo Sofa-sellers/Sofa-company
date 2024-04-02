@@ -210,7 +210,7 @@
     
                                                             <li class="action compare">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
-                                                                    <a href="{{ route('showCompare') }}">
+                                                                    <a href="{{ route('client.compare') }}">
                                                                         <i class="ion-android-sync"></i>
                                                                     </a>
                                                                 </button>
@@ -1617,7 +1617,7 @@
                                 </a>
                                 <div class="decoration-content">
                                     <h3 class="decoration-title">{{$cate->name}}</h3>
-                                    <a href="{{ route('shop')}}" class="btn btn-outline-dark">Discover Now</a>
+                                    <a href="{{ route('shop',['id'=>$cate->id])}}" class="btn btn-outline-dark">Discover Now</a>
                                 </div>
                             </div>
                         </div>

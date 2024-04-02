@@ -46,11 +46,11 @@
                                             <input type="email" name="email" placeholder="email" value="{{old('email')}}">
                                             <label>Password<span class="required">*</span></label>
                                             <input type="password" name="password" placeholder="Password">
-                                            <a href="{{route('showRegister')}}">Register Now!</a>
                                             <div class="button-box">
                                                 <div class="login-toggle-btn">
                                                     <input id="remember" type="checkbox">
                                                     <label for="remember">Remember me</label>
+                                                    <a href="{{route('showRegister')}}">Register Now!</a></br>
                                                     <a href="{{route('forget.password')}}">Forgot Password?</a>
                                                 </div>
                                                 <button type="submit" class="btn btn-dark">

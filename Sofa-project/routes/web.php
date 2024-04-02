@@ -52,7 +52,14 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('', 'index')->name('index');
 
-        Route::get('shop', 'viewShop')->name('shop');
+        Route::get('product-grids','productGrids')->name('product-grids');
+        Route::get('product-lists','productLists')->name('product-lists');
+        Route::match(['get','post'],'/filter','productFilter')->name('shop.filter');
+        Route::post('/product/search','productSearch')->name('product.search');
+
+        Route::get('/product-cat/{slug}','productCat')->name('product-cat');
+        Route::get('/product-sub-cat/{slug}/{sub_slug}','productSubCat')->name('product-sub-cat');
+        Route::get('/product-brand/{slug}','productBrand')->name('product-brand');
         
         Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
         
@@ -63,9 +70,6 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('detail/{id}', 'detail')->name('detail');
 
         Route::get('download/{id}', 'download')->name('download');
-
-        Route::get('compare', 'showCompare')->name('showCompare');
-        Route::post('compare', 'compare')->name('compare');
 
         Route::get('contact', 'contact')->name('contact');
 
@@ -82,10 +86,14 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
 
+        Route::post('compare/store', 'compare')->name('compare');
+        Route::get('compare/remove', 'removeCompare')->name('removeCompare');
+        Route::get('compare', 'showCompare')->name('showCompare');
 
         Route::get('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
         Route::get('cart', 'showCart')->name('showCart');
         Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
+        
         Route::post('cart-update', 'cartUpdate')->name('cartUpdate');
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout', 'checkout')->name('checkout');
@@ -93,9 +101,10 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
         Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
 
-        Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
+        Route::post('wishlist/add', 'addToWishlist')->name('addToWishlist');
         Route::get('wishlist', 'showWishlist')->name('showWishlist');
         Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
+
         Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
         Route::get('account', 'accountIndex')->name('account');
         Route::post('order', 'order')->name('order');

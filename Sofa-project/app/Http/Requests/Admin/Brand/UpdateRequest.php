@@ -22,7 +22,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:brands,name'.$this->id,
+            'name'=>'required'.$this->brand,
             'status'=>'required|integer',
         ];
     }
@@ -31,7 +31,6 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required'=>'Please enter brand name',
-            'name.unique'=>'This brand name already exists. Please enter another brand name',
             'status.required'=>'Please select status',
             'status.integer'=>'Status value must be an integer',
         ];

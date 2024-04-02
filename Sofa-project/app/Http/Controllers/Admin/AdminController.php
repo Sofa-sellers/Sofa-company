@@ -38,6 +38,7 @@ use App\Http\Requests\Admin\Sku\StoreRequest as SkuStoreRequest;
 use App\Http\Requests\Admin\Sku\UpdateRequest as SkuUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\ProductImages;
+use Illuminate\Support\Carbon;
 
 use function Laravel\Prompts\alert;
 
@@ -45,7 +46,18 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.modules.index');
+        $data = User::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
+        ->where('created_at', '>', Carbon::today()->subDay(6))
+        ->groupBy('day_name','day')
+        ->orderBy('day')
+        ->get();
+     $array[] = ['Name', 'Number'];
+     foreach($data as $key => $value)
+     {
+       $array[++$key] = [$value->day_name, $value->count];
+     }
+    //  return $data;
+        return view('admin.modules.index')->with('users', json_encode($array));
     }
     public function userIndex()
     {
@@ -213,7 +225,7 @@ class AdminController extends Controller
         $colors = AttributeValue::where('attribute_id',1)->get();
         $dimensions = AttributeValue::where('attribute_id',2)->get();
 
-        $materials = AttributeValue::where('attribute_id',7)->get();
+        $materials = AttributeValue::where('attribute_id',3)->get();
         
         $brands = Brand::get();
 
@@ -687,6 +699,7 @@ class AdminController extends Controller
         }
 
         $brands->name = $request->name;
+        $brands->status = $request->status;
         $brands->update();
         return redirect()->route('admin.brand.index')->with('success','Update brand successfully');
 
