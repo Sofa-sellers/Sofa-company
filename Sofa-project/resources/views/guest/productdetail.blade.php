@@ -120,7 +120,7 @@
                                 @if($c)
                                 <li class="input-container">
                                     <label>
-                                    <input class="input-color" type="checkbox" name="color[]" value="{{$c->id}}">
+                                    <input class="input-color" type="radio" name="color" value="{{$c->id}}">
                                     <span class="color" style="background-color: {{ $c->value }} "></span>
                                     </label>
                                 </li>
@@ -130,23 +130,12 @@
                         </div>
                     </div>
                     <div class="product-add-to-cart">
-                        {{-- <span class="control-label">Quantity</span>
-                        <div class="product-count style d-flex my-4">
-                            <div class="count d-flex">
-                                <input type="number" min="1" max="100" name="quantity" step="1" value="{{ old('quantity', 1) }}">
-                                <div class="button-group">
-                                    <button class="count-btn increment">
-                                    <span class="ion-chevron-up"></span>
-                                    </button>
-                                    <button class="count-btn decrement">
-                                    <span class="ion-chevron-down"></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div> --}}
-                                <button data-bs-toggle="modal" data-bs-target="#add-to-cart" class="btn btn-dark" >
-                                    <a href="{{ route('client.addToCart',['id'=>$product->id, 'quantity'=> 1])}}">Add to cart</a>
-                                </button>
+                     
+                            
+                            <div>
+                                {{-- <button data-bs-toggle="modal" data-bs-target="#add-to-cart" class="btn btn-dark" > --}}
+                                    <a href="{{ route('client.addToCart',['slug'=>$product->slug, 'quantity'=> 1, 'id'=>$c->id])}}">Add to cart</a>
+                                {{-- </button> --}}
                             </div>
 
 
@@ -384,7 +373,7 @@
                                                 </h5>
 
                                                 <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
-                                                    <a href="{{ route('client.addToCart',['id'=>$pr->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                    <a href="{{ route('detail',['slug'=>$pr->slug]) }}">Detail</a>
                                                 </button>
                                             </div>
                                         </div>

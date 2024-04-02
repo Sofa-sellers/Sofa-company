@@ -83,12 +83,18 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
     Route::controller(ClientController::class)->group(function () {
 
 
-        Route::get('cart/{id}/{quantity}', 'addToCart')->name('addToCart');
+        Route::get('cart/{slug}/{quantity}/{id}', 'addToCart')->name('addToCart');
         Route::get('cart', 'showCart')->name('showCart');
-        Route::get('cart-delete/{id}', 'cartDelete')->name('cartDelete');
+
+        // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
+        Route::post('/client/shipping-check', 'ClientController@shippingCheck')->name('client.shippingCheck');
+        
+        Route::get('cart-delete/{rowId}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update', 'cartUpdate')->name('cartUpdate');
+
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout', 'checkout')->name('checkout');
+
 
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
         Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');

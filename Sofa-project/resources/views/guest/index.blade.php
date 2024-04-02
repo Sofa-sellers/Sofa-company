@@ -188,7 +188,7 @@
                                                                     @endif 
                                                                     </h5>
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
-                                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}">Add to cart</a>
                                                                     </button>
                                                             </div>
     
@@ -697,7 +697,7 @@
                                                                     </h5>
                     
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
-                                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}">Detail</a>
                                                                     </button>
                                                             </div>
     
@@ -1206,7 +1206,7 @@
                                                                     </h5>
                     
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
-                                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}">Detail</a>
                                                                     </button>
                                                             </div>
     
@@ -1403,7 +1403,7 @@
                                                         </h5>
         
                                                         <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
-                                                            <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                            <a href="{{ route('detail',['slug'=>$item->slug]) }}">Detail</a>
                                                         </button>
                                                 </div>
 

@@ -136,8 +136,11 @@
                             </a>
                         </li>
                         <li class="quick-link-item">
-                            <a class="quick-link-link shopping-cart" href="#">
-                            <span class="wishlist-count">4</span>
+                            <a class="quick-link-link shopping-cart" >
+                            <span class="wishlist-count">
+                                
+                                {{Cart::count();}}
+                            </span>
                             </a>
                             <div class="mini-carts">
                                 <ul class="mini-cart">
