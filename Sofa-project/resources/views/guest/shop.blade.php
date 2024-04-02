@@ -1,5 +1,5 @@
 @extends('master')
-@section('module','Shop')
+@section('module',$categories->name)
 @section('content')
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">
@@ -19,12 +19,7 @@
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <div class="dropdown select-featured">
-                                            <select class="form-select" name="size" id="pagezise">
-                                                <option value="9"  {{$size==9?'selected':''}}>9 Products per page</option>
-                                                <option value="12" {{$size==12?'selected':''}}>12 Products per page</option>
-                                                <option value="15" {{$size==15?'selected':''}}>15 Products per page</option>
-                                                <option value="18" {{$size==18?'selected':''}}>18 Products per page</option>
-                                            </select>
+                                            <a>showing 1 to 12 of 19 products</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -34,14 +29,14 @@
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
                                 <span class="sort-by">Sort by:</span>
                                 <select class="form-select" name="orderby" id="orderby">
-                                    <option value="-1" {{$order==-1?'selected':''}}>Default sorting</option>
+                                    <option value="-1">Default sorting</option>
                                     {{-- <option value="2">Default sorting</option>
                                     <option value="3">Sort by popularity</option>
                                     <option value="4">Sort by average rating</option> --}}
-                                    <option value="1" {{$order==1?'selected':''}}>Sort by latest</option>
-                                    <option value="2" {{$order==2?'selected':''}}>Sort by oldest</option>
-                                    <option value="3" {{$order==3?'selected':''}}>Sort by price: low to high</option>
-                                    <option value="4" {{$order==4?'selected':''}}>Sort by price: high to low</option>
+                                    <option value="1">Sort by latest</option>
+                                    <option value="2">Sort by oldest</option>
+                                    <option value="3">Sort by price: low to high</option>
+                                    <option value="4">Sort by price: high to low</option>
                                 </select>
                             </div>
                         </div>
@@ -52,23 +47,23 @@
 
                                 <div class="col-sm-6 col-md-4 mb-5">
                                     <div class="product-card">
-                                        @foreach ($product as $products)
-                                        <a href="detail/{{$products->id}}" class="product-thumb">
-                                            @if ($products->status==1)
+                                        @foreach ($products as $product)
+                                        <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb">
+                                            @if ($product->status==1)
                                             <span class="onsale bg-danger">sale!</span>
-                                            @elseif ($products->status==3)
+                                            @elseif ($product->status==3)
                                             <span class="onsale bg-success">Hot!</span>
                                             @else
                                             <span class="onsale bg-warning">New!</span>
                                             @endif
-                                            <img src="{{ asset('uploads/' . $products->image) }}" alt="{{ $products->name }}"
+                                            <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
                                             style="max-width: 400px; max-height: 500px;" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content">
-                                            <h4><a href="'detail/{{$products->id}}" class="product-title">{{$products->name}}</a></h4>
+                                            <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">{{$products->price}}</del> <span class="new-price">{{$products->sale_price}}</span></h5>
+                                                <h5 class="product-price"><del class="old-price">{{$product->price}}</del> <span class="new-price">{{$product->sale_price}}</span></h5>
                                                 <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
                                             </div>
 
@@ -89,7 +84,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                {{$product->links("partials.pagination")}}
+                                {{$products->links("partials.pagination")}}
                                 <!-- pagination -->
                                 {{-- <div class="col-12 mb-5">
                                     <nav aria-label="Page navigation">
@@ -116,30 +111,27 @@
                             <div class="row mb-n5 grid-view-list overflow-hidden">
                                 <div class="col-12 mb-5">
                                     <!-- product card list start -->
-                                    @foreach ($product as $products)
+                                    @foreach ($products as $product)
                                     <div class="product-card-list row mb-n5">
-                                        <a href="single-product.html" class="product-thumb-list col-md-4 mb-5">
-                                            @if ($products->status==1)
+                                        <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb-list col-md-4 mb-5">
+                                            @if ($product->status==1)
                                             <span class="onsale bg-danger">sale!</span>
                                             @endif
-                                            @if ($products->status==3)
+                                            @if ($product->status==3)
                                             <span class="onsale bg-success">Hot!</span>
                                             @endif
-                                            @if ($products->status==4)
+                                            @if ($product->status==4)
                                             <span class="onsale bg-warning">New!</span>
                                             @endif
-                                            <img src="{{ asset('uploads/' . $products->image) }}" alt="{{ $products->name }}"
-                                            style="max-width: 200px; max-height: 200px;" alt="image_not_found">
+                                            <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
+                                            style="max-width: 400px; max-height: 500px;" alt="image_not_found">
                                         </a>
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
-                                            <div class="product-category-links">
-                                                <a href="#">Bowls, Gadgets &amp; Utensils</a>, <a href="#">Drinkware</a>, <a href="#">Storage</a>, <a href="#">Table Linens</a>
-                                            </div>
-                                            <h4><a href="single-product.html" class="product-title">{{$products->name}}</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">{{$products->price}}</del> <span class="new-price">{{$products->sale_price}}</span>
+                                            <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
+                                            <h5 class="product-price-list"><del class="old-price">{{$product->price}}</del> <span class="new-price">{{$product->sale_price}}</span>
                                             </h5>
-                                            <p>{{$products->description}}</p>
+                                            <p>{{$product->description}}</p>
                                             <!-- actions  -->
                                             <ul class="actions actions-horizontal">
                                                 <li class="action whish-list">
@@ -162,7 +154,7 @@
                                     </div>
                                     <!-- product card list end -->
                                 </div>
-                                {{$product->links("partials.pagination")}}
+                                {{$products->links("partials.pagination")}}
                                 <!-- col-12 mb-5 end -->
                                 <!-- pagination -->
                                 {{-- <div class="col-12 mb-5">
@@ -318,23 +310,4 @@
     <!-- shop page layout end -->
 
     <!-- main content end -->
-    <form id="frmfilter" method="GET">
-        <input type="hidden" name="page" id="page" value="{{$page}}">
-        <input type="hidden" name="size" id="size" value="{{$size}}">
-        <input type="hidden" name="order" id="order" value="{{$order}}">
-    </form>
-        
 @endsection
-
-@push("scripts")
-    <script>
-        $("#pagezise").on("change",function(){
-            $("#size").val($("#pagezise option:selected").val());
-            $("#frmfilter").submit();
-        })
-        $("#orderby").on("change",function(){
-            $("#order").val($("#orderby option:selected").val());
-            $("#frmfilter").submit();
-        })
-    </script>
-@endpush

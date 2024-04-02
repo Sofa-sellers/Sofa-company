@@ -1,6 +1,8 @@
 <?php
 
+use Laravel\Fortify\Features as FortifyFeatures;
 use Laravel\Jetstream\Features;
+// use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Middleware\AuthenticateSession;
 
 return [

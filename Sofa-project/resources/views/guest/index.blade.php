@@ -46,15 +46,15 @@
                                             our new design
                                         </p>
                                         <br>
-                                        <h2 class="title text-dark delay1 animated">
+                                        <h2 class="title text-dark delay1 animated" style="color: white !important;">
                                             Capsule Soft
                                         </h2>
                                         <br />
-                                        <h2 class="title text-dark delay2 animated">
+                                        <h2 class="title text-dark delay2 animated" style="color: white !important;">
                                             Seating
                                         </h2>
                                         <br />
-                                        <a href="shop-grid-3-column.html" class="btn animated btn-outline-dark">Shop
+                                        <a href="shop-grid-3-column.html" class="btn animated btn-outline-dark" style="color: white !important; border-color: white !important;">Shop
                                             Now</a>
                                     </div>
                                 </div>
@@ -166,8 +166,8 @@
                                                 
                                                 <div class="product-list">
                                                     <div class="product-card">
-                                                        <a href="single-product.html" class="product-thumb">
-                                                            <span class="onsale bg-danger">sale!</span>
+                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
+                                                            {{-- <span class="onsale bg-danger">sale!</span> --}}
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
                                                         </a>
@@ -175,26 +175,30 @@
     
                                                         
                                                         <div class="product-content">
-                                                            <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <div class="product-group">
-                                                                <h5 class="product-price"><del
+                                                                <h5 class="product-price">
+                                                                    @if(!$item->sale_price)
+                                                                    $ {{$item->price}}
+                                                                    @else
+                                                                    <del
                                                                         class="old-price">{{ $item->price }}</del> <span
-                                                                        class="new-price">{{ $item->sale_price }}</span></h5>
-                                                                <button data-bs-toggle="modal"
-                                                                    data-bs-target="#addto-cart-modal"
-                                                                    class="product-btn">
-                                                                    <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
-                                                                    
-                                                                </button>
+                                                                        class="new-price">{{ $item->sale_price }}</span>
+                                                                    <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                                    @endif 
+                                                                    </h5>
+                                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
+                                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                    </button>
                                                             </div>
     
                                                         </div>
                                                         
     
                                                         <!-- actions  -->
-                                                        <ul class="actions actions-verticale">
+                                                        {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist" style="color: black">
                                                                     <a href="{{ route('client.showWishlist') }}">
                                                                         <i class="ion-ios-heart-outline"></i>
                                                                     </a>
@@ -202,7 +206,7 @@
                                                             </li>
                                                             <li class="action quick-view">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal">
-                                                                    <a href="{{ route('detail',['id'=>$item->id]) }}">
+                                                                    <a href="{{ route('detail',['slug'=>$item->slug]) }}">
                                                                         <i class="ion-ios-eye-outline"></i>
                                                                     </a>
                                                                 </button>
@@ -216,7 +220,7 @@
                                                                 </button>
                                                             </li>
     
-                                                        </ul>
+                                                        </ul> --}}
                                                     </div>
                                                 </div>
                                             
@@ -657,96 +661,139 @@
                                 <div class="swiper-container">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
+                                        @foreach($products_lastest as $item)
+                                        {{-- @php
+                                            $max = 5; // Số lần lặp
+                                        @endphp
+
+                                        @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-danger">sale!</span>
-                                                        <img src="{{asset('client/assets/images/products/product1.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">3 Tier
-                                                                Wood With Metal Shelf</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
+                                            
+                                            {{-- @switch($item->id )
+                                                @case($item->id / 2 == 0) --}}
+                                                
+                                                <div class="product-list">
+                                                    <div class="product-card">
+                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
+                                                        
+                                                            <img src="{{ asset('uploads/'.$item->image) }}"
+                                                                alt="image_not_found" class="img-fluid" style="height: 415px;">
+                                                        </a>
+                                                        <!-- thumb end -->
+    
+                                                        
+                                                        <div class="product-content">
+                                                            <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
+                                                            <div class="product-group">
+                                                                <h5 class="product-price">
+                                                                    @if(!$item->sale_price)
+                                                                    $ {{$item->price}}
+                                                                    @else
+                                                                    <del
+                                                                        class="old-price">{{ $item->price }}</del> <span
+                                                                        class="new-price">{{ $item->sale_price }}</span>
+                                                                    <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                                    @endif 
+                                                                    </h5>
+                    
+                                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
+                                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                    </button>
+                                                            </div>
+    
                                                         </div>
-
+                                                        
+    
+                                                        <!-- actions  -->
+                                                        {{-- <ul class="actions actions-verticale">
+                                                            <li class="action wish-list">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
+                                                                    <a href="{{ route('client.showWishlist') }}">
+                                                                        <i class="ion-ios-heart-outline"></i>
+                                                                    </a>
+                                                                </button>
+                                                            </li>
+                                                            <li class="action quick-view">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal">
+                                                                    <a href="{{ route('detail',['slug'=>$item->slug]) }}">
+                                                                        <i class="ion-ios-eye-outline"></i>
+                                                                    </a>
+                                                                </button>
+                                                            </li>
+    
+                                                            <li class="action compare">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
+                                                                    <a href="{{ route('showCompare') }}">
+                                                                        <i class="ion-android-sync"></i>
+                                                                    </a>
+                                                                </button>
+                                                            </li>
+    
+                                                        </ul> --}}
                                                     </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
                                                 </div>
-                                            </div>
+                                            
+                                                {{-- @default --}}
+                                                {{-- <div class="product-list">
+                                                    <div class="product-card">
+                                                        <a href="single-product.html" class="product-thumb">
+                                                            <span class="onsale bg-danger">sale!</span>
+                                                            <img src="{{ asset('uploads/'.$item->image) }}"
+                                                                alt="image_not_found" class="img-fluid" style="height: 415px;">
+                                                        </a>
+                                                        <!-- thumb end -->
+    
+                                                        
+                                                        <div class="product-content">
+                                                            <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <div class="product-group">
+                                                                <h5 class="product-price"><del
+                                                                        class="old-price">{{ $item->price }}</del> <span
+                                                                        class="new-price">{{ $item->sale_price }}</span></h5>
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#addto-cart-modal"
+                                                                    class="product-btn">Add to cart</button>
+                                                            </div>
+    
+                                                        </div>
+                                                        
+    
+                                                        <!-- actions  -->
+                                                        <ul class="actions actions-verticale">
+                                                            <li class="action whish-list">
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#product-modal-wishlist"><i
+                                                                        class="ion-ios-heart-outline"></i></button>
+                                                            </li>
+                                                            <li class="action quick-view">
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#product-modal"><i
+                                                                        class="ion-ios-eye-outline"></i></button>
+                                                            </li>
+    
+                                                            <li class="action compare">
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#product-modal-compare"><i
+                                                                        class="ion-android-sync"></i></button>
+                                                            </li>
+    
+                                                        </ul>
+                                                    </div>
+                                                </div> --}}
+                                                {{-- @endswitch --}}
+                                                
+                                            {{-- {{ $i + 1 }} <br>
+                                        @endfor --}}
+                                                
+                                            
+                                            
                                             <!-- product list end -->
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-success">new</span>
-                                                        <img src="{{asset('client/assets/images/products/product2.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">63in.
-                                                                White Stucco Floor Lamp</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price">$85.00</h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
                                             <!-- product list end -->
                                         </div>
+                                        @endforeach
                                         <!-- swiper-slide end -->
-                                        <div class="swiper-slide">
+                                        
+                                        {{-- <div class="swiper-slide">
                                             <div class="product-list">
                                                 <div class="product-card">
                                                     <a href="single-product.html" class="product-thumb">
@@ -1106,7 +1153,7 @@
                                                 </div>
                                             </div>
                                             <!-- product list end -->
-                                        </div>
+                                        </div> --}}
                                         <!-- swiper-slide end -->
                                     </div>
                                 </div>
@@ -1123,457 +1170,82 @@
                                 <div class="swiper-container">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
+                                        @foreach($products_lastest as $item)
+                                        {{-- @php
+                                            $max = 5; // Số lần lặp
+                                        @endphp
+
+                                        @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-danger">sale!</span>
-                                                        <img src="{{asset('client/assets/images/products/product1.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">3 Tier
-                                                                Wood With Metal Shelf</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
+                                            
+                                            {{-- @switch($item->id )
+                                                @case($item->id / 2 == 0) --}}
+                                                
+                                                <div class="product-list">
+                                                    <div class="product-card">
+                                                        <a href="single-product.html" class="product-thumb">
+                                                            
+                                                            <img src="{{ asset('uploads/'.$item->image) }}"
+                                                                alt="image_not_found" class="img-fluid" style="height: 415px;">
+                                                        </a>
+                                                        <!-- thumb end -->
+    
+                                                        
+                                                        <div class="product-content">
+                                                            <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <div class="product-group">
+                                                                <h5 class="product-price">
+                                                                    @if(!$item->sale_price)
+                                                                    $ {{$item->price}}
+                                                                    @else
+                                                                    <del
+                                                                        class="old-price">{{ $item->price }}</del> <span
+                                                                        class="new-price">{{ $item->sale_price }}</span>
+                                                                    <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                                    @endif 
+                                                                    </h5>
+                    
+                                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
+                                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                                    </button>
+                                                            </div>
+    
                                                         </div>
-
+                                                        
+    
+                                                        <!-- actions  -->
+                                                        {{-- <ul class="actions actions-verticale">
+                                                            <li class="action wish-list">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
+                                                                    <a href="{{ route('client.showWishlist') }}">
+                                                                        <i class="ion-ios-heart-outline"></i>
+                                                                    </a>
+                                                                </button>
+                                                            </li>
+                                                            <li class="action quick-view">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal">
+                                                                    <a href="{{ route('detail',['slug'=>$item->slug]) }}">
+                                                                        <i class="ion-ios-eye-outline"></i>
+                                                                    </a>
+                                                                </button>
+                                                            </li>
+    
+                                                            <li class="action compare">
+                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
+                                                                    <a href="{{ route('showCompare') }}">
+                                                                        <i class="ion-android-sync"></i>
+                                                                    </a>
+                                                                </button>
+                                                            </li>
+    
+                                                        </ul> --}}
                                                     </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
                                                 </div>
-                                            </div>
-                                            <!-- product list end -->
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-success">new</span>
-                                                        <img src="{{asset('client/assets/images/products/product2.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">63in.
-                                                                White Stucco Floor Lamp</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price">$85.00</h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
+                                            
+                                               
                                         </div>
-                                        <!-- swiper-slide end -->
-                                        <div class="swiper-slide">
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-danger">sale!</span>
-                                                        <img src="{{asset('client/assets/images/products/product3.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">68in.
-                                                                Bronze Metal Coat Rack</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price">$85.00 - $60.00</h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-success">new</span>
-                                                        <img src="{{asset('client/assets/images/products/product4.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Emmy
-                                                                Green Floral Wood Leg</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                        </div>
-                                        <!-- swiper-slide end -->
-                                        <div class="swiper-slide">
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-warning">hot!</span>
-                                                        <img src="{{asset('client/assets/images/products/product5.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Gold
-                                                                Circle Mirrored Shelf Bar Cart</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-success">new</span>
-                                                        <img src="{{asset('client/assets/images/products/product6.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Gold
-                                                                Metal Clothing Rack With</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                        </div>
-                                        <!-- swiper-slide end -->
-                                        <div class="swiper-slide">
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-warning">hot</span>
-                                                        <img src="{{asset('client/assets/images/products/product7.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Gold
-                                                                Metal Fox Design Trinket Tray</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-danger">sale!</span>
-                                                        <img src="{{asset('client/assets/images/products/product8.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Heirloom
-                                                                Gold Metal Folding Shelf</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                        </div>
-                                        <!-- swiper-slide end -->
-                                        <div class="swiper-slide">
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-success">new</span>
-                                                        <img src="{{asset('client/assets/images/products/product9.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Parkview
-                                                                5 Tier Metal & Wood</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                            <div class="product-list">
-                                                <div class="product-card">
-                                                    <a href="single-product.html" class="product-thumb">
-                                                        <span class="onsale bg-warning">hot</span>
-                                                        <img src="{{asset('client/assets/images/products/product10.jpg')}}"
-                                                            alt="image_not_found">
-                                                    </a>
-                                                    <!-- thumb end -->
-                                                    <div class="product-content">
-                                                        <h4><a href="single-product.html" class="product-title">Rabbit
-                                                                Grey Faux Fur Pouf</a></h4>
-                                                        <div class="product-group">
-                                                            <h5 class="product-price"><del
-                                                                    class="old-price">$85.00</del> <span
-                                                                    class="new-price">$60.00</span></h5>
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#addto-cart-modal"
-                                                                class="product-btn">Add to cart</button>
-                                                        </div>
-
-                                                    </div>
-                                                    <!-- actions  -->
-                                                    <ul class="actions actions-verticale">
-                                                        <li class="action whish-list">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-wishlist"><i
-                                                                    class="ion-ios-heart-outline"></i></button>
-                                                        </li>
-                                                        <li class="action quick-view">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal"><i
-                                                                    class="ion-ios-eye-outline"></i></button>
-                                                        </li>
-
-                                                        <li class="action compare">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#product-modal-compare"><i
-                                                                    class="ion-android-sync"></i></button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- product list end -->
-                                        </div>
-                                        <!-- swiper-slide end -->
+                                        @endforeach
+                                   
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -1612,12 +1284,12 @@
                         @foreach($categories as $cate)
                         <div class="swiper-slide">
                             <div class="decoration">
-                                <a class="decoration-thumb" href="shop-grid-left-sidebar.html">
+                                <a class="decoration-thumb" href="{{ route('shop',['id'=>$cate->id])}}">
                                     <img src="https://i.pinimg.com/originals/1b/75/52/1b755295f7959123be58a813e735a8e7.jpg" alt="image_not_found" class="img-fluid">
                                 </a>
                                 <div class="decoration-content">
                                     <h3 class="decoration-title">{{$cate->name}}</h3>
-                                    <a href="{{ route('shop')}}" class="btn btn-outline-dark">Discover Now</a>
+                                    <a href="{{ route('shop',['id'=>$cate->id])}}" class="btn btn-outline-dark">Discover Now</a>
                                 </div>
                             </div>
                         </div>
@@ -1711,25 +1383,33 @@
                                 <div class="swiper-slide">
                                     <div class="product-list">
                                         <div class="product-card">
-                                            <a href="shop-grid-left-sidebar.html" class="product-thumb">
-                                                <span class="onsale bg-danger">sale!</span>
+                                            <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
+                                                
                                                 <img src="{{ asset('uploads/'.$item->image) }}" alt="image_not_found" style="height: 415px;">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">{{ $item->name }}</a></h4>
+                                                <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                 <div class="product-group">
-                                                    <h5 class="product-price"><del class="old-price">{{ $item->price }}</del> <span
-                                                            class="new-price">{{ $item->sale_price }}</span></h5>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"
-                                                        class="product-btn">
-                                                        <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
-                                                    </button>
+                                                    <h5 class="product-price">
+                                                        @if(!$item->sale_price)
+                                                        $ {{$pr->price}}
+                                                        @else
+                                                        <del
+                                                            class="old-price">{{ $item->price }}</del> <span
+                                                            class="new-price">{{ $item->sale_price }}</span>
+                                                        <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                        @endif 
+                                                        </h5>
+        
+                                                        <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
+                                                            <a href="{{ route('client.addToCart',['id'=>$item->id, 'quantity'=> 1])}}">Add to cart</a>
+                                                        </button>
                                                 </div>
 
                                             </div>
                                             <!-- actions  -->
-                                            <ul class="actions actions-verticale">
+                                            {{-- <ul class="actions actions-verticale">
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#product-modal-wishlist"><i
@@ -1746,7 +1426,7 @@
                                                             class="ion-android-sync"></i></button>
                                                 </li>
 
-                                            </ul>
+                                            </ul> --}}
                                         </div>
                                     </div>
                                     <!-- product list end -->

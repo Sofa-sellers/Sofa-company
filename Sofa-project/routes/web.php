@@ -52,15 +52,15 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('', 'index')->name('index');
 
-        Route::get('shop', 'viewShop')->name('shop');
-
-        Route::post('email-promotion', 'emailPromotion')->name('emailPromotion');
-
+        Route::get('shop/{id}', 'viewShop')->name('shop');
+        
+        Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
+        
         Route::post('search', 'search')->name('search');
 
         Route::get('category/{id}', 'category')->name('category');
 
-        Route::get('detail/{id}', 'detail')->name('detail');
+        Route::get('detail/{slug}', 'detail')->name('detail');
 
         Route::get('download/{id}', 'download')->name('download');
 

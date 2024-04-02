@@ -12,10 +12,6 @@
 <!-- head end -->
 
 <body>
-    <!-- offcanvas menu start -->
-    @include('partials.menu')
-    <!-- offcanvas menu end -->
-
     <!-- header section start -->
     @include('partials.header')
     <!-- header section end -->
