@@ -41,13 +41,14 @@
                             <tr>
                                 <th class="text-center" scope="col">Product Image</th>
                                 <th class="text-center" scope="col">Product Name</th>
+                                <th class="text-center" scope="col">Product Color</th>
                                 {{-- 
                                 <th class="text-center" scope="col">Stock Status</th>
                                 --}}
                                 <th class="text-center" scope="col">Qty</th>
                                 <th class="text-center" scope="col">Price</th>
-                                <th class="text-center" scope="col">action</th>
                                 <th class="text-center" scope="col">Total</th>
+                                <th class="text-center" scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,37 +60,39 @@
                                 <td class="text-center">
                                     <span class="whish-title">{{$item->name}}</span>
                                 </td>
-                                {{-- 
+                                
                                 <td class="text-center">
                                     <span class="badge bg-success">In Stock</span>
                                 </td>
-                                --}}
+                               
                                 <td class="text-center">
                                     <div class="product-count style">
                                         <div class="count d-flex justify-content-center">
                                             <input type="number" min="1" max="10" step="1" value="{{old('qty',$item->qty)}}" name="quantity-cart-product" data-productId="{{$item->id}}">
                                             <div class="button-group">
-                                                {{-- <button class="count-btn increment">
+                                                <button class="count-btn increment">
                                                 <span class="ion-chevron-up"></span>
-                                                </button> --}}
-                                                {{-- <button class="count-btn decrement">
+                                                </button>
+                                                <button class="count-btn decrement">
                                                 <span class="ion-chevron-down"></span>
-                                                </button> --}}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="text-center">
+                                    <span class="whish-list-price">{{$item->price}}</span>
+                                    
+                                </td>
+                                
+                                <td class="text-center">
                                     <span class="whish-list-price">
-                                    {{($item->price)*($item->qty)}}
-                                    </span>
+                                        {{($item->price)*($item->qty)}}
+                                        </span>
                                 </td>
                                 <td class="text-center">
                                     <a href="#">
                                     <span class="trash"><i class="ion-android-delete"></i> </span></a>
-                                </td>
-                                <td class="text-center">
-                                    <span class="whish-list-price">{{$item->price}}</span>
                                 </td>
                                 {{-- 
                                 <td class="text-center">
@@ -153,6 +156,20 @@
                         <div class="your-order-product-info">
                             <div class="your-order-top">
                                 <ul>
+                                    <li class="order-total">Subtotal</li>
+                                    <li>
+                                        @php
+                                        $totalcart =0;
+                                        foreach($cartCollection as $item){
+                                        $totalcart = $totalcart + ($item->price)*($item->qty);
+                                        }
+                                        echo($totalcart);
+                                        @endphp
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="your-order-top">
+                                <ul>
                                     <li>Discount</li>
                                     <li>Discount</li>
                                 </ul>
@@ -168,6 +185,7 @@
                                     <li class="order-total">Total</li>
                                     <li>
                                         @php
+                                        
                                         $totalcart =0;
                                         foreach($cartCollection as $item){
                                         $totalcart = $totalcart + ($item->price)*($item->qty);

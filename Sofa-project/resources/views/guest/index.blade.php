@@ -166,7 +166,7 @@
                                                 
                                                 <div class="product-list">
                                                     <div class="product-card">
-                                                        <a href="single-product.html" class="product-thumb">
+                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
                                                             {{-- <span class="onsale bg-danger">sale!</span> --}}
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
@@ -175,7 +175,7 @@
     
                                                         
                                                         <div class="product-content">
-                                                            <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
                                                                     @if(!$item->sale_price)
@@ -196,7 +196,7 @@
                                                         
     
                                                         <!-- actions  -->
-                                                        <ul class="actions actions-verticale">
+                                                        {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
                                                                     <a href="{{ route('client.showWishlist') }}">
@@ -220,7 +220,7 @@
                                                                 </button>
                                                             </li>
     
-                                                        </ul>
+                                                        </ul> --}}
                                                     </div>
                                                 </div>
                                             
@@ -674,7 +674,7 @@
                                                 
                                                 <div class="product-list">
                                                     <div class="product-card">
-                                                        <a href="single-product.html" class="product-thumb">
+                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
                                                         
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
@@ -683,7 +683,7 @@
     
                                                         
                                                         <div class="product-content">
-                                                            <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
                                                                     @if(!$item->sale_price)
@@ -705,7 +705,7 @@
                                                         
     
                                                         <!-- actions  -->
-                                                        <ul class="actions actions-verticale">
+                                                        {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
                                                                     <a href="{{ route('client.showWishlist') }}">
@@ -729,7 +729,7 @@
                                                                 </button>
                                                             </li>
     
-                                                        </ul>
+                                                        </ul> --}}
                                                     </div>
                                                 </div>
                                             
@@ -1214,7 +1214,7 @@
                                                         
     
                                                         <!-- actions  -->
-                                                        <ul class="actions actions-verticale">
+                                                        {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist">
                                                                     <a href="{{ route('client.showWishlist') }}">
@@ -1238,7 +1238,7 @@
                                                                 </button>
                                                             </li>
     
-                                                        </ul>
+                                                        </ul> --}}
                                                     </div>
                                                 </div>
                                             
@@ -1383,13 +1383,13 @@
                                 <div class="swiper-slide">
                                     <div class="product-list">
                                         <div class="product-card">
-                                            <a href="//" class="product-thumb">
+                                            <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
                                                 
                                                 <img src="{{ asset('uploads/'.$item->image) }}" alt="image_not_found" style="height: 415px;">
                                             </a>
                                             <!-- thumb end -->
                                             <div class="product-content">
-                                                <h4><a href="shop-grid-left-sidebar.html" class="product-title">{{ $item->name }}</a></h4>
+                                                <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                 <div class="product-group">
                                                     <h5 class="product-price">
                                                         @if(!$item->sale_price)
@@ -1409,7 +1409,7 @@
 
                                             </div>
                                             <!-- actions  -->
-                                            <ul class="actions actions-verticale">
+                                            {{-- <ul class="actions actions-verticale">
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#product-modal-wishlist"><i
@@ -1426,7 +1426,7 @@
                                                             class="ion-android-sync"></i></button>
                                                 </li>
 
-                                            </ul>
+                                            </ul> --}}
                                         </div>
                                     </div>
                                     <!-- product list end -->

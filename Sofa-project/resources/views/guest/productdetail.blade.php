@@ -390,33 +390,33 @@
                                         </div>
                                         <!-- actions  -->
 
-                                        <ul class="actions actions-verticale">
+                                        {{-- <ul class="actions actions-verticale">
                                             <div>
                                                 
-                                                    <li class="action whish-list"><a href="{{ route('client.showWishlist') }}">
+                                                    <li class="action whish-list">
                                                         <button data-bs-toggle="modal"
                                                             data-bs-target="#product-modal-wishlist"><i
                                                                 class="ion-ios-heart-outline"></i></button>
-                                                            </a></li>
+                                                            </li>
                                             </div>
                                             
                                             <div>
-                                                <a href="{{ route('detail',['slug'=>$pr->slug]) }}">
+                                                
                                                     <li class="action quick-view">
                                                         <button data-bs-toggle="modal" data-bs-target="#product-modal"><i
                                                                 class="ion-ios-eye-outline"></i></button>
-                                                    </li></a>
+                                                    </li>
                                             </div>
                                             
 
-                                            <a href="{{ route('showCompare') }}">
+                                            
                                             <li class="action compare">
                                                 <button data-bs-toggle="modal"
                                                     data-bs-target="#product-modal-compare"><i
                                                         class="ion-android-sync"></i></button>
-                                            </li></a> 
+                                            </li>
 
-                                        </ul>
+                                        </ul> --}}
                                         
                                     </div>
                                 </div>

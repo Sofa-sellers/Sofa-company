@@ -1,17 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Helper;
+
 
 class ClientController extends Controller
 {
-
+    
     public function addToCart($id, $quantity){
         $product = Product::find($id);
+        if (empty($product)) {
+            return redirect()->route('index');
+        }else
+
         // $skus = Sku::where('product_id',$id);
 
         $price = $product->sale_price ?? $product->price;
@@ -66,17 +73,17 @@ class ClientController extends Controller
         
     }
 
-    public function checkout(Request $request){
-        //
-    }
+//     public function checkout(Request $request){
+//         //
+//     }
 
-    public function racomStore(Request $request){
-            //
-    }
+//     public function racomStore(Request $request){
+//             //
+//     }
 
-    public function racomUpdate(Request $request, $id){
-//
-    }
+//     public function racomUpdate(Request $request, $id){
+// //
+//     }
 
     public function accountIndex(){
         return view('client.account');
