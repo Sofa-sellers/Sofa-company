@@ -12,7 +12,8 @@
                 <div class="col-sm-6">
                     <nav class="simple-menu">
                         <ul class="topbar-nav nav justify-content-end">
-                            {{-- <li class="topbar-nav-item">
+                            {{-- 
+                            <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Lang</a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
@@ -21,8 +22,10 @@
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">FR</a></li>
                                 </ul>
                                 <!-- dropdown menu end -->
-                            </li> --}}
-                            {{-- <li class="topbar-nav-item">
+                            </li>
+                            --}}
+                            {{-- 
+                            <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Currency</a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
@@ -31,16 +34,17 @@
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="#">EUR</a></li>
                                 </ul>
                                 <!-- dropdown menu end -->
-                            </li> --}}
+                            </li>
+                            --}}
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="">
                                 <?php if(Auth::check()==true)
-                                {
-                                    echo Auth::user()->username;
-                                }else {
-                                    echo 'Guest';
-                                }
-                                ?></a>
+                                    {
+                                        echo Auth::user()->username;
+                                    }else {
+                                        echo 'Guest';
+                                    }
+                                    ?></a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account')}}">My account</a>
@@ -51,11 +55,11 @@
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCheckout')}}">Checkout</a>
                                     </li>
                                     @if(Auth::check())
-                                        <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
-                                        </li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
+                                    </li>
                                     @else
-                                        <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showLogin')}}">Log in</a>
-                                        </li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showLogin')}}">Log in</a>
+                                    </li>
                                     @endif
                                 </ul>
                                 <!-- dropdown menu end -->
@@ -67,7 +71,6 @@
         </div>
     </div>
     <!-- desktop menu start -->
-
     <div class="header-middle-default d-none d-lg-block active-sticky">
         <div class="container">
             <div class="row align-items-center">
@@ -83,8 +86,11 @@
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
                             <li class="main-menu-item position-static"><a href="{{route('shop')}}" style="color:black" class="main-menu">Shop</a></li>
-                            {{-- <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li> --}}
-                            <li class="main-menu-item"><a href="javascript:void(0)" class="main-menu-link">Pages</a>
+                            {{-- 
+                            <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li>
+                            --}}
+                            <li class="main-menu-item">
+                                <a href="javascript:void(0)" class="main-menu-link">Pages</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('aboutus')}}">About Page</a></li>
@@ -114,14 +120,13 @@
                         </li>
                         <li class="quick-link-item">
                             <a class="quick-link-link wishlist-link" href="wishlist.html">
-                                <span class="wishlist-count">3</span>
+                            <span class="wishlist-count">3</span>
                             </a>
                         </li>
                         <li class="quick-link-item">
                             <a class="quick-link-link shopping-cart" href="#">
-                                <span class="wishlist-count">4</span>
+                            <span class="wishlist-count">4</span>
                             </a>
-
                             <div class="mini-carts">
                                 <ul class="mini-cart">
                                     <li class="mini-cart-item">
@@ -158,7 +163,6 @@
                                     </li>
                                     <!-- mini cart item end -->
                                 </ul>
-
                                 <!-- mini cart sub total start -->
                                 <ul class="mini-cart-sub-total">
                                     <li class="mini-cart-sub-total-item"><span>Subtotal:</span> <span>$2,580.00</span></li>
@@ -173,21 +177,19 @@
         </div>
     </div>
     <!-- desktop menu end -->
-
     <!-- mobile menu start -->
-
     <div class="header-middle-default d-lg-none active-sticky">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-2 col-sm-4">
                     <button class="offcanvas-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
-                        <span class="ion-android-menu"></span>
+                    <span class="ion-android-menu"></span>
                     </button>
                 </div>
                 <div class="col-8 col-sm-4">
                     <div class="logo mx-auto">
                         <a href="index.html">
-                            <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
+                        <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
                         </a>
                     </div>
                 </div>
@@ -204,14 +206,13 @@
                         </li>
                         <li class="quick-link-item">
                             <a class="quick-link-link wishlist-link" href="wishlist.html">
-                                <span class="wishlist-count">3</span>
+                            <span class="wishlist-count">3</span>
                             </a>
                         </li>
                         <li class="quick-link-item">
                             <a class="quick-link-link shopping-cart" href="#">
-                                <span class="wishlist-count">4</span>
+                            <span class="wishlist-count">4</span>
                             </a>
-
                             <div class="mini-carts">
                                 <ul class="mini-cart">
                                     <li class="mini-cart-item">
@@ -248,7 +249,6 @@
                                     </li>
                                     <!-- mini cart item end -->
                                 </ul>
-
                                 <!-- mini cart sub total start -->
                                 <ul class="mini-cart-sub-total">
                                     <li class="mini-cart-sub-total-item"><span>Subtotal:</span> <span>$2,580.00</span></li>
@@ -262,6 +262,5 @@
             </div>
         </div>
     </div>
-
     <!-- mobile menu end -->
 </header>

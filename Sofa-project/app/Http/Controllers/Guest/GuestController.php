@@ -26,36 +26,68 @@ class GuestController extends Controller
 
     public function index(){
         $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        $products_sale = Product::where('is_sale',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        $products_featured = Product::where('featured',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         $categories = Category::get();
 
         return view('guest.index',[
             'products_lastest' => $products_lastest,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'products_sale' => $products_sale,
+            'products_featured' => $products_featured,
         ]);
     }
 
-    public function viewShop($id) {
-       
-        $categories = Category::find($id);
-        
-        $products = Product::with('category')->where('category_id', $id)->paginate(6);
-        
-        $category_list = Category::with('product')->whereBetween('id',[2,4])->get();
+    public function viewShop(Request $request){
+        $page=$request->query("page");
+        $size=$request->query("size");
 
-        
-        return view('clients.page.shop',compact('products'), 
-        [
-            'id' => $id,
-            'products' => $products,
-            'categories' => $categories,
-            'category_list' => $category_list
-            
+        if(!$page){
+            $page=1;
+        }
+        if(!$size){
+            $size=9;
+        }
+        $order=$request->query("order");
+        if(!$order){
+            $order=-1;
+        }
+        $o_column="";
+        $o_order="";
+        switch($order){
+            case 1:
+                $o_column="created_at";
+                $o_order="DESC";
+                break;
+            case 2:
+                $o_column="created_at";
+                $o_order="ASC";
+                break;    
+            case 3:
+                $o_column="sale_price";
+                $o_order="ASC";
+                break;
+            case 4:
+                $o_column="sale_price";
+                $o_order="DESC";
+                break;
+            default:
+                $o_column="id";
+                $o_order="DESC";
+                break;
+        }
+        $products=Product::orderBy('created_at','DESC')->orderBy($o_column,$o_order)->paginate(12);
+        return view('guest.shop',[
+            'product'=>$products,
+            'page'=>$page,
+            'size'=>$size,
+            'order'=>$order
         ]);
     }
 
-    public function detail($id){
+    public function detail($slug){
 
-        $product = Product::with('category', 'productimages','sku','attributevalue')->where('id',$id)->first();
+        $product = Product::with('category', 'productimages','sku','attributevalue')->where('slug',$slug)->first();
         $products_related = Product::with('category')
         ->where('category_id', $product->category->id)
         ->where('id','!=',$product->id)
@@ -76,14 +108,14 @@ class GuestController extends Controller
         $material = DB::table('attribute_values')
             ->join('products', 'attribute_values.id', '=', 'products.material_id')
             ->select('attribute_values.value')
-            ->where('products.id',$id)
-            ->where('attribute_values.attribute_id',3)
+            ->where('products.slug',$slug)
+            ->where('attribute_values.attribute_id',7)
             ->get();
 
             $dimension = DB::table('attribute_values')
             ->join('products', 'attribute_values.id', '=', 'products.dimension_id')
             ->select('attribute_values.value')
-            ->where('products.id',$id)
+            ->where('products.slug',$slug)
             ->where('attribute_values.attribute_id',2)
             ->get('');   
 
