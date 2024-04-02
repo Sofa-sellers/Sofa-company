@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->double('cart_total');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1)->comment('1 accepted - 2 deny');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 

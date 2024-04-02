@@ -85,7 +85,7 @@
                     <nav class="d-inline-block position-relative">
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
-                            <li class="main-menu-item position-static"><a href="{{route('shop')}}" style="color:black" class="main-menu">Shop</a></li>
+                            <li class="main-menu-item position-static"><a href="//" style="color:black" class="main-menu">Shop</a></li>
                             {{-- 
                             <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li>
                             --}}
@@ -124,8 +124,11 @@
                             </a>
                         </li>
                         <li class="quick-link-item">
-                            <a class="quick-link-link shopping-cart" href="#">
-                            <span class="wishlist-count">4</span>
+                            <a class="quick-link-link shopping-cart" >
+                            <span class="wishlist-count">
+                                
+                                {{Cart::count();}}
+                            </span>
                             </a>
                             <div class="mini-carts">
                                 <ul class="mini-cart">
