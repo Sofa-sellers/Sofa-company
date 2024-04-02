@@ -42,10 +42,12 @@
                                             <input type="password" class="form-control" placeholder="Enter password" name="password_confirmation">
                                             <label>Username<span class="required">*</span></label>
                                             <input name="username" placeholder="user_name" value="{{old('username')}}">
-                                            <a href="{{route('showLogin')}}" class="text-center">I already have a membership</a>
                                             <div class="button-box">
+                                                <div class="login-toggle-btn">
+                                                    <a href="{{route('showLogin')}}" class="text-center">I already have a membership</a>
+                                                </div>
                                                 <button type="submit" class="btn btn-dark">
-                                                    <span>Register</span>
+                                                        <span>Login</span>
                                                 </button>
                                             </div>
                                         </form>
