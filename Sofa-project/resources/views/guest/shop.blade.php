@@ -1,4 +1,5 @@
 @extends('master')
+@section('title',$categories->name)
 @section('module','Shop')
 @section('content')
     <!-- shop page layout start -->
@@ -20,10 +21,10 @@
                                     <li class="nav-item" role="presentation">
                                         <div class="dropdown select-featured">
                                             <select class="form-select" name="size" id="pagezise">
-                                                <option value="9"  {{$size==9?'selected':''}}>9 Products per page</option>
-                                                <option value="12" {{$size==12?'selected':''}}>12 Products per page</option>
-                                                <option value="15" {{$size==15?'selected':''}}>15 Products per page</option>
-                                                <option value="18" {{$size==18?'selected':''}}>18 Products per page</option>
+                                                <option value="9" >9 Products per page</option>
+                                                <option value="12">12 Products per page</option>
+                                                <option value="15">15 Products per page</option>
+                                                <option value="18">18 Products per page</option>
                                             </select>
                                         </div>
                                     </li>
@@ -38,10 +39,10 @@
                                     {{-- <option value="2">Default sorting</option>
                                     <option value="3">Sort by popularity</option>
                                     <option value="4">Sort by average rating</option> --}}
-                                    <option value="1" {{$order==1?'selected':''}}>Sort by latest</option>
-                                    <option value="2" {{$order==2?'selected':''}}>Sort by oldest</option>
-                                    <option value="3" {{$order==3?'selected':''}}>Sort by price: low to high</option>
-                                    <option value="4" {{$order==4?'selected':''}}>Sort by price: high to low</option>
+                                    <option value="1">Sort by latest</option>
+                                    <option value="2">Sort by oldest</option>
+                                    <option value="3">Sort by price: low to high</option>
+                                    <option value="4">Sort by price: high to low</option>
                                 </select>
                             </div>
                         </div>
@@ -194,76 +195,11 @@
                             <h3 class="widget-title">Categories</h3>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
-                                    <li><a href="#">Acrylic Dining <span>(1)</span></a></li>
-                                    <li><a href="#">Floor Décor <span>(3)</span></a>
-                                        <ul>
-                                            <li><a href="#">Accessories <span>(1)</span></a></li>
-                                            <li><a href="#">Chalkboards <span>(1)</span></a></li>
-                                            <li><a href="#">Fireplace Screens <span>(1)</span></a></li>
-                                            <li><a href="#">Holders Lanterns <span>(1)</span></a></li>
-                                            <li><a href="#">Mirrors <span>(1)</span></a></li>
-                                            <li><a href="#">Plants Trees <span>(1)</span></a></li>
-                                            <li><a href="#">Sculptures <span>(1)</span></a></li>
-                                            <li><a href="#">Signs Accents <span>(1)</span></a></li>
-                                            <li><a href="#">Vases <span>(1)</span></a></li>
-                                        </ul>
+                                    @foreach ($category_list as $category )
+                                    <li style="margin-bottom: 20px;">
+                                        <a href="{{route('page.shop',['id' => $category->id])}}">{{$category->name}}&nbsp;&nbsp;<span style="padding-left: 10px;">{{count($category->product)}}</span></a>
                                     </li>
-                                    <li><a href="#">Home Accents <span>(5)</span></a>
-                                        <ul>
-                                            <li><a href="#">Bookends <span>(2)</span></a></li>
-                                            <li><a href="#">Boxes Trunks <span>(2)</span></a></li>
-                                            <li><a href="#">Candle Holders <span>(2)</span></a></li>
-                                            <li><a href="#">Easels Risers Stands <span class="#">(2)</span></a></li>
-                                            <li><a href="#">Figurines <span>(2)</span></a></li>
-                                            <li><a href="#">Plates, Bowls <span>(2)</span></a></li>
-                                            <li><a href="#">Spheres <span>(2)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Kitchen Dining<span>(3)</span></a>
-                                        <ul>
-                                            <li><a href="#">Bar Wine <span>(1)</span></a></li>
-                                            <li><a href="#">Bowls, Gadgets Utensils <span>(1)</span></a></li>
-                                            <li><a href="#">Dinnerware <span>(1)</span></a> </li>
-                                            <li><a href="#">Drinkware <span>(1)</span></a></li>
-                                            <li><a href="#">Flatware Cutlery <span>(1)</span></a></li>
-                                            <li><a href="#">Floor Mats <span>(1)</span></a></li>
-                                            <li><a href="#">Storage <span>(1)</span></a></li>
-                                            <li><a href="#">Table Linens <span>(1)</span></a> </li>
-                                            <li><a href="#">Trash Cans <span>(1)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Kitchen Cleaning <span>(1)</span></a></li>
-                                    <li><a href="#">Lamps <span>(6)</span></a>
-                                        <ul>
-                                            <li><a href="#">Accent Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Buffet Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Desk Lamps <span>(2)</span></a></li>
-                                            <li class="-64"><a href="#">Floor Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Kids Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Mini Accent Lamps <span>(2)</span></a> </li>
-                                            <li><a href="#">Specialty Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Table Lamps <span>(2)</span></a> </li>
-                                            <li><a href="#">Task Lamps <span>(2)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Melamine <span>(1)</span></a> </li>
-                                    <li><a href="#">Party Supplies <span>(1)</span></a> </li>
-                                    <li><a href="#">Serveware <span>(2)</span></a>
-                                    </li>
-                                    <li><a href="#">Uncategorized <span>(2)</span></a> </li>
-                                    <li><a href="#">Wall Décor <span>(6)</span></a>
-                                        <ul>
-                                            <li><a href="#">Clocks <span>(1)</span></a> </li>
-                                            <li><a href="#">Frames <span>(1)</span></a> </li>
-                                            <li><a href="#">Hangers Hardware <span>(2)</span></a></li>
-                                            <li><a href="#">Kids Wall Décor <span>(1)</span></a> </li>
-                                            <li><a href="#">Mirrors <span>(1)</span></a></li>
-                                            <li><a href="#">Organization <span>(2)</span></a></li>
-                                            <li><a href="#">Wall Accents <span>(1)</span></a> </li>
-                                            <li><a href="#">Wall Art <span>(2)</span></a></li>
-                                            <li><a href="#">Wall Shelves <span>(1)</span></a> </li>
-                                        </ul>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </nav>
                         </div>
@@ -318,23 +254,4 @@
     <!-- shop page layout end -->
 
     <!-- main content end -->
-    <form id="frmfilter" method="GET">
-        <input type="hidden" name="page" id="page" value="{{$page}}">
-        <input type="hidden" name="size" id="size" value="{{$size}}">
-        <input type="hidden" name="order" id="order" value="{{$order}}">
-    </form>
-        
 @endsection
-
-@push("scripts")
-    <script>
-        $("#pagezise").on("change",function(){
-            $("#size").val($("#pagezise option:selected").val());
-            $("#frmfilter").submit();
-        })
-        $("#orderby").on("change",function(){
-            $("#order").val($("#orderby option:selected").val());
-            $("#frmfilter").submit();
-        })
-    </script>
-@endpush

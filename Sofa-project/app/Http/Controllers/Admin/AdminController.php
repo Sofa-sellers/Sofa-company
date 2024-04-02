@@ -289,7 +289,6 @@ class AdminController extends Controller
         $materials = AttributeValue::where('attribute_id',3)->get();
 
         $brands = Brand::get();
-
         return view('admin.modules.product.create', [
             'categories' => $categories,
             'brands' => $brands,

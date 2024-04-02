@@ -73,7 +73,7 @@
             <div class="row align-items-center">
                 <div class="col-6 col-lg-3">
                     <div class="logo">
-                        <a href="index.html">
+                        <a href="{{route('index')}}">
                             <img src="{{asset('client/assets/images/logo/logo-dark.svg')}}" alt="image_not_found">
                         </a>
                     </div>
@@ -82,9 +82,6 @@
                     <nav class="d-inline-block position-relative">
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
-                            
-                            
-
                             <li class="main-menu-item position-static"><a href="{{route('shop')}}" style="color:black" class="main-menu">Shop</a></li>
                             {{-- <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li> --}}
                             <li class="main-menu-item"><a href="javascript:void(0)" class="main-menu-link">Pages</a>
