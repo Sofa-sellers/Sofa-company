@@ -40,19 +40,19 @@ class GuestController extends Controller
 
     public function viewShop($id){
 
-        $categories = Category::find($id);
+        $categories = Category::find($id)->where('parent_id',0);
+        $categories_child = Category::find($id)->where('parent_id','!=',0)->first();
         
         $products = Product::with('category')->where('category_id', $id)->paginate(6);
         
-        $category_list = DB::table('categories')->get();
 
-        
+
         return view('guest.shop',compact('products'), 
         [
             'id' => $id,
             'products' => $products,
             'categories' => $categories,
-            'category_list' => $category_list
+            'categories_child' =>$categories_child
             
         ]);
     }
@@ -81,7 +81,7 @@ class GuestController extends Controller
             ->join('products', 'attribute_values.id', '=', 'products.material_id')
             ->select('attribute_values.value')
             ->where('products.slug',$slug)
-            ->where('attribute_values.attribute_id',7)
+            ->where('attribute_values.attribute_id',3)
             ->get();
 
             $dimension = DB::table('attribute_values')
