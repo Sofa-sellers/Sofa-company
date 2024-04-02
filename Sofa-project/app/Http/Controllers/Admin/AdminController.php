@@ -36,7 +36,10 @@ use App\Http\Requests\Admin\Attribute\StoreRequest as AttributeStoreRequest;
 use App\Http\Requests\Admin\Attribute\UpdateRequest as AttributeUpdateRequest;
 use App\Http\Requests\Admin\Sku\StoreRequest as SkuStoreRequest;
 use App\Http\Requests\Admin\Sku\UpdateRequest as SkuUpdateRequest;
+use App\Http\Requests\Admin\Order\StoreRequest as OrderStoreRequest;
+use App\Http\Requests\Admin\Order\UpdateRequest as OrderUpdateRequest;
 use Illuminate\Http\Request;
+use App\Models\CategoryPhotos;
 use App\Models\ProductImages;
 
 use function Laravel\Prompts\alert;
@@ -142,13 +145,43 @@ class AdminController extends Controller
      */
     public function cateStore(CategoryStoreRequest $request)
     {
+        $request->validate([
+            'photo' => 'required|mimes:jpg,png,bmp,jpeg',
+        ]);
+
         $category = new Category();
+
+        $photo = $request->photo;
+        $photoName = time() . '-' . $photo->getClientOriginalName();
+        $photo->move(public_path('uploads/'), $photoName);
+        $category->photo = $photoName;
 
         $category->name = $request->name;
         $category->parent_id = $request->parent_id;
         $category->status = $request->status;
-
         $category->save();
+
+        if ($request->photos !== null) {
+                $count = 0;
+                $data_photos = [];
+                foreach ($request->photos as $photo_detail){
+                    $count++;
+                    $photoNameDetail = $count . '-' . time() . '-' . $photo_detail->getClientOriginalName();
+                    $photo_detail->move(public_path('uploads/'), $photoNameDetail);
+
+                    $data_photos[]=[
+                        'name' => $photoNameDetail,
+                        'category_id' => $category->id,
+                        'created_at' =>new \DateTime(),
+                        'updated_at' =>new \DateTime()
+                    ];
+
+                }
+
+                CategoryPhotos :: insert($data_photos);
+            }
+
+
         return redirect()->route('admin.category.index')->with('success','Create category successfully');
     }
 
@@ -175,7 +208,22 @@ class AdminController extends Controller
 
     public function cateUpdate(CategoryUpdateRequest $request, $id)
     {
+        $request->validate([
+            'photo' => 'required|mimes:jpg,png,bmp,jpeg',
+        ]);
+
         $category = Category::findOrFail($id);
+
+        $photo = $request->photo;
+        if (!empty($photo)) {
+            $old_photo_path = public_path('uploads/' . $category->photo);
+            if (file_exists($old_photo_path)) {
+                unlink($old_photo_path);
+            }
+            $photoName = time() . '-' . $photo->getClientOriginalName();
+            $photo->move(public_path('uploads/'), $photoName);
+            $category->photo = $photoName;
+        }
 
         $category->name = $request->name;
         $category->parent_id = $request->parent_id;
@@ -185,13 +233,38 @@ class AdminController extends Controller
         return redirect()->route('admin.category.index')->with('success', 'Update category successfully');
     }
 
+    public function checkCategory($id)
+    {
+    $category = Category::findOrFail($id);
+
+    $hasChildren = $category->children()->exists();
+    $hasProducts = $category->products()->exists();
+
+    return response()->json(['hasChildren' => $hasChildren, 'hasProducts' => $hasProducts]);
+    }
+
     public function cateDestroy(int $id)
     {
         $category = Category::findOrFail($id);
+        $photos = CategoryPhotos::where('category_id',$id)->get();
+        if ($category == null) {
+            abort(404);
+        }
+
+        $old_photo_path = public_path('uploads/' . $category->photo);
+        if (file_exists($old_photo_path)) {
+            unlink($old_photo_path);
+        }
+
+        foreach($photos as $photo){
+            $old_photo_path = public_path('uploads/' . $photo->name);
+            if (file_exists($old_photo_path)) {
+                unlink($old_photo_path);
+            }
+        }
 
         if ($category->children->isNotEmpty()) {
-            Session::flash('error', 'Cannot delete a category that is a parent of other categories');
-            return redirect()->route('admin.category.index');
+            return redirect()->route('admin.category.index')->with('error', 'Cannot delete a category that is a parent of other categories');
         }
 
         $category->products()->update(['status' => 2]);
@@ -209,12 +282,12 @@ class AdminController extends Controller
     public function productCreate()
     {
         $categories = Category::get();
-        
+
         $colors = AttributeValue::where('attribute_id',1)->get();
         $dimensions = AttributeValue::where('attribute_id',2)->get();
 
         $materials = AttributeValue::where('attribute_id',3)->get();
-        
+
         $brands = Brand::get();
         return view('admin.modules.product.create', [
             'categories' => $categories,
@@ -222,7 +295,7 @@ class AdminController extends Controller
             'colors'=>$colors,
             'materials'=>$materials,
             'dimensions'=>$dimensions
-           
+
         ]);
     }
 
@@ -252,7 +325,7 @@ class AdminController extends Controller
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
         $product->dimension_id = $request->dimension_id;
-       
+
         $product->material_id = $request->material_id;
         $product->quantity = $request->quantity;
         $product->category_id = $request->category_id;
@@ -261,17 +334,17 @@ class AdminController extends Controller
         $product->status = $request->status;
 
         $d = AttributeValue::where('id', $product->dimension_id)->value('value');
-        
+
         $m = AttributeValue::where('id', $product->material_id)->value('value');
 
         $array = [$product->name, $d, $m];
-       
-        
+
+
         $intro = implode(' - ', $array);
-       
+
         $product->intro = $intro;
         $slug = Str::slug($intro, '-');
-        
+
         $product->slug = $slug;
         $product->save();
 
@@ -299,7 +372,7 @@ class AdminController extends Controller
         if ($request->value_id !== null) {
             foreach ($request->value_id as $value){
                 $attribute = AttributeValue::find($value)->attribute;
-                
+
                 $skus[]=[
                     'attribute_id'=>$attribute->id,
                     'product_id' => $product->id,
@@ -347,7 +420,7 @@ class AdminController extends Controller
             'image' => 'required|mimes:jpg,png,bmp,jpeg',
         ]);
 
-        
+
         if ($products == null) {
             abort(404);
         }
@@ -405,7 +478,7 @@ class AdminController extends Controller
                 unlink($old_image_path);
             }
         }
-        
+
 
         if ($products == null) {
             abort(404);
@@ -428,7 +501,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function orderStore(StoreRequest $request)
+    public function orderStore(OrderStoreRequest $request)
     {
         //
     }
@@ -448,7 +521,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function orderUpdate(UpdateRequest $request, $id)
+    public function orderUpdate(OrderUpdateRequest $request, $id)
     {
         //
     }
@@ -572,7 +645,7 @@ class AdminController extends Controller
         return view('admin.modules.value.create', ['attributes' => $attribute]);
     }
 
-    
+
     public function valueStore(AttributeValueStoreRequest $request)
     {
         $value = new AttributeValue();
@@ -589,11 +662,11 @@ class AdminController extends Controller
             $value->value = $request->material;
         }
 
-        
+
         $existingValue = AttributeValue::where('attribute_id', $value->attribute_id)
                                     ->where('value', $value->value)
                                     ->first();
-        
+
         if($value->value == null){
             $value->delete();
             return redirect()->route('admin.value.index')->with('failed', 'Failed to create value of attribute. Value cannot be null');
@@ -604,7 +677,7 @@ class AdminController extends Controller
             $value->save();
             return redirect()->route('admin.value.index')->with('success','Create value of attribute successfully');
         }
-        
+
     }
 
 
@@ -705,7 +778,7 @@ class AdminController extends Controller
         if($brands==null){
             abort(404);
         }
- 
+
         $brands->delete();
         return redirect()->route('admin.brand.index')->with('success','Delete brand successfully');
     }
@@ -713,9 +786,9 @@ class AdminController extends Controller
 
     public function skuIndex($product_id) {
         $product = Product::findOrFail($product_id);
-    
+
         $skus = Sku::with('attributevalue')->where('product_id', $product->id)->orderBy('created_at', 'DESC')->get();
-    
+
         $attributeIds = [];
     $values = [];
 
@@ -726,14 +799,14 @@ class AdminController extends Controller
             // Retrieve the attribute and value for this SKU
             $attribute = Attribute::where('id', $sku->attributevalue->attribute_id)->orderBy('id', 'DESC')->first();
             $value = $sku->attributevalue->first();
-            
+
             // Add the attribute and value to their respective arrays
             $attributeIds[] = $attribute;
             $values[] = $value;
         }
     }
     dd($values);
-        
+
         return view('admin.modules.sku.index',[
             'product'=>$product,
             'skus'=>$skus,
@@ -741,7 +814,7 @@ class AdminController extends Controller
             'values'=>$values
         ]);
     }
-    
+
 
     public function skuCreate($product_id){
         $product = Product::findOrFail($product_id);
@@ -755,7 +828,7 @@ class AdminController extends Controller
 
     public function skuStore(Request $request, $product_id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($product_id);
         $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
 
         $data = $request->all();
