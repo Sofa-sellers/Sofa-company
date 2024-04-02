@@ -41,6 +41,11 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 
+    public function categoryphotos()
+    {
+        return $this->hasMany(CategoryPhotos::class)->withTrashed();
+    }
+
     /**
      * Get the products for the current category.
      */

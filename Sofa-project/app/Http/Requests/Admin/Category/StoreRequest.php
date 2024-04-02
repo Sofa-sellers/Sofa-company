@@ -22,14 +22,20 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:categories,name'
+            'name'=>'required|unique:categories,name',
+            'photo'=>'required|mimes:jpg,bmp,png,jpeg',
+            'status'=>'required|integer'
         ];
     }
     public function messages(): array
     {
         return [
             'name.required'=>'Please enter category name',
-            'name.unique'=>'This category name already exists. Please enter another category'
+            'name.unique'=>'This category name already exists. Please enter another category',
+            'photo.required'=>'Please choose category photo',
+            'photo.mimes'=>'Photo must have extension jpg,png,bmp,jpeg',
+            'status.required'=>'Please select status',
+            'status.integer'=>'Status value must be an integer'
         ];
     }
 }
