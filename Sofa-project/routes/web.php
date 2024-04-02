@@ -34,7 +34,7 @@ Route::post('login',[LoginController::class, 'login']);
 Route::get('register',[LoginController::class, 'showRegister'])
 ->name('showRegister');
 Route::post('register',[LoginController::class, 'register'])->name('registerPost');
-        
+
 Route::get('forgetPassword',[LoginController::class,'showForgotPassword'])
 ->name('forget.password');
 Route::post('forgetPassword',[LoginController::class,'forgotPassword'])
@@ -53,9 +53,9 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('', 'index')->name('index');
 
         Route::get('shop', 'viewShop')->name('shop');
-        
-        Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
-        
+
+        Route::post('email-promotion', 'emailPromotion')->name('emailPromotion');
+
         Route::post('search', 'search')->name('search');
 
         Route::get('category/{id}', 'category')->name('category');
@@ -72,13 +72,13 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('aboutUs', 'aboutUs')->name('aboutus');
 
         Route::get('privacy', 'privacy')->name('privacy');
-        
+
     });
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
-    
+
 Route::prefix('client')->name('client.')->middleware('checkLogin')->group(function () {
-    
+
     //Account là bắt buộc phải đăng nhập mới vào được nên các function này cần đăng nhập thì ng dùng mới thực hiện đc ấy
     Route::controller(ClientController::class)->group(function () {
 
@@ -117,6 +117,7 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::get('edit/{id}', 'cateEdit')->name('edit')->middleware(['auth','admin']);
         Route::post('update/{id}', 'cateUpdate')->name('update')->middleware(['auth','admin']);
 
+        Route::get('check-category/{id}', 'checkCategory')->name('check-category')->middleware(['auth','admin']);
         Route::get('destroy/{id}', 'cateDestroy')->name('destroy')->middleware(['auth','admin']);
     });
 
@@ -158,13 +159,13 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
 
     Route::prefix('promotion')->name('promotion.')->group(function () {
             Route::get('index', 'promotionIndex')->name('index')->middleware(['auth','admin']);
-    
+
             Route::get('create', 'promotionCreate')->name('create')->middleware(['auth','admin']);
             Route::post('store', 'promotionStore')->name('store')->middleware(['auth','admin']);
-    
+
             Route::get('edit/{id}', 'promotionEdit')->name('edit')->middleware(['auth','admin']);
             Route::post('update/{id}', 'promotionUpdate')->name('update')->middleware(['auth','admin']);
-    
+
             Route::get('destroy/{id}', 'promotionDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 

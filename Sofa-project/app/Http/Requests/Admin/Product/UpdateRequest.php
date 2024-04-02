@@ -15,9 +15,9 @@ class UpdateRequest extends FormRequest
     {
         return [
             'id'=>'unique:products,id'.$this->product,
-            'name'=>'required|unique:products,name'.$this->product,
+            'name'=>'required',
             'image'=>'required|mimes:jpg,bmp,png,jpeg',
-            'intro'=>'required|unique:products,intro'.$this->product,
+            'intro'=>'required',
             'brand_id'=>'required|exists:brands,id',
             'description'=>'required',
             'price'=>'required|numeric|min:0',
@@ -33,7 +33,6 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required'=>'Please enter product name',
-            'name.unique'=>'This product name already exists. Please enter another product name',
             'image.required'=>'Please choose product image',
             'image.mimes'=>'Image must have extension jpg,png,bmp,jpeg',
             'intro.required'=>'Please enter product introduction',

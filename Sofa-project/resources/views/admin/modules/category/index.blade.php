@@ -30,14 +30,36 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-    function confirmDelete(){
-        return confirm('Are you sure you want to delete? Please check the following 2 things:\n\n1. If the category you want to delete is the parent category of another category, the deletion command will not be performed and we will report an error\n\n2. If the category you want to delete contains products, the products that originally belonged to that category will no longer have a category, and you will need to select a new category for them in the product list.');
+    function confirmDelete(link){
+    var categoryHasChildren = link.getAttribute('data-has-children') === 'true';
+    var categoryHasProducts = link.getAttribute('data-has-products') === 'true';
+    var message = 'Are you sure you want to delete?';
+
+    if (categoryHasChildren) {
+        message += '\n\nThe category you want to delete is the parent category of another category, the deletion command will not be performed and we will report an error.';
     }
+
+    if (categoryHasProducts) {
+        message += '\n\nThe category you want to delete contains products, the products that originally belonged to that category will no longer have a category, and you will need to select a new category for them in the product list.';
+    }
+
+    return confirm(message);
+}
+
 </script>
 @endpush
 
 @section('content')
     <!-- Default box -->
+
+    @if(Session::has('error'))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Error!</h5>
+            {{ Session::get('error') }}
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Category List</h3>
@@ -57,6 +79,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Parent</th>
+                        <th>Photo</th>
                         <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -76,13 +99,16 @@
                                 @endphp
                             </td>
                             <td>
+                                <img src="{{ asset('uploads/' . $category->photo) }}" alt="{{ $category->name }}" style="max-width: 200px; max-height: 200px;">
+                            </td>
+                            <td>
                                 <span class="right badge badge-{{ $category->status == 1 ? 'success' : 'dark' }}">
                                     {{ $category->status == 1 ? 'Show' : 'Hide' }}
                                 </span>
                             </td>
                             <td><a href="{{ route('admin.category.edit', ['id' => $category->id]) }}">Edit</a></td>
                             <td>
-                                <a onclick="return confirmDelete()" href="{{ route('admin.category.destroy', ['id' => $category->id]) }}">Delete</a>
+                                <a onclick="return confirmDelete(this)" data-has-children="{{ $category->children()->exists() ? 'true' : 'false' }}" data-has-products="{{ $category->products()->exists() ? 'true' : 'false' }}" href="{{ route('admin.category.destroy', ['id' => $category->id]) }}">Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -92,6 +118,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Parent</th>
+                        <th>Photo</th>
                         <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -103,11 +130,4 @@
         <!-- /.card-footer-->
     </div>
     <!-- /.card -->
-
-    @if(Session::has('error'))
-        <div class="alert alert-danger">
-            {{ Session::get('error') }}
-        </div>
-    @endif
-
 @endsection
