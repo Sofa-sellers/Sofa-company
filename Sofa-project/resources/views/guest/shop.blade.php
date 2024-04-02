@@ -1,5 +1,6 @@
 @extends('master')
-@section('module',$categories->name)
+@section('title',$categories_child->name)
+@section('module',$categories_child->name)
 @section('content')
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">
@@ -16,11 +17,6 @@
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link list" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"></a>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <div class="dropdown select-featured">
-                                            <a>showing 1 to 12 of 19 products</a>
-                                        </div>
                                     </li>
                                 </ul>
                             </nav>
