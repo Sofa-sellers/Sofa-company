@@ -11,6 +11,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Helper;
+use App\Models\User;
+use Hash;
 
 
 class ClientController extends Controller
@@ -178,11 +180,36 @@ class ClientController extends Controller
         //
     }
 
-    public function addressUpdate(Request $request, $id){
-//
+    public function addressUpdate(Request $request,$id){
+        $request->validate([
+            'address' => 'required',
+            'phone'=>'numeric|required'
+        ]);
+        $user = Auth::User()->where('id',$id)->first();
+        $user->address=$request->address;
+        $user->phone=$request->phone;
+        $user->updated_at=new \DateTime();
+        $user->save();
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update address successfully');
     }
 
-    public function accountDetailsUpdate(Request $request, $id){
-//
+    public function accountDetailsUpdate(Request $request,$id){
+        $request->validate([
+            'firstname' => 'required',
+            'lastname'=>'required',
+            'username'=>'required',
+            'currentpassword'=>'required',
+            'password'=>'required|confirmed'
+        ]);
+        $userDetail=Auth::User()->where('id',$id)->first();
+        if(Hash::check($request->currentpassword, $userDetail->password)){
+            $userDetail->firstname=$request->firstname;
+            $userDetail->lastname=$request->lastname;
+            $userDetail->username=$request->username;
+            $userDetail->password = bcrypt($request->password);
+            $userDetail->save();
+            return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
+        }
+        else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
     }
 }

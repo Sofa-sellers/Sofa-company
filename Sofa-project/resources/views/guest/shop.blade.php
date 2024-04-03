@@ -160,76 +160,9 @@
                             <h3 class="widget-title">Categories</h3>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
-                                    <li><a href="#">Acrylic Dining <span>(1)</span></a></li>
-                                    <li><a href="#">Floor Décor <span>(3)</span></a>
-                                        <ul>
-                                            <li><a href="#">Accessories <span>(1)</span></a></li>
-                                            <li><a href="#">Chalkboards <span>(1)</span></a></li>
-                                            <li><a href="#">Fireplace Screens <span>(1)</span></a></li>
-                                            <li><a href="#">Holders Lanterns <span>(1)</span></a></li>
-                                            <li><a href="#">Mirrors <span>(1)</span></a></li>
-                                            <li><a href="#">Plants Trees <span>(1)</span></a></li>
-                                            <li><a href="#">Sculptures <span>(1)</span></a></li>
-                                            <li><a href="#">Signs Accents <span>(1)</span></a></li>
-                                            <li><a href="#">Vases <span>(1)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Home Accents <span>(5)</span></a>
-                                        <ul>
-                                            <li><a href="#">Bookends <span>(2)</span></a></li>
-                                            <li><a href="#">Boxes Trunks <span>(2)</span></a></li>
-                                            <li><a href="#">Candle Holders <span>(2)</span></a></li>
-                                            <li><a href="#">Easels Risers Stands <span class="#">(2)</span></a></li>
-                                            <li><a href="#">Figurines <span>(2)</span></a></li>
-                                            <li><a href="#">Plates, Bowls <span>(2)</span></a></li>
-                                            <li><a href="#">Spheres <span>(2)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Kitchen Dining<span>(3)</span></a>
-                                        <ul>
-                                            <li><a href="#">Bar Wine <span>(1)</span></a></li>
-                                            <li><a href="#">Bowls, Gadgets Utensils <span>(1)</span></a></li>
-                                            <li><a href="#">Dinnerware <span>(1)</span></a> </li>
-                                            <li><a href="#">Drinkware <span>(1)</span></a></li>
-                                            <li><a href="#">Flatware Cutlery <span>(1)</span></a></li>
-                                            <li><a href="#">Floor Mats <span>(1)</span></a></li>
-                                            <li><a href="#">Storage <span>(1)</span></a></li>
-                                            <li><a href="#">Table Linens <span>(1)</span></a> </li>
-                                            <li><a href="#">Trash Cans <span>(1)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Kitchen Cleaning <span>(1)</span></a></li>
-                                    <li><a href="#">Lamps <span>(6)</span></a>
-                                        <ul>
-                                            <li><a href="#">Accent Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Buffet Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Desk Lamps <span>(2)</span></a></li>
-                                            <li class="-64"><a href="#">Floor Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Kids Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Mini Accent Lamps <span>(2)</span></a> </li>
-                                            <li><a href="#">Specialty Lamps <span>(2)</span></a></li>
-                                            <li><a href="#">Table Lamps <span>(2)</span></a> </li>
-                                            <li><a href="#">Task Lamps <span>(2)</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Melamine <span>(1)</span></a> </li>
-                                    <li><a href="#">Party Supplies <span>(1)</span></a> </li>
-                                    <li><a href="#">Serveware <span>(2)</span></a>
-                                    </li>
-                                    <li><a href="#">Uncategorized <span>(2)</span></a> </li>
-                                    <li><a href="#">Wall Décor <span>(6)</span></a>
-                                        <ul>
-                                            <li><a href="#">Clocks <span>(1)</span></a> </li>
-                                            <li><a href="#">Frames <span>(1)</span></a> </li>
-                                            <li><a href="#">Hangers Hardware <span>(2)</span></a></li>
-                                            <li><a href="#">Kids Wall Décor <span>(1)</span></a> </li>
-                                            <li><a href="#">Mirrors <span>(1)</span></a></li>
-                                            <li><a href="#">Organization <span>(2)</span></a></li>
-                                            <li><a href="#">Wall Accents <span>(1)</span></a> </li>
-                                            <li><a href="#">Wall Art <span>(2)</span></a></li>
-                                            <li><a href="#">Wall Shelves <span>(1)</span></a> </li>
-                                        </ul>
-                                    </li>
+                                    @foreach ($categories_child as $item)
+                                    <li><a href="{{ route('shop',['id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </nav>
                         </div>
