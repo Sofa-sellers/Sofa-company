@@ -40,10 +40,13 @@ class GuestController extends Controller
 
     public function viewShop($id){
 
-        $categories = Category::find($id)->where('parent_id',0);
-        $categories_child = Category::find($id)->where('parent_id','!=',0)->first();
+        $categories = Category::find($id);
+       
+        $categories_child= Category::find($id)->where('parent_id','!=',0)->get();
+
+        $products = Product::with('category')->where('category_id', $id)->where('status','!=',2)->paginate(6);
         
-        $products = Product::with('category')->where('category_id', $id)->paginate(6);
+        //$category_list = Category::with('product')->where('category_id', $id)->get();
         
 
 
