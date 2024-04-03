@@ -62,7 +62,7 @@ class LoginController extends Controller
         $user->password = bcrypt($request->password);
         $user->email = $request->email;
         $user->save();
-    
+
         return redirect()->route('showLogin');
     }
 
@@ -88,7 +88,7 @@ class LoginController extends Controller
     }
     public function resetPassword($token){
         $jsonString=User::select('email')->where('remember_token',$token)->first();
-        $email = $jsonString->email; 
+        $email = $jsonString->email;
         return view('guest.newPassword',compact('token','email'));
     }
 
