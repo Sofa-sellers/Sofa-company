@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\AttributeValue;
+use App\Models\Zip;
+
 use DateTime;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -19,8 +21,7 @@ class ClientController extends Controller
     public function addToCart($slug, $quantity, $id){
         $product = Product::where('slug', $slug)->first();
         $color = AttributeValue::where('id', $id)->first();
-        
-        // dd($color);
+
         if (empty($product)) {
             return redirect()->route('index');
         }else{
@@ -36,16 +37,16 @@ class ClientController extends Controller
                 ]
             ]);
     
-            
             return redirect()->route('client.showCart');
         }
 
-        // $skus = Sku::where('product_id',$id);
-
-        
     }
 
+
     public function showCart(){
+       
+        $shipcost = $this->shippingCheck(request());
+        
         $cartCollection = Cart::content();
         
         $value_color=null;
@@ -55,10 +56,10 @@ class ClientController extends Controller
                 
                 $value_color = AttributeValue::where('id',$color)->pluck('value'); // Truy cập thuộc tính 'value'
         }
-    }
-    // Cart::addCost('COST_SHIPPING', 100);
-    // dd($COST_SHIPPING);
+        }
+    
         $subtotal= Cart::subtotal();
+
 
         Cart::addCost('Shipping', 100);
        
@@ -77,6 +78,17 @@ class ClientController extends Controller
         ]);
         
     }
+
+    public function shippingCheck(Request $request){
+        $zipcode = $request->zip;
+        $shippingcost = Zip::where('zip',$zipcode)->first();
+        //  
+        $shippingcost ? $shippingcost : 0;
+        return $shippingcost;
+
+    }
+
+
 
 
     public function cartDelete($rowId){
@@ -112,35 +124,68 @@ class ClientController extends Controller
     }
 
     public function showCheckout(){
-        return view('client.checkout');
-        
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            $city=Zip::where('status',1)->get();
+    
+            return view('client.checkout', [
+                'user' => $user,
+                // 'city'=> $city
+            ]);
+        }
     }
 
-    public function checkout(Request $request){
+    public function checkout(Request $request, $user){
         $data = [
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'address' => $request->address,
             'phone' => $request->phone,
-            'cart_total' => Cart::total(),
+            'postcode'=>$request->postcode,
+            'email'=>$request->email,
+            'user_id'=>$user,
+            'note'=>$request->note,
+            'total_order' => Cart::total(),
             'created_at' => new DateTime(),
+            'shippingFee'=>100,
+            // 'discount_code'=>
+            // 'payment'
+        ];
+
+        
+        
+        $order_id = DB::table('orders')->insertGetId($data);
+
+        $data_user = [
+            
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'updated_at' => new DateTime(),
         ];
     
-        $cart_id = DB::table('carts')->insertGetId($data);
+        DB::table('users')->updateOrInsert(
+            ['id' => $user],
+            $data_user
+        );
+
     
         $cartCollection = Cart::content();
 
-        $cart_details = [];
+        $order_details = [];
         foreach($cartCollection as $item){
-            $cart_details[]=[
+            $order_details[]=[
                 'product_id'=> $item->id,
                 'price'=>$item->price,
                 'quantity'=>$item->qty,
-                'cart_id'=>$cart_id,
+                'total_product'=>(($item->price)*($item->qty)),
+                'order_id'=>$order_id,
                 'created_at'=>new \DateTime(),
             ];
         }
-        DB::table('cart_detail')->insert($cart_details);
+        DB::table('order_detail')->insert($order_details);
         Cart::destroy();
         return redirect()->route('index');
     }

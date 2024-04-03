@@ -1,15 +1,15 @@
 @extends('admin.master')
-@section('module' ,'Brand')
+@section('module' ,'Zip')
 @section('action','Create')  
 
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.brand.store')}}" method="post">
+    <form action="{{route('admin.zip.store')}}" method="post">
       @csrf
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Brand Create</h3>
+          <h3 class="card-title">Postcode Create</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -22,8 +22,18 @@
         <div class="card-body">
                 @csrf
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Brand Name</label>
-                    <input type="text" class="form-control" placeholder="Enter brand name" name="name" value="{{old('name')}}">
+                  <label for="exampleInputEmail1">City</label>
+                  <input type="text" class="form-control" placeholder="Enter city name" name="city" value="{{old('city')}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Postcode</label>
+                    <input type="text" class="form-control" placeholder="Enter postcode" name="zip" value="{{old('zip')}}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Shipping cost</label>
+                    <input type="number" class="form-control" placeholder="Enter shipping cost" name="ship_cost" value="{{old('ship_cost')}}">
                   </div>
 
                   <div class="form-group">

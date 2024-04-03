@@ -107,7 +107,7 @@
                                 <ul class="sub-menu">
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('aboutus')}}">About Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Cart Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout')}}">Checkout Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCheckout')}}">Checkout Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('compare')}}">Compare Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account')}}">Account Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Wishlist Page</a></li>

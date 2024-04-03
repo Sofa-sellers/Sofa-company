@@ -72,6 +72,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('aboutUs', 'aboutUs')->name('aboutus');
 
         Route::get('privacy', 'privacy')->name('privacy');
+        Route::get('404', '404')->name('404');
 
     });
 
@@ -87,13 +88,13 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::get('cart', 'showCart')->name('showCart');
 
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
-        Route::post('/client/shipping-check', 'ClientController@shippingCheck')->name('client.shippingCheck');
+        Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
         
         Route::get('cart-delete/{rowId}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update', 'cartUpdate')->name('cartUpdate');
 
         Route::get('checkout', 'showCheckout')->name('showCheckout');
-        Route::post('checkout', 'checkout')->name('checkout');
+        Route::post('checkout/{user}', 'checkout')->name('checkout');
 
 
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
@@ -223,9 +224,21 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('index/{product_id}', 'skuIndex')->name('index')->middleware(['auth','admin']);
 
             Route::get('create/{product_id}', 'skuCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store/{id}', 'skuStore')->name('store')->middleware(['auth','admin']);
+            Route::post('store', 'skuStore')->name('store')->middleware(['auth','admin']);
 
             Route::get('destroy/{id}', 'skuDestroy')->name('destroy')->middleware(['auth','admin']);
+        });
+
+        Route::prefix('zip')->name('zip.')->group(function () {
+            Route::get('index', 'zipIndex')->name('index')->middleware(['auth','admin']);
+
+            Route::get('create', 'zipCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('store', 'zipStore')->name('store')->middleware(['auth','admin']);
+
+            Route::get('edit/{id}', 'zipEdit')->name('edit')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'zipUpdate')->name('update')->middleware(['auth','admin']);
+
+            Route::get('destroy/{id}', 'zipDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 });
 

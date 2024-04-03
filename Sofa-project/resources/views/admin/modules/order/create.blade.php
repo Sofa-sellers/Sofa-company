@@ -1,4 +1,4 @@
-@extends('admin.master')
+{{-- @extends('admin.master')
 @section('module' ,'Category')
 @section('action','Create')  
 
@@ -50,4 +50,4 @@
       </div>
       <!-- /.card -->
 
-@endsection
+@endsection --}}

@@ -1,14 +1,14 @@
 @extends('admin.master')
-@section('module' ,'Category')
+@section('module' ,'Order')
 @section('action','Edit')  
 
 
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.category.update',['id'=>$id])}}" method="post">
+    <form action="{{route('admin.order.update',['id'=>$id])}}" method="post">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Category Update</h3>
+          <h3 class="card-title">Order Update</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>

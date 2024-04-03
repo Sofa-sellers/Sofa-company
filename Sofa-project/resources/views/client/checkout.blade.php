@@ -7,55 +7,68 @@
             <div class="col-lg-7">
                 <div class="billing-info-wrap">
                     <h3 class="title">Billing Details</h3>
-                    <form class="personal-information" method="POST" action="{{ route('client.checkout')}}">
+                    <form class="personal-information" method="POST" action="{{ route('client.checkout',['user' => $user])}}">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>First Name</label>
-                                    <input type="text" name="firstname">
+                                    <input type="text" name="firstname" placeholder="Firstname" value="{{ old('firstname',$user->firstname) }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Last Name</label>
-                                    <input type="text" name="lastname">
+                                    <input type="text" name="lastname" placeholder="Lastname" value="{{ old('lastname',$user->lastname) }}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="billing-info mb-5">
                                     <label>Street Address</label>
-                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="address">
+                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="address" value="{{ old('address',$user->address) }}">
                                 </div>
                             </div>
-                            {{-- 
+                            
                             <div class="col-lg-12">
                                 <div class="billing-info mb-5">
                                     <label>Town / City</label>
-                                    <input type="text">
+                                    {{-- <select class="form-control" name="material_id">
+                                        <option value="0" {{ old('material_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                                        @foreach ($materials as $m)
+                                        <option value="{{ $m->id }}" {{ old('material_id', $product->material_id) == $product->material_id ? 'selected' : '' }}>{{ $m->value }}</option>
+                                        @endforeach
+                                        </select> --}}
+                                    {{-- <input type="text"> --}}
                                 </div>
                             </div>
-                            --}}
-                            {{-- 
+                           
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Postcode / ZIP</label>
-                                    <input type="text">
+                                    <input type="text" name="postcode" value="{{ old('postcode') }}">
                                 </div>
                             </div>
-                            --}}
+                            
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Phone</label>
-                                    <input type="text" name="phone">
+                                    <input type="text" name="phone" value="{{ old('phone',$user->phone) }}">
                                 </div>
                             </div>
-                            {{-- <div class="col-lg-6 col-md-6">
+                           <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
                                     <label>Email Address</label>
-                                    <input type="text" name="email">
+                                    <input type="text" name="email" value="{{ old('email',$user->email) }}" disabled>
                                 </div>
-                            </div> --}}
+                            </div>
+                            <div class="additional-info-wrap">
+                                <h4 class="title">Additional information</h4>
+                                <div class="additional-info">
+                                    <label class="mb-2">Order notes</label>
+                                    <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="note" value="{{ old('note') }}"></textarea>
+                                </div>
+                            </div>
+    
                         </div>
                 </div>
             </div>

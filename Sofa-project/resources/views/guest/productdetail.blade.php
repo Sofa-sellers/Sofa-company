@@ -120,7 +120,7 @@
                                 @if($c)
                                 <li class="input-container">
                                     <label>
-                                    <input class="input-color" type="radio" name="color" value="{{$c->id}}">
+                                    <input class="input-color" type="radio" name="color" value="{{$c->id}}" required>
                                     <span class="color" style="background-color: {{ $c->value }} "></span>
                                     </label>
                                 </li>
@@ -377,35 +377,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <!-- actions  -->
-
-                                        {{-- <ul class="actions actions-verticale">
-                                            <div>
-                                                
-                                                    <li class="action whish-list">
-                                                        <button data-bs-toggle="modal"
-                                                            data-bs-target="#product-modal-wishlist"><i
-                                                                class="ion-ios-heart-outline"></i></button>
-                                                            </li>
-                                            </div>
-                                            
-                                            <div>
-                                                
-                                                    <li class="action quick-view">
-                                                        <button data-bs-toggle="modal" data-bs-target="#product-modal"><i
-                                                                class="ion-ios-eye-outline"></i></button>
-                                                    </li>
-                                            </div>
-                                            
-
-                                            
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal"
-                                                    data-bs-target="#product-modal-compare"><i
-                                                        class="ion-android-sync"></i></button>
-                                            </li>
-
-                                        </ul> --}}
+                                        
                                         
                                     </div>
                                 </div>

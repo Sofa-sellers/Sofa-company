@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('zips', function (Blueprint $table) {
             $table->id();
+            $table->string('city')->unique();
             $table->string('zip')->unique();
             $table->integer('ship_cost')->default(500000);
             $table->tinyInteger('status')->default(1)->comment('1 show - 2 hide');
