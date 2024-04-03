@@ -298,7 +298,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function productStore(Request $request)
+    public function productStore(ProductStoreRequest $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf',
