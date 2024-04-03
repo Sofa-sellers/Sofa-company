@@ -236,7 +236,6 @@ class AdminController extends Controller
     public function checkCategory($id)
     {
     $category = Category::findOrFail($id);
-
     $hasChildren = $category->children()->exists();
     $hasProducts = $category->products()->exists();
 
