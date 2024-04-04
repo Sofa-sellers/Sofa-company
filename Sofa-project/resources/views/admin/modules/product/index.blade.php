@@ -63,8 +63,6 @@
                     <th>Name</th>
                     <th>SKU</th>
                     <th>Image</th>
-                    <th>Intro</th>
-                    <th>Slug</th>
                     <th>Price</th>
                     <th>Sale price</th>
                     <th>Quantity</th>
@@ -84,10 +82,8 @@
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: 200px;">
                     </td>
-                    <td>{{$product->intro}}</td>
-                    <td>{{$product->slug}}</td>
-                    <td>{{$product->price}}</td>
-                    <td>{{$product->sale_price}}</td>
+                    <td>{{ number_format($product->price, 0, "", ".") }}$</td>
+                    <td>{{ number_format($product->sale_price, 0, "", ".") }}$</td>
                     <td>{{$product->quantity}}</td>
                     <td>
                         @if (!$product->category)
@@ -123,8 +119,6 @@
                     <th>Name</th>
                     <th>SKU</th>
                     <th>Image</th>
-                    <th>Intro</th>
-                    <th>Slug</th>
                     <th>Price</th>
                     <th>Sale price</th>
                     <th>Quantity</th>

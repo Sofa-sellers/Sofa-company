@@ -8,7 +8,7 @@
         var imageCount = 0;
         $( "#add-sku").click(function(){
             imageCount++;
-    
+
             var newRow = `
             <div class="row d-flex align-items-center">
                 <div class="col-md-2">
@@ -23,32 +23,32 @@
                     </button>
                 </div>
             </div>`;
-    
+
             $(".sku-detail").append(newRow);
         })
-    
+
         $(".sku-detail").on('click', '.delete-image', function(){
             var imageNumber = $(this).data("image")
             $("#image-" + imageNumber).closest(".row").remove();
         });
-    
+
         $(".sku-detail").on('change', 'input[name="images[]"]', function(){
             var imageNumber = $(this).data("image")
             var file = this.files[0];
-    
+
             if(file){
                 var reader = new FileReader();
                 reader.onload = function(e){
                     $("#image-" + imageCount).attr("src", e.target.result)
                 }
-    
+
                 reader.readAsDataURL(file);
             }
         });
-    
+
     })
-    
-    
+
+
     // // Đợi cho tài liệu (document) được tải xong
     // $(document).ready(function(){
     //     // Lắng nghe sự kiện submit của form
@@ -65,11 +65,12 @@
     //         }
     //     });
     // });
-    
+
 </script>
 @section('content')
 <form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data" id="create-product">
     @csrf
+
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
@@ -100,7 +101,7 @@
                     <div class="form-group">
                         <label>Dimension</label>
                         <select class="form-control" name="dimension_id">
-                        <option value="0" {{ old('dimension_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @foreach ($dimensions as $d)
                         <option value="{{ $d->id }}" {{ old('dimension_id') == $d->id ? 'selected' : '' }}>{{ $d->value }}</option>
                         {{$dimensions}}
@@ -110,7 +111,7 @@
                     <div class="form-group">
                         <label>Material</label>
                         <select class="form-control" name="material_id">
-                        <option value="0" {{ old('material_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @foreach ($materials as $m)
                         <option value="{{ $m->id }}" {{ old('material_id') == $m->id ? 'selected' : '' }}>{{ $m->value }}</option>
                         @endforeach
@@ -144,7 +145,7 @@
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" name="category_id">
-                        <option value="0" {{ old('category_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @php
                         recursiveCategory($categories, old('category_id', 0));
                         @endphp
@@ -153,7 +154,7 @@
                     <div class="form-group">
                         <label>Brand</label>
                         <select class="form-control" name="brand_id">
-                        <option value="0" {{ old('brand_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @foreach ($brands as $brand)
                         <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
                         @endforeach
@@ -210,7 +211,7 @@
                         <div class="sku-detail">
                             <div class="row">
                                 <button type="button" class="btn btn-info w-100" id="add-sku">
-                                <i class="fas fa-plus"></i> Add Images 
+                                <i class="fas fa-plus"></i> Add Images
                                 </button>
                             </div>
                         </div>

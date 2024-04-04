@@ -45,7 +45,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fa fa-th-list" aria-hidden="true"></i>
+                <i class="fa fa-folder" aria-hidden="true"></i>
                 <p>
                 Brand
                 <i class="right fas fa-angle-left"></i>
@@ -69,7 +69,7 @@
 
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fa fa-th-list" aria-hidden="true"></i>
+                <i class="fa fa-sitemap" aria-hidden="true"></i>
                 <p>
                 Category
                 <i class="right fas fa-angle-left"></i>

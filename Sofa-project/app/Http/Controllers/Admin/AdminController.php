@@ -298,7 +298,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function productStore(Request $request)
+    public function productStore(ProductStoreRequest $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf',
@@ -1035,7 +1035,7 @@ class AdminController extends Controller
 //         } else {
 //             $order_data['payment_method'] = 'cod';
 //             $order_data['payment_status'] = 'Unpaid';
-//         }        
+//         }
 //         $order->fill($order_data);
 //         $status=$order->save();
 //         if($order)
@@ -1056,7 +1056,7 @@ class AdminController extends Controller
 //         }
 //         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
 
-//         // dd($users);        
+//         // dd($users);
 //         request()->session()->flash('success','Your product order has been placed. Thank you for shopping with us.');
 //         return redirect()->route('home');
 //     }
@@ -1160,17 +1160,17 @@ class AdminController extends Controller
 //             elseif($order->status=="process"){
 //                 request()->session()->flash('success','Your order is currently processing.');
 //                 return redirect()->route('home');
-    
+
 //             }
 //             elseif($order->status=="delivered"){
 //                 request()->session()->flash('success','Your order has been delivered. Thank you for shopping with us.');
 //                 return redirect()->route('home');
-    
+
 //             }
 //             else{
 //                 request()->session()->flash('error','Sorry, your order has been canceled.');
 //                 return redirect()->route('home');
-    
+
 //             }
 //         }
 //         else{
