@@ -121,17 +121,15 @@
         </div>
     </div>
 </section>
-{{-- @php
-Cart::addCost('COST_SHIPPING', 100);
-@endphp --}}
+
 <div class="check-out-section section-padding-bottom">
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
-                {{-- <div class="billing-info-wrap">
-                    <h3 class="title">calculate shipping</h3>  --}}
+                <div class="billing-info-wrap">
+                    <h3 class="title">calculate shipping</h3>
                     
-                    {{-- <form class="personal-information" method="POST" action="/client/shipping-check">
+                    <form class="personal-information" method="POST" action="{{ route('client.shippingCheck')}}">
 
                         @csrf
                         <div class="row">
@@ -146,7 +144,7 @@ Cart::addCost('COST_SHIPPING', 100);
                                 </div>
                             </div>
                         </div>
-                    </form> --}}
+                    </form>
                     
 
 
@@ -162,12 +160,13 @@ Cart::addCost('COST_SHIPPING', 100);
                                 <a href="#" class="btn btn-dark check-out-btn">apply
                                 code</a>
                             </div> --}}
-                        {{-- </div>
-                    </form> --}}
+
+                        </div>
+                    {{-- </form> --}}
 
 
 
-                {{-- </div> --}}
+                </div>
             </div>
 
            

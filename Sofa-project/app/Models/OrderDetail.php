@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProductImages extends Model
+class OrderDetail extends Model
 {
     use HasFactory;
     /**
@@ -14,7 +16,7 @@ class ProductImages extends Model
      *
      * @var string
      */
-    protected $table = 'product_images';
+    protected $table = 'order_detail';
      /**
      * The attributes that aren't mass assignable.
      *
@@ -22,8 +24,8 @@ class ProductImages extends Model
      */
     protected $guarded =[];
 
-    public function product(): BelongsTo
+    public function order()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Order::class);
     }
 }

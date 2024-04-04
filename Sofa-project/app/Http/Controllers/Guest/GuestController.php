@@ -25,10 +25,28 @@ class GuestController extends Controller
     }
 
     public function index(){
-        $products_lastest = Product::orderBy('created_at','DESC')->skip(0)->take(8)->get();
-        $products_sale = Product::where('is_sale',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
-        $products_featured = Product::where('featured',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
-        $categories = Category::get();
+        $products_lastest = Product::where('status',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        if ($products_lastest->isEmpty()) {
+            return view('guest.404');
+        }else{
+            $products_lastest = $products_lastest;  
+        }
+
+        $products_sale = Product::where('status',1)->where('is_sale',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        if ($products_sale->isEmpty()) {
+            $products_sale = $products_lastest;
+        }else{
+            $products_sale = $products_sale; 
+        }
+
+        $products_featured = Product::where('status',1)->where('featured',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
+        if ($products_featured->isEmpty()) {
+            $products_featured = $products_lastest;
+        }else{
+            $products_featured = $products_featured; 
+        }
+
+        $categories = Category::where('status',1)->get();
 
         return view('guest.index',[
             'products_lastest' => $products_lastest,
@@ -63,7 +81,7 @@ class GuestController extends Controller
     public function detail($slug){
 
         $product = Product::with('category', 'productimages','sku','attributevalue')->where('slug',$slug)->first();
-        $products_related = Product::with('category')
+        $products_related = Product::where('status','!=',2)->with('category')
         ->where('category_id', $product->category->id)
         ->where('id','!=',$product->id)
         ->paginate(4);
@@ -75,7 +93,7 @@ class GuestController extends Controller
        
         foreach ($skus as $sku) {
             if($sku->attribute_id == 1){
-                $color = AttributeValue::where('id', $sku->value_id)->first();
+                $color = AttributeValue::where('status','!=',2)->where('id', $sku->value_id)->first();
                 $colors[] = $color;
             }
         }

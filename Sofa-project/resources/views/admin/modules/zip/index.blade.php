@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('module' ,'Order')
+@section('module' ,'Zip')
 @section('action','List')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -37,7 +37,7 @@ $(function () {
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Order List</h3>
+          <h3 class="card-title">Postcode List</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -52,64 +52,39 @@ $(function () {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Email</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Address</th>
+                        <th>City</th>
                         <th>Postcode</th>
-                        <th>Phone</th>
-                        <th>Total order</th>
-                        <th>Shipping Fee</th>
-                        <th>Discount Code</th>
-                        <th>Payment</th>
-                        <th>Note</th>
+                        <th>Ship cost</th>
                         <th>Status</th>
-                        <th>Reason cancel</th>
-                        <th>Created At</th>
-                        <th>Deleted At</th>
-                        {{-- <th>Delete</th> --}}
+                        <th>Create At</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
-                @foreach ($orders as $order)
+                @foreach ($zips as $zip)
                 <tbody>
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$order->email}}</td>
-                        <td>{{$order->firstname}}</td>
-                        <td>{{$order->lastname}}</td>
-                        <td>{{$order->address}}</td>
-                        <td>{{$order->postcode}}</td>
-                        <td>{{$order->phone}}</td>
-                        <td>{{$order->total_order}}</td>
-                        <td>{{$order->shippingFee}}</td>
-                        <td>{{$order->discount_code}}</td>
-                        <td>{{$order->payment}}</td>
-                        <td>{{$order->note}}</td>
-                        <td><span class="right badge badge-{{$order->status == 1 ?'success':'dark'}}">{{$order->status==1? 'Waiting' :'Hide'}}</span></td>
-                        <td>{{$order->reason}}</td>
-                        <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
-                        <td><a onclick="return confirmDelete ()" href="{{route('admin.category.destroy',['id'=>$order->id])}}">Delete</a></td>
+                        <td>{{$zip->city}}</td>
+                        <td>{{$zip->zip}}</td>
+                        <td>{{$zip->ship_cost}}</td>
+                        <td><span class="right badge badge-{{$zip->status == 1 ?'success':'dark'}}">{{$zip->status==1? 'Show' :'Hide'}}</span></td>
+                        <td>{{ date("d/m/Y - H:m:s", strtotime($zip->created_at))}}</td>
+                        <td><a href="{{route('admin.zip.edit',['id'=>$zip->id])}}">Edit</a></td>
+                        <td><a onclick="return confirmDelete ()" href="{{route('admin.zip.destroy',['id'=>$zip->id])}}">Delete</a></td>
                     </tr>
                 </tbody>
                 @endforeach
                 <tfoot>
                     <tr>
                         <th>ID</th>
-                        <th>Email</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Address</th>
+                        <th>City</th>
                         <th>Postcode</th>
-                        <th>Phone</th>
-                        <th>Total order</th>
-                        <th>Shipping Fee</th>
-                        <th>Discount Code</th>
-                        <th>Payment</th>
-                        <th>Note</th>
+                        <th>Ship cost</th>
                         <th>Status</th>
-                        <th>Reason cancel</th>
-                        <th>Created At</th>
-                        <th>Deleted At</th>
+                        <th>Create At</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </tfoot>
               </table>

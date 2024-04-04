@@ -21,7 +21,6 @@ return new class extends Migration
             $table->tinyInteger('status')->default(1)->comment('1 accepted - 2 deny');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-
             $table->timestamps();
         });
     }

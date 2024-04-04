@@ -22,11 +22,13 @@ return new class extends Migration
             $table->string('postcode');
             $table->string('phone');
             $table->double('total_order');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1)->comment('1 waiting - 2 accepted - 3 deny - 4 Preparing shipment - 5 Handed over to the carrier - 6 In transit - 7 Delivered	');
+            $table->double('reason')->nullable()->comment('Reason for order cancel');
             $table->double('shippingFee');
             $table->double('discount_code')->nullable();
-            $table->string('payment');
+            $table->string('payment')->nullable();
             $table->text('note')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

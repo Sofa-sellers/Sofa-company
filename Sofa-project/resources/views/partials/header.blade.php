@@ -111,7 +111,7 @@
                                 <ul class="sub-menu">
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('aboutus')}}">About Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Cart Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout')}}">Checkout Page</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCheckout')}}">Checkout Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('compare')}}">Compare Page</a></li>
                                     @if (Auth::check())
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Account Page</a></li>
@@ -236,7 +236,7 @@
                             <a class="quick-link-link shopping-cart" href="#">
                             <span class="wishlist-count">4</span>
                             </a>
-                            <div class="mini-carts">
+                            {{-- <div class="mini-carts">
                                 <ul class="mini-cart">
                                     <li class="mini-cart-item">
                                         <div class="mini-cart-image">
@@ -278,7 +278,7 @@
                                 </ul>
                                 <a href="#" class="btn btn-dark d-block w-100 mb-3">View cart</a>
                                 <a href="#" class="btn btn-dark d-block w-100 mb-4">Checkout</a>
-                            </div>
+                            </div> --}}
                         </li>
                     </ul>
                 </div>
