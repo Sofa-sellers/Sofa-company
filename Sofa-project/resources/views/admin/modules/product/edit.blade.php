@@ -126,8 +126,6 @@
                         <select class="form-control" name="status">
                         <option value="1" {{ old('status', $product->status) == 1 ? 'selected' : '' }}>Show</option>
                         <option value="2" {{ old('status', $product->status) == 2 ? 'selected' : '' }}>Hide</option>
-                        <option value="3" {{ old('status',$product->status) == 3 ? 'selected' : '' }}>Hot</option>
-                        <option value="4" {{ old('status',$product->status) == 4 ? 'selected' : '' }}>New</option>
                         </select>
                     </div>
                 </div>
