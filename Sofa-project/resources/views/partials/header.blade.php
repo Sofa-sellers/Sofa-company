@@ -47,7 +47,11 @@
                                     ?></a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account')}}">My account</a>
+                                    @if (Auth::check())
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">My account</a>
+                                    @else
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('showLogin')}}">Account Page</a></li>
+                                    @endif
                                     </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart')}}">Cart</a></li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist')}}">Wishlist</a>
@@ -86,7 +90,7 @@
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
                             <?php
-                                $categories=DB::table('categories')->get();
+                                $categories=DB::table('categories')->where('parent_id','!=',0)->get();
                             ?>
                             <li class="main-menu-item">
                                 <a href="javascript:void(0)" class="main-menu-link">Category</a>
@@ -109,7 +113,11 @@
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Cart Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCheckout')}}">Checkout Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('compare')}}">Compare Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account')}}">Account Page</a></li>
+                                    @if (Auth::check())
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Account Page</a></li>
+                                    @else
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('showLogin')}}">Account Page</a></li>
+                                    @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Wishlist Page</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('privacy')}}">Privacy Policy</a></li>
                                 </ul>

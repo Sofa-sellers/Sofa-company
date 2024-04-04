@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label>Dimension</label>
                         <select class="form-control" name="dimension_id">
-                        <option value="0" {{ old('dimension_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @foreach ($dimensions as $d)
                         <option value="{{ $d->id }}" {{ old('dimension_id', $product->dimension_id) == $product->dimension_id ? 'selected' : '' }}>{{ $d->value }}</option>
                         {{$dimensions}}
@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label>Material</label>
                         <select class="form-control" name="material_id">
-                        <option value="0" {{ old('material_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @foreach ($materials as $m)
                         <option value="{{ $m->id }}" {{ old('material_id', $product->material_id) == $product->material_id ? 'selected' : '' }}>{{ $m->value }}</option>
                         @endforeach
@@ -92,7 +92,7 @@
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" name="category_id">
-                        <option value="0" {{ old('category_id', $product->category_id) == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @php
                         recursiveCategory($categories, old('category_id', $product->category_id));
                         @endphp
@@ -101,7 +101,7 @@
                     <div class="form-group">
                         <label>Brand</label>
                         <select class="form-control" name="brand_id">
-                        <option value="0" {{ old('brand_id') == 0 ? 'selected' : '' }}>----- Root -----</option>
+                        <option value="">----- Root -----</option>
                         @php
                         recursiveCategory($brands, old('brand_id', $product->brand_id));
                         @endphp

@@ -30,8 +30,8 @@
                             <h3>Dashboard</h3>
                             <div class="welcome mb-20">
                                 <p>
-                                    Hello, <strong>Alex Tuntuni</strong> (If Not
-                                    <strong>Tuntuni !</strong><a href="login-register.html" class="logout"> Logout</a>)
+                                    Hello, <strong>{{Auth::user()->username}}</strong> (If Not
+                                    <strong>{{Auth::user()->username}}!</strong><a href="{{route('logout')}}" class="logout"> Logout</a>)
                                 </p>
                             </div>
                             <p class="mb-0">
@@ -146,16 +146,43 @@
                     <div class="tab-pane fade" id="address-edit" role="tabpanel">
                         <div class="myaccount-content">
                             <h3>Billing Address</h3>
+                            <form method="POST" action="{{route('client.address',['id'=>Auth::user()->id])}}">
+                                @csrf
+                                @if ($errors->any())
+                                    <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    </div>
+                                @endif
+                                @if ($message = Session::has('success'))
+                                    <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                    {{Session::get('success')}}
+                                    </div>
+                                @endif
                             <address>
-                                <p><strong>Alex Tuntuni</strong></p>
-                                <p>
-                                    1355 Market St, Suite 900 <br>
-                                    San Francisco, CA 94103
-                                </p>
-                                <p>Mobile: (123) 456-7890</p>
+                                <p><strong>{{Auth::user()->username}}</strong></p>
+                                @if (Auth::user()->address!='')
+                                <p>{{Auth::user()->address}}</p>
+                                <input type="text" class="form-control" name="address" value="{{old('address')}}"></p>
+                                @else 
+                                <p>you didnt add any address</p>
+                                <input type="text" class="form-control"name="address" value="{{old('address')}}"></p>
+                                @endif
+                                @if (Auth::user()->phone!='')
+                                <p>{{Auth::user()->phone}}</p>
+                                <input type="text" class="form-control" name="phone" value="{{old('phone')}}"></p>
+                                @else
+                                <p>you didnt add any phone</p>
+                                <input type="text" class="form-control" name="phone" value="{{old('phone')}}"></p>
+                                @endif
                             </address>
-                            <a href="#" class="ht-btn black-btn d-inline-block edit-address-btn"><i
-                                class="fa fa-edit"></i>Edit Address</a>
+                            <button type="submit" class="btn btn-primary">Edit Address</button>
+                            </form>
                         </div>
                     </div>
                     <!-- Single Tab Content End -->
@@ -164,34 +191,58 @@
                         <div class="myaccount-content">
                             <h3>Account Details</h3>
                             <div class="account-details-form">
-                                <form action="#">
+                                <form action="{{route('client.accountDetails',['id'=>Auth::user()->id])}}" method="POST">
+                                    @csrf
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                    @if ($message = Session::has('error'))
+                                        <div class="alert alert-danger alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                            {{Session::get('error')}}
+                                        </div>
+                                    @endif
+                                    @if ($message = Session::has('success'))
+                                        <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                        {{Session::get('success')}}
+                                        </div>
+                                    @endif
                                     <div class="row">
                                         <div class="col-lg-6 col-12 mb-5">
-                                            <input id="first-name" placeholder="First Name" type="text">
+                                            <p>First Name</p>
+                                            <input class="form-control" name="firstname" type="text" value="{{old('firstname',Auth::user()->firstname)}}">
                                         </div>
                                         <div class="col-lg-6 col-12 mb-5">
-                                            <input id="last-name" placeholder="Last Name" type="text">
+                                            <p>Last Name</p>
+                                            <input class="form-control" name="lastname" type="text" value="{{old('lastname',Auth::user()->lastname)}}">
                                         </div>
                                         <div class="col-12 mb-5">
-                                            <input id="display-name" placeholder="Display Name" type="text">
-                                        </div>
-                                        <div class="col-12 mb-5">
-                                            <input id="email" placeholder="Email Address" type="email">
+                                            <p>User Name</p>
+                                            <input class="form-control" name="username" type="text" value="{{old('username',Auth::user()->username)}}">
                                         </div>
                                         <div class="col-12 mb-5">
                                             <h4>Password change</h4>
                                         </div>
                                         <div class="col-12 mb-5">
-                                            <input id="current-pwd" placeholder="Current Password" type="password">
+                                            <input class="form-control" name="currentpassword" placeholder="Current Password" type="password">
                                         </div>
                                         <div class="col-lg-6 col-12 mb-5">
-                                            <input id="new-pwd" placeholder="New Password" type="password">
+                                            <input class="form-control" name="password" placeholder="New Password" type="password">
                                         </div>
                                         <div class="col-lg-6 col-12 mb-5">
-                                            <input id="confirm-pwd" placeholder="Confirm Password" type="password">
+                                            <input class="form-control" name="password_confirmation" placeholder="Confirm Password" type="password">
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-dark">Save Changes</button>
+                                            <button type="submit" class="btn btn-dark">Save Changes</button>
                                         </div>
                                     </div>
                                 </form>

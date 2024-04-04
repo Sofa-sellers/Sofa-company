@@ -243,7 +243,6 @@ class AdminController extends Controller
     public function checkCategory($id)
     {
     $category = Category::findOrFail($id);
-
     $hasChildren = $category->children()->exists();
     $hasProducts = $category->products()->exists();
 
@@ -306,7 +305,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function productStore(Request $request)
+    public function productStore(ProductStoreRequest $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf',
@@ -896,7 +895,6 @@ class AdminController extends Controller
     {
         return view('admin.modules.zip.create');
     }
-
 
     public function zipStore(ZipStoreRequest $request)
     {
