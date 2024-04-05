@@ -49,6 +49,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('', 'index')->name('index');
 
+        Route::get('shop', 'shop')->name('indexShop');
         Route::get('shop/{id}', 'viewShop')->name('shop');
 
         Route::post('search', 'search')->name('search');
