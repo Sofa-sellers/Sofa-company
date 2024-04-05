@@ -91,29 +91,29 @@
             </ul>
         </li>
 
-        {{-- <li class="nav-item">
+        <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="fa fa-th-list" aria-hidden="true"></i>
                 <p>
-                Attribute
+                Value of Attribute
                 <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('admin.attribute.create') }}" class="nav-link">
+                    <a href="{{ route('admin.value.create') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Create</p>
                     </a>
                     </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.attribute.index') }}" class="nav-link">
+                    <a href="{{ route('admin.value.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>List</p>
                     </a>
                 </li>
             </ul>
-        </li> --}}
+        </li>
 
           <li class="nav-item">
               <a href="#" class="nav-link">
@@ -139,23 +139,23 @@
               </ul>
           </li>
 
-        <li class="nav-item">
+          <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fa fa-th-list" aria-hidden="true"></i>
+                <i class="nav-icon fas fa-box"></i>
                 <p>
-                Value of Attribute
+                Postcode
                 <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('admin.value.create') }}" class="nav-link">
+                    <a href="{{ route('admin.zip.create') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Create</p>
                     </a>
                     </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.value.index') }}" class="nav-link">
+                    <a href="{{ route('admin.zip.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>List</p>
                     </a>
@@ -189,30 +189,6 @@
 
           <li class="nav-item">
               <a href="#" class="nav-link">
-                  <i class="fa fa-tag" aria-hidden="true"></i>
-                  <p>
-                  Promotion
-                  <i class="right fas fa-angle-left"></i>
-                  </p>
-              </a>
-              <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                      <a href="{{ route('admin.promotion.create') }}" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Create</p>
-                      </a>
-                      </li>
-                  <li class="nav-item">
-                      <a href="{{ route('admin.promotion.index') }}" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>List</p>
-                      </a>
-                  </li>
-              </ul>
-          </li>
-
-          <li class="nav-item">
-              <a href="#" class="nav-link">
                   <i class="fa fa-comments" aria-hidden="true"></i>
                   <p>
                   Rating Review
@@ -228,6 +204,31 @@
                   </li>
               </ul>
           </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fa fa-tag" aria-hidden="true"></i>
+                <p>
+                Order
+                <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('admin.order.create') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create</p>
+                    </a>
+                    </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.order.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>List</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
       </ul>
       </nav>
       <!-- /.sidebar-menu -->

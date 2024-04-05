@@ -44,7 +44,7 @@ class Product extends Model
 
     public function productimages()
     {
-        return $this->hasMany(ProductImages::class)->withTrashed();
+        return $this->hasMany(ProductImages::class);
     }
 
     public function attributevalue()

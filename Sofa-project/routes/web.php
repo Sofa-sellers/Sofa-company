@@ -24,9 +24,6 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-//ở trang guest và client có vài mục sẽ có post ko có get vì get chỉ để hiện lên trang đó thôi (vd như hiện trang create user), nhưng ở đây, vd trang home đã có luôn hiển thị email-promotion r nên chỉ ko càn get, chỉ cần post nhé mn
-//có 1 vài mục get và post của nó sẽ ở 2 Controller khác nhau (tùy vào có bắt buộc đăng nhập ko), vd như checkout của cart sẽ qua AccountController vì cần đăng nhập mới thực hiện đc
-
 Route::get('login', [LoginController::class, 'showLogin'])
 ->name('showLogin');
 Route::post('login',[LoginController::class, 'login']);
@@ -53,9 +50,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('', 'index')->name('index');
 
         Route::get('shop/{id}', 'viewShop')->name('shop');
-        
-        Route::post('email-promotion', 'emailPromotion')->name('emailPromotion'); 
-        
+
         Route::post('search', 'search')->name('search');
 
         Route::get('category/{id}', 'category')->name('category');
@@ -72,6 +67,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('aboutUs', 'aboutUs')->name('aboutus');
 
         Route::get('privacy', 'privacy')->name('privacy');
+        Route::get('404', '404')->name('404');
 
     });
 
@@ -87,13 +83,13 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::get('cart', 'showCart')->name('showCart');
 
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
-        Route::post('/client/shipping-check', 'ClientController@shippingCheck')->name('client.shippingCheck');
-        
+        Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
+
         Route::get('cart-delete/{rowId}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update', 'cartUpdate')->name('cartUpdate');
 
         Route::get('checkout', 'showCheckout')->name('showCheckout');
-        Route::post('checkout', 'checkout')->name('checkout');
+        Route::post('checkout/{user}', 'checkout')->name('checkout');
 
 
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
@@ -103,7 +99,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::get('wishlist', 'showWishlist')->name('showWishlist');
         Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
         Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
-        
+
         Route::get('account{id}', 'accountIndex')->name('account');
         Route::post('address/{id}', 'addressUpdate')->name('address');
         Route::post('accountDetail/{id}','accountDetailsUpdate')->name('accountDetails');
@@ -163,18 +159,6 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('destroy/{id}', 'valueDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
-    Route::prefix('promotion')->name('promotion.')->group(function () {
-            Route::get('index', 'promotionIndex')->name('index')->middleware(['auth','admin']);
-
-            Route::get('create', 'promotionCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store', 'promotionStore')->name('store')->middleware(['auth','admin']);
-
-            Route::get('edit/{id}', 'promotionEdit')->name('edit')->middleware(['auth','admin']);
-            Route::post('update/{id}', 'promotionUpdate')->name('update')->middleware(['auth','admin']);
-
-            Route::get('destroy/{id}', 'promotionDestroy')->name('destroy')->middleware(['auth','admin']);
-        });
-
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('index', 'userIndex')->name('index')->middleware(['auth','admin']);
 
@@ -223,9 +207,21 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('index/{product_id}', 'skuIndex')->name('index')->middleware(['auth','admin']);
 
             Route::get('create/{product_id}', 'skuCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store/{id}', 'skuStore')->name('store')->middleware(['auth','admin']);
+            Route::post('store', 'skuStore')->name('store')->middleware(['auth','admin']);
 
             Route::get('destroy/{id}', 'skuDestroy')->name('destroy')->middleware(['auth','admin']);
+        });
+
+        Route::prefix('zip')->name('zip.')->group(function () {
+            Route::get('index', 'zipIndex')->name('index')->middleware(['auth','admin']);
+
+            Route::get('create', 'zipCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('store', 'zipStore')->name('store')->middleware(['auth','admin']);
+
+            Route::get('edit/{id}', 'zipEdit')->name('edit')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'zipUpdate')->name('update')->middleware(['auth','admin']);
+
+            Route::get('destroy/{id}', 'zipDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 });
 

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->tinyInteger('status')->default(1);
+            $table->string('name');
+            $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide - 4 Delete');
             $table->timestamps();
             $table->softDeletes();
         });

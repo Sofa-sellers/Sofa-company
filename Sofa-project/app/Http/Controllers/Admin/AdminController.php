@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Zip;
 use App\Models\Brand;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sku;
-use App\Models\Promotion;
 use App\Models\RatingComment;
+use App\Models\Order;
 use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests\Admin\User\StoreRequest as UserStoreRequest;
@@ -24,8 +27,6 @@ use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest as CategoryUpdateRequest;
 use App\Http\Requests\Admin\Product\StoreRequest as ProductStoreRequest;
 use App\Http\Requests\Admin\Product\UpdateRequest as ProductUpdateRequest;
-use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
-use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
 use App\Http\Requests\Admin\Brand\StoreRequest as BrandStoreRequest;
@@ -38,8 +39,10 @@ use App\Http\Requests\Admin\Sku\StoreRequest as SkuStoreRequest;
 use App\Http\Requests\Admin\Sku\UpdateRequest as SkuUpdateRequest;
 use App\Http\Requests\Admin\Order\StoreRequest as OrderStoreRequest;
 use App\Http\Requests\Admin\Order\UpdateRequest as OrderUpdateRequest;
+use App\Http\Requests\Admin\Zip\StoreRequest as ZipStoreRequest;
+use App\Http\Requests\Admin\Zip\UpdateRequest as ZipUpdateRequest;
+
 use Illuminate\Http\Request;
-use App\Models\CategoryPhotos;
 use App\Models\ProductImages;
 
 use function Laravel\Prompts\alert;
@@ -161,27 +164,6 @@ class AdminController extends Controller
         $category->status = $request->status;
         $category->save();
 
-        if ($request->photos !== null) {
-                $count = 0;
-                $data_photos = [];
-                foreach ($request->photos as $photo_detail){
-                    $count++;
-                    $photoNameDetail = $count . '-' . time() . '-' . $photo_detail->getClientOriginalName();
-                    $photo_detail->move(public_path('uploads/'), $photoNameDetail);
-
-                    $data_photos[]=[
-                        'name' => $photoNameDetail,
-                        'category_id' => $category->id,
-                        'created_at' =>new \DateTime(),
-                        'updated_at' =>new \DateTime()
-                    ];
-
-                }
-
-                CategoryPhotos :: insert($data_photos);
-            }
-
-
         return redirect()->route('admin.category.index')->with('success','Create category successfully');
     }
 
@@ -245,7 +227,6 @@ class AdminController extends Controller
     public function cateDestroy(int $id)
     {
         $category = Category::findOrFail($id);
-        $photos = CategoryPhotos::where('category_id',$id)->get();
         if ($category == null) {
             abort(404);
         }
@@ -253,13 +234,6 @@ class AdminController extends Controller
         $old_photo_path = public_path('uploads/' . $category->photo);
         if (file_exists($old_photo_path)) {
             unlink($old_photo_path);
-        }
-
-        foreach($photos as $photo){
-            $old_photo_path = public_path('uploads/' . $photo->name);
-            if (file_exists($old_photo_path)) {
-                unlink($old_photo_path);
-            }
         }
 
         if ($category->children->isNotEmpty()) {
@@ -490,28 +464,14 @@ class AdminController extends Controller
 
     public function orderIndex()
     {
-        return view('admin.modules.order.index');
+        $orders = Order::orderBy('created_at', 'DESC')->get();
+        return view('admin.modules.order.index',[
+            'orders'=>$orders,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function orderStore(OrderStoreRequest $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function orderEdit($id)
     {
         return view('admin.modules.order.edit');
@@ -555,77 +515,6 @@ class AdminController extends Controller
     public function racomDestroy(){
         //
     }
-
-    public function promotionIndex()
-    {
-        $promotions = Promotion::orderBy('created_at', 'DESC')->get();
-        $product = Product::first();
-        return view('admin.modules.promotion.index', ['promotions' => $promotions, 'product' => $product]);
-    }
-
-    public function promotionCreate()
-    {
-        return view('admin.modules.promotion.create');
-    }
-
-    public function promotionStore(PromotionStoreRequest $request)
-    {
-        $promotion = new Promotion();
-
-        $promotion->code = $request->code;
-        $promotion->description = $request->description;
-        $promotion->discount_percent = $request->discount_percent;
-        $promotion->date_start = $request->date_start;
-        $promotion->date_end = $request->date_end;
-        $promotion->status = $request->status;
-
-        $promotion->save();
-
-        return redirect()->route('admin.promotion.index')->with('success', 'Create promotion successfully');
-    }
-
-    public function promotionEdit(string $id)
-    {
-        $promotions = Promotion::find($id);
-        if ($promotions == null) {
-            abort(404);
-        }
-        return view('admin.modules.promotion.edit', [
-            'id' => $id,
-            'promotion' => $promotions
-        ]);
-    }
-
-    public function promotionUpdate(PromotionUpdateRequest $request, string $id)
-    {
-        $promotions = Promotion::find($id);
-        if ($promotions == null) {
-            abort(404);
-        }
-
-        $promotions->code = $request->code;
-        $promotions->description = $request->description;
-        $promotions->discount_percent = $request->discount_percent;
-        $promotions->date_start = $request->date_start;
-        $promotions->date_end = $request->date_end;
-        $promotions->status = $request->status;
-
-        $promotions->save();
-
-        return redirect()->route('admin.promotion.index')->with('success', 'Update promotion successfully');
-    }
-
-    public function promotionDestroy(string $id)
-    {
-        $promotions = Promotion::find($id);
-        if ($promotions == null) {
-            abort(404);
-        }
-
-        $promotions->delete();
-        return redirect()->route('admin.promotion.index')->with('success', 'Deleted promotion successfully');
-    }
-
 
     public function valueIndex()
     {
@@ -793,18 +682,13 @@ class AdminController extends Controller
 
     // Retrieve unique attribute IDs from skus
     foreach ($skus as $sku) {
-        // Check if the attributevalue relationship exists
-        if ($sku->attributevalue) {
-            // Retrieve the attribute and value for this SKU
-            $attribute = Attribute::where('id', $sku->attributevalue->attribute_id)->orderBy('id', 'DESC')->first();
-            $value = $sku->attributevalue->first();
-
-            // Add the attribute and value to their respective arrays
-            $attributeIds[] = $attribute;
+            $value = AttributeValue::where('id', $sku->value_id)->get();
+            dd($sku->value_id);
             $values[] = $value;
-        }
+
+
     }
-    dd($values);
+
 
         return view('admin.modules.sku.index',[
             'product'=>$product,
@@ -894,326 +778,80 @@ class AdminController extends Controller
 
     }
 
+    public function zipIndex()
+    {
+        $zips = Zip::orderBy('created_at','DESC')->get();
+        return view('admin.modules.zip.index',[
+            'zips'=>$zips
+        ]);
+    }
 
 
+    public function zipCreate()
+    {
+        return view('admin.modules.zip.create');
+    }
+
+    public function zipStore(ZipStoreRequest $request)
+    {
+        $zip = new zip();
+
+        $zip->city = $request->city;
+        $zip->zip = $request->zip;
+        $zip->ship_cost = $request->ship_cost;
+        $zip->status = $request->status;
+
+        $zip->save();
+        return redirect()->route('admin.zip.index')->with('success','Create postcode successfully');
+    }
 
 
-//     <?php
+    public function zipEdit(int  $id)
+    {
+        $zips=zip::find($id);
+        if($zips == null){
+            abort(404);
+        }
 
-// namespace App\Http\Controllers;
+        return view('admin.modules.zip.edit',[
+            'id'=>$id,
+            'zip'=>$zips
+        ]);
+    }
 
-// use Illuminate\Http\Request;
-// use App\Models\Cart;
-// use App\Models\Order;
-// use App\Models\Shipping;
-// use App\User;
-// use PDF;
-// use Notification;
-// use Helper;
-// use Illuminate\Support\Str;
-// use App\Notifications\StatusNotification;
 
-// class OrderController extends Controller
-// {
-//     /**
-//      * Display a listing of the resource.
-//      *
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function index()
-//     {
-//         $orders=Order::orderBy('id','DESC')->paginate(10);
-//         return view('backend.order.index')->with('orders',$orders);
-//     }
+    public function zipUpdate(ZipUpdateRequest $request, $id)
+    {
+        $zips=zip::find($id);
+        if($zips == null){
+            abort(404);
+        }
 
-//     /**
-//      * Show the form for creating a new resource.
-//      *
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function create()
-//     {
-//         //
-//     }
+        $zips->city = $request->city;
+        $zips->zip = $request->zip;
+        $zips->ship_cost = $request->ship_cost;
+        $zips->status = $request->status;
 
-//     /**
-//      * Store a newly created resource in storage.
-//      *
-//      * @param  \Illuminate\Http\Request  $request
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function store(Request $request)
-//     {
-//         $this->validate($request,[
-//             'first_name'=>'string|required',
-//             'last_name'=>'string|required',
-//             'address1'=>'string|required',
-//             'address2'=>'string|nullable',
-//             'coupon'=>'nullable|numeric',
-//             'phone'=>'numeric|required',
-//             'post_code'=>'string|nullable',
-//             'email'=>'string|required'
-//         ]);
-//         // return $request->all();
+        $zips->save();
+        return redirect()->route('admin.modules.zip.index')->with('success','Update postcode successfully');
 
-//         if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
-//             request()->session()->flash('error','Cart is Empty !');
-//             return back();
-//         }
-//         // $cart=Cart::get();
-//         // // return $cart;
-//         // $cart_index='ORD-'.strtoupper(uniqid());
-//         // $sub_total=0;
-//         // foreach($cart as $cart_item){
-//         //     $sub_total+=$cart_item['amount'];
-//         //     $data=array(
-//         //         'cart_id'=>$cart_index,
-//         //         'user_id'=>$request->user()->id,
-//         //         'product_id'=>$cart_item['id'],
-//         //         'quantity'=>$cart_item['quantity'],
-//         //         'amount'=>$cart_item['amount'],
-//         //         'status'=>'new',
-//         //         'price'=>$cart_item['price'],
-//         //     );
+    }
 
-//         //     $cart=new Cart();
-//         //     $cart->fill($data);
-//         //     $cart->save();
-//         // }
 
-//         // $total_prod=0;
-//         // if(session('cart')){
-//         //         foreach(session('cart') as $cart_items){
-//         //             $total_prod+=$cart_items['quantity'];
-//         //         }
-//         // }
+    public function zipDestroy(int $id)
+    {
+        $zips = zip::find($id);
+        if($zips==null){
+            abort(404);
+        }
 
-//         $order=new Order();
-//         $order_data=$request->all();
-//         $order_data['order_number']='ORD-'.strtoupper(Str::random(10));
-//         $order_data['user_id']=$request->user()->id;
-//         $order_data['shipping_id']=$request->shipping;
-//         $shipping=Shipping::where('id',$order_data['shipping_id'])->pluck('price');
-//         // return session('coupon')['value'];
-//         $order_data['sub_total']=Helper::totalCartPrice();
-//         $order_data['quantity']=Helper::cartCount();
-//         if(session('coupon')){
-//             $order_data['coupon']=session('coupon')['value'];
-//         }
-//         if($request->shipping){
-//             if(session('coupon')){
-//                 $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0]-session('coupon')['value'];
-//             }
-//             else{
-//                 $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0];
-//             }
-//         }
-//         else{
-//             if(session('coupon')){
-//                 $order_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
-//             }
-//             else{
-//                 $order_data['total_amount']=Helper::totalCartPrice();
-//             }
-//         }
-//         // return $order_data['total_amount'];
-//         // $order_data['status']="new";
-//         // if(request('payment_method')=='paypal'){
-//         //     $order_data['payment_method']='paypal';
-//         //     $order_data['payment_status']='paid';
-//         // }
-//         // else{
-//         //     $order_data['payment_method']='cod';
-//         //     $order_data['payment_status']='Unpaid';
-//         // }
-//         if (request('payment_method') == 'paypal') {
-//             $order_data['payment_method'] = 'paypal';
-//             $order_data['payment_status'] = 'paid';
-//         } elseif (request('payment_method') == 'cardpay') {
-//             $order_data['payment_method'] = 'cardpay';
-//             $order_data['payment_status'] = 'paid';
-//         } else {
-//             $order_data['payment_method'] = 'cod';
-//             $order_data['payment_status'] = 'Unpaid';
-//         }
-//         $order->fill($order_data);
-//         $status=$order->save();
-//         if($order)
-//         // dd($order->id);
-//         $users=User::where('role','admin')->first();
-//         $details=[
-//             'title'=>'New Order Received',
-//             'actionURL'=>route('order.show',$order->id),
-//             'fas'=>'fa-file-alt'
-//         ];
-//         Notification::send($users, new StatusNotification($details));
-//         if(request('payment_method')=='paypal'){
-//             return redirect()->route('payment')->with(['id'=>$order->id]);
-//         }
-//         else{
-//             session()->forget('cart');
-//             session()->forget('coupon');
-//         }
-//         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
-
-//         // dd($users);
-//         request()->session()->flash('success','Your product order has been placed. Thank you for shopping with us.');
-//         return redirect()->route('home');
-//     }
-
-//     /**
-//      * Display the specified resource.
-//      *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function show($id)
-//     {
-//         $order=Order::find($id);
-//         // return $order;
-//         return view('backend.order.show')->with('order',$order);
-//     }
-
-//     /**
-//      * Show the form for editing the specified resource.
-//      *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function edit($id)
-//     {
-//         $order=Order::find($id);
-//         return view('backend.order.edit')->with('order',$order);
-//     }
-
-//     /**
-//      * Update the specified resource in storage.
-//      *
-//      * @param  \Illuminate\Http\Request  $request
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function update(Request $request, $id)
-//     {
-//         $order=Order::find($id);
-//         $this->validate($request,[
-//             'status'=>'required|in:new,process,delivered,cancel'
-//         ]);
-//         $data=$request->all();
-//         // return $request->status;
-//         if($request->status=='delivered'){
-//             foreach($order->cart as $cart){
-//                 $product=$cart->product;
-//                 // return $product;
-//                 $product->stock -=$cart->quantity;
-//                 $product->save();
-//             }
-//         }
-//         $status=$order->fill($data)->save();
-//         if($status){
-//             request()->session()->flash('success','Successfully updated order');
-//         }
-//         else{
-//             request()->session()->flash('error','Error while updating order');
-//         }
-//         return redirect()->route('order.index');
-//     }
-
-//     /**
-//      * Remove the specified resource from storage.
-//      *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function destroy($id)
-//     {
-//         $order=Order::find($id);
-//         if($order){
-//             $status=$order->delete();
-//             if($status){
-//                 request()->session()->flash('success','Order Successfully deleted');
-//             }
-//             else{
-//                 request()->session()->flash('error','Order can not deleted');
-//             }
-//             return redirect()->route('order.index');
-//         }
-//         else{
-//             request()->session()->flash('error','Order can not found');
-//             return redirect()->back();
-//         }
-//     }
-
-//     public function orderTrack(){
-//         return view('frontend.pages.order-track');
-//     }
-
-//     public function productTrackOrder(Request $request){
-//         // return $request->all();
-//         $order=Order::where('user_id',auth()->user()->id)->where('order_number',$request->order_number)->first();
-//         if($order){
-//             if($order->status=="new"){
-//             request()->session()->flash('success','Your order has been placed.');
-//             return redirect()->route('home');
-
-//             }
-//             elseif($order->status=="process"){
-//                 request()->session()->flash('success','Your order is currently processing.');
-//                 return redirect()->route('home');
-
-//             }
-//             elseif($order->status=="delivered"){
-//                 request()->session()->flash('success','Your order has been delivered. Thank you for shopping with us.');
-//                 return redirect()->route('home');
-
-//             }
-//             else{
-//                 request()->session()->flash('error','Sorry, your order has been canceled.');
-//                 return redirect()->route('home');
-
-//             }
-//         }
-//         else{
-//             request()->session()->flash('error','Invalid order number. Please try again!');
-//             return back();
-//         }
-//     }
-
-//     // PDF generate
-//     public function pdf(Request $request){
-//         $order=Order::getAllOrder($request->id);
-//         // return $order;
-//         $file_name=$order->order_number.'-'.$order->first_name.'.pdf';
-//         // return $file_name;
-//         $pdf=PDF::loadview('backend.order.pdf',compact('order'));
-//         return $pdf->download($file_name);
-//     }
-//     // Income chart
-//     public function incomeChart(Request $request){
-//         $year=\Carbon\Carbon::now()->year;
-//         // dd($year);
-//         $items=Order::with(['cart_info'])->whereYear('created_at',$year)->where('status','delivered')->get()
-//             ->groupBy(function($d){
-//                 return \Carbon\Carbon::parse($d->created_at)->format('m');
-//             });
-//             // dd($items);
-//         $result=[];
-//         foreach($items as $month=>$item_collections){
-//             foreach($item_collections as $item){
-//                 $amount=$item->cart_info->sum('amount');
-//                 // dd($amount);
-//                 $m=intval($month);
-//                 // return $m;
-//                 isset($result[$m]) ? $result[$m] += $amount :$result[$m]=$amount;
-//             }
-//         }
-//         $data=[];
-//         for($i=1; $i <=12; $i++){
-//             $monthName=date('F', mktime(0,0,0,$i,1));
-//             $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
-//         }
-//         return $data;
-//     }
-
+        $zips->status = 2;
+        $zips->delete();
+        return redirect()->route('admin.modules.zip.index')->with('success','Delete postcode successfully');
+    }
 
 }
+
+
+
+

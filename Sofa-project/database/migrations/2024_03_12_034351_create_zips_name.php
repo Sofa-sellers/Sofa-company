@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::create('zips', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->timestamps();
+            $table->string('city')->unique();
+            $table->string('zip')->unique();
+            $table->integer('ship_cost')->default(500000);
+            $table->tinyInteger('status')->default(1)->comment('1 show - 2 hide');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('zips_name');
     }
 };

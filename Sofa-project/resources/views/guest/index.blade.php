@@ -1393,7 +1393,7 @@
                                                 <div class="product-group">
                                                     <h5 class="product-price">
                                                         @if(!$item->sale_price)
-                                                        $ {{$pr->price}}
+                                                        $ {{$item->price}}
                                                         @else
                                                         <del
                                                             class="old-price">{{ $item->price }}</del> <span
