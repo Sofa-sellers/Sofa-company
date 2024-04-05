@@ -1,14 +1,43 @@
 @extends('admin.master')
 @section('module' ,'Order')
-@section('action','Edit')  
-
-
+@section('action','List')  
+@push('css')
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+@endpush
+@push('js')
+<script src="{{asset('administrator/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+@endpush
+@push('handlejs')
+<script>
+$(function () {
+    $("#example1").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+    function confirmDelete(){
+        return confirm('Do you want to delete it ?');
+    }
+</script>
+@endpush
 @section('content')
     <!-- Default box -->
-    <form action="{{route('admin.order.update',['id'=>$id])}}" method="post">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Order Update</h3>
+          <h3 class="card-title">Order Detail</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -19,30 +48,55 @@
             </div>
         </div>
         <div class="card-body">
-                @csrf
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Category Name</label>
-                    <input type="text" class="form-control" placeholder="Enter category name" name="name" value="{{old('name',$category->name)}}">
-                  </div>
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Color</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
 
-                  <div class="form-group">
-                    <label >Category parent</label>
-                    <select class="form-control" name="parent_id" ">
-                        <option value="0">----Root----</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label >Status</label>
-                    <select class="form-control" name="staztus">
-                        <option value="1" {{old('status',$category->status)== 1? 'selected':' '}}>Show</option>
-                        <option value="2" {{old('status',$category->status)== 2? 'selected':' '}}>Hide</option>
-                    </select>
-                  </div>
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                  </div>
-            </form>
-            
+                    </tr>
+                </thead>
+                @foreach ($details as $d)
+                <tbody>
+                    <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td>
+                          {{-- @php
+                            $product = Productarray_where($array, function ($key, $value) {
+                                return $value
+                            });
+                          @endphp --}}
+                        </td>
+                        <td>{{$d->quantity}}</td>
+                        <td>{{$d->price}}</td>
+                        <td>{{($d->)}}</td>
+                        {{-- <td>{{$order->postcode}}</td> --}}
+                        <td>{{$d->phone}}</td>
+                        <td>{{$order->total_order}}</td>
+                        {{-- <td>{{$order->payment}}</td> --}}
+                        <td>{{$order->note}}</td>
+                        <td><span class="right badge badge-{{$order->status == 1 ?'success':'dark'}}">{{$order->status==1? 'Waiting' :'Hide'}}</span></td>
+                        <td>{{$order->reason}}</td>
+                        <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
+                        <td>Created at</td>
+                    </tr>
+                </tbody>
+                @endforeach
+                <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Product</th>
+                      <th>Color</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Total Price</th>
+                    </tr>
+                </tfoot>
+              </table>
         </div>
         <!-- /.card-body -->
         
@@ -51,3 +105,11 @@
       <!-- /.card -->
 
 @endsection
+
+{{-- <div class="form-group">
+    <label >Status</label>
+    <select class="form-control" name="staztus">
+        <option value="1" {{old('status',$category->status)== 1? 'selected':' '}}>Show</option>
+        <option value="2" {{old('status',$category->status)== 2? 'selected':' '}}>Hide</option>
+    </select>
+  </div> --}}

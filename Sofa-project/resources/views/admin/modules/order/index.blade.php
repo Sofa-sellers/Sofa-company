@@ -56,17 +56,14 @@ $(function () {
                         <th>Firstname</th>
                         <th>Lastname</th>
                         <th>Address</th>
-                        <th>Postcode</th>
+                        {{-- <th>Postcode</th> --}}
                         <th>Phone</th>
                         <th>Total order</th>
-                        <th>Shipping Fee</th>
-                        <th>Discount Code</th>
-                        <th>Payment</th>
                         <th>Note</th>
                         <th>Status</th>
                         <th>Reason cancel</th>
+                        <th>Detail</th>
                         <th>Created At</th>
-                        <th>Deleted At</th>
                         {{-- <th>Delete</th> --}}
                     </tr>
                 </thead>
@@ -78,17 +75,15 @@ $(function () {
                         <td>{{$order->firstname}}</td>
                         <td>{{$order->lastname}}</td>
                         <td>{{$order->address}}</td>
-                        <td>{{$order->postcode}}</td>
+                        {{-- <td>{{$order->postcode}}</td> --}}
                         <td>{{$order->phone}}</td>
                         <td>{{$order->total_order}}</td>
-                        <td>{{$order->shippingFee}}</td>
-                        <td>{{$order->discount_code}}</td>
-                        <td>{{$order->payment}}</td>
+                        {{-- <td>{{$order->payment}}</td> --}}
                         <td>{{$order->note}}</td>
                         <td><span class="right badge badge-{{$order->status == 1 ?'success':'dark'}}">{{$order->status==1? 'Waiting' :'Hide'}}</span></td>
                         <td>{{$order->reason}}</td>
                         <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
-                        <td><a onclick="return confirmDelete ()" href="{{route('admin.category.destroy',['id'=>$order->id])}}">Delete</a></td>
+                        <td>Created at</td>
                     </tr>
                 </tbody>
                 @endforeach
@@ -99,12 +94,9 @@ $(function () {
                         <th>Firstname</th>
                         <th>Lastname</th>
                         <th>Address</th>
-                        <th>Postcode</th>
+                        {{-- <th>Postcode</th> --}}
                         <th>Phone</th>
                         <th>Total order</th>
-                        <th>Shipping Fee</th>
-                        <th>Discount Code</th>
-                        <th>Payment</th>
                         <th>Note</th>
                         <th>Status</th>
                         <th>Reason cancel</th>
@@ -121,3 +113,11 @@ $(function () {
       <!-- /.card -->
 
 @endsection
+
+{{-- <div class="form-group">
+    <label >Status</label>
+    <select class="form-control" name="staztus">
+        <option value="1" {{old('status',$category->status)== 1? 'selected':' '}}>Show</option>
+        <option value="2" {{old('status',$category->status)== 2? 'selected':' '}}>Hide</option>
+    </select>
+  </div> --}}

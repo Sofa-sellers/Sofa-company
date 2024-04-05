@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lastname')->nullable();
             $table->string('email')->unique();
             $table->string('address')->nullable();
+            $table->string('city')->nullable();
             $table->string('phone')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1 Show - 2 Hide');
             $table->tinyInteger('level')->default(1)->comment('1 Member - 2 Admin');

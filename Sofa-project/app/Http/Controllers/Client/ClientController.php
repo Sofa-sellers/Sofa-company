@@ -6,151 +6,125 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\AttributeValue;
-use App\Models\Zip;
+// use App\Models\Zip;
 
 use DateTime;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Helpers\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Helper;
 use App\Models\User;
+use GuzzleHttp\Psr7\Message;
+use Illuminate\Support\Facades\Session;
 use Hash;
-
+use Illuminate\Auth\Events\Failed;
 
 class ClientController extends Controller
 {
     
-    public function addToCart($slug, $quantity, $id){
-        $product = Product::where('slug', $slug)->first();
-        $color = AttributeValue::where('id', $id)->first();
+    public function addToCart(Request $request, Cart $cart){
 
-        if (empty($product)) {
-            return redirect()->route('index');
-        }else{
-            $price = $product->sale_price ?? $product->price;
-            Cart::add([
-                'id' => $product->id,
-                'name' => $product->name,
-                'qty' => $quantity,
-                'price' => $price,
-                'options' => [
-                    'color' =>$color->id,
-                    'image'=>$product->image,
-                ]
-            ]);
-    
-            return redirect()->route('client.showCart');
-        }
+        $product = Product::where('id', $request->id)->first();
+        $quantity = $request->quantity;
+        $color = $request->color;
 
-    }
+        $cart->add($product, $color, $quantity);
 
-
-    public function showCart(){
-       
-        $shipcost = $this->shippingCheck(request());
-        
-        $cartCollection = Cart::content();
-        
-        $value_color=null;
-        foreach($cartCollection as $cartItem){
-            if($cartItem->options->has('color')) { // Kiểm tra xem thuộc tính 'color' có tồn tại hay không
-                $color = $cartItem->options->color; // Lấy giá trị của thuộc tính 'color'
-                
-                $value_color = AttributeValue::where('id',$color)->pluck('value'); // Truy cập thuộc tính 'value'
-        }
-        }
-    
-        $subtotal= Cart::subtotal();
-
-
-        Cart::addCost('Shipping', 100);
-       
-        $total=Cart::total();
-        
-        // dd($cartCollection);
-        $shippingcost=Cart::getCost('Shipping');
-        
-
-        return view('client.cart',[
-            'cartCollection' => $cartCollection,
-            'value_color'=>$value_color,
-            'subtotal'=>$subtotal,
-            'total'=>$total,
-            'shippingcost'=>$shippingcost
-        ]);
-        
-    }
-
-    public function shippingCheck(Request $request){
-        $zipcode = $request->zip;
-        $shippingcost = Zip::where('zip',$zipcode)->first();
-        //  
-        $shippingcost ? $shippingcost : 0;
-        return $shippingcost;
-
-    }
-
-
-
-
-    public function cartDelete($rowId){
-       
-        Cart::remove($rowId);
         return redirect()->route('client.showCart');
     }
 
-    public function cartUpdate(Request $request){
 
-        $id = $request->id;
-        $quantity=$request->quantity;
-        $cartCollection = Cart::content();
-        $product = $cartCollection->where('id', $id)->first();
-        $rowId=null;
-        if ($product) {
-            $rowId = $product->rowId; 
-            
-        } 
-        // dd($quantity);
-        Cart::update($rowId, $quantity);
+    public function showCart(Cart $cart){
+       
 
-        // Cart::update($id, array(
-        //     'qty'=>array(
-        //         'relative'=>false,
-        //         'value'=>$quantity
-        //     ),
-        // )); 
-
-        return response()->json([
-            'status'=>200,
-        ]);
+        return view('client.cart',compact('cart'));
+        
     }
 
-    public function showCheckout(){
+
+    public function cartDelete(Cart $cart, $itemKey) {
+        $cart->delete($itemKey);
+        return redirect()->route('client.showCart');
+      }
+
+    public function cartUpdate(Request $request)
+    {
+
+        if($request->ajax()){
+            $itemKey = $request->$itemKey;
+            $quantity = $request->$quantity;
+            $cart->update($itemKey, $quantity);
+        }
+
+
+        // $productId = $request->input('productId');
+        // $color = $request->input('color');
+        // $quantity = $request->input('quantity');
+
+        // dd($quantity);
+        // // Validate quantity
+        // if (!is_numeric($quantity) || $quantity <= 0) {
+        //     return back()->withErrors(['quantity' => 'Invalid quantity']);
+        // }
+
+        // // Update cart with new quantity
+        // $cart->update($productId, $color, $quantity);
+
+        // return redirect()->route('client.showCart')->with('success', 'Cart item quantity updated!');
+    }
+
+    public function showCheckout(Cart $cart){
         if (Auth::check()) {
             $user = Auth::user();
             
-            $city=Zip::where('status',1)->get();
-    
+        $carts = $cart->list();
             return view('client.checkout', [
                 'user' => $user,
-                // 'city'=> $city
+                'carts'=>$carts,
+                'cart' => $cart
             ]);
         }
     }
 
-    public function checkout(Request $request, $user){
-        $data = [
+    public function checkout(Request $request, Cart $cart, $user){
+
+        $cartCollection = $cart->list();
+
+        foreach($cartCollection as $item){
+            $productId = $item['productId'];
+            $product = Product::findOrFail($productId);
+            
+            $newQuantity = DB::table('products')
+                ->where('id', $productId)
+                ->decrement('quantity', $item['quantity']);
+
+            // Cập nhật thời gian cập nhật tự động
+            // Không cần gọi update cho updated_at
+
+            if ($newQuantity === 0) {
+                DB::table('products')
+                    ->where('id', $productId)
+                    ->update(['status' => 2]);
+            } elseif ($newQuantity < 0) {
+                // Nếu số lượng mới nhỏ hơn 0, nghĩa là số lượng trong kho không đủ
+                // Trả về một thông báo lỗi
+                return redirect()->back()->with('error', 'Quantity is over stock, please decrease this quantity');
+            }
+        }
+
+            $data = [
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'address' => $request->address,
             'phone' => $request->phone,
-            'postcode'=>$request->postcode,
+            
             'email'=>$request->email,
+            'city'=>$request->city,
             'user_id'=>$user,
             'note'=>$request->note,
-            'total_order' => Cart::total(),
+            'total_order' => $cart->total(),
             'created_at' => new DateTime(),
-            'shippingFee'=>100,
+            // 'shippingFee'=>100,
             // 'discount_code'=>
             // 'payment'
         ];
@@ -174,22 +148,23 @@ class ClientController extends Controller
         );
 
     
-        $cartCollection = Cart::content();
-
-        $order_details = [];
         foreach($cartCollection as $item){
             $order_details[]=[
-                'product_id'=> $item->id,
-                'price'=>$item->price,
-                'quantity'=>$item->qty,
-                'total_product'=>(($item->price)*($item->qty)),
+                'product_id'=> $item['productId'],
+                'product_name'=>$item['name'],
+                'color'=>$item['option']['color'],
+                'price'=>$item['price'],
+                'quantity'=>$item['quantity'],
+                'total_product'=>($item['price']*$item['quantity']),
                 'order_id'=>$order_id,
                 'created_at'=>new \DateTime(),
             ];
+            
         }
         DB::table('order_detail')->insert($order_details);
-        Cart::destroy();
+        $cart->destroyAll();
         return redirect()->route('index');
+
     }
 
 //     public function racomStore(Request $request){
@@ -200,9 +175,9 @@ class ClientController extends Controller
 // //
 //     }
 
-    public function accountIndex(){
-        return view('client.account');
-    }
+    // public function accountIndex(){
+    //     return view('client.account');
+    // }
 
     public function addToWishlist($id, $quantity){
         //
@@ -258,3 +233,4 @@ class ClientController extends Controller
         else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
     }
 }
+
