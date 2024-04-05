@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('module' ,'Value')
-@section('action','List')  
+@section('action','List')
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -70,7 +70,7 @@ $(function () {
                         @endif
 
                         <td><span class="right badge badge-{{$value->status == 1 ?'success':'dark'}}">{{$value->status==1? 'Show' :'Hide'}}</span></td>
-                        <td><a href="//">Edit</a>/<a onclick="return confirmDelete ()" href="{{route('admin.value.destroy',['id'=>$value->id])}}">Delete</a></td>
+                        <td><a onclick="return confirmDelete ()" href="{{route('admin.value.destroy',['id'=>$value->id])}}">Delete</a></td>
                     </tr>
                 </tbody>
                 @endforeach
@@ -86,7 +86,7 @@ $(function () {
               </table>
         </div>
         <!-- /.card-body -->
-        
+
         <!-- /.card-footer-->
       </div>
       <!-- /.card -->

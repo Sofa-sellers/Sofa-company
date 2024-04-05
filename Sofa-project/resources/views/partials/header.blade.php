@@ -47,22 +47,18 @@
                                     ?></a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
-                                    @if (Auth::check())
+                                    @if(Auth::check())
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">My account</a>
-                                    @else
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('showLogin')}}">Account Page</a></li>
-                                    @endif
-                                    </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart')}}">Cart</a></li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist')}}">Wishlist</a>
-                                    </li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist')}}">Wishlist</a></li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCheckout')}}">Checkout</a>
                                     </li>
-                                    @if(Auth::check())
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
                                     </li>
                                     @else
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showLogin')}}">Log in</a>
+                                    </li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('showRegister')}}">Register</a>
                                     </li>
                                     @endif
                                 </ul>
@@ -93,7 +89,7 @@
                                 $categories=DB::table('categories')->where('parent_id','!=',0)->get();
                             ?>
                             <li class="main-menu-item">
-                                <a href="javascript:void(0)" class="main-menu-link">Category</a>
+                                <a href="{{route('indexShop')}}" class="main-menu-link">Shop</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
                                     @foreach ($categories as $item)
@@ -105,25 +101,26 @@
                             {{-- 
                             <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li>
                             --}}
+                            @if (Auth::check())
                             <li class="main-menu-item">
-                                <a href="javascript:void(0)" class="main-menu-link">Pages</a>
+                                <a href="javascript:void(0)" class="main-menu-link">Client</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('aboutus')}}">About Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Cart Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCheckout')}}">Checkout Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('compare')}}">Compare Page</a></li>
-                                    @if (Auth::check())
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Account Page</a></li>
-                                    @else
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('showLogin')}}">Account Page</a></li>
+                                    @if(Auth::user()->level==2)
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">admin</a></li>
                                     @endif
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Wishlist Page</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('privacy')}}">Privacy Policy</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout')}}">Your Checkout</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Your Wishlist</a></li>
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
-                            <li class="main-menu-item"><a href="{{route('contact')}}" class="main-menu" style="color:black">Contact</a></li>
+                            @endif
+                            <li class="main-menu-item"><a href="{{route('compare')}}" class="main-menu" style="color:black">Compare</a></li>
+                            <li class="main-menu-item"><a href="{{route('privacy')}}" class="main-menu" style="color:black">Privacy Policy</a></li>
+                            <li class="main-menu-item"><a href="{{route('aboutus')}}" class="main-menu" style="color:black">About Page</a></li>
+                            <li class="main-menu-item"><a href="{{route('contact')}}" class="main-menu" style="color:black">Contact Us</a></li>
                         </ul>
                     </nav>
                 </div>
