@@ -43,6 +43,9 @@ use App\Http\Requests\Admin\Zip\StoreRequest as ZipStoreRequest;
 use App\Http\Requests\Admin\Zip\UpdateRequest as ZipUpdateRequest;
 
 use Illuminate\Http\Request;
+
+use App\Models\CategoryPhotos;
+use App\Models\OrderDetail;
 use App\Models\ProductImages;
 
 use function Laravel\Prompts\alert;
@@ -249,6 +252,7 @@ class AdminController extends Controller
     public function productIndex()
     {
         $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
+
         return view('admin.modules.product.index', ['products' => $products]);
     }
 
@@ -465,6 +469,7 @@ class AdminController extends Controller
     public function orderIndex()
     {
         $orders = Order::orderBy('created_at', 'DESC')->get();
+
         return view('admin.modules.order.index',[
             'orders'=>$orders,
         ]);
@@ -474,7 +479,14 @@ class AdminController extends Controller
 
     public function orderEdit($id)
     {
-        return view('admin.modules.order.edit');
+
+        $order=OrderDetail::where('order_id', $id)->get();
+
+        
+        
+        return view('admin.modules.order.edit',[
+            'details'=>$order
+        ]);
     }
 
     /**
@@ -778,77 +790,78 @@ class AdminController extends Controller
 
     }
 
-    public function zipIndex()
-    {
-        $zips = Zip::orderBy('created_at','DESC')->get();
-        return view('admin.modules.zip.index',[
-            'zips'=>$zips
-        ]);
-    }
+    // public function zipIndex()
+    // {
+    //     $zips = Zip::orderBy('created_at','DESC')->get();
+    //     return view('admin.modules.zip.index',[
+    //         'zips'=>$zips
+    //     ]);
+    // }
 
 
-    public function zipCreate()
-    {
-        return view('admin.modules.zip.create');
-    }
+    // public function zipCreate()
+    // {
+    //     return view('admin.modules.zip.create');
+    // }
 
-    public function zipStore(ZipStoreRequest $request)
-    {
-        $zip = new zip();
+    // public function zipStore(ZipStoreRequest $request)
+    // {
+    //     $zip = new zip();
 
-        $zip->city = $request->city;
-        $zip->zip = $request->zip;
-        $zip->ship_cost = $request->ship_cost;
-        $zip->status = $request->status;
+    //     $zip->city = $request->city;
+    //     $zip->zip = $request->zip;
+    //     $zip->ship_cost = $request->ship_cost;
+    //     $zip->status = $request->status;
 
-        $zip->save();
-        return redirect()->route('admin.zip.index')->with('success','Create postcode successfully');
-    }
-
-
-    public function zipEdit(int  $id)
-    {
-        $zips=zip::find($id);
-        if($zips == null){
-            abort(404);
-        }
-
-        return view('admin.modules.zip.edit',[
-            'id'=>$id,
-            'zip'=>$zips
-        ]);
-    }
+    //     $zip->save();
+    //     return redirect()->route('admin.zip.index')->with('success','Create postcode successfully');
+    // }
 
 
-    public function zipUpdate(ZipUpdateRequest $request, $id)
-    {
-        $zips=zip::find($id);
-        if($zips == null){
-            abort(404);
-        }
-
-        $zips->city = $request->city;
-        $zips->zip = $request->zip;
-        $zips->ship_cost = $request->ship_cost;
-        $zips->status = $request->status;
-
-        $zips->save();
-        return redirect()->route('admin.modules.zip.index')->with('success','Update postcode successfully');
-
-    }
+    // public function zipEdit(int  $id)
+    // {   
+    //     $zips=zip::find($id);
+    //     if($zips == null){
+    //         abort(404);
+    //     }
 
 
-    public function zipDestroy(int $id)
-    {
-        $zips = zip::find($id);
-        if($zips==null){
-            abort(404);
-        }
+    //     return view('admin.modules.zip.edit',[
+    //         'id'=>$id,
+    //         'zip'=>$zips
+    //     ]);
+    // }
 
-        $zips->status = 2;
-        $zips->delete();
-        return redirect()->route('admin.modules.zip.index')->with('success','Delete postcode successfully');
-    }
+
+    // public function zipUpdate(ZipUpdateRequest $request, $id)
+    // {
+    //     $zips=zip::find($id);
+    //     if($zips == null){
+    //         abort(404);
+    //     }
+
+    //     $zips->city = $request->city;
+    //     $zips->zip = $request->zip;
+    //     $zips->ship_cost = $request->ship_cost;
+    //     $zips->status = $request->status;
+
+    //     $zips->save();
+    //     return redirect()->route('admin.modules.zip.index')->with('success','Update postcode successfully');
+
+    // }
+
+
+    // public function zipDestroy(int $id)
+    // {
+    //     $zips = zip::find($id);
+    //     if($zips==null){
+    //         abort(404);
+    //     }
+
+    //     $zips->status = 2;
+    //     $zips->delete();
+    //     return redirect()->route('admin.modules.zip.index')->with('success','Delete postcode successfully');
+    // }
 
 }
 
