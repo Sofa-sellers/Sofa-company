@@ -47,7 +47,7 @@
                                                     <a href="{{route('showLogin')}}" class="text-center">I already have a membership</a>
                                                 </div>
                                                 <button type="submit" class="btn btn-dark">
-                                                        <span>Login</span>
+                                                        <span>Register</span>
                                                 </button>
                                             </div>
                                         </form>

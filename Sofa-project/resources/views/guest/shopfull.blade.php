@@ -1,5 +1,5 @@
 @extends('master')
-@section('module',$categories->name)
+@section('module','Shop')
 @section('content')
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">

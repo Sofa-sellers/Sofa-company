@@ -38,6 +38,16 @@ class GuestController extends Controller
         ]);
     }
 
+    public function shop(){
+        $categories_child= Category::where('parent_id','!=',0)->get();
+        $products=Product::where('status','!=',2)->paginate(6);
+
+        return view('guest.shopfull',compact('products'),[
+            'categories_child' =>$categories_child,
+            'products'=>$products,
+        ]);
+    }
+
     public function viewShop($id){
 
         $categories = Category::find($id);
