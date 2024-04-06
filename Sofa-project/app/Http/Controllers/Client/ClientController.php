@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\AttributeValue;
-// use App\Models\Zip;
+
+use App\Models\compare;
 
 use DateTime;
 use App\Helpers\Cart;
@@ -42,6 +43,7 @@ class ClientController extends Controller
     }
 
 
+
     public function cartDelete(Cart $cart, $itemKey) {
         $cart->delete($itemKey);
         return redirect()->route('client.showCart');
@@ -55,6 +57,7 @@ class ClientController extends Controller
             $quantity = $request->$quantity;
             $cart->update($itemKey, $quantity);
         }
+
 
 
         // $productId = $request->input('productId');
@@ -231,6 +234,21 @@ class ClientController extends Controller
             return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
         }
         else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
+    }
+
+    public function showCompare(){
+        $data=Compare::with('item')->where('user_id',Auth::user()->id)->get();
+        return view('client.compare',compact('data'));
+    }
+
+    public function addToCompare(Request $request){
+        Compare::create($request->except('_token'));
+        return "item added to Compare";
+    }
+
+    public function DeleteCompareProduct(Request $request){
+        Compare::delete($request->except('_token'));
+        return "item deleted from Compare";
     }
 }
 

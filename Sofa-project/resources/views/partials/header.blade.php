@@ -49,9 +49,9 @@
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     @if(Auth::check())
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">My account</a>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart')}}">Cart</a></li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist')}}">Wishlist</a></li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCheckout')}}">Checkout</a>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart',['id'=>Auth::user()->id])}}">Cart</a></li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Wishlist</a></li>
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCheckout',['user'=>Auth::user()->id])}}">Checkout</a>
                                     </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
                                     </li>
@@ -110,14 +110,14 @@
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">admin</a></li>
                                     @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout')}}">Your Checkout</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Your Wishlist</a></li>
+                                    <li class="sub-menu-item"><a href="{{route('client.showCompare',['id'=>Auth::user()->id])}}" class="sub-menu-link">Compare</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart',['id'=>Auth::user()->id])}}">Your Cart</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout',['user'=>Auth::user()->id])}}">Your Checkout</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Your Wishlist</a></li>
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
                             @endif
-                            <li class="main-menu-item"><a href="{{route('compare')}}" class="main-menu" style="color:black">Compare</a></li>
                             <li class="main-menu-item"><a href="{{route('privacy')}}" class="main-menu" style="color:black">Privacy Policy</a></li>
                             <li class="main-menu-item"><a href="{{route('aboutus')}}" class="main-menu" style="color:black">About Page</a></li>
                             <li class="main-menu-item"><a href="{{route('contact')}}" class="main-menu" style="color:black">Contact Us</a></li>
