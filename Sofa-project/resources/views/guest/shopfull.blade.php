@@ -172,7 +172,7 @@
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
                                     @foreach ($categories_child as $item)
-                                    <li><a href="{{ route('shop',['id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    <li><a href="{{ route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
                             </nav>
