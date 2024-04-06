@@ -48,7 +48,7 @@ $(function () {
             </div>
         </div>
         <div class="card-body">
-                @csrf
+                
                 <table>
                   <tr>
                     <th>Firstname</th>
