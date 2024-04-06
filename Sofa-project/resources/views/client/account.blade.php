@@ -45,8 +45,7 @@
                     <div class="tab-pane fade" id="orders" role="tabpanel">
                         <div class="myaccount-content">
                             <h3>Orders</h3>
-                            @foreach($orders as $order)
-                                <form action="{{ route('client.order',['id'=>$order->id])}}" method="POST">
+                            
                                     <div class="myaccount-table table-responsive text-center">
                                         <table class="table table-bordered">
                                             <thead class="thead-light">
@@ -60,76 +59,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>{{ $loop->count - $loop->remaining + 1 }}</td>
-                                                    <td>{{$order->firstname}} {{$order->lastname}}</td>
-                                                    <td>{{$order->created_at}}</td>
-                                                    <td>{{$order->status}}</td>
-                                                    <td>$99</td>
-                                                    <td>
-                                                        <a href="#order_detail" class="ht-btn black-btn" data-bs-toggle="tab">View/</a>
-                                                        <button href="#order_detail" class="ht-btn black-btn" data-bs-toggle="tab">View/</button>
-                                                    </td>
-                                                </tr>
+                                                @foreach($orders as $order)
+                                                    
+                                                        <tr>
+                                                            <td>{{ $loop->count - $loop->remaining + 1 }}</td>
+                                                            <td>{{$order->firstname}} {{$order->lastname}}</td>
+                                                            <td>{{$order->created_at}}</td>
+                                                            <td>{{$order->status}}</td>
+                                                            <td>{{$order->total_order}}</td>
+                                                            <td>
+                                                                <a href="{{route('client.showDetail',['id'=>$order->id])}}" class="ht-btn black-btn" >View</a>
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
-                                </form>
-                            @endforeach
-                        </div>
-                    </div>
-                    <!-- Single Tab Content End -->
-
-                    <!-- Single Tab Content Start -->
-                    <div class="tab-pane fade" id="order_detail" role="tabpanel">
-                        <div class="myaccount-content">
-                            <h3>Order Detail </h3>
-                            <div class="myaccount-table table-responsive text-center">
-                                <table class="table table-bordered">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Name</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mostarizing Oil</td>
-                                            <td>Aug 22, 2022</td>
-                                            <td>Pending</td>
-                                            <td>$45</td>
-                                            <td>
-                                                <a href="shopping-cart.html" class="ht-btn black-btn">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Katopeno Altuni</td>
-                                            <td>July 22, 2022</td>
-                                            <td>Approved</td>
-                                            <td>$100</td>
-                                            <td>
-                                                <a href="shopping-cart.html" class="ht-btn black-btn">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Murikhete Paris</td>
-                                            <td>June 12, 2017</td>
-                                            <td>On Hold</td>
-                                            <td>$99</td>
-                                            <td>
-                                                <a href="shopping-cart.html" class="ht-btn black-btn">View</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                
                         </div>
                     </div>
                     <!-- Single Tab Content End -->
