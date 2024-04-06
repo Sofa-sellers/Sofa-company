@@ -69,13 +69,16 @@
                                             <li class="action whish-list">
                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                            </li>
-
+                                            @auth
                                             <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
+                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
                                             </li>
+                                            @endauth
+                                            @guest
+                                            <li class="action compare">
+                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
+                                            </li>
+                                            @endguest
                                         </ul>
                                     </div>
                                 </div>
@@ -130,20 +133,26 @@
                                             </h5>
                                             <p>{{$product->description}}</p>
                                             <!-- actions  -->
+                                            <input type="hidden" name="product_id" value="{{$product->id}}">
                                             <ul class="actions actions-horizontal">
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
                                                 </li>
+
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                                 </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
 
+                                                @auth
                                                 <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
+                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
                                                 </li>
+                                                @endauth
+                                                @guest
+                                                <li class="action compare">
+                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
+                                                </li>
+                                                @endguest
 
                                             </ul>
                                         </div>
@@ -176,4 +185,24 @@
     <!-- shop page layout end -->
 
     <!-- main content end -->
+    <script>
+        function saveToCompareList(productID,userID){
+            if(userID==0){
+                alert('please login before add product to compare');
+            }else{
+                $.ajax({
+                    "url":'{{route('client.addCompareList')}}',
+                    "method":'POSt',
+                    'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
+                    success:function(resp){
+                        alert(resp);
+                    },
+                    error:function(error){
+                        alert(error);
+                    }
+                })
+            }
+        }
+
+    </script>
 @endsection

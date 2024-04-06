@@ -140,10 +140,6 @@ class GuestController extends Controller
         ]);
     }
 
-    public function showCompare(){
-        return view('guest.compare');
-    }
-
     public function contact(){
         return view('guest.contact');
     }
