@@ -5,6 +5,7 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Order;
 use App\Models\AttributeValue;
 // use App\Models\Zip;
 
@@ -175,8 +176,17 @@ class ClientController extends Controller
 // //
 //     }
 
-    public function accountIndex(){
-        return view('client.account');
+    public function accountIndex($id){
+        $user = Auth::User()->where('id',$id)->first();
+        $user = User::findOrFail($id);
+
+        $orders = Order::where('user_id', $user->id)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(5); 
+
+        return view('client.account', [
+            'orders' => $orders,
+        ]);
     }
 
     public function addToWishlist($id, $quantity){

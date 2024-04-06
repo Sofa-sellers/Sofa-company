@@ -14,7 +14,7 @@
                     <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> Orders</a>
                     <a href="#download" data-bs-toggle="tab"><i class="fa fa-download"></i> Download</a>
                     <a href="#payment-method" data-bs-toggle="tab"><i class="fa fa-credit-card"></i> Payment Method</a>
-                    <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i> address</a>
+                    <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i> Address</a>
                     <a href="#account-info" data-bs-toggle="tab" class="active"><i class="fa fa-user"></i> Account
                     Details</a>
                     <a href="{{route('logout')}}"><i class="fa fa-sign-out"></i> Logout</a>
@@ -45,6 +45,45 @@
                     <div class="tab-pane fade" id="orders" role="tabpanel">
                         <div class="myaccount-content">
                             <h3>Orders</h3>
+                            @foreach($orders as $order)
+                                <form action="{{ route('client.order',['id'=>$order->id])}}" method="POST">
+                                    <div class="myaccount-table table-responsive text-center">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Name</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Total</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ $loop->count - $loop->remaining + 1 }}</td>
+                                                    <td>{{$order->firstname}} {{$order->lastname}}</td>
+                                                    <td>{{$order->created_at}}</td>
+                                                    <td>{{$order->status}}</td>
+                                                    <td>$99</td>
+                                                    <td>
+                                                        <a href="#order_detail" class="ht-btn black-btn" data-bs-toggle="tab">View/</a>
+                                                        <button href="#order_detail" class="ht-btn black-btn" data-bs-toggle="tab">View/</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </form>
+                            @endforeach
+                        </div>
+                    </div>
+                    <!-- Single Tab Content End -->
+
+                    <!-- Single Tab Content Start -->
+                    <div class="tab-pane fade" id="order_detail" role="tabpanel">
+                        <div class="myaccount-content">
+                            <h3>Order Detail </h3>
                             <div class="myaccount-table table-responsive text-center">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -94,6 +133,7 @@
                         </div>
                     </div>
                     <!-- Single Tab Content End -->
+
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade" id="download" role="tabpanel">
                         <div class="myaccount-content">
