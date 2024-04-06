@@ -103,7 +103,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
         Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
 
-        Route::get('account{id}', 'accountIndex')->name('account');
+        Route::get('account/{id}', 'accountIndex')->name('account');
         Route::post('address/{id}', 'addressUpdate')->name('address');
         Route::post('accountDetail/{id}','accountDetailsUpdate')->name('accountDetails');
         Route::get('logout','logout')->name('logout');

@@ -178,9 +178,9 @@ class ClientController extends Controller
 // //
 //     }
 
-    // public function accountIndex(){
-    //     return view('client.account');
-    // }
+    public function accountIndex(){
+        return view('client.account');
+    }
 
     public function addToWishlist($id, $quantity){
         //
