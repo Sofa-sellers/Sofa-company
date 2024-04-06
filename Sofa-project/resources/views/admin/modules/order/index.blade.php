@@ -56,7 +56,7 @@ $(function () {
                         <th>Firstname</th>
                         <th>Lastname</th>
                         <th>Address</th>
-                        {{-- <th>Postcode</th> --}}
+                    
                         <th>Phone</th>
                         <th>Total order</th>
                         <th>Note</th>
@@ -64,7 +64,7 @@ $(function () {
                         <th>Reason cancel</th>
                         <th>Detail</th>
                         <th>Created At</th>
-                        {{-- <th>Delete</th> --}}
+                        
                     </tr>
                 </thead>
                 @foreach ($orders as $order)
@@ -80,7 +80,32 @@ $(function () {
                         <td>{{$order->total_order}}</td>
                         {{-- <td>{{$order->payment}}</td> --}}
                         <td>{{$order->note}}</td>
-                        <td><span class="right badge badge-{{$order->status == 1 ?'success':'dark'}}">{{$order->status==1? 'Waiting' :'Hide'}}</span></td>
+                        <td>
+                            @switch($order->status)
+                                @case(1)
+                                    <span class="right badge badge-warning ">Waiting</span>
+                                    @break
+                                @case(2)
+                                    <span class="right badge badge-primary">Accepted</span>
+                                    @break
+                                @case(3)
+                                    <span class="right badge badge-danger">Deny</span>
+                                    @break
+                                @case(4)
+                                    <span class="right badge badge-light">Preparing shipment </span>
+                                    @break
+                                @case(5)
+                                    <span class="right badge badge-info">Handed over to the carrier</span>
+                                    @break
+                                @case(6)
+                                    <span class="right badge badge-info">In transit</span>
+                                    @break
+                                @default
+                                    <span class="right badge badge-success">Delivered</span>
+                                    @break
+                            @endswitch
+                        </td>
+
                         <td>{{$order->reason}}</td>
                         <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
                         <td>Created at</td>

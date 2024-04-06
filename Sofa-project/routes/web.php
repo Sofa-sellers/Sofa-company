@@ -185,13 +185,13 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('index', 'orderIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('create', 'orderCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store', 'orderStore')->name('store')->middleware(['auth','admin']);
+            // Route::get('create', 'orderCreate')->name('create')->middleware(['auth','admin']);
+            // Route::post('store', 'orderStore')->name('store')->middleware(['auth','admin']);
 
             Route::get('edit/{id}', 'orderEdit')->name('edit')->middleware(['auth','admin']);
             Route::post('update/{id}', 'orderUpdate')->name('update')->middleware(['auth','admin']);
 
-            Route::get('destroy/{id}', 'orderDestroy')->name('destroy')->middleware(['auth','admin']);
+            // Route::get('destroy/{id}', 'orderDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
         Route::prefix('brand')->name('brand.')->group(function () {
