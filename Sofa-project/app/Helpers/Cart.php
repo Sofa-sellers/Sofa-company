@@ -79,7 +79,7 @@ class Cart {
     public function totalQuantity() {
         $totalQuantity = 0;
         foreach ($this->items as $item) {
-          $totalQuantity += $item['quantity'];
+          $totalQuantity ++;
         }
         return $totalQuantity;
       }

@@ -37,6 +37,7 @@
     });  
 </script>
 @endpush --}}
+
 @section('content')
 <section class="whish-list-section section-padding-bottom">
     <div class="container">

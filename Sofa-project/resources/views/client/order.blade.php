@@ -1,6 +1,8 @@
 @extends('master')
 @section('module','order')
 @section('content')
+
+
 <div class="my-account section-padding-bottom">
     <div class="container">
         <div class="row mb-n5">
@@ -43,7 +45,31 @@
                                     </tr>
                                     <tr>
                                         <th>Status</th>
-                                        <td>{{$order->status}}</td>
+                                        <td>
+                                            @switch($order->status)
+                                                @case(1)
+                                                    <span>Waiting</span>
+                                                    @break
+                                                @case(2)
+                                                    <span>Accepted</span>
+                                                    @break
+                                                @case(3)
+                                                    <span>Cancel</span>
+                                                    @break
+                                                @case(4)
+                                                    <span>Preparing shipment </span>
+                                                    @break
+                                                @case(5)
+                                                    <span>Handed over to the carrier</span>
+                                                    @break
+                                                @case(6)
+                                                    <span>In transit</span>
+                                                    @break
+                                                @default
+                                                    <span>Delivered</span>
+                                                    @break
+                                            @endswitch
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>
@@ -56,6 +82,7 @@
                                         </th>
                                         <td>
                                             <button type="submit" class="btn btn-outline-dark" >Cancel</button>
+                                            <a href="{{ route('client.account',['id'=>$order->user_id])}}" class="btn btn-outline-dark" >Turn back</a>
                                         </td>
                                         
                                     </tr>
