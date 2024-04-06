@@ -51,4 +51,18 @@ class Product extends Model
     {
         return $this->belongsTo(AttributeValue::class);
     }
+    public static function countActiveProduct(){
+        $data=Product::where('status',1)->count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
+    public static function countProductQuantity(){
+        $data=Product::where('status',1)->where('quantity','<=',5)->count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
 }

@@ -48,4 +48,11 @@ class Category extends Model
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
     }
+    public static function countActiveCategory(){
+        $data=Category::where('status',1)->count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
 }

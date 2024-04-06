@@ -236,7 +236,7 @@ class ClientController extends Controller
         else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
     }
 
-    public function showCompare(){
+    public function showCompare($id){
         $data=Compare::with('item')->where('user_id',Auth::user()->id)->get();
         return view('client.compare',compact('data'));
     }
@@ -247,8 +247,8 @@ class ClientController extends Controller
     }
 
     public function DeleteCompareProduct(Request $request){
-        $data=Compare::with('item')->where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
-        return "item removed successfully";
+        $data= Compare::where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
+        return redirect()->route()->with('success','item removed successfully');
     }
 }
 

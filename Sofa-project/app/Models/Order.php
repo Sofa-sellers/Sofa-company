@@ -27,4 +27,27 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetail::class);
     }
+    public static function countActiveOrder(){
+        $data=Order::count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
+    public static function countNewReceivedOrder(){
+        $data = Order::where('status', '1')->count();
+        return $data;
+    }
+    public static function countProcessingOrder(){
+        $data = Order::where('status', '2')->count();
+        return $data;
+    }
+    public static function countDeliveredOrder(){
+        $data = Order::where('status', '4')->count();
+        return $data;
+    }
+    public static function countCancelledOrder(){
+        $data = Order::where('status', '3')->count();
+        return $data;
+    }
 }

@@ -45,4 +45,11 @@ class AttributeValue extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public static function countAttributeValue(){
+        $data=AttributeValue::count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
 }

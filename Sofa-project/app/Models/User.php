@@ -44,4 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public static function countUser(){
+        $data=User::where('status',1)->count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
 }
