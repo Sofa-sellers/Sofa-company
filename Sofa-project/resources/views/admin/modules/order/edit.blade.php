@@ -34,10 +34,82 @@ $(function () {
 </script>
 @endpush
 @section('content')
-    <!-- Default box -->
+ 
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Order Detail</h3>
+          <h3 class="card-title">Order Detail Information</h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+            </div>
+        </div>
+        <div class="card-body">
+                
+                <table>
+                  <tr>
+                    <th>Firstname</th>
+                    <td>{{$order->firstname}}</td>
+                  </tr>
+                  <tr>
+                    <th>Lastname</th>
+                    <td>{{$order->lastname}}</td>
+                  </tr>
+                  <tr>
+                    <th>Email</th>
+                    <td>{{$order->email}}</td>
+                  </tr>
+                  <tr>
+                    <th>Address</th>
+                    <td>{{$order->address}}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone</th>
+                    <td>{{$order->phone}}</td>
+                  </tr>
+                  <tr>
+                    <th>Note</th>
+                    <td>{{$order->note}}</td>
+                  </tr>
+                </table>
+                <form action="{{route('admin.order.update',['id'=>$order->id])}}" method="post">
+                  @csrf
+                  <div class="form-group">
+                    <label >Status</label>
+                    <select class="form-control" name="status">
+                        <option value="1" {{old('status')== 1? 'selected':' '}}>Waiting</option>
+                        <option value="2" {{old('status')== 2? 'selected':' '}}>Accepted</option>
+                        <option value="3" {{old('status')== 3? 'selected':' '}}>Deny</option>
+                        <option value="4" {{old('status')== 4? 'selected':' '}}>Preparing shipment</option>
+                        <option value="5" {{old('status')== 5? 'selected':' '}}>Handed over to the carrier</option>
+                        <option value="6" {{old('status')== 6? 'selected':' '}}>In transit</option>
+                        <option value="7" {{old('status')== 7? 'selected':' '}}>Delivered</option>
+
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Reason of cancel</label>
+                    <span>{{$order->reason}}</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+                </form>
+            
+        </div>
+        <!-- /.card-body -->
+        
+        <!-- /.card-footer-->
+      </div>
+    <!--Detail list -->
+    <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Order Detail List</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -64,25 +136,17 @@ $(function () {
                 <tbody>
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>
-                          {{-- @php
-                            $product = Productarray_where($array, function ($key, $value) {
-                                return $value
-                            });
-                          @endphp --}}
-                        </td>
+                        <td>{{$d->product_name}}</td>
+                        @php
+                        $colorValue = \App\Models\AttributeValue::where('id', $d->color)->pluck('value')->first();
+                        @endphp
+                    
+                        <td><input style="background: {{ $colorValue }}" disabled>{{$colorValue}}</td>
                         <td>{{$d->quantity}}</td>
                         <td>{{$d->price}}</td>
-                        <td>{{($d->)}}</td>
-                        {{-- <td>{{$order->postcode}}</td> --}}
-                        <td>{{$d->phone}}</td>
-                        <td>{{$order->total_order}}</td>
-                        {{-- <td>{{$order->payment}}</td> --}}
-                        <td>{{$order->note}}</td>
-                        <td><span class="right badge badge-{{$order->status == 1 ?'success':'dark'}}">{{$order->status==1? 'Waiting' :'Hide'}}</span></td>
-                        <td>{{$order->reason}}</td>
-                        <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
-                        <td>Created at</td>
+                        <td>{{$d->price * $d->quantity}}</td>
+                        {{-- <td><span class="right badge badge-{{$d->status == 1 ?'success':'dark'}}">{{$d->status==1? 'Waiting' :'Hide'}}</span></td>
+                        <td>{{$d->reason}}</td> --}}
                     </tr>
                 </tbody>
                 @endforeach
@@ -101,7 +165,7 @@ $(function () {
         <!-- /.card-body -->
         
         <!-- /.card-footer-->
-      </div>
+    </div>
       <!-- /.card -->
 
 @endsection

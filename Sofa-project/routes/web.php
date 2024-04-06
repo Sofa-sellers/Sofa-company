@@ -50,7 +50,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('', 'index')->name('index');
 
         Route::get('shop', 'shop')->name('indexShop');
-        Route::get('shop/{id}', 'viewShop')->name('shop');
+        Route::get('shop/cate/{cate_id}', 'viewShop')->name('shop');
 
         Route::post('search', 'search')->name('search');
 
@@ -59,9 +59,6 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('detail/{slug}', 'detail')->name('detail');
 
         Route::get('download/{id}', 'download')->name('download');
-
-        Route::get('compare', 'showCompare')->name('showCompare');
-        Route::post('compare', 'compare')->name('compare');
 
         Route::get('contact', 'contact')->name('contact');
 
@@ -82,6 +79,10 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
         Route::post('add-to-cart', 'addToCart')->name('addToCart');
         Route::get('cart', 'showCart')->name('showCart');
+
+        Route::get('compare/{id}', 'showCompare')->name('showCompare');
+        Route::post('compare', 'addToCompare')->name('addCompareList');
+        Route::post('removeCompare', 'DeleteCompareProduct')->name('DeleteCompareProduct');
 
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
@@ -189,13 +190,13 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('index', 'orderIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('create', 'orderCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store', 'orderStore')->name('store')->middleware(['auth','admin']);
+            // Route::get('create', 'orderCreate')->name('create')->middleware(['auth','admin']);
+            // Route::post('store', 'orderStore')->name('store')->middleware(['auth','admin']);
 
             Route::get('edit/{id}', 'orderEdit')->name('edit')->middleware(['auth','admin']);
             Route::post('update/{id}', 'orderUpdate')->name('update')->middleware(['auth','admin']);
 
-            Route::get('destroy/{id}', 'orderDestroy')->name('destroy')->middleware(['auth','admin']);
+            // Route::get('destroy/{id}', 'orderDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
         Route::prefix('brand')->name('brand.')->group(function () {

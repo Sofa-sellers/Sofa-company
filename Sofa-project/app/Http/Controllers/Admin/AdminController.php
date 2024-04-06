@@ -480,28 +480,34 @@ class AdminController extends Controller
     public function orderEdit($id)
     {
 
-        $order=OrderDetail::where('order_id', $id)->get();
+        $order = Order::findOrFail($id);
+        $details=OrderDetail::where('order_id', $id)->get();
 
         
-        
         return view('admin.modules.order.edit',[
-            'details'=>$order
+            'details'=>$details,
+            'order'=>$order
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function orderUpdate(OrderUpdateRequest $request, $id)
+    public function orderUpdate(Request $request, $id)
     {
-        //
+        $order=Order::find($id);
+        if($order == null){
+            abort(404);
+        }
+
+        
+        $order->status = $request->status;
+        
+        $order->save();
+        return redirect()->route('admin.order.index')->with('success','Update order status successfully');
     }
 
-    public function orderDestroy()
-    {
-        //
-    }
-
+    
     public function racomIndex()
     {
         $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();

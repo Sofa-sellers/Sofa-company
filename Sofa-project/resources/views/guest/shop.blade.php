@@ -1,5 +1,5 @@
 @extends('master')
-@section('module',$categories->name)
+@section('module',$categories_child->name)
 @section('content')
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">
@@ -67,15 +67,19 @@
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
                                             <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-                                            <li class="action quick-view">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
+                                                <button data-bs-toggle="modal" onclick="saveToWishList('{{$product->id}}','{{Auth::user()->id}}')"><i class="ion-ios-heart-outline"></i></button>
                                             </li>
 
+                                            @auth
                                             <li class="action compare">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
+                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
                                             </li>
+                                            @endauth
+                                            @guest
+                                            <li class="action compare">
+                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
+                                            </li>
+                                            @endguest
                                         </ul>
                                     </div>
                                 </div>
@@ -137,13 +141,17 @@
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
                                                 </li>
-                                                <li class="action quick-view">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal"><i class="ion-ios-eye-outline"></i></button>
-                                                </li>
 
+                                                @auth
                                                 <li class="action compare">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-compare"><i class="ion-android-sync"></i></button>
+                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
                                                 </li>
+                                                @endauth
+                                                @guest
+                                                <li class="action compare">
+                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
+                                                </li>
+                                                @endguest
 
                                             </ul>
                                         </div>
@@ -162,8 +170,8 @@
                             <h3 class="widget-title">Categories</h3>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
-                                    @foreach ($categories_child as $item)
-                                    <li><a href="{{ route('shop',['id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    @foreach ($categoriesList as $item)
+                                    <li><a href="{{ route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
                             </nav>
@@ -174,6 +182,25 @@
         </div>
     </div>
     <!-- shop page layout end -->
+    <script>
+        function saveToCompareList(productID,userID){
+            if(userID==0){
+                alert('please login before add product to compare');
+            }else{
+                $.ajax({
+                    "url":'{{route('client.addCompareList')}}',
+                    "method":'POSt',
+                    'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
+                    success:function(resp){
+                        alert(resp);
+                    },
+                    error:function(error){
+                        alert(error);
+                    }
+                })
+            }
+        }
 
+    </script>
     <!-- main content end -->
 @endsection
