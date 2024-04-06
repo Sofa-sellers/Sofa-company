@@ -11,6 +11,7 @@ use App\Models\Brand;
 use App\Models\Sku;
 use App\Models\AttributeValue;
 
+
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
