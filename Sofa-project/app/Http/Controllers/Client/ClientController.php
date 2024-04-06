@@ -183,7 +183,8 @@ class ClientController extends Controller
 
         $orders = Order::where('user_id', $user->id)
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(5); 
+                    ->get();
+                   
 
         return view('client.account', [
             'orders' => $orders,
@@ -207,17 +208,16 @@ class ClientController extends Controller
 //
     }
 
-    public function orderManagement(Request $request, $id){
-        $user = Auth::User()->where('id',$id)->first();
-    }
+    // public function orderManagement(Request $request, $id){
+    //     $user = Auth::User()->where('id',$id)->first();
+    // }
 
     public function showDetail($id){
         
-        $detail = OrderDetail::where('order_id', $id)->get();
-        
         $order = Order::findorFail($id)->first();
+        $detail = OrderDetail::where('order_id', $id)->get();
+        // dd($order);
 
-        
         return view('client.order',[
             'detail'=>$detail,
             'order'=>$order,
@@ -227,10 +227,12 @@ class ClientController extends Controller
     public function updateDetail(Request $request, $id){
         $order = Order::findOrFail($id);
     
+        
         if($order->status == 1){
             $order->status = $request->status;
             $order->reason = $request->reason;
             $order->save();
+            return redirect()->back()->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
         } else {
             return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx');
         }

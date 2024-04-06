@@ -42,17 +42,35 @@
                                         <td>{{$order->note}}</td>
                                     </tr>
                                     <tr>
-                                        <th>
-                                            <label for="">Reason for cancel order</label>
-                                            <input type="hidden" name="status" value="3">
-                                            <div>
-                                                <input type="text" name="reason" placeholder="Please enter the reason">
-                                            </div>
-                                            
-                                        </th>
-                                        <td>
-                                            <button type="submit" class="btn btn-outline-dark" >Cancel</button>
-                                        </td>
+                                        <th>Note</th>
+                                        <td>{{$order->status}}</td>
+                                    </tr>
+                                    <tr>
+                                        @if($order->status == 1)
+                                            <th>
+                                                <label for="">Reason for cancel order</label>
+                                                <input type="hidden" name="status" value="{{$order->status}}">
+                                                <div>
+                                                    <input type="text" name="reason" placeholder="Please enter the reason">
+                                                </div>
+                                            </th>
+                                            <td>
+                                                <button type="submit" class="btn btn-outline-dark" >Cancel</button>
+                                            </td>
+                                        @else
+                                            {{-- <th>
+                                                <label for="">Reason for cancel order</label>
+                                                <input type="hidden" name="status" value="3" disabled>
+                                                <div>
+                                                    <input type="text" name="reason" placeholder="Please enter the reason" disabled>
+                                                </div>
+                                            </th>
+                                            <td>
+                                                <button type="submit" class="btn btn-outline-dark" disabled>Cancel</button>
+                                            </td> --}}
+                                        @endif
+                                        
+                                        
                                         
                                     </tr>
                                     </table>
