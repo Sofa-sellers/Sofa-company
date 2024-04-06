@@ -14,7 +14,7 @@
                     <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> Orders</a>
                     <a href="#download" data-bs-toggle="tab"><i class="fa fa-download"></i> Download</a>
                     <a href="#payment-method" data-bs-toggle="tab"><i class="fa fa-credit-card"></i> Payment Method</a>
-                    <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i> address</a>
+                    <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i> Address</a>
                     <a href="#account-info" data-bs-toggle="tab" class="active"><i class="fa fa-user"></i> Account
                     Details</a>
                     <a href="{{route('logout')}}"><i class="fa fa-sign-out"></i> Logout</a>
@@ -45,55 +45,42 @@
                     <div class="tab-pane fade" id="orders" role="tabpanel">
                         <div class="myaccount-content">
                             <h3>Orders</h3>
-                            <div class="myaccount-table table-responsive text-center">
-                                <table class="table table-bordered">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Name</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mostarizing Oil</td>
-                                            <td>Aug 22, 2022</td>
-                                            <td>Pending</td>
-                                            <td>$45</td>
-                                            <td>
-                                                <a href="shopping-cart.html" class="ht-btn black-btn">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Katopeno Altuni</td>
-                                            <td>July 22, 2022</td>
-                                            <td>Approved</td>
-                                            <td>$100</td>
-                                            <td>
-                                                <a href="shopping-cart.html" class="ht-btn black-btn">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Murikhete Paris</td>
-                                            <td>June 12, 2017</td>
-                                            <td>On Hold</td>
-                                            <td>$99</td>
-                                            <td>
-                                                <a href="shopping-cart.html" class="ht-btn black-btn">View</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            
+                                    <div class="myaccount-table table-responsive text-center">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Name</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Total</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($orders as $order)
+                                                    
+                                                        <tr>
+                                                            <td>{{ $loop->count - $loop->remaining + 1 }}</td>
+                                                            <td>{{$order->firstname}} {{$order->lastname}}</td>
+                                                            <td>{{$order->created_at}}</td>
+                                                            <td>{{$order->status}}</td>
+                                                            <td>{{$order->total_order}}</td>
+                                                            <td>
+                                                                <a href="{{route('client.showDetail',['id'=>$order->id])}}" class="ht-btn black-btn" >View</a>
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                
                         </div>
                     </div>
                     <!-- Single Tab Content End -->
+
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade" id="download" role="tabpanel">
                         <div class="myaccount-content">

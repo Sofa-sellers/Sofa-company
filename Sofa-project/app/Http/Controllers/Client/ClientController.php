@@ -5,12 +5,14 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Order;
 use App\Models\AttributeValue;
 
 use App\Models\compare;
 
 use DateTime;
 use App\Helpers\Cart;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Helper;
@@ -178,8 +180,19 @@ class ClientController extends Controller
 // //
 //     }
 
-    public function accountIndex(){
-        return view('client.account');
+
+    public function accountIndex($id){
+        $user = Auth::User()->where('id',$id)->first();
+        $user = User::findOrFail($id);
+
+        $orders = Order::where('user_id', $user->id)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(5); 
+
+        return view('client.account', [
+            'orders' => $orders,
+        ]);
+
     }
 
     public function addToWishlist($id, $quantity){
@@ -202,6 +215,33 @@ class ClientController extends Controller
     public function orderManagement(Request $request, $id){
         $user = Auth::User()->where('id',$id)->first();
     }
+
+    public function showDetail($id){
+        
+        $detail = OrderDetail::where('order_id', $id)->get();
+        
+        $order = Order::findorFail($id)->first();
+
+        
+        return view('client.order',[
+            'detail'=>$detail,
+            'order'=>$order,
+        ]);
+    }
+
+    public function updateDetail(Request $request, $id){
+        $order = Order::findOrFail($id);
+    
+        if($order->status == 1){
+            $order->status = $request->status;
+            $order->reason = $request->reason;
+            $order->save();
+        } else {
+            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx');
+        }
+    }
+    
+    
 
     public function addressUpdate(Request $request,$id){
         $request->validate([
