@@ -54,7 +54,7 @@
                                                     <span>Accepted</span>
                                                     @break
                                                 @case(3)
-                                                    <span>Cancel</span>
+                                                    <span>Deny</span>
                                                     @break
                                                 @case(4)
                                                     <span>Preparing shipment </span>
@@ -69,22 +69,20 @@
                                                     <span>Delivered</span>
                                                     @break
                                             @endswitch
-                                        </td>
+                                        
                                     </tr>
                                     <tr>
-                                        <th>
-                                            <label for="">Reason for cancel order</label>
-                                            <input type="hidden" name="status" value="{{$order->status}}">
-                                            <div>
-                                                <input type="text" name="reason" placeholder="Please enter the reason">
-                                            </div>
-                                            
-                                        </th>
-                                        <td>
-                                            <button type="submit" class="btn btn-outline-dark" >Cancel</button>
-                                            <a href="{{ route('client.account',['id'=>$order->user_id])}}" class="btn btn-outline-dark" >Turn back</a>
-                                        </td>
-                                        
+                                            <th>
+                                                <label for="">Reason for cancel order</label>
+                                                <input type="hidden" name="status" value="{{$order->status}}">
+                                                <div>
+                                                    <input type="text" name="reason" placeholder="Please enter the reason">
+                                                </div>
+                                            </th>
+                                            <td>
+                                                <button type="submit" class="btn btn-outline-dark" >Cancel</button>
+                                            </td>
+
                                     </tr>
                                     </table>
                                 </form>
