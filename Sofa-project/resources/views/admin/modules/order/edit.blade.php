@@ -136,7 +136,7 @@ $(function () {
                 <tbody>
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$d->name}}</td>
+                        <td>{{$d->product_name}}</td>
                         @php
                         $colorValue = \App\Models\AttributeValue::where('id', $d->color)->pluck('value')->first();
                         @endphp
