@@ -19,12 +19,13 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('address');
-            $table->string('postcode');
+            
+            $table->string('city');
             $table->string('phone');
             $table->double('total_order');
             $table->tinyInteger('status')->default(1)->comment('1 waiting - 2 accepted - 3 deny - 4 Preparing shipment - 5 Handed over to the carrier - 6 In transit - 7 Delivered	');
             $table->double('reason')->nullable()->comment('Reason for order cancel');
-            $table->double('shippingFee');
+            $table->double('shippingFee')->nullable();
             $table->double('discount_code')->nullable();
             $table->string('payment')->nullable();
             $table->text('note')->nullable();

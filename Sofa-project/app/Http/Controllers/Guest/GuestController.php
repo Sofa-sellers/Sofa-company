@@ -96,6 +96,12 @@ class GuestController extends Controller
         ->where('id','!=',$product->id)
         ->paginate(4);
 
+        if($products_related->isEmpty()){
+            $products_related = Product::orderBy('created_at','DESC')
+            ->where('id','!=',$product->id)
+            ->paginate(4);
+
+        }
        
         $skus = $product->sku;
   

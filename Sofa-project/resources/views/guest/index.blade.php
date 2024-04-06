@@ -176,19 +176,20 @@
                                                         
                                                         <div class="product-content">
                                                             <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
+                                                            <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
                                                                     @if(!$item->sale_price)
                                                                     $ {{$item->price}}
                                                                     @else
                                                                     <del
-                                                                        class="old-price">{{ $item->price }}</del> <span
-                                                                        class="new-price">{{ $item->sale_price }}</span>
+                                                                        class="old-price">$ {{ $item->price }}</del> <span
+                                                                        class="new-price">$ {{ $item->sale_price }}</span>
                                                                     <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
-                                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}">Add to cart</a>
+                                                                        <a href="{{ route('detail',['slug'=>$item->slug]) }}">Detail</a>
                                                                     </button>
                                                             </div>
     
@@ -684,14 +685,16 @@
                                                         
                                                         <div class="product-content">
                                                             <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
+                                                            <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title" style="color: gray">{{ $item->intro }}</a></i>
+
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
                                                                     @if(!$item->sale_price)
                                                                     $ {{$item->price}}
                                                                     @else
                                                                     <del
-                                                                        class="old-price">{{ $item->price }}</del> <span
-                                                                        class="new-price">{{ $item->sale_price }}</span>
+                                                                        class="old-price">$ {{ $item->price }}</del> <span
+                                                                        class="new-price">$ {{ $item->sale_price }}</span>
                                                                     <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
@@ -1190,17 +1193,17 @@
                                                         </a>
                                                         <!-- thumb end -->
     
-                                                        
                                                         <div class="product-content">
                                                             <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
                                                                     @if(!$item->sale_price)
                                                                     $ {{$item->price}}
                                                                     @else
                                                                     <del
-                                                                        class="old-price">{{ $item->price }}</del> <span
-                                                                        class="new-price">{{ $item->sale_price }}</span>
+                                                                        class="old-price">$ {{ $item->price }}</del> <span
+                                                                        class="new-price">$ {{ $item->sale_price }}</span>
                                                                     <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
@@ -1390,14 +1393,15 @@
                                             <!-- thumb end -->
                                             <div class="product-content">
                                                 <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
+                                                <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title" style="color: gray">{{ $item->intro }}</a></i>
                                                 <div class="product-group">
                                                     <h5 class="product-price">
                                                         @if(!$item->sale_price)
                                                         $ {{$item->price}}
                                                         @else
                                                         <del
-                                                            class="old-price">{{ $item->price }}</del> <span
-                                                            class="new-price">{{ $item->sale_price }}</span>
+                                                            class="old-price">$ {{ $item->price }}</del> <span
+                                                            class="new-price">$ {{ $item->sale_price }}</span>
                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                         @endif 
                                                         </h5>
@@ -1408,6 +1412,8 @@
                                                 </div>
 
                                             </div>
+
+                                            
                                             <!-- actions  -->
                                             {{-- <ul class="actions actions-verticale">
                                                 <li class="action whish-list">
