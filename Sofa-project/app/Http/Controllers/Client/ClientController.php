@@ -214,9 +214,10 @@ class ClientController extends Controller
 
     public function showDetail($id){
         
-        $order = Order::findorFail($id)->first();
+        $order = Order::where('id',$id)->first();
+        
         $detail = OrderDetail::where('order_id', $id)->get();
-        // dd($order);
+        //dd($order);
 
         return view('client.order',[
             'detail'=>$detail,
@@ -225,14 +226,17 @@ class ClientController extends Controller
     }
 
     public function updateDetail(Request $request, $id){
-        $order = Order::findOrFail($id);
-    
+        $order = Order::where('id',$id)->first();
+        // dd($order);
         
         if($order->status == 1){
-            $order->status = $request->status;
+            $order->status = 3;
             $order->reason = $request->reason;
+            $order->updated_at = now(); // Sử dụng now() để lấy thời gian hiện tại
+    
             $order->save();
-            return redirect()->back()->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
+    
+            return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
         } else {
             return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx');
         }

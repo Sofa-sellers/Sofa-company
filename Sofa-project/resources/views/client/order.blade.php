@@ -42,11 +42,34 @@
                                         <td>{{$order->note}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Note</th>
-                                        <td>{{$order->status}}</td>
+                                        <th>Status</th>
+                                        <td>
+                                            @switch($order->status)
+                                                @case(1)
+                                                    <span>Waiting</span>
+                                                    @break
+                                                @case(2)
+                                                    <span>Accepted</span>
+                                                    @break
+                                                @case(3)
+                                                    <span>Deny</span>
+                                                    @break
+                                                @case(4)
+                                                    <span>Preparing shipment </span>
+                                                    @break
+                                                @case(5)
+                                                    <span>Handed over to the carrier</span>
+                                                    @break
+                                                @case(6)
+                                                    <span>In transit</span>
+                                                    @break
+                                                @default
+                                                    <span>Delivered</span>
+                                                    @break
+                                            @endswitch
+                                        
                                     </tr>
                                     <tr>
-                                        @if($order->status == 1)
                                             <th>
                                                 <label for="">Reason for cancel order</label>
                                                 <input type="hidden" name="status" value="{{$order->status}}">
@@ -57,21 +80,7 @@
                                             <td>
                                                 <button type="submit" class="btn btn-outline-dark" >Cancel</button>
                                             </td>
-                                        @else
-                                            {{-- <th>
-                                                <label for="">Reason for cancel order</label>
-                                                <input type="hidden" name="status" value="3" disabled>
-                                                <div>
-                                                    <input type="text" name="reason" placeholder="Please enter the reason" disabled>
-                                                </div>
-                                            </th>
-                                            <td>
-                                                <button type="submit" class="btn btn-outline-dark" disabled>Cancel</button>
-                                            </td> --}}
-                                        @endif
-                                        
-                                        
-                                        
+
                                     </tr>
                                     </table>
                                 </form>
