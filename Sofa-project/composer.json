@@ -35,7 +35,8 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Lib/function.php"
+            "app/Lib/function.php",
+            "App/Helpers/Cart.php"
         ]
     },
     "scripts": {
