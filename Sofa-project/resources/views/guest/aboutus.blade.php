@@ -27,7 +27,7 @@
                 <div class="col-xl-6 mb-4">
                     <div class="about-content text-center">
                         <div class="about-left-image">
-                            <img src="{{asset('assets/images/about/lg-1.jpg')}}" alt="img" class="img-responsive">
+                            <img src="{{asset('client/assets/images/about/lg-1.jpg')}}" alt="img" class="img-responsive">
                         </div>
 
                     </div>
@@ -87,7 +87,7 @@
                 <div class="row mb-n4">
                     <div class="col-12 col-sm-6 col-lg-3 mb-4">
                         <div class="box_info">
-                            <img src="{{asset('assets/images/icon/1.jpg')}}" alt="images_not_found">
+                            <img src="{{asset('client/assets/images/icon/1.jpg')}}" alt="images_not_found">
                             <div class="txt_info">
                                 <h2 class="title">Creative Always</h2>
                                 <p>We believe any idea is a good idea, but the best idea wins</p>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3 mb-4">
                         <div class="box_info">
-                            <img src="{{asset('assets/images/icon/2.jpg')}}" alt="images_not_found">
+                            <img src="{{asset('client/assets/images/icon/2.jpg')}}" alt="images_not_found">
                             <div class="txt_info">
                                 <h2 class="title">Express Customization</h2>
                                 <p>Eposi has many Express Customization centers throughout Europe</p>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3 mb-4">
                         <div class="box_info">
-                            <img src="{{asset('assets/images/icon/3.jpg')}}" alt="images_not_found">
+                            <img src="{{asset('client/assets/images/icon/3.jpg')}}" alt="images_not_found">
                             <div class="txt_info">
                                 <h2 class="title">Premium Integrations</h2>
                                 <p>We can build pretty much any integration you want</p>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-3 mb-4">
                         <div class="box_info">
-                            <img src="{{asset('assets/images/icon/4.jpg')}}" alt="images_not_found">
+                            <img src="{{asset('client/assets/images/icon/4.jpg')}}" alt="images_not_found">
                             <div class="txt_info">
                                 <h2 class="title">Real-time Editing</h2>
                                 <p>Write, edit and interact with others on the same content, in real time</p>
@@ -140,7 +140,7 @@
                 <div class="col-sm-6 col-lg-3 mb-5">
                     <div class="service">
                         <div class="single-thumb mb-4">
-                            <img src="{{asset('assets/images/about/1.png')}}" alt="single-thumb-naile">
+                            <img src="{{asset('client/assets/images/about/1.png')}}" alt="single-thumb-naile">
                         </div>
                         <div class="single-service">
                             <h3 class="service-title text-capitalize">Ms. Veronica</h3>
@@ -158,7 +158,7 @@
                 <div class="col-sm-6 col-lg-3 mb-5">
                     <div class="service">
                         <div class="single-thumb mb-4">
-                            <img src="{{asset('assets/images/about/2.png')}}" alt="single-thumb-naile">
+                            <img src="{{asset('client/assets/images/about/2.png')}}" alt="single-thumb-naile">
                         </div>
                         <div class="single-service">
                             <h3 class="service-title text-capitalize">Missa Santos</h3>
@@ -176,7 +176,7 @@
                 <div class="col-sm-6 col-lg-3 mb-5">
                     <div class="service">
                         <div class="single-thumb mb-4">
-                            <img src="{{asset('assets/images/about/3.png')}}" alt="single-thumb-naile">
+                            <img src="{{asset('client/assets/images/about/3.png')}}" alt="single-thumb-naile">
                         </div>
                         <div class="single-service">
                             <h3 class="service-title text-capitalize">Missa Santos</h3>
@@ -194,7 +194,7 @@
                 <div class="col-sm-6 col-lg-3 mb-5">
                     <div class="service">
                         <div class="single-thumb mb-4">
-                            <img src="{{asset('assets/images/about/4.png')}}" alt="single-thumb-naile">
+                            <img src="{{asset('client/assets/images/about/4.png')}}" alt="single-thumb-naile">
                         </div>
                         <div class="single-service">
                             <h3 class="service-title text-capitalize">Lisa Antonia</h3>

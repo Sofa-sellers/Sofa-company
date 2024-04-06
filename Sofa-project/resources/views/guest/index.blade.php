@@ -27,7 +27,7 @@
                                             Tables Decor
                                         </h2>
                                         <br />
-                                        <a href="shop-grid-3-column.html" class="btn animated btn-outline-dark">Shop
+                                        <a href="{{route('indexShop')}}" class="btn animated btn-outline-dark">Shop
                                             Now</a>
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@
                                             Seating
                                         </h2>
                                         <br />
-                                        <a href="shop-grid-3-column.html" class="btn animated btn-outline-dark" style="color: white !important; border-color: white !important;">Shop
+                                        <a href="{{route('indexShop')}}" class="btn animated btn-outline-dark" style="color: white !important; border-color: white !important;">Shop
                                             Now</a>
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                 <div class="col-lg-8 mb-4">
                     <div class="banner">
                         <!-- thumb-nail start -->
-                        <a href="#" class="thumb-nail">
+                        <a href="{{route('indexShop')}}" class="thumb-nail">
                             <img src="https://www.liveenhanced.com/wp-content/uploads/2019/12/9-curved-sofa.jpg" alt="image_not_found" style="max-height: 600px; min-height:600px;" class="img-fluid">
                         </a>
                         <!-- thumb-nail end -->
@@ -105,7 +105,7 @@
                 <div class="col-lg-4 mb-4">
                     <div class="banner">
                         <!-- thumb-nail start -->
-                        <a href="#" class="thumb-nail">
+                        <a href="{{route('indexShop')}}" class="thumb-nail">
                             <img src="https://img2.cgtrader.com/items/662848/928da42182/sofa-boconcept-hampton-3d-model-max-obj-fbx.jpg" alt="image_not_found"  style="max-height: 600px; min-height:600px;" class="img-fluid">
                         </a>
                         <!-- thumb-nail end -->
@@ -1288,12 +1288,12 @@
                         @foreach($categories as $cate)
                         <div class="swiper-slide">
                             <div class="decoration">
-                                <a class="decoration-thumb" href="{{ route('shop',['id'=>$cate->id])}}">
+                                <a class="decoration-thumb" href="{{ route('shop',['cate_id'=>$cate->id])}}">
                                     <img src="https://i.pinimg.com/originals/1b/75/52/1b755295f7959123be58a813e735a8e7.jpg" alt="image_not_found" class="img-fluid">
                                 </a>
                                 <div class="decoration-content">
                                     <h3 class="decoration-title">{{$cate->name}}</h3>
-                                    <a href="{{ route('shop',['id'=>$cate->id])}}" class="btn btn-outline-dark">Discover Now</a>
+                                    <a href="{{ route('shop',['cate_id'=>$cate->id])}}" class="btn btn-outline-dark">Discover Now</a>
                                 </div>
                             </div>
                         </div>
@@ -1342,8 +1342,8 @@
                         <h3 class="large-banner-sub-title">Select Home Decor</h3>
                         <h3 class="large-banner-sub-title">& Furniture</h3>
                         <h4 class="large-banner-title">Up to 35% Off</h4>
-                        <a href="shop-grid-left-sidebar.html" class="btn btn-outline-dark">Shop Decor</a>
-                        <a href="shop-grid-left-sidebar.html" class="btn btn-outline-dark">Shop Furniture</a>
+                        <a href="{{route('indexShop')}}" class="btn btn-outline-dark">Shop Decor</a>
+                        <a href="{{route('indexShop')}}" class="btn btn-outline-dark">Shop Furniture</a>
                     </div>
                     <!-- large-banner-content end -->
                     <a href="shop-grid-left-sidebar.html" class="thumb-nail">

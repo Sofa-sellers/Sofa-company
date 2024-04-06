@@ -93,7 +93,7 @@
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
                                     @foreach ($categories as $item)
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('shop',['id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
                                 <!-- sub menu end -->

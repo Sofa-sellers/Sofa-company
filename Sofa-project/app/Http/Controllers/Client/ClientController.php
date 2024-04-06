@@ -247,8 +247,8 @@ class ClientController extends Controller
     }
 
     public function DeleteCompareProduct(Request $request){
-        Compare::delete($request->except('_token'));
-        return "item deleted from Compare";
+        $data=Compare::with('item')->where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
+        return "item removed successfully";
     }
 }
 
