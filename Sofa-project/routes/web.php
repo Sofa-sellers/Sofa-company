@@ -60,9 +60,6 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('download/{id}', 'download')->name('download');
 
-        Route::get('compare', 'showCompare')->name('showCompare');
-        Route::post('compare', 'compare')->name('compare');
-
         Route::get('contact', 'contact')->name('contact');
 
         Route::get('aboutUs', 'aboutUs')->name('aboutus');
@@ -82,6 +79,10 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
         Route::get('cart/{slug}/{quantity}/{id}', 'addToCart')->name('addToCart');
         Route::get('cart', 'showCart')->name('showCart');
+
+        Route::get('compare/{id}', 'showCompare')->name('showCompare');
+        Route::post('compare', 'addToCompare')->name('addCompareList');
+        Route::post('removeCompare', 'addToCompare')->name('DeleteCompareProduct');
 
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
         Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');

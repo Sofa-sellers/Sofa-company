@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\AttributeValue;
 use App\Models\Zip;
-
+use App\Models\compare;
 use DateTime;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -89,9 +89,6 @@ class ClientController extends Controller
         return $shippingcost;
 
     }
-
-
-
 
     public function cartDelete($rowId){
        
@@ -256,5 +253,20 @@ class ClientController extends Controller
             return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
         }
         else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
+    }
+
+    public function showCompare(){
+        $data=Compare::with('item')->where('user_id',Auth::user()->id)->get();
+        return view('client.compare',compact('data'));
+    }
+
+    public function addToCompare(Request $request){
+        Compare::create($request->except('_token'));
+        return "item added to Compare";
+    }
+
+    public function DeleteCompareProduct(Request $request){
+        Compare::delete($request->except('_token'));
+        return "item deleted from Compare";
     }
 }
