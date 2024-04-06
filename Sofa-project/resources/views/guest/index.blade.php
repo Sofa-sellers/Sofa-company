@@ -95,7 +95,8 @@
                         <div class="banner-content banner-position-top-left">
                             <span class="banner-sub-title">Furniture</span>
                             <h3 class="banner-title">For Sale</h3>
-                            <a href="shop-grid-left-sidebar.html" class="btn btn-outline-dark">Shop Now</a>
+                            <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
+                           
                         </div>
                         <!-- banner-content end -->
                     </div>
@@ -111,7 +112,7 @@
                         <div class="banner-content banner-position-bottom-left">
                             <span class="banner-sub-title">Led</span>
                             <h3 class="banner-title">bulbs</h3>
-                            <a href="shop-grid-left-sidebar.html" class="btn btn-outline-dark">Shop Now</a>
+                            <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
                         </div>
                         <!-- banner-content end -->
                     </div>

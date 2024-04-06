@@ -175,9 +175,9 @@ class ClientController extends Controller
 // //
 //     }
 
-    // public function accountIndex(){
-    //     return view('client.account');
-    // }
+    public function accountIndex(){
+        return view('client.account');
+    }
 
     public function addToWishlist($id, $quantity){
         //
@@ -196,8 +196,8 @@ class ClientController extends Controller
 //
     }
 
-    public function order(Request $request){
-        //
+    public function orderManagement(Request $request, $id){
+        $user = Auth::User()->where('id',$id)->first();
     }
 
     public function addressUpdate(Request $request,$id){
