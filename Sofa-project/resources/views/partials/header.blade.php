@@ -147,7 +147,7 @@
                             <a class="quick-link-link shopping-cart" >
                             <span class="wishlist-count">
                                 
-                                {{Cart::count();}}
+                                {{$cart->totalQuantity()}}
                             </span>
                             </a>
                             <div class="mini-carts">

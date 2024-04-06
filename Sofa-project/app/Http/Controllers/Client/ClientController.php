@@ -31,9 +31,31 @@ class ClientController extends Controller
         $quantity = $request->quantity;
         $color = $request->color;
 
-        $cart->add($product, $color, $quantity);
+        if($product->quantity < $quantity){
+            return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
+        }
 
-        return redirect()->route('client.showCart');
+        
+        if($cart){
+            $old_quantity = 0;
+            
+            foreach($cart->list() as $item){
+                if($item['productId'] == $product->id){
+                    $old_quantity+=$item['quantity'];
+                }
+            }
+            
+            if($old_quantity > $product->quantity){
+                    return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
+            }
+        }
+        
+  
+
+        $cart->add($product, $color, $quantity);
+        
+        return redirect()->route('client.showCart')->with('Success', 'You have successfully added a product to your cart')->with('lifetime', 3);
+        
     }
 
 
@@ -81,41 +103,27 @@ class ClientController extends Controller
     public function showCheckout(Cart $cart){
         if (Auth::check()) {
             $user = Auth::user();
-            
-        $carts = $cart->list();
+            $carts = $cart->list();
+    
+            foreach ($carts as $item) {
+                $productId = $item['productId'];
+                $quantity = $item['quantity'];
+    
+                $product = DB::table('products')->where('id', $productId)->first();
+                if ($quantity > $product->quantity) {
+                    return redirect()->back()->with('failed', 'Quantity is over stock, please decrease this quantity');
+                }
+            }
+    
             return view('client.checkout', [
                 'user' => $user,
-                'carts'=>$carts,
+                'carts' => $carts,
                 'cart' => $cart
             ]);
         }
     }
 
     public function checkout(Request $request, Cart $cart, $user){
-
-        $cartCollection = $cart->list();
-
-        foreach($cartCollection as $item){
-            $productId = $item['productId'];
-            $product = Product::findOrFail($productId);
-            
-            $newQuantity = DB::table('products')
-                ->where('id', $productId)
-                ->decrement('quantity', $item['quantity']);
-
-            // Cập nhật thời gian cập nhật tự động
-            // Không cần gọi update cho updated_at
-
-            if ($newQuantity === 0) {
-                DB::table('products')
-                    ->where('id', $productId)
-                    ->update(['status' => 2]);
-            } elseif ($newQuantity < 0) {
-                // Nếu số lượng mới nhỏ hơn 0, nghĩa là số lượng trong kho không đủ
-                // Trả về một thông báo lỗi
-                return redirect()->back()->with('error', 'Quantity is over stock, please decrease this quantity');
-            }
-        }
 
             $data = [
             'firstname' => $request->firstname,
@@ -153,19 +161,60 @@ class ClientController extends Controller
         );
 
     
-        foreach($cartCollection as $item){
-            $order_details[]=[
-                'product_id'=> $item['productId'],
-                'product_name'=>$item['name'],
-                'color'=>$item['option']['color'],
-                'price'=>$item['price'],
-                'quantity'=>$item['quantity'],
-                'total_product'=>($item['price']*$item['quantity']),
-                'order_id'=>$order_id,
-                'created_at'=>new \DateTime(),
+        $cartCollection = $cart->list();
+    $order_details = [];
+
+    foreach ($cartCollection as $item) {
+        $productId = $item['productId'];
+        $quantity = $item['quantity'];
+
+        $product = DB::table('products')->where('id', $productId)->first();
+
+        if ($quantity == $product->quantity) {
+            $order_details[] = [
+                'product_id' => $item['productId'],
+                'product_name' => $item['name'],
+                'color' => $item['option']['color'],
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total_product' => ($item['price'] * $item['quantity']),
+                'order_id' => $order_id,
+                'created_at' => new DateTime(), 
             ];
-            
+
+            DB::table('products')->updateOrInsert(
+                ['id' => $productId],
+                [
+                'quantity'=>0,
+                'status' => 2,
+                'updated_at'=>new DateTime()
+                ] 
+            );
+        }else{
+            $order_details[] = [
+                'product_id' => $item['productId'],
+                'product_name' => $item['name'],
+                'color' => $item['option']['color'],
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total_product' => ($item['price'] * $item['quantity']),
+                'order_id' => $order_id,
+                'created_at' => new DateTime(), 
+            ];
+
+            DB::table('products')->updateOrInsert(
+                ['id' => $productId],
+                [
+                'quantity' => DB::raw('quantity - ' . $item['quantity']),
+                'updated_at'=>new DateTime()
+                ] 
+            );
         }
+    }
+
+    
+// Insert $order_details array to the database as order details
+
         DB::table('order_detail')->insert($order_details);
         $cart->destroyAll();
         return redirect()->route('index');
@@ -221,6 +270,7 @@ class ClientController extends Controller
         
         $order = Order::where('id',$id)->first();
         
+
         $detail = OrderDetail::where('order_id', $id)->get();
         //dd($order);
 
@@ -236,14 +286,17 @@ class ClientController extends Controller
         
         if($order->status == 1){
             $order->status = 3;
+
             $order->reason = $request->reason;
             $order->updated_at = now(); // Sử dụng now() để lấy thời gian hiện tại
     
             $order->save();
+
     
             return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
+
         } else {
-            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx');
+            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx')->with('lifetime', 3);
         }
     }
     
@@ -282,7 +335,7 @@ class ClientController extends Controller
         else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
     }
 
-    public function showCompare(){
+    public function showCompare($id){
         $data=Compare::with('item')->where('user_id',Auth::user()->id)->get();
         return view('client.compare',compact('data'));
     }
@@ -293,8 +346,8 @@ class ClientController extends Controller
     }
 
     public function DeleteCompareProduct(Request $request){
-        $data=Compare::with('item')->where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
-        return "item removed successfully";
+        $data= Compare::where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
+        return redirect()->route()->with('success','item removed successfully');
     }
 }
 

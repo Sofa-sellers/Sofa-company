@@ -27,4 +27,11 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public static function countBrand(){
+        $data=Brand::where('status',1)->count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
 }

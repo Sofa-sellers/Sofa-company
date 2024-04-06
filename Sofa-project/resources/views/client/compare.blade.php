@@ -24,6 +24,14 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <th scope="row">Product</th>
+                                @foreach ($data as $key=>$item)
+                                <td class="text-center">
+                                    <span class="whish-list-price"> {{$item->item->slug}}</span>
+                                </td>
+                                @endforeach
+                            </tr>
+                            <tr>
                                 <th scope="row">Price</th>
                                 @foreach ($data as $key=>$item)
                                 <td class="text-center">
@@ -94,14 +102,10 @@
     function removeItem(product_id){
         $.ajax({
             "url":'{{route('client.DeleteCompareProduct')}}',
-            "method":'POSt',
+            "method":'POST',
             'data':{product_id:product_id,_token:'{{csrf_token()}}'},
             success:function(resp){
                 alert(resp);
-                setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
-                $('#load_posts').load("display.php").fadeIn("slow");
-                //load() method fetch data from fetch.php page
-                }, 1000);
             },
             error:function(error){
                 alert(error);

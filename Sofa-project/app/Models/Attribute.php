@@ -28,5 +28,12 @@ class Attribute extends Model
     {
         return $this->hasMany(AttributeValue::class);
     }
+    public static function countAttribute(){
+        $data=Attribute::count();
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
     
 }

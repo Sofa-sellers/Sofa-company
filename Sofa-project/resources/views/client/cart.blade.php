@@ -1,7 +1,7 @@
 <?php use App\Models\Product; ?>
 @extends('master')
 @section('module','Cart List')
-@push('js')
+{{-- @push('js')
 <script>
     $(document).ready(function(){
            $('input[name="quantity-cart-product"]').change(function(){
@@ -36,7 +36,8 @@
     });      
     });  
 </script>
-@endpush
+@endpush --}}
+
 @section('content')
 <section class="whish-list-section section-padding-bottom">
     <div class="container">
@@ -110,7 +111,11 @@
                                     {{$item['price']*$item['quantity']}}
                                     </span>
                                 </td>
-                                <td class="text-center" scope="col"><a href="{{ route('client.cartDelete',['itemKey'=>$item['itemKey']])}}">Delete</a></td>
+                                <td class="text-center" >
+                                    <span>
+                                        <a href="{{ route('client.cartDelete',['itemKey'=>$item['itemKey']])}}">Delete</a>
+                                    </span>
+                                </td>
                               
                             </tr>
                             @endforeach
