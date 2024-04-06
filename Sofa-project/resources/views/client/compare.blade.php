@@ -100,11 +100,11 @@
     </div>
 </section>
 <script>
-    function removeItem(product_id){
+    function removeItem(id){
         $.ajax({
             "url":'{{route('client.DeleteCompareProduct')}}',
             "method":'POST',
-            'data':{product_id:product_id,_token:'{{csrf_token()}}'},
+            'data':{id:id,_token:'{{csrf_token()}}'},
             success:function(resp){
                 alert(resp);
             },
@@ -113,7 +113,6 @@
             }
         })
     }
-
 </script>
 <!-- main content end -->
 @endsection

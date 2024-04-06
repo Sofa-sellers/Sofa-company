@@ -66,31 +66,29 @@
                                                             <td>{{$order->firstname}} {{$order->lastname}}</td>
                                                             <td>{{$order->created_at}}</td>
                                                             <td>
-                                                                
-                                                                    @switch($order->status)
-                                                                        @case(1)
-                                                                            <span>Waiting</span>
-                                                                            @break
-                                                                        @case(2)
-                                                                            <span>Accepted</span>
-                                                                            @break
-                                                                        @case(3)
-                                                                            <span>Cancel</span>
-                                                                            @break
-                                                                        @case(4)
-                                                                            <span>Preparing shipment </span>
-                                                                            @break
-                                                                        @case(5)
-                                                                            <span>Handed over to the carrier</span>
-                                                                            @break
-                                                                        @case(6)
-                                                                            <span>In transit</span>
-                                                                            @break
-                                                                        @default
-                                                                            <span>Delivered</span>
-                                                                            @break
-                                                                    @endswitch
-                                                                
+                                                                @switch($order->status)
+                                                                    @case(1)
+                                                                        <span>Waiting</span>
+                                                                        @break
+                                                                    @case(2)
+                                                                        <span>Accepted</span>
+                                                                        @break
+                                                                    @case(3)
+                                                                        <span>Deny</span>
+                                                                        @break
+                                                                    @case(4)
+                                                                        <span>Preparing shipment </span>
+                                                                        @break
+                                                                    @case(5)
+                                                                        <span>Handed over to the carrier</span>
+                                                                        @break
+                                                                    @case(6)
+                                                                        <span>In transit</span>
+                                                                        @break
+                                                                    @default
+                                                                        <span>Delivered</span>
+                                                                        @break
+                                                                @endswitch
                                                             </td>
                                                             <td>{{$order->total_order}}</td>
                                                             <td>

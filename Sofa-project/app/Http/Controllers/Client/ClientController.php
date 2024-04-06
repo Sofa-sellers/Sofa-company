@@ -236,7 +236,8 @@ class ClientController extends Controller
 
         $orders = Order::where('user_id', $user->id)
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(5); 
+                    ->get();
+                   
 
         return view('client.account', [
             'orders' => $orders,
@@ -261,17 +262,18 @@ class ClientController extends Controller
 //
     }
 
-    public function orderManagement(Request $request, $id){
-        $user = Auth::User()->where('id',$id)->first();
-    }
+    // public function orderManagement(Request $request, $id){
+    //     $user = Auth::User()->where('id',$id)->first();
+    // }
 
     public function showDetail($id){
         
+        $order = Order::where('id',$id)->first();
+        
+
         $detail = OrderDetail::where('order_id', $id)->get();
-        
-        $order = Order::where('id', $id)->first();
-       
-        
+        //dd($order);
+
         return view('client.order',[
             'detail'=>$detail,
             'order'=>$order,
@@ -279,15 +281,20 @@ class ClientController extends Controller
     }
 
     public function updateDetail(Request $request, $id){
-        $order = Order::where('id', $id)->first();
-    
+        $order = Order::where('id',$id)->first();
+        // dd($order);
+        
         if($order->status == 1){
             $order->status = 3;
-            
+
             $order->reason = $request->reason;
+            $order->updated_at = now(); // Sử dụng now() để lấy thời gian hiện tại
+    
             $order->save();
-            
-            return redirect()->route('index')->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order.')->with('lifetime', 3);
+
+    
+            return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
+
         } else {
             return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx')->with('lifetime', 3);
         }
@@ -339,8 +346,8 @@ class ClientController extends Controller
     }
 
     public function DeleteCompareProduct(Request $request){
-        $data= Compare::where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
-        return redirect()->route()->with('success','item removed successfully');
+        $data=Compare::where('user_id',Auth::user()->id)->where('id',$request->id)->delete();
+        return 'item removed successfully';
     }
 }
 
