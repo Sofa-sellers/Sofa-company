@@ -123,7 +123,7 @@
 
                                 <div class="product-count style d-flex my-4">
                                     <div class="count d-flex">
-                                        <input type="number" min="1" max="100" step="1" value="1" name="quantity" disabled>
+                                        <input type="number" min="1" max="100" step="1" value="1" name="quantity" >
                                         <div class="button-group">
                                             <button class="count-btn increment">
                                                 <span class="ion-chevron-up"></span>
@@ -134,7 +134,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <button type="submit" data-bs-toggle="modal" data-bs-target="#add-to-cart" class="btn animated btn-outline-dark">
+                                        <button type="submit" class="btn animated btn-outline-dark">
                                             Add to cart
                                         </button>
                                     </div>

@@ -31,6 +31,7 @@ class ClientController extends Controller
         $quantity = $request->quantity;
         $color = $request->color;
 
+        // dd($quantity);
         $cart->add($product, $color, $quantity);
 
         return redirect()->route('client.showCart');

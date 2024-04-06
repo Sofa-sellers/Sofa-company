@@ -16,12 +16,14 @@ class Cart {
         return $this->items;
     }
 
-    public function add($product, $color, $quantity = 1){
+    public function add($product, $color, $quantity){
         // foreach($colors as $color) {
             $itemKey = $product->id . '_' . $color;
             if(array_key_exists($itemKey, $this->items)) {
                 // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng
-                $this->items[$itemKey]['quantity'] += $quantity;
+                
+                $this->items[$itemKey]['quantity'] = $this->items[$itemKey]['quantity'] + $quantity;
+                
             } else {
                 // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
                 $this->items[$itemKey] = [
@@ -37,7 +39,7 @@ class Cart {
                 ];
             }
         // }
-
+        // dd($this->items[$itemKey]['quantity']);
         // $this->items[$product->id] = $item;
 
         session(['cart'=>$this->items]);

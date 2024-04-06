@@ -42,9 +42,13 @@
                                         <td>{{$order->note}}</td>
                                     </tr>
                                     <tr>
+                                        <th>Status</th>
+                                        <td>{{$order->status}}</td>
+                                    </tr>
+                                    <tr>
                                         <th>
                                             <label for="">Reason for cancel order</label>
-                                            <input type="hidden" name="status" value="3">
+                                            <input type="hidden" name="status" value="{{$order->status}}">
                                             <div>
                                                 <input type="text" name="reason" placeholder="Please enter the reason">
                                             </div>
