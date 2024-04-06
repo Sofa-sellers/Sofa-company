@@ -20,7 +20,7 @@ class StoreRequest extends FormRequest
             'material_id' => 'required',
             'description'=>'required',
             'price'=>'required|numeric|min:0',
-            'sale_price'=>'numeric|min:0',
+            'sale_price'=>'nullable|numeric|min:0',
             'quantity'=>'required|min:2|numeric',
             'file' => 'required|mimes:pdf',
             'category_id'=>'required',

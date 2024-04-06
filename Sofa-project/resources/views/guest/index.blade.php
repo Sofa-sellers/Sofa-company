@@ -1191,7 +1191,7 @@
                                                 
                                                 <div class="product-list">
                                                     <div class="product-card">
-                                                        <a href="single-product.html" class="product-thumb">
+                                                        <a href="{{route('indexShop')}}" class="product-thumb">
                                                             
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
@@ -1199,7 +1199,7 @@
                                                         <!-- thumb end -->
     
                                                         <div class="product-content">
-                                                            <h4><a href="single-product.html" class="product-title">{{ $item->name }}</a></h4>
+                                                            <h4><a href="{{route('indexShop')}}" class="product-title">{{ $item->name }}</a></h4>
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
