@@ -50,7 +50,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
         Route::get('', 'index')->name('index');
 
         Route::get('shop', 'shop')->name('indexShop');
-        Route::get('shop/{id}', 'viewShop')->name('shop');
+        Route::get('shop/cate/{cate_id}', 'viewShop')->name('shop');
 
         Route::post('search', 'search')->name('search');
 
@@ -82,7 +82,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
         Route::get('compare/{id}', 'showCompare')->name('showCompare');
         Route::post('compare', 'addToCompare')->name('addCompareList');
-        Route::post('removeCompare', 'addToCompare')->name('DeleteCompareProduct');
+        Route::post('removeCompare', 'DeleteCompareProduct')->name('DeleteCompareProduct');
 
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');

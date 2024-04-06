@@ -14,9 +14,9 @@
                                 <th scope="col">product info</th>
                                 @foreach ($data as $key=>$item)
                                 <th scope="col" class="text-center">
-                                    <img src="{{ asset('uploads/' . $item->item->image) }}" style="max-width: 200px; max-height: 300px;" alt="{{$item->item->slug}}">
+                                    <img src="{{asset('uploads/'.$item->item->image)}}" style="max-width: 200px; max-height: 300px;" alt="{{$item->item->slug}}">
                                     <span class="sub-title d-block">{{$item->slug}}</span>
-                                    <a href="#" class="btn btn-dark">
+                                    <a href="{{route('client.addToCart')}}" class="btn btn-dark">
                                     add to cart</a>
                                 </th>
                                 @endforeach
@@ -91,13 +91,17 @@
     </div>
 </section>
 <script>
-    function removeItem(productID){
+    function removeItem(product_id){
         $.ajax({
             "url":'{{route('client.DeleteCompareProduct')}}',
             "method":'POSt',
-            'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
+            'data':{product_id:product_id,_token:'{{csrf_token()}}'},
             success:function(resp){
                 alert(resp);
+                setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
+                $('#load_posts').load("display.php").fadeIn("slow");
+                //load() method fetch data from fetch.php page
+                }, 1000);
             },
             error:function(error){
                 alert(error);
