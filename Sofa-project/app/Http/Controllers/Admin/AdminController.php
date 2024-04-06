@@ -17,7 +17,6 @@ use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sku;
-use App\Models\Promotion;
 use App\Models\RatingComment;
 use App\Models\Order;
 use Illuminate\Support\Facades\Session;
@@ -28,8 +27,6 @@ use App\Http\Requests\Admin\Category\StoreRequest as CategoryStoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest as CategoryUpdateRequest;
 use App\Http\Requests\Admin\Product\StoreRequest as ProductStoreRequest;
 use App\Http\Requests\Admin\Product\UpdateRequest as ProductUpdateRequest;
-use App\Http\Requests\Admin\Promotion\StoreRequest as PromotionStoreRequest;
-use App\Http\Requests\Admin\Promotion\UpdateRequest as PromotionUpdateRequest;
 use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
 use App\Http\Requests\Admin\RatingComment\UpdateRequest as RatingCommentUpdateRequest;
 use App\Http\Requests\Admin\Brand\StoreRequest as BrandStoreRequest;
@@ -46,6 +43,7 @@ use App\Http\Requests\Admin\Zip\StoreRequest as ZipStoreRequest;
 use App\Http\Requests\Admin\Zip\UpdateRequest as ZipUpdateRequest;
 
 use Illuminate\Http\Request;
+
 use App\Models\CategoryPhotos;
 use App\Models\OrderDetail;
 use App\Models\ProductImages;
@@ -169,27 +167,6 @@ class AdminController extends Controller
         $category->status = $request->status;
         $category->save();
 
-        if ($request->photos !== null) {
-                $count = 0;
-                $data_photos = [];
-                foreach ($request->photos as $photo_detail){
-                    $count++;
-                    $photoNameDetail = $count . '-' . time() . '-' . $photo_detail->getClientOriginalName();
-                    $photo_detail->move(public_path('uploads/'), $photoNameDetail);
-
-                    $data_photos[]=[
-                        'name' => $photoNameDetail,
-                        'category_id' => $category->id,
-                        'created_at' =>new \DateTime(),
-                        'updated_at' =>new \DateTime()
-                    ];
-
-                }
-
-                CategoryPhotos :: insert($data_photos);
-            }
-
-
         return redirect()->route('admin.category.index')->with('success','Create category successfully');
     }
 
@@ -253,7 +230,6 @@ class AdminController extends Controller
     public function cateDestroy(int $id)
     {
         $category = Category::findOrFail($id);
-        $photos = CategoryPhotos::where('category_id',$id)->get();
         if ($category == null) {
             abort(404);
         }
@@ -261,13 +237,6 @@ class AdminController extends Controller
         $old_photo_path = public_path('uploads/' . $category->photo);
         if (file_exists($old_photo_path)) {
             unlink($old_photo_path);
-        }
-
-        foreach($photos as $photo){
-            $old_photo_path = public_path('uploads/' . $photo->name);
-            if (file_exists($old_photo_path)) {
-                unlink($old_photo_path);
-            }
         }
 
         if ($category->children->isNotEmpty()) {
@@ -506,8 +475,8 @@ class AdminController extends Controller
         ]);
     }
 
-   
-    
+
+
     public function orderEdit($id)
     {
 
@@ -564,77 +533,6 @@ class AdminController extends Controller
     public function racomDestroy(){
         //
     }
-
-    public function promotionIndex()
-    {
-        $promotions = Promotion::orderBy('created_at', 'DESC')->get();
-        $product = Product::first();
-        return view('admin.modules.promotion.index', ['promotions' => $promotions, 'product' => $product]);
-    }
-
-    public function promotionCreate()
-    {
-        return view('admin.modules.promotion.create');
-    }
-
-    public function promotionStore(PromotionStoreRequest $request)
-    {
-        $promotion = new Promotion();
-
-        $promotion->code = $request->code;
-        $promotion->description = $request->description;
-        $promotion->discount_percent = $request->discount_percent;
-        $promotion->date_start = $request->date_start;
-        $promotion->date_end = $request->date_end;
-        $promotion->status = $request->status;
-
-        $promotion->save();
-
-        return redirect()->route('admin.promotion.index')->with('success', 'Create promotion successfully');
-    }
-
-    public function promotionEdit(string $id)
-    {
-        $promotions = Promotion::find($id);
-        if ($promotions == null) {
-            abort(404);
-        }
-        return view('admin.modules.promotion.edit', [
-            'id' => $id,
-            'promotion' => $promotions
-        ]);
-    }
-
-    public function promotionUpdate(PromotionUpdateRequest $request, string $id)
-    {
-        $promotions = Promotion::find($id);
-        if ($promotions == null) {
-            abort(404);
-        }
-
-        $promotions->code = $request->code;
-        $promotions->description = $request->description;
-        $promotions->discount_percent = $request->discount_percent;
-        $promotions->date_start = $request->date_start;
-        $promotions->date_end = $request->date_end;
-        $promotions->status = $request->status;
-
-        $promotions->save();
-
-        return redirect()->route('admin.promotion.index')->with('success', 'Update promotion successfully');
-    }
-
-    public function promotionDestroy(string $id)
-    {
-        $promotions = Promotion::find($id);
-        if ($promotions == null) {
-            abort(404);
-        }
-
-        $promotions->delete();
-        return redirect()->route('admin.promotion.index')->with('success', 'Deleted promotion successfully');
-    }
-
 
     public function valueIndex()
     {
@@ -796,7 +694,7 @@ class AdminController extends Controller
         $product = Product::findOrFail($product_id);
 
         $skus = Sku::with('attributevalue')->where('product_id', $product->id)->orderBy('created_at', 'DESC')->get();
-        
+
         $attributeIds = [];
     $values = [];
 
@@ -805,10 +703,10 @@ class AdminController extends Controller
             $value = AttributeValue::where('id', $sku->value_id)->get();
             dd($sku->value_id);
             $values[] = $value;
-            
-     
+
+
     }
-    
+
 
         return view('admin.modules.sku.index',[
             'product'=>$product,
@@ -933,6 +831,7 @@ class AdminController extends Controller
     //         abort(404);
     //     }
 
+
     //     return view('admin.modules.zip.edit',[
     //         'id'=>$id,
     //         'zip'=>$zips
@@ -975,4 +874,3 @@ class AdminController extends Controller
 
 
 
-    

@@ -45,9 +45,11 @@
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb">
                                             @if ($product->status==1)
                                             <span class="onsale bg-danger">sale!</span>
-                                            @elseif ($product->status==3)
+                                            @endif
+                                            @if ($product->featured==1)
                                             <span class="onsale bg-success">Hot!</span>
-                                            @else
+                                            @endif
+                                            @if($product->featured==1)
                                             <span class="onsale bg-warning">New!</span>
                                             @endif
                                             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"

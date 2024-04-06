@@ -104,6 +104,6 @@ class LoginController extends Controller
 
         User::where("remember_token",$request->token)
         ->update(["password" => Hash::make($request->password)]);
-        return redirect()->to(route('forget.password'))->with("success","password successfully changes");
+        return redirect()->to(route('showLogin'))->with("success","password successfully changes");
     }
 }
