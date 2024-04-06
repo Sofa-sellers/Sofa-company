@@ -110,10 +110,13 @@
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">admin</a></li>
                                     @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
-                                    <li class="sub-menu-item"><a href="{{route('client.showCompare',['id'=>Auth::user()->id])}}" class="sub-menu-link">Compare</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart',['id'=>Auth::user()->id])}}">Your Cart</a></li>
+
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout',['user'=>Auth::user()->id])}}">Your Checkout</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Your Wishlist</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Your Wishlist</a></li>
+
+                                    <li class="sub-menu-item"><a href="{{route('client.showCompare',['id'=>Auth::user()->id])}}" class="sub-menu-link">Compare</a></li>
+
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
