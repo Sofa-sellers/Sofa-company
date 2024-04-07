@@ -37,21 +37,25 @@
                             </li>
                             --}}
                             <li class="topbar-nav-item">
+                                    @if(Auth::user()->level==2)
+                                        <span><a style="color: rgb(26, 23, 83); font-weight:bold" href="{{route('admin.index')}}">ADMIN</a></span>
+                                    @endif
                                 <a class="topbar-nav-link" href="">
-                                <?php if(Auth::check()==true)
-                                    {
-                                        echo Auth::user()->username;
-                                    }else {
-                                        echo 'Guest';
-                                    }
-                                    ?></a>
+                                    @php
+                                        if(Auth::check()==true)
+                                        {
+                                            echo Auth::user()->username;
+                                        }else {
+                                            echo 'Guest';
+                                        }
+                                    @endphp 
+                                </a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     @if(Auth::check())
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">My account</a>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart',['id'=>Auth::user()->id])}}">Cart</a></li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Wishlist</a></li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCheckout',['user'=>Auth::user()->id])}}">Checkout</a>
                                     </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
                                     </li>
@@ -107,12 +111,11 @@
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
                                     @if(Auth::user()->level==2)
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">admin</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">Admin</a></li>
                                     @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
 
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout',['user'=>Auth::user()->id])}}">Your Checkout</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Your Wishlist</a></li>
 
                                     <li class="sub-menu-item"><a href="{{route('client.showCompare',['id'=>Auth::user()->id])}}" class="sub-menu-link">Compare</a></li>

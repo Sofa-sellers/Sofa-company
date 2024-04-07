@@ -100,7 +100,8 @@
         </div>
     </div>
 </section>
-<div class="check-out-section section-padding-bottom">
+
+<div class="check-out-section section-padding-bottom" >
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
@@ -150,14 +151,18 @@
                     </div>
                 </div>
                 <div class="Place-order mt-5">
-                    {{-- <button type="submit" class="btn btn-dark me-3" href="{{route('client.cartUpdate')}}">update cart></button></a> --}}
-                    <a class="btn btn-dark my-2 my-sm-0" href="{{ route('client.showCheckout')}}">checkout</a>
+                    @if (!empty($cart->list))
+                        <a class="btn btn-dark my-2 my-sm-0" href="{{ route('client.showCheckout')}}">checkout</a>
+                    @else
+                    <a class="btn btn-dark my-2 my-sm-0" href="{{ route('index')}}">Your cart is empty. Turn back to Home</a>
+                    @endif
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
-@push('js')
+{{-- @push('js')
 <script>
     $(document).ready(function(){
            $('input[name="quantity-cart-product"]').change(function(){
@@ -189,5 +194,5 @@
     });
 });  
 </script>
-@endpush
+@endpush --}}
 @endsection
