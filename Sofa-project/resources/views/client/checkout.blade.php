@@ -12,26 +12,26 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
-                                    <label>First Name</label>
+                                    <label>First Name*</label>
                                     <input type="text" name="firstname" placeholder="Firstname" value="{{ old('firstname',$user->firstname) }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
-                                    <label>Last Name</label>
+                                    <label>Last Name*</label>
                                     <input type="text" name="lastname" placeholder="Lastname" value="{{ old('lastname',$user->lastname) }}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="billing-info mb-5">
-                                    <label>Street Address</label>
+                                    <label>Street Address*</label>
                                     <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="address" value="{{ old('address',$user->address) }}">
                                 </div>
                             </div>
                             
                             <div class="col-lg-12">
                                 <div class="billing-info mb-5">
-                                    <label>Town / City</label>
+                                    <label>Town / City*</label>
                                     <input type="text" name="city" placeholder="City" value="{{ old('city',$user->city) }}">
                                 </div>
                             </div>
@@ -39,14 +39,14 @@
                             
                             <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
-                                    <label>Phone</label>
-                                    <input type="text" name="phone" value="{{ old('phone',$user->phone) }}">
+                                    <label>Phone*</label>
+                                    <input type="text" name="phone" placeholder="Phone" value="{{ old('phone',$user->phone) }}">
                                 </div>
                             </div>
                            <div class="col-lg-6 col-md-6">
                                 <div class="billing-info mb-5">
-                                    <label>Email Address</label>
-                                    <input type="text" name="email" value="{{ old('email',$user->email) }}">
+                                    <label>Email Address*</label>
+                                    <input type="text" name="email" placeholder="Email" value="{{ old('email',$user->email) }}">
                                 </div>
                             </div>
                             <div class="additional-info-wrap">

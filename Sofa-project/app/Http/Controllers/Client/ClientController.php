@@ -96,6 +96,25 @@ class ClientController extends Controller
             return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
         }
 
+        $cartCollection = $cart->list();
+
+        
+        $newQuantity = null;
+        
+        foreach($cartCollection as $c) {
+            
+            if ($c['productId'] == $item['productId']) {
+                if($c['itemKey'] == $item['itemKey']){
+                    $newQuantity = $quantity  + $newQuantity;
+                }else{
+                    $newQuantity = $c['quantity'] + $newQuantity;
+                }
+            }
+            if ($newQuantity > $pro_quantity) {
+                return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
+            }
+        }
+    
         // Update cart with new quantity
         $cart->update($itemKey, $quantity);
 
@@ -127,7 +146,6 @@ class ClientController extends Controller
     }
 
     public function checkout(Request $request, Cart $cart, $user){
-
         
             $data = [
             'firstname' => $request->firstname,
@@ -177,7 +195,12 @@ class ClientController extends Controller
 
         $product = DB::table('products')->where('id', $productId)->first();
 
-        if ($quantity == $product->quantity) {
+        if($quantity > $product->quantity){
+            $order = Order::where('id',$order_id)->get();
+            $order->delete();
+            return redirect()->back()->with('failed', 'Quantity is over stock, please decrease this quantity');
+
+        }elseif ($quantity == $product->quantity) {
             $order_details[] = [
                 'product_id' => $item['productId'],
                 'product_name' => $item['name'],
@@ -307,16 +330,26 @@ class ClientController extends Controller
 
     public function updateDetail(Request $request, $id){
         $order = Order::where('id',$id)->first();
-        // dd($order);
         
         if($order->status == 1){
             $order->status = 3;
 
             $order->reason = $request->reason;
-            $order->updated_at = now(); // Sử dụng now() để lấy thời gian hiện tại
+            $order->deleted_at = now(); 
     
             $order->save();
 
+                $details = OrderDetail::where('order_id', $id)->get();
+                foreach($details as $detail){
+                    $product = Product::where('id',$detail->product_id)->first();
+                    $product->quantity = $product->quantity + $detail->quantity;
+                    $product->updated_at = now();
+                    if($product->status == 2){
+                        $product->status = 1;
+                    }
+                    $product->save();
+                }
+            
     
             return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
 

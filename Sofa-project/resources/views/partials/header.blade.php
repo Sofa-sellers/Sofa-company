@@ -110,9 +110,7 @@
                                 <a href="javascript:void(0)" class="main-menu-link">Client</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
-                                    @if(Auth::user()->level==2)
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">Admin</a></li>
-                                    @endif
+                
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
 
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>

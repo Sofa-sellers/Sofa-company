@@ -500,9 +500,32 @@ class AdminController extends Controller
             abort(404);
         }
 
+        if($order->status == $request->status){
+            return redirect()->route('admin.order.index');
+        }
+
+        if($request->status == 3){
+            $order->status = $request->status;
+            $order->deleted_at = now();
+            $order->save();
+        }
         
         $order->status = $request->status;
-        
+        $order->updated_at = now();
+        $order->save();
+
+        if($order->status == 3){
+            $details = OrderDetail::where('order_id', $id)->get();
+            foreach($details as $detail){
+                $product = Product::where('id',$detail->product_id)->first();
+                $product->quantity = $product->quantity + $detail->quantity;
+                $product->updated_at = now();
+                if($product->status == 2){
+                    $product->status = 1;
+                }
+                $product->save();
+            }
+        }
         $order->save();
         return redirect()->route('admin.order.index')->with('success','Update order status successfully');
     }

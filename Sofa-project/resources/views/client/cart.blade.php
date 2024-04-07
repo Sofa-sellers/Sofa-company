@@ -151,8 +151,9 @@
                     </div>
                 </div>
                 <div class="Place-order mt-5">
-                    @if (!empty($cart->list))
-                        <a class="btn btn-dark my-2 my-sm-0" href="{{ route('client.showCheckout')}}">checkout</a>
+                    @if (!empty($cart->list()))
+                        <a class="btn btn-dark my-2 my-sm-0" href="{{ route('client.showCheckout')}}">Checkout</a>
+                        <a class="btn btn-light my-2 my-sm-0" style="border: black solid 1px;" href="{{ route('index')}}">Turn back to Home</a>
                     @else
                     <a class="btn btn-dark my-2 my-sm-0" href="{{ route('index')}}">Your cart is empty. Turn back to Home</a>
                     @endif
