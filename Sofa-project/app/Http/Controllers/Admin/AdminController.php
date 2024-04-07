@@ -483,7 +483,7 @@ class AdminController extends Controller
         $order = Order::findOrFail($id);
         $details=OrderDetail::where('order_id', $id)->get();
 
-        
+
         return view('admin.modules.order.edit',[
             'details'=>$details,
             'order'=>$order
@@ -500,14 +500,14 @@ class AdminController extends Controller
             abort(404);
         }
 
-        
+
         $order->status = $request->status;
-        
+
         $order->save();
         return redirect()->route('admin.order.index')->with('success','Update order status successfully');
     }
 
-    
+
     public function racomIndex()
     {
         $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
@@ -825,7 +825,7 @@ class AdminController extends Controller
 
 
     // public function zipEdit(int  $id)
-    // {   
+    // {
     //     $zips=zip::find($id);
     //     if($zips == null){
     //         abort(404);

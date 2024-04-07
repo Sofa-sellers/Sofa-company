@@ -86,7 +86,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
         // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
-        
+
         Route::get('cart-delete/{itemKey}', 'cartDelete')->name('cartDelete');
         Route::get('cart-update', 'cartUpdate')->name('cartUpdate');
 
@@ -94,9 +94,8 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout/{user}', 'checkout')->name('checkout');
 
-
+        //create where product_id=id, where user = auth -> id 
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
-        Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
 
         Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
         Route::get('wishlist', 'showWishlist')->name('showWishlist');
