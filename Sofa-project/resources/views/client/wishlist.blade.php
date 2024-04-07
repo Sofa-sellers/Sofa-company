@@ -12,128 +12,41 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center" scope="col">Product Image</th>
-                                    <th class="text-center" scope="col">Product Name</th>
+                                    <th class="text-center" scope="col">Product slug</th>
                                     <th class="text-center" scope="col">Stock Status</th>
-                                    <th class="text-center" scope="col">Qty</th>
                                     <th class="text-center" scope="col">Price</th>
                                     <th class="text-center" scope="col">action</th>
-                                    <th class="text-center" scope="col">Checkout</th>
+                                    <th class="text-center" scope="col">Detail</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data as $item)
                                 <tr>
                                     <th class="text-center" scope="row">
-                                        <img src="{{asset('client/assets/images/products/product2.jpg')}}" alt="img">
+                                        <img src="{{asset('uploads/'.$item->item->image)}}" width="250" height="150" alt="{{$item->item->slug}}">
                                     </th>
                                     <td class="text-center">
-                                        <span class="whish-title">Gold Metal Clothing Rack With</span>
+                                        <span class="whish-title">{{$item->item->slug}}</span>
                                     </td>
                                     <td class="text-center">
+                                        @if ($item->item->quantity>0)
                                         <span class="badge bg-success">In Stock</span>
+                                        @else
+                                        <span class="badge bg-dark">Out of Stock</span>
+                                        @endif
                                     </td>
                                     <td class="text-center">
-                                        <div class="product-count style">
-                                            <div class="count d-flex justify-content-center">
-                                                <input type="number" min="1" max="100" step="1" value="1">
-                                                <div class="button-group">
-                                                    <button class="count-btn increment">
-                                                        <span class="ion-chevron-up"></span>
-                                                    </button>
-                                                    <button class="count-btn decrement">
-                                                        <span class="ion-chevron-down"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <span class="whish-list-price"> ${{$item->item->price}} </span>
                                     </td>
-
-
                                     <td class="text-center">
-                                        <span class="whish-list-price"> $38.24 </span>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="#">
+                                        <a onclick="removeWishlistItem('{{$item->id}}')">
                                             <span class="trash"><i class="ion-android-delete"></i> </span></a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-dark">add to cart</a>
+                                        <a href="{{route('detail',['slug'=>$item->item->slug])}}" class="btn btn-dark">View Detail</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th class="text-center" scope="row">
-                                        <img src="{{asset('client/assets/images/products/product4.jpg')}}" alt="img">
-                                    </th>
-                                    <td class="text-center">
-                                        <span class="whish-title">Emmy Green Floral Wood Leg</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-success">In Stock</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="product-count style">
-                                            <div class="count d-flex justify-content-center">
-                                                <input type="number" min="1" max="100" step="1" value="1">
-                                                <div class="button-group">
-                                                    <button class="count-btn increment">
-                                                        <span class="ion-chevron-up"></span>
-                                                    </button>
-                                                    <button class="count-btn decrement">
-                                                        <span class="ion-chevron-down"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="whish-list-price"> $38.24 </span>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="#">
-                                            <span class="trash"><i class="ion-android-delete"></i> </span></a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-dark">add to cart</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="text-center" scope="row">
-                                        <img src="{{asset('client/assets/images/products/product6.jpg')}}" alt="img">
-                                    </th>
-                                    <td class="text-center">
-                                        <span class="whish-title">Heirloom Gold Metal Folding Shelf</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-success">In Stock</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="product-count style">
-                                            <div class="count d-flex justify-content-center">
-                                                <input type="number" min="1" max="100" step="1" value="1">
-                                                <div class="button-group">
-                                                    <button class="count-btn increment">
-                                                        <span class="ion-chevron-up"></span>
-                                                    </button>
-                                                    <button class="count-btn decrement">
-                                                        <span class="ion-chevron-down"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="whish-list-price"> $38.24 </span>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="#">
-                                            <span class="trash"><i class="ion-android-delete"></i> </span></a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-dark">add to cart</a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -141,6 +54,20 @@
             </div>
         </div>
     </section>
-
+    <script>
+        function removeWishlistItem(id){
+            $.ajax({
+                "url":'{{route('client.wishlistDelete')}}',
+                "method":'POST',
+                'data':{id:id,_token:'{{csrf_token()}}'},
+                success:function(resp){
+                    alert(resp);
+                },
+                error:function(error){
+                    alert(error);
+                }
+            })
+        }
+    </script>
     <!-- main content end -->
 @endsection

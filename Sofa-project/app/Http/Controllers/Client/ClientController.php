@@ -8,7 +8,8 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\AttributeValue;
 
-use App\Models\compare;
+use App\Models\Compare;
+use App\Models\Wishlist;
 
 use DateTime;
 use App\Helpers\Cart;
@@ -270,21 +271,19 @@ class ClientController extends Controller
     
 }
 
-    public function addToWishlist($id, $quantity){
-        //
+    public function showWishlist($id){
+        $data=Wishlist::with('item')->where('user_id',$id)->get();
+        return view('client.wishlist',compact('data'));
     }
 
-    public function showWishlist(){
-        return view('client.wishlist');
-        
+    public function addToWishlist(Request $request){
+        Wishlist::create($request->except('_token'));
+        return "item added to your Wishlist";
     }
 
-    public function wishlistDelete($id){
-        //
-    }
-
-    public function wishlistUpdate(Request $request, $id){
-//
+    public function wishlistDelete(Request $request){
+        $data=Wishlist::where('id',$request->id)->delete();
+        return 'item removed successfully from wishlist';
     }
 
     // public function orderManagement(Request $request, $id){
@@ -361,7 +360,7 @@ class ClientController extends Controller
     }
 
     public function showCompare($id){
-        $data=Compare::with('item')->where('user_id',Auth::user()->id)->get();
+        $data=Compare::with('item1')->where('user_id',$id)->get();
         return view('client.compare',compact('data'));
     }
 

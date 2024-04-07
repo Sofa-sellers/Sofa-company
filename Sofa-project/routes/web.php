@@ -84,6 +84,10 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::post('compare', 'addToCompare')->name('addCompareList');
         Route::post('removeCompare', 'DeleteCompareProduct')->name('DeleteCompareProduct');
 
+        Route::get('wishlist/{id}', 'showWishlist')->name('showWishlist');
+        Route::post('add-to-wishlist', 'addToWishlist')->name('addToWishlist');
+        Route::post('wishlist-delete', 'wishlistDelete')->name('wishlistDelete');
+
         Route::get('cart-delete/{itemKey}', 'cartDelete')->name('cartDelete');
         Route::post('cart-update/{itemKey}', 'cartUpdate')->name('cartUpdate');
 
@@ -95,10 +99,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
         Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
 
-        Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
-        Route::get('wishlist', 'showWishlist')->name('showWishlist');
-        Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
-        Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
+        // Route::get('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
 
         Route::get('account{id}', 'accountIndex')->name('account');
 

@@ -24,14 +24,11 @@
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
                                 <span class="sort-by">Sort by:</span>
                                 <select class="form-select" name="orderby" id="orderby">
-                                    <option value="-1">Default sorting</option>
-                                    {{-- <option value="2">Default sorting</option>
-                                    <option value="3">Sort by popularity</option>
-                                    <option value="4">Sort by average rating</option> --}}
-                                    <option value="1">Sort by latest</option>
-                                    <option value="2">Sort by oldest</option>
-                                    <option value="3">Sort by price: low to high</option>
-                                    <option value="4">Sort by price: high to low</option>
+                                    <option value="-1" {{$order==-1?'selected':''}}>Default sorting</option>
+                                    <option value="1" {{$order==1?'selected':''}}>Sort by latest</option>
+                                    <option value="2" {{$order==2?'selected':''}}>Sort by oldest</option>
+                                    <option value="3" {{$order==3?'selected':''}}>Sort by price: low to high</option>
+                                    <option value="4" {{$order==4?'selected':''}}>Sort by price: high to low</option>
                                 </select>
                             </div>
                         </div>
@@ -66,25 +63,20 @@
                                         </div>
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
                                             @auth
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
-                                            </li>
+                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
                                             @endauth
                                             @guest
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
-                                            </li>
+                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button></li>
                                             @endguest
                                         </ul>
                                     </div>
                                 </div>
                                 @endforeach
 
-                                {{$products->links("partials.pagination")}}
+                                {{$products->withQueryString()->links("partials.pagination")}}
                                 <!-- pagination -->
                                 {{-- <div class="col-12 mb-5">
                                     <nav aria-label="Page navigation">
@@ -138,21 +130,14 @@
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
                                                 </li>
-
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                                </li>
-
-                                                @auth
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
-                                                </li>
-                                                @endauth
-                                                @guest
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
-                                                </li>
-                                                @endguest
+                                            @auth
+                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
+                                            @endauth
+                                            @guest
+                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button></li>
+                                            @endguest
 
                                             </ul>
                                         </div>
@@ -160,7 +145,7 @@
                                     <!-- product card list end -->
                                 </div>
                                 @endforeach
-                                {{$products->links("partials.pagination")}}
+                                {{$products->withQueryString()->links("partials.pagination")}}
                             </div>
                         </div>
                     </div>
@@ -192,8 +177,8 @@
             }else{
                 $.ajax({
                     "url":'{{route('client.addCompareList')}}',
-                    "method":'POSt',
-                    'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
+                    "method":'POST',
+                    'data':{product_id:productID,user_id:userID,_token: '{{csrf_token()}}'},
                     success:function(resp){
                         alert(resp);
                     },
@@ -204,5 +189,33 @@
             }
         }
 
+        function saveToWishlist(productID,userID){
+            if(userID==0){
+                alert('please login before add product to wishlist');
+            }else{
+                $.ajax({
+                    "url":'{{route('client.addToWishlist')}}',
+                    "method":'POST',
+                    'data':{product_id:productID,user_id:userID,_token: '{{csrf_token()}}'},
+                    success:function(resp){
+                        alert(resp);
+                    },
+                    error:function(error){
+                        alert(error);
+                    }
+                })
+            }
+        }
     </script>
+<form id="frmfilter" method="GET">
+    <input type="hidden" name="order" id="order" value="{{$order}}">
+</form>
 @endsection
+@push("script")
+    <script>
+        $("#orderby").on("change",function(){
+            $("#order").val($("#orderby option:selected").val());
+            $("#frmfilter").submit();
+        });
+    </script>
+@endpush

@@ -19,11 +19,6 @@ use App\Models\Attribute;
 
 class GuestController extends Controller
 {
-
-    public function showForgotPassword(){
-        //
-    }
-
     public function index(){
         $products_lastest = Product::where('status',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         if ($products_lastest->isEmpty()) {
@@ -56,20 +51,75 @@ class GuestController extends Controller
         ]);
     }
 
-    public function shop(){
+    public function shop(Request $request){
+        $order=$request->query("order");
+        if(!$order){
+            $order=-1;
+        }
+        $o_column="";
+        $o_order="";
+        switch ($order) {
+            case 1:
+                $o_column="created_at";
+                $o_order="DESC";
+                break;
+            case 2:
+                $o_column="created_at";
+                $o_order="ASC";
+                break;
+            case 3:
+                $o_column="sale_price";
+                $o_order="DESC";
+                break;
+            case 4:
+                $o_column="sale_price";
+                $o_order="ASC";
+                break;       
+            default:
+                $o_column="created_at";
+                $o_order="DESC";
+        }
         $categories_child= Category::where('parent_id','!=',0)->get();
-        $products=Product::where('status','!=',2)->paginate(6);
+        $products=Product::where('status','!=',2)->orderBy($o_column,$o_order)->paginate(6);
 
         return view('guest.shopfull',compact('products'),[
             'categories_child' =>$categories_child,
             'products'=>$products,
+            'order'=>$order
         ]);
     }
 
-    public function viewShop($id){
+    public function viewShop(Request $request,$id){
+        $order=$request->query("order");
+        if(!$order){
+            $order=-1;
+        }
+        $o_column="";
+        $o_order="";
+        switch ($order) {
+            case 1:
+                $o_column="created_at";
+                $o_order="DESC";
+                break;
+            case 2:
+                $o_column="created_at";
+                $o_order="ASC";
+                break;
+            case 3:
+                $o_column="sale_price";
+                $o_order="DESC";
+                break;
+            case 4:
+                $o_column="sale_price";
+                $o_order="ASC";
+                break;       
+            default:
+                $o_column="created_at";
+                $o_order="DESC";
+        }
         $categories_child= Category::where('parent_id','!=',0)->where('status','!=',2)->where('id',$id)->first();
         $categoriesList= Category::where('parent_id','!=',0)->where('status','!=',2)->get();
-        $products = Product::with('category')->where('category_id', $id)->where('status','!=',2)->paginate(6);
+        $products = Product::with('category')->orderBy($o_column,$o_order)->where('category_id', $id)->where('status','!=',2)->paginate(6);
         
         //$category_list = Category::with('product')->where('category_id', $id)->get();
         
@@ -80,7 +130,8 @@ class GuestController extends Controller
             'id' => $id,
             'products' => $products,
             'categories_child' =>$categories_child,
-            'categoriesList'=>$categoriesList
+            'categoriesList'=>$categoriesList,
+            'order'=>$order
         ]);
     }
 

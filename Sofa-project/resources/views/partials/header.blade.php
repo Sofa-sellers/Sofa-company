@@ -114,11 +114,10 @@
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">Admin</a></li>
                                     @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
-
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist')}}">Your Wishlist</a></li>
-
-                                    <li class="sub-menu-item"><a href="{{route('client.showCompare',['id'=>Auth::user()->id])}}" class="sub-menu-link">Compare</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout',['user'=>Auth::user()->id])}}">Your Checkout</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Your Wishlist</a></li>
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCompare',['id'=>Auth::user()->id])}}">Compare</a></li>
 
                                 </ul>
                                 <!-- sub menu end -->
@@ -142,14 +141,20 @@
                             </div>
                         </li>
                         <li class="quick-link-item">
-                            <a class="quick-link-link wishlist-link" href="wishlist.html">
-                            <span class="wishlist-count">3</span>
+                            @auth
+                            <a class="quick-link-link wishlist-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">
+                                <span class="wishlist-count">{{\App\Models\Wishlist::countWishlist()}}</span>
                             </a>
+                            @endauth
+                            @guest()
+                            <a class="quick-link-link wishlist-link" href="{{route('client.showWishlist','0')}}">
+                                <span class="wishlist-count">3</span>
+                            </a>
+                            @endguest
                         </li>
                         <li class="quick-link-item">
                             <a class="quick-link-link shopping-cart" href="{{route('client.showCart')}}">
                             <span class="wishlist-count">
-                                
                                 {{$cart->totalQuantity()}}
                             </span>
                             </a>
