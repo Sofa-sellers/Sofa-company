@@ -61,7 +61,7 @@ $(function () {
                         <th>Total order</th>
                         <th>Note</th>
                         <th>Status</th>
-                        <th>Reason cancel</th>
+                        {{-- <th>Reason cancel</th> --}}
                         <th>Detail</th>
                         <th>Created At</th>
                         
@@ -106,7 +106,7 @@ $(function () {
                             @endswitch
                         </td>
 
-                        <td>{{$order->reason}}</td>
+                        {{-- <td>{{$order->reason}}</td> --}}
                         <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
                         <td>Created at</td>
                     </tr>
@@ -124,7 +124,7 @@ $(function () {
                         <th>Total order</th>
                         <th>Note</th>
                         <th>Status</th>
-                        <th>Reason cancel</th>
+                        {{-- <th>Reason cancel</th> --}}
                         <th>Created At</th>
                         <th>Deleted At</th>
                     </tr>
