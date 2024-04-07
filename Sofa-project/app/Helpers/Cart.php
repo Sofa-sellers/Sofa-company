@@ -29,6 +29,7 @@ class Cart {
                 $this->items[$itemKey] = [
                     'productId'=> $product->id,
                     'name'=>$product->name,
+                    'slug'=>$product->slug,
                     'price'=> $product->sale_price > 0 ? $product->sale_price : $product->price,
                     'image'=> $product->image,
                     'quantity'=> $quantity,
@@ -57,6 +58,13 @@ class Cart {
         session(['cart' => $this->items]);
       }
       
+      public function find($itemKey){
+        if (array_key_exists($itemKey, $this->items)) {
+            return $this->items[$itemKey];
+        } else {
+            return 404; 
+        }
+    }
 
     //subtotal pice
     public function subToTal(){

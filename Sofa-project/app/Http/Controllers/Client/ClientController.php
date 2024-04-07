@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Session;
 use Hash;
 use Illuminate\Auth\Events\Failed;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ClientController extends Controller
 {
     
@@ -30,7 +32,7 @@ class ClientController extends Controller
         $product = Product::where('id', $request->id)->first();
         $quantity = $request->quantity;
         $color = $request->color;
-
+        
         if($product->quantity < $quantity){
             return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
         }
@@ -41,7 +43,8 @@ class ClientController extends Controller
             
             foreach($cart->list() as $item){
                 if($item['productId'] == $product->id){
-                    $old_quantity+=$item['quantity'];
+                    $old_quantity = $quantity + $item['quantity'] + $old_quantity;
+                    // dd($old_quantity);
                 }
             }
             
@@ -61,7 +64,6 @@ class ClientController extends Controller
 
     public function showCart(Cart $cart){
        
-
         return view('client.cart',compact('cart'));
         
     }
@@ -73,31 +75,31 @@ class ClientController extends Controller
         return redirect()->route('client.showCart');
       }
 
-    public function cartUpdate(Request $request)
+    public function cartUpdate(Request $request, Cart $cart, $itemKey)
     {
 
-        if($request->ajax()){
-            $itemKey = $request->$itemKey;
-            $quantity = $request->$quantity;
-            $cart->update($itemKey, $quantity);
+        
+        $itemKey = $request->itemKey;
+        $item = $cart->find($itemKey);
+        
+        $pro_quantity = Product::where('id',$item['productId'])->pluck('quantity')->first();
+        // dd($pro_quantity);
+
+        $quantity = $request->quantity;
+        //  dd($quantity);
+        // Validate quantity
+        if (!is_numeric($quantity) || $quantity <= 0) {
+            return redirect()->back()->with('failed', 'Quantity is invalid, please enter the quantity');
         }
 
+        if ($quantity > $pro_quantity) {
+            return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
+        }
 
+        // Update cart with new quantity
+        $cart->update($itemKey, $quantity);
 
-        // $productId = $request->input('productId');
-        // $color = $request->input('color');
-        // $quantity = $request->input('quantity');
-
-        // dd($quantity);
-        // // Validate quantity
-        // if (!is_numeric($quantity) || $quantity <= 0) {
-        //     return back()->withErrors(['quantity' => 'Invalid quantity']);
-        // }
-
-        // // Update cart with new quantity
-        // $cart->update($productId, $color, $quantity);
-
-        // return redirect()->route('client.showCart')->with('success', 'Cart item quantity updated!');
+        return redirect()->back()->with('success', 'You have successfully updated a product to your cart');
     }
 
     public function showCheckout(Cart $cart){
@@ -105,6 +107,7 @@ class ClientController extends Controller
             $user = Auth::user();
             $carts = $cart->list();
     
+            
             foreach ($carts as $item) {
                 $productId = $item['productId'];
                 $quantity = $item['quantity'];
@@ -125,6 +128,7 @@ class ClientController extends Controller
 
     public function checkout(Request $request, Cart $cart, $user){
 
+        
             $data = [
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -142,26 +146,29 @@ class ClientController extends Controller
             // 'payment'
         ];
 
-        
-        
         $order_id = DB::table('orders')->insertGetId($data);
 
-        $data_user = [
+        $address_old = User::findOrFail($user)->pluck('address')->first();
+        if(!$address_old){
+            $data_user = [
             
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'updated_at' => new DateTime(),
-        ];
-    
-        DB::table('users')->updateOrInsert(
-            ['id' => $user],
-            $data_user
-        );
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'city' => $request->city,
+                'updated_at' => new DateTime(),
+            ];
+        
+            DB::table('users')->updateOrInsert(
+                ['id' => $user],
+                $data_user
+            );
+        }
+        
 
     
-        $cartCollection = $cart->list();
+    $cartCollection = $cart->list();
     $order_details = [];
 
     foreach ($cartCollection as $item) {
@@ -217,7 +224,7 @@ class ClientController extends Controller
 
         DB::table('order_detail')->insert($order_details);
         $cart->destroyAll();
-        return redirect()->route('index');
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Thank you for your order, you can manage your order in personal account');
 
     }
 
@@ -234,16 +241,34 @@ class ClientController extends Controller
         $user = Auth::User()->where('id',$id)->first();
         $user = User::findOrFail($id);
 
-        $orders = Order::where('user_id', $user->id)
+        $orders = Order::with('orderdetail')->where('user_id', $user->id)
                     ->orderBy('created_at', 'DESC')
                     ->get();
-                   
+        
+        $products = [];
+        foreach ($orders as $order) {
+            foreach ($order->orderdetail as $orderDetail) {
+                $products[] = $orderDetail->product_id;
+            }
+        }
+
+        // dd($products);
+        $uniqueProducts = [];
+
+        foreach ($products as $item) {
+            if (!in_array($item, $uniqueProducts)) {
+                $uniqueProducts[] = $item;
+            }
+        }
+     
 
         return view('client.account', [
             'orders' => $orders,
+            'uniqueProducts'=>$uniqueProducts,
         ]);
 
-    }
+    
+}
 
     public function addToWishlist($id, $quantity){
         //

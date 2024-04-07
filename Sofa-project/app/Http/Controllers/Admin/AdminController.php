@@ -618,15 +618,15 @@ class AdminController extends Controller
     }
 
 
-    public function valueDestroy(int $id)
-    {
-        $values= AttributeValue::find($id);
-        if($values==null){
-            abort(404);
-        }
-        $values->delete();
-        return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
-    }
+    // public function valueDestroy(int $id)
+    // {
+    //     $values= AttributeValue::find($id);
+    //     if($values==null){
+    //         abort(404);
+    //     }
+    //     $values->delete();
+    //     return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
+    // }
 
     public function brandIndex()
     {

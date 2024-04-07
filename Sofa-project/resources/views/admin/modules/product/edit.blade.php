@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label>Image</label>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customImage" name="image" accept="image/jpg,image/png,image/bmp,image/jpeg"/>
+                            <input type="file" class="custom-file-input" id="customImage" value="{{ old('image', $product->image) }}" name="image" accept="image/jpg,image/png,image/bmp,image/jpeg"/>
                             <label class="custom-file-label" for="customImage">Choose file</label>
                         </div>
                         @if($product->image)
