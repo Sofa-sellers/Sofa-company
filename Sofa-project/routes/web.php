@@ -84,11 +84,8 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::post('compare', 'addToCompare')->name('addCompareList');
         Route::post('removeCompare', 'DeleteCompareProduct')->name('DeleteCompareProduct');
 
-        // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
-        // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
-        
         Route::get('cart-delete/{itemKey}', 'cartDelete')->name('cartDelete');
-        Route::get('cart-update', 'cartUpdate')->name('cartUpdate');
+        Route::post('cart-update/{itemKey}', 'cartUpdate')->name('cartUpdate');
 
 
         Route::get('checkout', 'showCheckout')->name('showCheckout');

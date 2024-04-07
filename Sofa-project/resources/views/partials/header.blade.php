@@ -77,7 +77,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="logo">
                         <a href="{{route('index')}}">
-                            <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}" style="width:400;height:100" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}" style="width:400;height:200" alt="image_not_found">
                         </a>
                     </div>
                 </div>
@@ -144,97 +144,11 @@
                             </a>
                         </li>
                         <li class="quick-link-item">
-                            <a class="quick-link-link shopping-cart" >
+                            <a class="quick-link-link shopping-cart" href="{{route('client.showCart')}}">
                             <span class="wishlist-count">
                                 
                                 {{$cart->totalQuantity()}}
                             </span>
-                            </a>
-                            <div class="mini-carts">
-                                <ul class="mini-cart">
-                                    <li class="mini-cart-item">
-                                        <div class="mini-cart-image">
-                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/1.jpg')}}" alt="image_not_found"></a>
-                                        </div>
-                                        <div class="mini-cart-content">
-                                            <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
-                                            <button class="remove-mini-cart">×</button>
-                                            <span class="mini-cart-quantity">9 × <span class="mini-cart-total">$60.00</span> </span>
-                                        </div>
-                                    </li>
-                                    <!-- mini cart item end -->
-                                    <li class="mini-cart-item">
-                                        <div class="mini-cart-image">
-                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/2.jpg')}}" alt="image_not_found"></a>
-                                        </div>
-                                        <div class="mini-cart-content">
-                                            <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
-                                            <button class="remove-mini-cart">×</button>
-                                            <span class="mini-cart-quantity">9 × <span class="mini-cart-total">$60.00</span> </span>
-                                        </div>
-                                    </li>
-                                    <!-- mini cart item end -->
-                                    <li class="mini-cart-item">
-                                        <div class="mini-cart-image">
-                                            <a href="#"><img src="{{asset('client/assets/images/mini-cart/3.jpg')}}" alt="image_not_found"></a>
-                                        </div>
-                                        <div class="mini-cart-content">
-                                            <a href="#" class="mini-cart-title">Gold Metal Fox Design Trinket Tray</a>
-                                            <button class="remove-mini-cart">×</button>
-                                            <span class="mini-cart-quantity">9 × <span class="mini-cart-total">$60.00</span> </span>
-                                        </div>
-                                    </li>
-                                    <!-- mini cart item end -->
-                                </ul>
-                                <!-- mini cart sub total start -->
-                                <ul class="mini-cart-sub-total">
-                                    <li class="mini-cart-sub-total-item"><span>Subtotal:</span> <span>$2,580.00</span></li>
-                                </ul>
-                                <a href="#" class="btn btn-dark d-block w-100 mb-3">View cart</a>
-                                <a href="#" class="btn btn-dark d-block w-100 mb-4">Checkout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- desktop menu end -->
-    <!-- mobile menu start -->
-    <div class="header-middle-default d-lg-none active-sticky">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-2 col-sm-4">
-                    <button class="offcanvas-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
-                    <span class="ion-android-menu"></span>
-                    </button>
-                </div>
-                <div class="col-8 col-sm-4">
-                    <div class="logo mx-auto">
-                        <a href="index.html">
-                        <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}"  style="width:400;height:100" alt="image_not_found">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-2 col-sm-4">
-                    <ul class="nav align-items-center justify-content-end quick-links">
-                        <li class="quick-link-item">
-                            <a class="quick-link-link search" href="#"><span class="ion-ios-search-strong"></span></a>
-                            <div class="header-serch-form header-serch-form-right">
-                                <form>
-                                    <input class="form-control" type="search" placeholder="Search product...">
-                                    <button class="form-search-btn" type="submit"><span class="ion-ios-search-strong"></span></button>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="quick-link-item">
-                            <a class="quick-link-link wishlist-link" href="wishlist.html">
-                            <span class="wishlist-count">3</span>
-                            </a>
-                        </li>
-                        <li class="quick-link-item">
-                            <a class="quick-link-link shopping-cart" href="#">
-                            <span class="wishlist-count">4</span>
                             </a>
                             {{-- <div class="mini-carts">
                                 <ul class="mini-cart">
@@ -285,5 +199,6 @@
             </div>
         </div>
     </div>
-    <!-- mobile menu end -->
+    <!-- desktop menu end -->
+    
 </header>

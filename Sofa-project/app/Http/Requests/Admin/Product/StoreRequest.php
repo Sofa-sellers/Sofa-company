@@ -20,12 +20,14 @@ class StoreRequest extends FormRequest
             'material_id' => 'required',
             'description'=>'required',
             'price'=>'required|numeric|min:0',
-            'sale_price'=>'numeric|min:0',
+            'sale_price'=>'nullable|numeric|min:0',
             'quantity'=>'required|min:2|numeric',
             'file' => 'required|mimes:pdf',
             'category_id'=>'required',
             'brand_id'=>'required',
-            'status'=>'required|integer'
+            'status'=>'required|integer',
+            'value_id'=>'required',
+            'images'=>'required'
         ];
     }
 
@@ -52,7 +54,9 @@ class StoreRequest extends FormRequest
             'category_id.required'=>'Please select product category',
             'brand_id.required'=>'Please select product brand',
             'status.required'=>'Please select status',
-            'status.integer'=>'Status value must be an integer'
+            'status.integer'=>'Status value must be an integer',
+            'value_id.required'=>'Please select color',
+            'images.required'=>'Please add more images'
         ];
     }
 }
