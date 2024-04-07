@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Sku;
 use App\Models\AttributeValue;
+use App\Models\Compare;
+use App\Models\Wishlist;
 
 
 class Product extends Model
@@ -28,6 +30,15 @@ class Product extends Model
      */
     protected $guarded =[];
 
+    public function compare()
+    {
+        return $this->hasMany(Compare::class,'product_id');
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class,'product_id');
+    }
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
