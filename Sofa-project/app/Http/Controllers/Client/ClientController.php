@@ -371,8 +371,8 @@ class ClientController extends Controller
     }
 
     public function DeleteCompareProduct(Request $request){
-        $data= Compare::where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
-        return redirect()->route()->with('success','item removed successfully');
+        $data=Compare::where('user_id',Auth::user()->id)->where('id',$request->id)->delete();
+        return 'item removed successfully';
     }
 }
 

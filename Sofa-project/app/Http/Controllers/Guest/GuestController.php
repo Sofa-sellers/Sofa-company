@@ -67,7 +67,7 @@ class GuestController extends Controller
     }
 
     public function viewShop($id){
-        $categories_child= Category::where('parent_id','!=',0)->where('status','!=',2)->first();
+        $categories_child= Category::where('parent_id','!=',0)->where('status','!=',2)->where('id',$id)->first();
         $categoriesList= Category::where('parent_id','!=',0)->where('status','!=',2)->get();
         $products = Product::with('category')->where('category_id', $id)->where('status','!=',2)->paginate(6);
         
