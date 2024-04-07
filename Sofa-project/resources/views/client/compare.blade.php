@@ -88,7 +88,7 @@
                             <tr>
                                 <th></th>
                                 @foreach ($data as $key=>$item)
-                                <td align="center" style="background: red;padding:12px;color:white" onclick="removeItem('{{$item->item->id}}')">Remove Product</td>
+                                <td align="center" style="background: red;padding:12px;color:white" onclick="removeItem('{{$item->id}}')">Remove Product</td>
                                 @endforeach
                             </tr>
                         </tbody>             
@@ -99,11 +99,11 @@
     </div>
 </section>
 <script>
-    function removeItem(product_id){
+    function removeItem(id){
         $.ajax({
             "url":'{{route('client.DeleteCompareProduct')}}',
             "method":'POST',
-            'data':{product_id:product_id,_token:'{{csrf_token()}}'},
+            'data':{id:id,_token:'{{csrf_token()}}'},
             success:function(resp){
                 alert(resp);
             },
@@ -112,7 +112,6 @@
             }
         })
     }
-
 </script>
 <!-- main content end -->
 @endsection

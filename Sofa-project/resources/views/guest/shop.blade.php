@@ -189,7 +189,7 @@
             }else{
                 $.ajax({
                     "url":'{{route('client.addCompareList')}}',
-                    "method":'POSt',
+                    "method":'POST',
                     'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
                     success:function(resp){
                         alert(resp);
