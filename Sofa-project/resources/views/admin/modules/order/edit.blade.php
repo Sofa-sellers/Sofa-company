@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('module' ,'Order')
-@section('action','List')  
+@section('action','Detail')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -80,13 +80,13 @@ $(function () {
                   <div class="form-group">
                     <label >Status</label>
                     <select class="form-control" name="status">
-                        <option value="1" {{old('status')== 1? 'selected':' '}}>Waiting</option>
-                        <option value="2" {{old('status')== 2? 'selected':' '}}>Accepted</option>
-                        <option value="3" {{old('status')== 3? 'selected':' '}}>Deny</option>
-                        <option value="4" {{old('status')== 4? 'selected':' '}}>Preparing shipment</option>
-                        <option value="5" {{old('status')== 5? 'selected':' '}}>Handed over to the carrier</option>
-                        <option value="6" {{old('status')== 6? 'selected':' '}}>In transit</option>
-                        <option value="7" {{old('status')== 7? 'selected':' '}}>Delivered</option>
+                        <option value="1" {{old('status',$order->status)== 1? 'selected':' '}}>Waiting</option>
+                        <option value="2" {{old('status',$order->status)== 2? 'selected':' '}}>Accepted</option>
+                        <option value="3" {{old('status',$order->status)== 3? 'selected':' '}}>Deny</option>
+                        <option value="4" {{old('status',$order->status)== 4? 'selected':' '}}>Preparing shipment</option>
+                        <option value="5" {{old('status',$order->status)== 5? 'selected':' '}}>Handed over to the carrier</option>
+                        <option value="6" {{old('status',$order->status)== 6? 'selected':' '}}>In transit</option>
+                        <option value="7" {{old('status',$order->status)== 7? 'selected':' '}}>Delivered</option>
 
                     </select>
                   </div>

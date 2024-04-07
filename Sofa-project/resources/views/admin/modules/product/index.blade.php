@@ -82,9 +82,25 @@
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: 200px;">
                     </td>
-                    <td>{{ number_format($product->price, 0, "", ".") }}$</td>
-                    <td>{{ number_format($product->sale_price, 0, "", ".") }}$</td>
-                    <td>{{$product->quantity}}</td>
+                    <td>$ {{ number_format($product->price, 0, "", ".") }}</td>
+                    <td>$ {{ number_format($product->sale_price, 0, "", ".") }}</td>
+                    <td>
+                        @if ($product->quantity == 0)
+                            <span class="right badge badge-danger">Out of stock</span>
+                            <div>
+                                {{$product->quantity}}
+                            </div>
+                        @elseif ($product->quantity < 5)
+                            <span class="right badge badge-warning">Running out of stock</span>
+                            <div>
+                                {{$product->quantity}}
+                            </div>
+                        @else
+                            {{$product->quantity}}
+                        @endif
+                    </td>
+                    
+                    
                     <td>
                         @if (!$product->category)
                             <span style="display: inline-block; padding: 5px 10px; background-color: #FFD700;">

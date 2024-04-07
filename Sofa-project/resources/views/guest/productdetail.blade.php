@@ -68,7 +68,7 @@
                     <form method="post" action="{{ route('client.addToCart')}}">
                         @csrf
                         <input type="hidden" name="id" value="{{$product->id}}">
-        
+                        
                         <div class="modal-product-des">
                             <h3 class="modal-product-title"><a href="#">{{$product->name}}</a></h3>
                             
@@ -84,14 +84,26 @@
                             <div class="product-price-wrapp-lg">
                                 @if(!$product->sale_price)
                                 
-                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{$product->price}}</h4>
+                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->price, 0, "", ".") }}</h4>
                                 @else
                                 
-                                <span class="product-regular-price-lg">$ {{$product->price}}</span>
-                                <span class="product-price-on-sale-lg">$ {{$product->sale_price}}</span>
+                                <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
+                                <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
                                 <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
                                 @endif 
+                                
                             </div>
+
+                            @if ($product->quantity > 5)
+                                <div class="product-price-wrapp-lg">
+                                    <span class="badge bg-success" style="font-size: 15px">In Stock {{$product->quantity}}</span>
+                                </div>
+                            @else
+                            <div class="product-price-wrapp-lg">
+                                <span class="badge bg-danger" style="font-size: 15px">Running out of stock!! Only {{$product->quantity}} now</span>
+                            </div>
+                            @endif
+                            
 
                             <div class="product-description-short">
                                 <p>{{$product->intro}}</p>
@@ -118,20 +130,14 @@
                                 </div>
                             </div>
 
+                            
+
                             <div class="product-add-to-cart">
                                 <span class="control-label">Quantity</span>
 
                                 <div class="product-count style d-flex my-4">
                                     <div class="count d-flex">
-                                        <input type="number" min="1" max="100" step="1" value="1" name="quantity">
-                                        <div class="button-group">
-                                            <button class="count-btn increment">
-                                                <span class="ion-chevron-up"></span>
-                                            </button>
-                                            <button class="count-btn decrement">
-                                                <span class="ion-chevron-down"></span>
-                                            </button>
-                                        </div>
+                                        <input type="number" min="1" max="{{$product->quantity}}" style="width: 80%;" name="quantity" value="1">
                                     </div>
                                     <div>
                                         <button type="submit" class="btn animated btn-outline-dark">
@@ -197,20 +203,26 @@
                 <div class="tab-pane fade" id="productdetails" role="tabpanel">
                     <div class="row">
                         <div class="col-12">
-                            <div class="single-product-desc">
-                                <div class="product-anotherinfo-wrapper">
+                            <div class="single-product-desc" >
+                                <div class="product-anotherinfo-wrapper" >
                                     <ul>
-                                        <li><span>Material</span>
+                                        <li style="font-size: 20px"><span>Material</span>
                                             @foreach ($material as $item)
                                             {{$item->value}}
                                             @endforeach
                                         </li>
-                                        <li><span>Dimensions</span>
+                                        <li style="font-size: 20px"><span>Dimensions</span>
                                             @foreach ($dimension as $item)
                                             {{$item->value}}
                                             @endforeach
                                         </li>
-                                        <li><a href='//'>Download  Direction for Use</a></li>
+                                        <li style="font-size: 20px">
+                                            <span>Direction for Use</span>
+                                            <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">
+                                                <i style="color: gray">Download</i>
+                                            </a>
+                                            
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -368,16 +380,16 @@
                                                 <!-- thumb end -->
                                                 <div class="product-content">
                                                     <h4><a href="{{ route('detail',['slug'=>$pr->slug]) }}" class="product-title">{{ $pr->name }}</a></h4>
-                                                    <i><a href="{{ route('detail',['slug'=>$pr->slug]) }}" class="product-title" style="color: gray">{{ $pr->intro }}</a></i>
+                                                    <i><a href="{{ route('detail',['slug'=>$pr->slug]) }}"  style="color: gray">{{ $pr->intro }}</a></i>
 
                                                     <div class="product-group">
                                                         <h5 class="product-price">
                                                             @if(!$pr->sale_price)
-                                                            $ {{$pr->price}}
+                                                            $ {{ number_format($pr->price, 0, "", ".") }}
                                                             @else
                                                             <del
-                                                                class="old-price">$ {{ $pr->price }}</del> <span
-                                                                class="new-price">$ {{ $pr->sale_price }}</span>
+                                                                class="old-price">$ {{ number_format($pr->price, 0, "", ".") }}</del> <span
+                                                                class="new-price">$ {{ number_format($pr->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($pr->sale_price / $pr->price * 100))}}%</span>
                                                             @endif 
                                                             </h5>
@@ -652,10 +664,10 @@
                                         <div class="count d-flex">
                                             <input type="number" min="1" max="100" step="1" value="1">
                                             <div class="button-group">
-                                                <button class="count-btn increment">
+                                                <button class="count-btn increments">
                                                     <span class="ion-chevron-up"></span>
                                                 </button>
-                                                <button class="count-btn decrement">
+                                                <button class="count-btn decrements">
                                                     <span class="ion-chevron-down"></span>
                                                 </button>
                                             </div>
