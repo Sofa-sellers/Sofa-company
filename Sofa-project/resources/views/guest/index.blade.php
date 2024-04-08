@@ -184,8 +184,8 @@
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->sale_price)
-                                                                    $ {{ number_format($item->price, 0, "", ".") }}
+                                                                    @if(!$item->price)
+                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
@@ -276,13 +276,13 @@
 
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->sale_price)
-                                                                    $ {{ number_format($item->price, 0, "", ".") }}
+                                                                    @if(!$item->price)
+                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
-                                                                    <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                                        <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
                     
@@ -373,13 +373,13 @@
 
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->sale_price)
-                                                                    $ {{ number_format($item->price, 0, "", ".") }}
+                                                                    @if(!$item->price)
+                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
-                                                                    <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                                        <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
                     
@@ -547,13 +547,12 @@
                                                 <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                 <div class="product-group">
                                                     <h5 class="product-price">
-                                                        @if(!$item->sale_price)
-                                                        $ {{ number_format($item->price, 0, "", ".") }}
+                                                        @if($item->price==0)
+                                                        $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                         @else
-                                                        <del
-                                                            class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
-                                                            class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
-                                                        <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
+                                                        <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> 
+                                                            <span class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
+                                                            <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                         @endif 
                                                         </h5>
         
