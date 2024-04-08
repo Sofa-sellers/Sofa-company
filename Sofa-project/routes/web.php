@@ -42,6 +42,7 @@ route::get('resetPassword/{token}',[LoginController::class,'resetPassword'])
 route::post('resetPassword',[LoginController::class,'resetPasswordPost'])
 ->name('reset.password.post');
 
+route::get('search_data',[GuestController::class,'search_data']);
 
 Route::get('Logout',Logout::class)->name('logout');
 
@@ -66,7 +67,6 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('privacy', 'privacy')->name('privacy');
         Route::get('404', '404')->name('404');
-
     });
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');

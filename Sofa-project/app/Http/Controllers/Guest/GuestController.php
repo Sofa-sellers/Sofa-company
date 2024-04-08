@@ -9,7 +9,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Wishlist;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Sku;
@@ -52,74 +52,67 @@ class GuestController extends Controller
     }
 
     public function shop(Request $request){
-        $order=$request->query("order");
-        if(!$order){
-            $order=-1;
+        if(!request()->orderby){
+            request()->orderby=-1;
         }
-        $o_column="";
-        $o_order="";
-        switch ($order) {
+        switch (request()->orderby) {
             case 1:
-                $o_column="created_at";
-                $o_order="DESC";
+                $products = Product::with('category')->orderBy('created_at','DESC')
+                ->where('status','!=',2)->paginate(6);
                 break;
             case 2:
-                $o_column="created_at";
-                $o_order="ASC";
+                $products = Product::with('category')->orderBy('created_at','ASC')
+                ->where('status','!=',2)->paginate(6);
                 break;
             case 3:
-                $o_column="sale_price";
-                $o_order="DESC";
+                $products = Product::with('category')->orderBy('sale_price','ASC')
+                ->where('status','!=',2)->paginate(6);
                 break;
             case 4:
-                $o_column="sale_price";
-                $o_order="ASC";
+                $products = Product::with('category')->orderBy('sale_price','DESC')
+                ->where('status','!=',2)->paginate(6);
                 break;       
             default:
-                $o_column="created_at";
-                $o_order="DESC";
+                $products = Product::with('category')->orderBy('created_at','DESC')
+                ->where('status','!=',2)->paginate(6);
         }
         $categories_child= Category::where('parent_id','!=',0)->get();
-        $products=Product::where('status','!=',2)->orderBy($o_column,$o_order)->paginate(6);
+        //$products=Product::where('status','!=',2)->orderBy('created_at','DESC')->orderBy($o_column,$o_order)->paginate(6);
 
         return view('guest.shopfull',compact('products'),[
             'categories_child' =>$categories_child,
             'products'=>$products,
-            'order'=>$order
         ]);
     }
 
     public function viewShop(Request $request,$id){
-        $order=$request->query("order");
-        if(!$order){
-            $order=-1;
+        if(!request()->orderby){
+            request()->orderby=-1;
         }
-        $o_column="";
-        $o_order="";
-        switch ($order) {
+        switch (request()->orderby) {
             case 1:
-                $o_column="created_at";
-                $o_order="DESC";
+                $products = Product::with('category')->orderBy('created_at','DESC')
+                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
                 break;
             case 2:
-                $o_column="created_at";
-                $o_order="ASC";
+                $products = Product::with('category')->orderBy('created_at','ASC')
+                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
                 break;
             case 3:
-                $o_column="sale_price";
-                $o_order="DESC";
+                $products = Product::with('category')->orderBy('sale_price','DESC')
+                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
                 break;
             case 4:
-                $o_column="sale_price";
-                $o_order="ASC";
+                $products = Product::with('category')->orderBy('sale_price','ASC')
+                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
                 break;       
             default:
-                $o_column="created_at";
-                $o_order="DESC";
+                $products = Product::with('category')->orderBy('created_at','DESC')
+                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
         }
         $categories_child= Category::where('parent_id','!=',0)->where('status','!=',2)->where('id',$id)->first();
         $categoriesList= Category::where('parent_id','!=',0)->where('status','!=',2)->get();
-        $products = Product::with('category')->orderBy($o_column,$o_order)->where('category_id', $id)->where('status','!=',2)->paginate(6);
+        // $products = Product::with('category')->orderBy('created_at','DESC')->orderBy($o_column,$o_order)->where('category_id', $id)->where('status','!=',2)->paginate(6);
         
         //$category_list = Category::with('product')->where('category_id', $id)->get();
         
@@ -131,18 +124,15 @@ class GuestController extends Controller
             'products' => $products,
             'categories_child' =>$categories_child,
             'categoriesList'=>$categoriesList,
-            'order'=>$order
         ]);
     }
 
     public function detail($slug){
-
         $product = Product::with('category', 'productimages','sku','attributevalue')->where('slug',$slug)->first();
         $products_related = Product::where('status','!=',2)->with('category')
         ->where('category_id', $product->category->id)
         ->where('id','!=',$product->id)
         ->paginate(4);
-
         if($products_related->isEmpty()){
             $products_related = Product::orderBy('created_at','DESC')
             ->where('id','!=',$product->id)
@@ -206,4 +196,17 @@ class GuestController extends Controller
     return view('guest.productdetail', ['filePath' => $filePath]);
     }
 
+    public function search_data(Request $request){
+        $data=$request->input('search');
+        $categories_child= Category::where('parent_id','!=',0)->get();
+        $products=Product::where('status','!=',2)
+        ->where('name','like','%'.$data.'%')
+        ->orwhere('sale_price','like','%'.$data.'%')
+        ->paginate(6);
+
+        return view('guest.shopfull',compact('products'),[
+            'categories_child' =>$categories_child,
+            'products'=>$products,
+        ]);
+    }
 }

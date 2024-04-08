@@ -146,8 +146,14 @@
                                     </div>
                                 </div>
                                 <div class="product-add-to-card">
-                                    <a class="product-add-to-card-item" href="#"><i class="ion-ios-heart-outline"></i> Add to wishlist</a>
-                                    <a class="product-add-to-card-item" href="#"><i class="ion-android-sync"></i> My wishlist</a>
+                                    @auth
+                                        <a class="product-add-to-card-item" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i> Add to wishlist</a>
+                                        <a class="product-add-to-card-item" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}"><i class="ion-android-sync"></i> My wishlist</a>
+                                    @endauth
+                                    @guest
+                                        <a class="product-add-to-card-item" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i> Add to wishlist</a>
+                                        <a class="product-add-to-card-item" href="{{route('showLogin')}}"><i class="ion-android-sync"></i> My wishlist</a>
+                                    @endguest
                                 </div>
 
                                 <div class="product-social-sharing">
@@ -681,11 +687,12 @@
                                     <div class="product-add-to-card">
                                         @auth
                                         <a class="product-add-to-card-item" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i> Add to wishlist</a>
+                                        <a class="product-add-to-card-item" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}"><i class="ion-android-sync"></i> My wishlist</a>
                                         @endauth
                                         @guest
                                         <a class="product-add-to-card-item" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i> Add to wishlist</a>
+                                        <a class="product-add-to-card-item" href="{{route('showLogin')}}"><i class="ion-android-sync"></i> My wishlist</a>
                                         @endguest
-                                        <a class="product-add-to-card-item" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}"><i class="ion-android-sync"></i> My wishlist</a>
                                     </div>
 
                                     <div class="product-social-sharing">

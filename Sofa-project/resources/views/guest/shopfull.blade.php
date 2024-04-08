@@ -23,13 +23,15 @@
                         <div class="col-12 col-md-6">
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
                                 <span class="sort-by">Sort by:</span>
-                                <select class="form-select" name="orderby" id="orderby">
-                                    <option value="-1" {{$order==-1?'selected':''}}>Default sorting</option>
-                                    <option value="1" {{$order==1?'selected':''}}>Sort by latest</option>
-                                    <option value="2" {{$order==2?'selected':''}}>Sort by oldest</option>
-                                    <option value="3" {{$order==3?'selected':''}}>Sort by price: low to high</option>
-                                    <option value="4" {{$order==4?'selected':''}}>Sort by price: high to low</option>
-                                </select>
+                                <form>
+                                    <select class="form-select" onchange="this.form.submit()" name="orderby" id="orderby">
+                                        <option value="-1"{{request()->orderby==-1?'selected':''}}>Default sorting</option>
+                                        <option value="1" {{request()->orderby==1?'selected':''}}>Sort by latest</option>
+                                        <option value="2" {{request()->orderby==2?'selected':''}}>Sort by oldest</option>
+                                        <option value="3" {{request()->orderby==3?'selected':''}}>Sort by price: low to high</option>
+                                        <option value="4" {{request()->orderby==4?'selected':''}}>Sort by price: high to low</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -40,15 +42,6 @@
                                 <div class="col-sm-6 col-md-4 mb-5">
                                     <div class="product-card">
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb">
-                                            @if ($product->status==1)
-                                            <span class="onsale bg-danger">sale!</span>
-                                            @endif
-                                            @if ($product->featured==1)
-                                            <span class="onsale bg-success">Hot!</span>
-                                            @endif
-                                            @if($product->featured==1)
-                                            <span class="onsale bg-warning">New!</span>
-                                            @endif
                                             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
                                             width="500" height="400" alt="image_not_found">
                                         </a>
@@ -106,15 +99,6 @@
                                     <!-- product card list start -->
                                     <div class="product-card-list row mb-n5">
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb-list col-md-4 mb-5">
-                                            @if ($product->status==1)
-                                            <span class="onsale bg-danger">sale!</span>
-                                            @endif
-                                            @if ($product->status==3)
-                                            <span class="onsale bg-success">Hot!</span>
-                                            @endif
-                                            @if ($product->status==4)
-                                            <span class="onsale bg-warning">New!</span>
-                                            @endif
                                             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
                                             style="max-width: 400px; max-height: 500px;" alt="image_not_found">
                                         </a>
@@ -207,15 +191,4 @@
             }
         }
     </script>
-<form id="frmfilter" method="GET">
-    <input type="hidden" name="order" id="order" value="{{$order}}">
-</form>
 @endsection
-@push("script")
-    <script>
-        $("#orderby").on("change",function(){
-            $("#order").val($("#orderby option:selected").val());
-            $("#frmfilter").submit();
-        });
-    </script>
-@endpush

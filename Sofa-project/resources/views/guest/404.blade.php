@@ -11,7 +11,7 @@
                     <p>Sorry but the page you are looking for does not exist, has been removed, changed or is
                         temporarily unavailable.</p>
                     <div class="error-serch-form">
-                        <form>
+                        <form action="search_data" method="GET">
                             <input class="form-control" type="search" placeholder="Search product...">
                             <button class="form-search-btn" type="submit"><span
                                     class="ion-ios-search-strong"></span></button>

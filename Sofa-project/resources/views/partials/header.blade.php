@@ -134,8 +134,8 @@
                         <li class="quick-link-item">
                             <a class="quick-link-link search" href="#"><span class="ion-ios-search-strong"></span></a>
                             <div class="header-serch-form header-serch-form-right">
-                                <form>
-                                    <input class="form-control" type="search" placeholder="Search product...">
+                                <form action="search_data" method="GET">
+                                    <input class="form-control" type="text" name="search" placeholder="Search product...">
                                     <button class="form-search-btn" type="submit"><span class="ion-ios-search-strong"></span></button>
                                 </form>
                             </div>
@@ -148,7 +148,7 @@
                             @endauth
                             @guest()
                             <a class="quick-link-link wishlist-link" href="{{route('client.showWishlist','0')}}">
-                                <span class="wishlist-count">3</span>
+                                <span class="wishlist-count">0</span>
                             </a>
                             @endguest
                         </li>
