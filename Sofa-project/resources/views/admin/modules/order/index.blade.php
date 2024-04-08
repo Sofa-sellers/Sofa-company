@@ -56,14 +56,12 @@ $(function () {
                         <th>Firstname</th>
                         <th>Lastname</th>
                         <th>Address</th>
-                    
                         <th>Phone</th>
                         <th>Total order</th>
-                        <th>Note</th>
                         <th>Status</th>
-                        {{-- <th>Reason cancel</th> --}}
-                        <th>Detail</th>
                         <th>Created At</th>
+                        <th>Deleted At</th>
+                        <th>Detail</th>
                         
                     </tr>
                 </thead>
@@ -75,11 +73,8 @@ $(function () {
                         <td>{{$order->firstname}}</td>
                         <td>{{$order->lastname}}</td>
                         <td>{{$order->address}}</td>
-                        {{-- <td>{{$order->postcode}}</td> --}}
                         <td>{{$order->phone}}</td>
                         <td>{{$order->total_order}}</td>
-                        {{-- <td>{{$order->payment}}</td> --}}
-                        <td>{{$order->note}}</td>
                         <td>
                             @switch($order->status)
                                 @case(1)
@@ -105,10 +100,10 @@ $(function () {
                                     @break
                             @endswitch
                         </td>
-
-                        {{-- <td>{{$order->reason}}</td> --}}
+                        <td>{{$order->created_at}}</td>
+                        <td>{{$order->deleted_at}}</td>
                         <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
-                        <td>Created at</td>
+                        
                     </tr>
                 </tbody>
                 @endforeach
@@ -119,14 +114,12 @@ $(function () {
                         <th>Firstname</th>
                         <th>Lastname</th>
                         <th>Address</th>
-                        {{-- <th>Postcode</th> --}}
                         <th>Phone</th>
                         <th>Total order</th>
-                        <th>Note</th>
                         <th>Status</th>
-                        {{-- <th>Reason cancel</th> --}}
                         <th>Created At</th>
                         <th>Deleted At</th>
+                        <th>Detail</th>
                     </tr>
                 </tfoot>
               </table>

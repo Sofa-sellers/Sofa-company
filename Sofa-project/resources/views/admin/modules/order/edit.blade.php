@@ -28,9 +28,37 @@ $(function () {
     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-    function confirmDelete(){
-        return confirm('Do you want to delete it ?');
+
+    $(function() {
+    var status_old = $('select[name="status"]').val();
+    if (status_old != 3) {
+        $('select[name="status"]').change(function() {
+            if ($(this).val() == 3) {
+                var confirmDeny = confirm("Are you sure you want to reject this order? The quantity of the products will be returned to the warehouse and cannot be allocated to this order again. Please review before confirming.");
+                if (confirmDeny) {
+                    $('#orderForm').submit();
+                } else {
+                    $(this).val({{ $order->status }});
+                }
+            }
+        });
+    } else {
+        $('select[name="status"]').change(function() {
+            var confirmDeny = confirm("You cannot change order status because order was deleted.");
+            if (confirmDeny) {
+              $(this).val({{ $order->status }});
+            }else{
+              $(this).val({{ $order->status }});
+            }
+        });
     }
+});
+
+
+
+    // function confirmDelete(){
+    //     return confirm('Do you want to delete it ?');
+    // }
 </script>
 @endpush
 @section('content')
@@ -79,7 +107,7 @@ $(function () {
                   @csrf
                   <div class="form-group">
                     <label >Status</label>
-                    <select class="form-control" name="status">
+                    <select class="form-control" name="status" >
                         <option value="1" {{old('status',$order->status)== 1? 'selected':' '}}>Waiting</option>
                         <option value="2" {{old('status',$order->status)== 2? 'selected':' '}}>Accepted</option>
                         <option value="3" {{old('status',$order->status)== 3? 'selected':' '}}>Deny</option>
