@@ -37,11 +37,6 @@
                             </li>
                             --}}
                             <li class="topbar-nav-item">
-                                    @if (Auth::check())
-                                        @if(Auth::user()->level==2)
-                                            <span><a style="color: rgb(26, 23, 83); font-weight:bold" href="{{route('admin.index')}}">ADMIN</a></span>
-                                        @endif
-                                    @endif
                                 <a class="topbar-nav-link">
                                     @php
                                         if(Auth::check()==true)
@@ -55,6 +50,9 @@
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
                                     @if(Auth::check())
+                                    @if (Auth::user()->level==2)
+                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('admin.index')}}">Admin</a>
+                                    @endif
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">My account</a>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart',['id'=>Auth::user()->id])}}">Cart</a></li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Wishlist</a></li>
@@ -112,7 +110,9 @@
                                 <a href="javascript:void(0)" class="main-menu-link">Client</a>
                                 <!-- sub menu start -->
                                 <ul class="sub-menu">
-                
+                                    @if (Auth::user()->level==2)
+                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('admin.index')}}">Admin</a>
+                                    @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout',['user'=>Auth::user()->id])}}">Your Checkout</a></li>
