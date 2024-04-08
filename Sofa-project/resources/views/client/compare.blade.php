@@ -12,44 +12,36 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">product info</th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 <th scope="col" class="text-center">
                                     <img src="{{asset('uploads/'.$item->item->image)}}" style="max-width: 200px; max-height: 300px;" alt="{{$item->item->slug}}">
                                     <span class="sub-title d-block">{{$item->slug}}</span>
-                                    <a href="{{route('client.addToCart')}}" class="btn btn-dark">
-                                    add to cart</a>
+                                    <a href="{{route('detail',['slug'=>$item->item->slug])}}" class="btn btn-dark">
+                                    View Detail</a>
                                 </th>
                                 @endforeach
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Product</th>
-                                @foreach ($data as $key=>$item)
-                                <td class="text-center">
-                                    <span class="whish-list-price"> {{$item->item->slug}}</span>
-                                </td>
-                                @endforeach
-                            </tr>
-                            <tr>
                                 <th scope="row">Price</th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 <td class="text-center">
                                     <span class="whish-list-price"> {{number_format($item->item->sale_price, 0, "", ".") }}$ </span>
+                                    @endforeach
                                 </td>
-                                @endforeach
                             </tr>
                             <tr>
                                 <th scope="row">Description</th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 <td class="text-center">
                                     <p>{{$item->item->description}}</p>
+                                    @endforeach
                                 </td>
-                                @endforeach
                             </tr>
                             <tr>
                                 <th scope="row">Availability</th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 @if($item->item->quantity>0)
                                 <td class="text-center">
                                     <span class="badge bg-success">In Stock</span>
@@ -63,35 +55,23 @@
                             </tr>
                             <tr>
                                 <th scope="row">Category</th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 <td class="text-center">{{$item->item->category->name}}</td>
                                 @endforeach
                             </tr>
                             <tr>
                                 <th scope="row">Brand</th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 <td class="text-center">{{$item->item->brand->name}}</td>
                                 @endforeach
                             </tr>
                             <tr>
-                                <th scope="row">Dimension</th>
-                                @foreach ($data as $key=>$item)
-                                <td class="text-center">{{$item->item->dimension_id}}</td>
-                                @endforeach
-                            </tr>
-                            <tr>
-                                <th scope="row">Material</th>
-                                @foreach ($data as $key=>$item)
-                                <td class="text-center">{{$item->item->material_id}}</td>
-                                @endforeach
-                            </tr>
-                            <tr>
                                 <th></th>
-                                @foreach ($data as $key=>$item)
+                                @foreach ($data as $item)
                                 <td align="center" style="background: red;padding:12px;color:white" onclick="removeItem('{{$item->item->id}}')">Remove Product</td>
                                 @endforeach
                             </tr>
-                        </tbody>             
+                        </tbody>         
                     </table>
                 </div>
             </div>
@@ -99,11 +79,16 @@
     </div>
 </section>
 <script>
-    function removeItem(product_id){
+    $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+    function removeItem(id){
         $.ajax({
             "url":'{{route('client.DeleteCompareProduct')}}',
             "method":'POST',
-            'data':{product_id:product_id,_token:'{{csrf_token()}}'},
+            'data':{id:id,_token:'{{csrf_token()}}'},
             success:function(resp){
                 alert(resp);
             },
@@ -112,7 +97,6 @@
             }
         })
     }
-
 </script>
 <!-- main content end -->
 @endsection

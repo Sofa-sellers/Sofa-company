@@ -42,6 +42,7 @@ route::get('resetPassword/{token}',[LoginController::class,'resetPassword'])
 route::post('resetPassword',[LoginController::class,'resetPasswordPost'])
 ->name('reset.password.post');
 
+//route::get('search_data',[GuestController::class,'search_data']);
 
 Route::get('Logout',Logout::class)->name('logout');
 
@@ -66,7 +67,6 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('privacy', 'privacy')->name('privacy');
         Route::get('404', '404')->name('404');
-
     });
 
     // Route::get('/about-us', [HomeController::Class, 'aboutUs'])->name('about-us');
@@ -84,23 +84,22 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::post('compare', 'addToCompare')->name('addCompareList');
         Route::post('removeCompare', 'DeleteCompareProduct')->name('DeleteCompareProduct');
 
-        // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
-        // Route::post('shipping-check', 'shippingCheck')->name('shippingCheck');
+        Route::get('wishlist/{id}', 'showWishlist')->name('showWishlist');
+        Route::post('add-to-wishlist', 'addToWishlist')->name('addToWishlist');
+        Route::post('wishlist-delete', 'wishlistDelete')->name('wishlistDelete');
 
         Route::get('cart-delete/{itemKey}', 'cartDelete')->name('cartDelete');
-        Route::get('cart-update', 'cartUpdate')->name('cartUpdate');
+        Route::post('cart-update/{itemKey}', 'cartUpdate')->name('cartUpdate');
 
 
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout/{user}', 'checkout')->name('checkout');
 
-        //create where product_id=id, where user = auth -> id 
+        Route::get('rating-comment', 'racomView')->name('ratingCommentView');
         Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
+        Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
 
-        Route::get('add-to-wishlist/{id}/{quantity}', 'addToWishlist')->name('addToWishlist');
-        Route::get('wishlist', 'showWishlist')->name('showWishlist');
-        Route::get('wishlist-delete/{id}', 'wishlistDelete')->name('wishlistDelete');
-        Route::post('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
+        // Route::get('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
 
         Route::get('account{id}', 'accountIndex')->name('account');
 
@@ -231,5 +230,3 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             Route::get('destroy/{id}', 'zipDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 });
-
-

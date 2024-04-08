@@ -22,17 +22,20 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
+                                <form>
+                                    <input class="form-control" id="search" type="text" name="search" placeholder="Search product...">
+                                    <button class="form-search-btn" class="ion-ios-search" type="submit"></button>
+                                </form>
                                 <span class="sort-by">Sort by:</span>
-                                <select class="form-select" name="orderby" id="orderby">
-                                    <option value="-1">Default sorting</option>
-                                    {{-- <option value="2">Default sorting</option>
-                                    <option value="3">Sort by popularity</option>
-                                    <option value="4">Sort by average rating</option> --}}
-                                    <option value="1">Sort by latest</option>
-                                    <option value="2">Sort by oldest</option>
-                                    <option value="3">Sort by price: low to high</option>
-                                    <option value="4">Sort by price: high to low</option>
+                                <form>
+                                <select class="form-select" onchange="this.form.submit()" name="orderby" id="orderby">
+                                    <option value="-1"{{request()->orderby==-1?'selected':''}}>Default sorting</option>
+                                    <option value="1" {{request()->orderby==1?'selected':''}}>Sort by latest</option>
+                                    <option value="2" {{request()->orderby==2?'selected':''}}>Sort by oldest</option>
+                                    <option value="3" {{request()->orderby==3?'selected':''}}>Sort by price: high to low</option>
+                                    <option value="4" {{request()->orderby==4?'selected':''}}>Sort by price: low to high</option>
                                 </select>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -43,15 +46,6 @@
                                 <div class="col-sm-6 col-md-4 mb-5">
                                     <div class="product-card">
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb">
-                                            @if ($product->status==1)
-                                            <span class="onsale bg-danger">sale!</span>
-                                            @endif
-                                            @if ($product->featured==1)
-                                            <span class="onsale bg-success">Hot!</span>
-                                            @endif
-                                            @if($product->featured==1)
-                                            <span class="onsale bg-warning">New!</span>
-                                            @endif
                                             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
                                             width="500" height="400" alt="image_not_found">
                                         </a>
@@ -59,33 +53,31 @@
                                         <div class="product-content">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">{{$product->price}}</del> <span class="new-price">{{$product->sale_price}}</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
+                                                @if ($product->price==0)
+                                                <h5 class="product-price"><span class="old-price">{{number_format($product->sale_price, 0, "", ".")}}</span></h5>
+                                                <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
+                                                @else
+                                                <h5 class="product-price"><del class="old-price">{{number_format($product->price, 0, "", ".")}}</del> <span class="new-price">{{number_format($product->sale_price, 0, "", ".")}}</span></h5>
+                                                <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
+                                                @endif
                                             </div>
 
                                         </div>
                                         <!-- actions  -->
                                         <ul class="actions actions-verticale">
-                                            <li class="action whish-list">
-                                                <button data-bs-toggle="modal" onclick="saveToWishList('{{$product->id}}','{{Auth::user()->id}}')"><i class="ion-ios-heart-outline"></i></button>
-                                            </li>
-
                                             @auth
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
-                                            </li>
+                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
                                             @endauth
                                             @guest
-                                            <li class="action compare">
-                                                <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
-                                            </li>
+                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button></li>
                                             @endguest
                                         </ul>
                                     </div>
                                 </div>
                                 @endforeach
-
-                                {{$products->links("partials.pagination")}}
+                                {{$products->withQueryString()->links("partials.pagination")}}
                                 <!-- pagination -->
                                 {{-- <div class="col-12 mb-5">
                                     <nav aria-label="Page navigation">
@@ -115,15 +107,6 @@
                                     <!-- product card list start -->
                                     <div class="product-card-list row mb-n5">
                                         <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-thumb-list col-md-4 mb-5">
-                                            @if ($product->status==1)
-                                            <span class="onsale bg-danger">sale!</span>
-                                            @endif
-                                            @if ($product->status==3)
-                                            <span class="onsale bg-success">Hot!</span>
-                                            @endif
-                                            @if ($product->status==4)
-                                            <span class="onsale bg-warning">New!</span>
-                                            @endif
                                             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}"
                                             style="max-width: 400px; max-height: 500px;" alt="image_not_found">
                                         </a>
@@ -138,28 +121,21 @@
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
                                                 </li>
-                                                <li class="action whish-list">
-                                                    <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist"><i class="ion-ios-heart-outline"></i></button>
-                                                </li>
-
                                                 @auth
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button>
-                                                </li>
+                                                <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                                <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
                                                 @endauth
                                                 @guest
-                                                <li class="action compare">
-                                                    <button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button>
-                                                </li>
+                                                <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                                <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button></li>
                                                 @endguest
-
                                             </ul>
                                         </div>
                                     </div>
                                     <!-- product card list end -->
                                 </div>
                                 @endforeach
-                                {{$products->links("partials.pagination")}}
+                                {{$products->withQueryString()->links("partials.pagination")}}
                             </div>
                         </div>
                     </div>
@@ -189,7 +165,7 @@
             }else{
                 $.ajax({
                     "url":'{{route('client.addCompareList')}}',
-                    "method":'POSt',
+                    "method":'POST',
                     'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
                     success:function(resp){
                         alert(resp);
@@ -200,7 +176,23 @@
                 })
             }
         }
-
-    </script>
+        function saveToWishlist(productID,userID){
+            if(userID==0){
+                alert('please login before add product to wishlist');
+            }else{
+                $.ajax({
+                    "url":'{{route('client.addToWishlist')}}',
+                    "method":'POST',
+                    'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
+                    success:function(resp){
+                        alert(resp);
+                    },
+                    error:function(error){
+                        alert(error);
+                    }
+                })
+            }
+        }
+</script>
     <!-- main content end -->
 @endsection

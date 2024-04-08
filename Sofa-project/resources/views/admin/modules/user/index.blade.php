@@ -1,4 +1,5 @@
 @extends('admin.master')
+
 @section('module', 'User')
 @section('action', 'List')
 
@@ -7,6 +8,7 @@
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
+
 @push('js')
 <script src="{{asset('administrator/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -21,33 +23,35 @@
 <script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 @endpush
+
 @push('handlejs')
 <script>
-$(function () {
-    $("#example1").DataTable({
-    "responsive": true, "lengthChange": false, "autoWidth": false,
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-    function confirmDelete(){
-        return confirm('Do you want to delete it ?');
+
+    function confirmDelete() {
+        return confirm('Do you want to delete it?');
     }
 </script>
 @endpush
 
 @section('content')
-<!-- Default box -->
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">User list</h3>
-
+        <h3 class="card-title">User List</h3>
         <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-            <i class="fas fa-minus"></i>
-        </button>
-        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-            <i class="fas fa-times"></i>
-        </button>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 
@@ -69,8 +73,8 @@ $(function () {
                     <th>Delete</th>
                 </tr>
             </thead>
-            @foreach ($users as $user)
             <tbody>
+                @foreach ($users as $user)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$user->username}}</td>
@@ -85,8 +89,8 @@ $(function () {
                     <td><a href="{{route('admin.user.edit',['id'=>$user->id])}}">Edit</a></td>
                     <td><a onclick="return confirmDelete ()" href="{{route('admin.user.destroy',['id'=>$user->id])}}">Delete</a></td>
                 </tr>
+                @endforeach
             </tbody>
-            @endforeach
             <tfoot>
                 <tr>
                     <th>ID</th>
@@ -106,5 +110,6 @@ $(function () {
         </table>
     </div>
 </div>
-<!-- /.card -->
+
 @endsection
+

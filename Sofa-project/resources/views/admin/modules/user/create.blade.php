@@ -23,12 +23,12 @@
 
         <div class="card-body">
             <div class="form-group">
-                <label>Username</label>
+                <label>Username*</label>
                 <input type="text" class="form-control" placeholder="Enter username" name="username" value="{{old('username')}}">
             </div>
 
             <div class="form-group">
-                <label>Email</label>
+                <label>Email*</label>
                 <input type="text" class="form-control" placeholder="Enter email" name="email" value="{{old('email')}}">
             </div>
 
@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Password*</label>
                         <input type="password" class="form-control" placeholder="Enter password" name="password">
                     </div>
 
@@ -70,7 +70,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Confirm Password</label>
+                        <label>Confirm Password*</label>
                         <input type="password" class="form-control" placeholder="Enter password" name="password_confirmation">
                     </div>
 

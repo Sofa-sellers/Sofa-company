@@ -500,9 +500,32 @@ class AdminController extends Controller
             abort(404);
         }
 
+        if($order->status == $request->status){
+            return redirect()->route('admin.order.index');
+        }
+
+        if($request->status == 3){
+            $order->status = $request->status;
+            $order->deleted_at = now();
+            $order->save();
+        }
 
         $order->status = $request->status;
+        $order->updated_at = now();
+        $order->save();
 
+        if($order->status == 3){
+            $details = OrderDetail::where('order_id', $id)->get();
+            foreach($details as $detail){
+                $product = Product::where('id',$detail->product_id)->first();
+                $product->quantity = $product->quantity + $detail->quantity;
+                $product->updated_at = now();
+                if($product->status == 2){
+                    $product->status = 1;
+                }
+                $product->save();
+            }
+        }
         $order->save();
         return redirect()->route('admin.order.index')->with('success','Update order status successfully');
     }
@@ -514,8 +537,6 @@ class AdminController extends Controller
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
     }
 
-
-
     public function racomAccept(RatingCommentStoreRequest $request)
     {
         $ratingComment = new RatingComment();
@@ -524,14 +545,19 @@ class AdminController extends Controller
         $ratingComment->user_id = $request->user_id;
         $ratingComment->rating = $request->rating;
         $ratingComment->comment = $request->comment;
+        $ratingComment->status = 1; // chấp nhận
 
         $ratingComment->save();
 
         return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
     }
 
-    public function racomDestroy(){
-        //
+    public function racomDestroy($id)
+    {
+        $racom = RatingComment::find($id);
+        $racom->delete();
+
+        return back()->with('success', 'Đánh giá và nhận xét đã được xóa.');
     }
 
     public function valueIndex()
@@ -618,15 +644,15 @@ class AdminController extends Controller
     }
 
 
-    public function valueDestroy(int $id)
-    {
-        $values= AttributeValue::find($id);
-        if($values==null){
-            abort(404);
-        }
-        $values->delete();
-        return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
-    }
+    // public function valueDestroy(int $id)
+    // {
+    //     $values= AttributeValue::find($id);
+    //     if($values==null){
+    //         abort(404);
+    //     }
+    //     $values->delete();
+    //     return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
+    // }
 
     public function brandIndex()
     {
@@ -870,7 +896,3 @@ class AdminController extends Controller
     // }
 
 }
-
-
-
-

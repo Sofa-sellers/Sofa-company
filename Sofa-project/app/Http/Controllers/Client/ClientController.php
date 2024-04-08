@@ -1,26 +1,32 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\RatingComment;
 use App\Models\AttributeValue;
 
-use App\Models\compare;
+use App\Models\Compare;
+use App\Models\Wishlist;
 
 use DateTime;
 use App\Helpers\Cart;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
+use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentUpdateRequest;
 use Illuminate\Support\Str;
 use Helper;
 use App\Models\User;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\Session;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Failed;
+
+use function PHPUnit\Framework\isEmpty;
 
 class ClientController extends Controller
 {
@@ -41,7 +47,8 @@ class ClientController extends Controller
 
             foreach($cart->list() as $item){
                 if($item['productId'] == $product->id){
-                    $old_quantity+=$item['quantity'];
+                    $old_quantity = $quantity + $item['quantity'] + $old_quantity;
+                    // dd($old_quantity);
                 }
             }
 
@@ -61,7 +68,6 @@ class ClientController extends Controller
 
     public function showCart(Cart $cart){
 
-
         return view('client.cart',compact('cart'));
 
     }
@@ -73,37 +79,57 @@ class ClientController extends Controller
         return redirect()->route('client.showCart');
       }
 
-    public function cartUpdate(Request $request)
+    public function cartUpdate(Request $request, Cart $cart, $itemKey)
     {
 
-        if($request->ajax()){
-            $itemKey = $request->itemKey;
-            $quantity = $request->quantity;
-            $cart->update($itemKey, $quantity);
+
+        $itemKey = $request->itemKey;
+        $item = $cart->find($itemKey);
+
+        $pro_quantity = Product::where('id',$item['productId'])->pluck('quantity')->first();
+        // dd($pro_quantity);
+
+        $quantity = $request->quantity;
+        //  dd($quantity);
+        // Validate quantity
+        if (!is_numeric($quantity) || $quantity <= 0) {
+            return redirect()->back()->with('failed', 'Quantity is invalid, please enter the quantity');
         }
 
+        if ($quantity > $pro_quantity) {
+            return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
+        }
+
+        $cartCollection = $cart->list();
 
 
-        // $productId = $request->input('productId');
-        // $color = $request->input('color');
-        // $quantity = $request->input('quantity');
+        $newQuantity = null;
 
-        // dd($quantity);
-        // // Validate quantity
-        // if (!is_numeric($quantity) || $quantity <= 0) {
-        //     return back()->withErrors(['quantity' => 'Invalid quantity']);
-        // }
+        foreach($cartCollection as $c) {
 
-        // // Update cart with new quantity
-        // $cart->update($productId, $color, $quantity);
+            if ($c['productId'] == $item['productId']) {
+                if($c['itemKey'] == $item['itemKey']){
+                    $newQuantity = $quantity  + $newQuantity;
+                }else{
+                    $newQuantity = $c['quantity'] + $newQuantity;
+                }
+            }
+            if ($newQuantity > $pro_quantity) {
+                return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
+            }
+        }
 
-        // return redirect()->route('client.showCart')->with('success', 'Cart item quantity updated!');
+        // Update cart with new quantity
+        $cart->update($itemKey, $quantity);
+
+        return redirect()->back()->with('success', 'You have successfully updated a product to your cart');
     }
 
     public function showCheckout(Cart $cart){
         if (Auth::check()) {
             $user = Auth::user();
             $carts = $cart->list();
+
 
             foreach ($carts as $item) {
                 $productId = $item['productId'];
@@ -142,26 +168,29 @@ class ClientController extends Controller
             // 'payment'
         ];
 
-
-
         $order_id = DB::table('orders')->insertGetId($data);
 
-        $data_user = [
+        $address_old = User::findOrFail($user)->pluck('address')->first();
+        if(!$address_old){
+            $data_user = [
 
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'updated_at' => new DateTime(),
-        ];
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'city' => $request->city,
+                'updated_at' => new DateTime(),
+            ];
 
-        DB::table('users')->updateOrInsert(
-            ['id' => $user],
-            $data_user
-        );
+            DB::table('users')->updateOrInsert(
+                ['id' => $user],
+                $data_user
+            );
+        }
 
 
-        $cartCollection = $cart->list();
+
+    $cartCollection = $cart->list();
     $order_details = [];
 
     foreach ($cartCollection as $item) {
@@ -170,7 +199,12 @@ class ClientController extends Controller
 
         $product = DB::table('products')->where('id', $productId)->first();
 
-        if ($quantity == $product->quantity) {
+        if($quantity > $product->quantity){
+            $order = Order::where('id',$order_id)->get();
+            $order->delete();
+            return redirect()->back()->with('failed', 'Quantity is over stock, please decrease this quantity');
+
+        }elseif ($quantity == $product->quantity) {
             $order_details[] = [
                 'product_id' => $item['productId'],
                 'product_name' => $item['name'],
@@ -217,49 +251,110 @@ class ClientController extends Controller
 
         DB::table('order_detail')->insert($order_details);
         $cart->destroyAll();
-        return redirect()->route('index');
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Thank you for your order, you can manage your order in personal account');
 
     }
 
-//     public function racomStore(Request $request){
-//             //
-//     }
+    private function userHasPurchasedProduct($userId, $productId)
+    {
+        return Order::where('user_id', $userId)
+                    ->where('product_id', $productId)
+                    ->exists();
+    }
 
-//     public function racomUpdate(Request $request, $id){
-// //
-//     }
+    public function racomView()
+    {
+        // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
+        $products = Product::all();
 
+        // Trả về view và truyền danh sách sản phẩm sang view rating_comment.blade.php
+        return view('client.rating_comment', compact('products'));
+    }
+
+    public function racomStore(RatingCommentStoreRequest $request)
+    {
+        if (!$this->userHasPurchasedProduct(auth()->user()->id, $request->product_id)) {
+            return back()->with('error', 'Bạn chỉ có thể đánh giá hoặc bình luận nếu bạn đã mua sản phẩm này.');
+        }
+
+        $racom = new RatingComment;
+        $racom->product_id = $request->product_id;
+        $racom->user_id = auth()->user()->id;
+        $racom->rating = $request->rating;
+        $racom->comment = $request->comment;
+        $racom->status = 0; // chưa được chấp nhận
+        $racom->save();
+
+        return back()->with('success', 'Đánh giá và nhận xét của bạn đã được gửi và đang chờ xét duyệt.');
+    }
+
+    public function racomUpdate(RatingCommentUpdateRequest $request, $id)
+    {
+        $ratingComment = RatingComment::findOrFail($id);
+
+        // Kiểm tra xem người dùng có quyền chỉnh sửa đánh giá và bình luận không
+        if ($ratingComment->user_id != auth()->id()) {
+            return response()->json(['message' => 'Bạn không có quyền chỉnh sửa đánh giá hoặc bình luận này.'], 403);
+        }
+
+        // Xác thực dữ liệu đầu vào
+        $validatedData = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:255',
+        ]);
+
+        // Cập nhật đánh giá và bình luận
+        $ratingComment->update($validatedData);
+
+        return response()->json(['message' => 'Đánh giá và bình luận đã được cập nhật thành công.'], 200);
+    }
 
     public function accountIndex($id){
-        $user = Auth::User()->where('id',$id)->first();
+        $user = User::where('id', Auth::id())->first();
         $user = User::findOrFail($id);
 
-        $orders = Order::where('user_id', $user->id)
+        $orders = Order::with('orderdetail')->where('user_id', $user->id)
                     ->orderBy('created_at', 'DESC')
                     ->get();
+
+        $products = [];
+        foreach ($orders as $order) {
+            foreach ($order->orderdetail as $orderDetail) {
+                $products[] = $orderDetail->product_id;
+            }
+        }
+
+        // dd($products);
+        $uniqueProducts = [];
+
+        foreach ($products as $item) {
+            if (!in_array($item, $uniqueProducts)) {
+                $uniqueProducts[] = $item;
+            }
+        }
 
 
         return view('client.account', [
             'orders' => $orders,
+            'uniqueProducts'=>$uniqueProducts,
         ]);
 
+
+}
+
+    public function showWishlist($id){
+        $data=Wishlist::with('item')->where('user_id',$id)->get();
+        return view('client.wishlist',compact('data'));
     }
 
-    public function addToWishlist($id, $quantity){
-        //
+    public function addToWishlist(Request $request){
+        Wishlist::create($request->except('_token'));
+        return "item added to your Wishlist";
     }
 
-    public function showWishlist(){
-        return view('client.wishlist');
-
-    }
-
-    public function wishlistDelete($id){
-        //
-    }
-
-    public function wishlistUpdate(Request $request, $id){
-//
+    public function wishlistDelete(Request $request){
+        $data=Wishlist::where('id',$request->id)->delete();
+        return 'item removed successfully from wishlist';
     }
 
     // public function orderManagement(Request $request, $id){
@@ -282,15 +377,25 @@ class ClientController extends Controller
 
     public function updateDetail(Request $request, $id){
         $order = Order::where('id',$id)->first();
-        // dd($order);
 
         if($order->status == 1){
             $order->status = 3;
 
             $order->reason = $request->reason;
-            $order->updated_at = now(); // Sử dụng now() để lấy thời gian hiện tại
+            $order->deleted_at = now();
 
             $order->save();
+
+                $details = OrderDetail::where('order_id', $id)->get();
+                foreach($details as $detail){
+                    $product = Product::where('id',$detail->product_id)->first();
+                    $product->quantity = $product->quantity + $detail->quantity;
+                    $product->updated_at = now();
+                    if($product->status == 2){
+                        $product->status = 1;
+                    }
+                    $product->save();
+                }
 
 
             return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
@@ -301,12 +406,13 @@ class ClientController extends Controller
     }
 
 
+
     public function addressUpdate(Request $request,$id){
         $request->validate([
             'address' => 'required',
             'phone'=>'numeric|required'
         ]);
-        $user = Auth::User()->where('id',$id)->first();
+        $user = User::where('id', Auth::id())->first();
         $user->address=$request->address;
         $user->phone=$request->phone;
         $user->updated_at=new \DateTime();
@@ -322,7 +428,7 @@ class ClientController extends Controller
             'currentpassword'=>'required',
             'password'=>'required|confirmed'
         ]);
-        $userDetail=Auth::User()->where('id',$id)->first();
+        $userDetail = User::where('id', Auth::id())->first();
         if(Hash::check($request->currentpassword, $userDetail->password)){
             $userDetail->firstname=$request->firstname;
             $userDetail->lastname=$request->lastname;
@@ -335,7 +441,7 @@ class ClientController extends Controller
     }
 
     public function showCompare($id){
-        $data=Compare::with('item')->where('user_id',Auth::user()->id)->get();
+        $data=Compare::with('item')->where('user_id',$id)->get();
         return view('client.compare',compact('data'));
     }
 
@@ -345,8 +451,7 @@ class ClientController extends Controller
     }
 
     public function DeleteCompareProduct(Request $request){
-        $data= Compare::where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->delete();
-        return redirect()->route()->with('success','item removed successfully');
+        $data=Compare::where('user_id',Auth::user()->id)->where('id',$request->id)->delete();
+        return 'item removed successfully';
     }
 }
-
