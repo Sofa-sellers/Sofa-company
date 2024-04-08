@@ -394,7 +394,6 @@ class ClientController extends Controller
 
     public function showCompare($id){
         $data=Compare::with('item1')->where('user_id',$id)->get();
-        dd($data);
         return view('client.compare',compact('data'));
     }
 
