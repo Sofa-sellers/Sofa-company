@@ -37,10 +37,12 @@
                             </li>
                             --}}
                             <li class="topbar-nav-item">
-                                    @if(Auth::user()->level==2)
-                                        <span><a style="color: rgb(26, 23, 83); font-weight:bold" href="{{route('admin.index')}}">ADMIN</a></span>
+                                    @if (Auth::check())
+                                        @if(Auth::user()->level==2)
+                                            <span><a style="color: rgb(26, 23, 83); font-weight:bold" href="{{route('admin.index')}}">ADMIN</a></span>
+                                        @endif
                                     @endif
-                                <a class="topbar-nav-link" href="">
+                                <a class="topbar-nav-link">
                                     @php
                                         if(Auth::check()==true)
                                         {
