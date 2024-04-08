@@ -12,6 +12,7 @@ use App\Models\Sku;
 use App\Models\AttributeValue;
 use App\Models\Compare;
 use App\Models\Wishlist;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class Product extends Model
@@ -30,14 +31,14 @@ class Product extends Model
      */
     protected $guarded =[];
 
-    public function compare()
+    public function compare():HasMany
     {
-        return $this->hasMany(Compare::class,'product_id');
+        return $this->hasMany(Compare::class);
     }
 
-    public function wishlist()
+    public function wishlist():HasMany
     {
-        return $this->hasMany(Wishlist::class,'product_id');
+        return $this->hasMany(Wishlist::class);
     }
     public function category(): BelongsTo
     {

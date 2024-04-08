@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use Auth;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Wishlist extends Model{
     use HasFactory;
@@ -15,7 +16,7 @@ class Wishlist extends Model{
     public function user_name(){
         return $this->belongsTo(User::class);
     }
-    public function item(){
+    public function item():BelongsTo{
         return $this->belongsTo(Product::class,'id');
     }
 
