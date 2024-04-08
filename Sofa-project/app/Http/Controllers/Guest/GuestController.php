@@ -55,26 +55,61 @@ class GuestController extends Controller
         if(!request()->orderby){
             request()->orderby=-1;
         }
-        switch (request()->orderby) {
-            case 1:
-                $products = Product::with('category')->orderBy('created_at','DESC')
-                ->where('status','!=',2)->paginate(6);
-                break;
-            case 2:
-                $products = Product::with('category')->orderBy('created_at','ASC')
-                ->where('status','!=',2)->paginate(6);
-                break;
-            case 3:
-                $products = Product::with('category')->orderBy('sale_price','ASC')
-                ->where('status','!=',2)->paginate(6);
-                break;
-            case 4:
-                $products = Product::with('category')->orderBy('sale_price','DESC')
-                ->where('status','!=',2)->paginate(6);
-                break;       
-            default:
-                $products = Product::with('category')->orderBy('created_at','DESC')
-                ->where('status','!=',2)->paginate(6);
+        if(!request()->search){
+            switch (request()->orderby) {
+                case 1:
+                    $products = Product::with('category')->orderBy('created_at','DESC')
+                    ->where('status','!=',2)->paginate(6);
+                    break;
+                case 2:
+                    $products = Product::with('category')->orderBy('created_at','ASC')
+                    ->where('status','!=',2)->paginate(6);
+                    break;
+                case 3:
+                    $products = Product::with('category')->orderBy('sale_price','ASC')
+                    ->where('status','!=',2)->paginate(6);
+                    break;
+                case 4:
+                    $products = Product::with('category')->orderBy('sale_price','DESC')
+                    ->where('status','!=',2)->paginate(6);
+                    break;       
+                default:
+                    $products = Product::with('category')->orderBy('created_at','DESC')
+                    ->where('status','!=',2)->paginate(6);
+            }
+        }
+        else{
+            switch (request()->orderby) {
+                case 1:
+                    $products = Product::with('category')->orderBy('created_at','DESC')
+                    ->where('name','like','%'.request()->search.'%')
+                    ->orwhere('price','like','%'.request()->search.'%')
+                    ->where('status','!=',2)->paginate(6);
+                    break;
+                case 2:
+                    $products = Product::with('category')->orderBy('created_at','ASC')
+                    ->where('name','like','%'.request()->search.'%')
+                    ->orwhere('price','like','%'.request()->search.'%')
+                    ->where('status','!=',2)->paginate(6);
+                    break;
+                case 3:
+                    $products = Product::with('category')->orderBy('sale_price','ASC')
+                    ->where('name','like','%'.request()->search.'%')
+                    ->orwhere('price','like','%'.request()->search.'%')
+                    ->where('status','!=',2)->paginate(6);
+                    break;
+                case 4:
+                    $products = Product::with('category')->orderBy('sale_price','DESC')
+                    ->where('name','like','%'.request()->search.'%')
+                    ->orwhere('price','like','%'.request()->search.'%')
+                    ->where('status','!=',2)->paginate(6);
+                    break;       
+                default:
+                    $products = Product::with('category')->orderBy('created_at','DESC')
+                    ->where('name','like','%'.request()->search.'%')
+                    ->orwhere('price','like','%'.request()->search.'%')
+                    ->where('status','!=',2)->paginate(6);
+            }
         }
         $categories_child= Category::where('parent_id','!=',0)->get();
         //$products=Product::where('status','!=',2)->orderBy('created_at','DESC')->orderBy($o_column,$o_order)->paginate(6);
@@ -89,26 +124,34 @@ class GuestController extends Controller
         if(!request()->orderby){
             request()->orderby=-1;
         }
-        switch (request()->orderby) {
-            case 1:
-                $products = Product::with('category')->orderBy('created_at','DESC')
-                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
-                break;
-            case 2:
-                $products = Product::with('category')->orderBy('created_at','ASC')
-                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
-                break;
-            case 3:
-                $products = Product::with('category')->orderBy('sale_price','DESC')
-                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
-                break;
-            case 4:
-                $products = Product::with('category')->orderBy('sale_price','ASC')
-                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
-                break;       
-            default:
-                $products = Product::with('category')->orderBy('created_at','DESC')
-                ->where('category_id', $id)->where('status','!=',2)->paginate(6);
+        if(request()->search){
+            $products = Product::with('category')->orderBy('created_at','DESC')
+            ->where('category_id', $id)
+            ->where('name','like','%'.request()->search.'%')
+            ->orwhere('price','like','%'.request()->search.'%')
+            ->where('status','!=',2)->paginate(6);
+        }else{
+            switch (request()->orderby) {
+                case 1:
+                    $products = Product::with('category')->orderBy('created_at','DESC')
+                    ->where('category_id', $id)->where('status','!=',2)->paginate(6);
+                    break;
+                case 2:
+                    $products = Product::with('category')->orderBy('created_at','ASC')
+                    ->where('category_id', $id)->where('status','!=',2)->paginate(6);
+                    break;
+                case 3:
+                    $products = Product::with('category')->orderBy('sale_price','DESC')
+                    ->where('category_id', $id)->where('status','!=',2)->paginate(6);
+                    break;
+                case 4:
+                    $products = Product::with('category')->orderBy('sale_price','ASC')
+                    ->where('category_id', $id)->where('status','!=',2)->paginate(6);
+                    break;       
+                default:
+                    $products = Product::with('category')->orderBy('created_at','DESC')
+                    ->where('category_id', $id)->where('status','!=',2)->paginate(6);
+            }
         }
         $categories_child= Category::where('parent_id','!=',0)->where('status','!=',2)->where('id',$id)->first();
         $categoriesList= Category::where('parent_id','!=',0)->where('status','!=',2)->get();
@@ -196,17 +239,17 @@ class GuestController extends Controller
     return view('guest.productdetail', ['filePath' => $filePath]);
     }
 
-    public function search_data(Request $request){
-        $data=$request->input('search');
-        $categories_child= Category::where('parent_id','!=',0)->get();
-        $products=Product::where('status','!=',2)
-        ->where('name','like','%'.$data.'%')
-        ->orwhere('sale_price','like','%'.$data.'%')
-        ->paginate(6);
+    // public function search_data(Request $request){
+    //     $data=$request->input('search');
+    //     $categories_child= Category::where('parent_id','!=',0)->get();
+    //     $products=Product::where('status','!=',2)
+    //     ->where('name','like','%'.$data.'%')
+    //     ->orwhere('sale_price','like','%'.$data.'%')
+    //     ->paginate(6);
 
-        return view('guest.shopfull',compact('products'),[
-            'categories_child' =>$categories_child,
-            'products'=>$products,
-        ]);
-    }
+    //     return view('guest.shopfull',compact('products'),[
+    //         'categories_child' =>$categories_child,
+    //         'products'=>$products,
+    //     ]);
+    // }
 }
