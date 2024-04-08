@@ -1,11 +1,14 @@
 @extends('admin.master')
-@section('module' ,'Order')
-@section('action','List')  
+
+@section('module', 'Order')
+@section('action', 'List')
+
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
+
 @push('js')
 <script src="{{asset('administrator/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('administrator/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -20,38 +23,43 @@
 <script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 @endpush
+
 @push('handlejs')
 <script>
-$(function () {
-    $("#example1").DataTable({
-    "responsive": true, "lengthChange": false, "autoWidth": false,
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-    function confirmDelete(){
-        return confirm('Do you want to delete it ?');
+
+    function confirmDelete() {
+        return confirm('Do you want to delete it?');
     }
 </script>
 @endpush
+
 @section('content')
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Order List</h3>
-          <div class="card-tools">
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Order List</h3>
+        <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
+                <i class="fas fa-minus"></i>
             </button>
             <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i>
             </button>
-            </div>
         </div>
-        <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
+    </div>
+
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
                         <th>Email</th>
                         <th>Firstname</th>
                         <th>Lastname</th>
@@ -62,13 +70,12 @@ $(function () {
                         <th>Created At</th>
                         <th>Deleted At</th>
                         <th>Detail</th>
-                        
-                    </tr>
-                </thead>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach ($orders as $order)
-                <tbody>
-                    <tr>
-                        <td>{{$loop->iteration}}</td>
+                <tr>
+                    <td>{{$loop->iteration}}</td>
                         <td>{{$order->email}}</td>
                         <td>{{$order->firstname}}</td>
                         <td>{{$order->lastname}}</td>
@@ -103,13 +110,12 @@ $(function () {
                         <td>{{$order->created_at}}</td>
                         <td>{{$order->deleted_at}}</td>
                         <td><a href="{{route('admin.order.edit',['id'=>$order->id])}}">Detail</a></td>
-                        
-                    </tr>
-                </tbody>
+                </tr>
                 @endforeach
-                <tfoot>
-                    <tr>
-                        <th>ID</th>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
                         <th>Email</th>
                         <th>Firstname</th>
                         <th>Lastname</th>
@@ -120,22 +126,11 @@ $(function () {
                         <th>Created At</th>
                         <th>Deleted At</th>
                         <th>Detail</th>
-                    </tr>
-                </tfoot>
-              </table>
-        </div>
-        <!-- /.card-body -->
-        
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
 
 @endsection
 
-{{-- <div class="form-group">
-    <label >Status</label>
-    <select class="form-control" name="staztus">
-        <option value="1" {{old('status',$category->status)== 1? 'selected':' '}}>Show</option>
-        <option value="2" {{old('status',$category->status)== 2? 'selected':' '}}>Hide</option>
-    </select>
-  </div> --}}
