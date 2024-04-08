@@ -42,7 +42,7 @@ route::get('resetPassword/{token}',[LoginController::class,'resetPassword'])
 route::post('resetPassword',[LoginController::class,'resetPasswordPost'])
 ->name('reset.password.post');
 
-route::get('search_data',[GuestController::class,'search_data']);
+//route::get('search_data',[GuestController::class,'search_data']);
 
 Route::get('Logout',Logout::class)->name('logout');
 

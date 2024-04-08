@@ -22,6 +22,10 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
+                                <form>
+                                    <input class="form-control" id="search" type="text" name="search" placeholder="Search product...">
+                                    <button class="form-search-btn" class="ion-ios-search" type="submit"></button>
+                                </form>
                                 <span class="sort-by">Sort by:</span>
                                 <form>
                                 <select class="form-select" onchange="this.form.submit()" name="orderby" id="orderby">
