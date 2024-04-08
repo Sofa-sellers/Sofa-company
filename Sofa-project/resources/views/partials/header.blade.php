@@ -132,15 +132,6 @@
                 <div class="col-6 col-lg-3">
                     <ul class="nav align-items-center justify-content-end quick-links">
                         <li class="quick-link-item">
-                            <a class="quick-link-link search" href="#"><span class="ion-ios-search-strong"></span></a>
-                            <div class="header-serch-form header-serch-form-right">
-                                <form action="search_data" method="GET">
-                                    <input class="form-control" type="text" name="search" placeholder="Search product...">
-                                    <button class="form-search-btn" type="submit"><span class="ion-ios-search-strong"></span></button>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="quick-link-item">
                             @auth
                             <a class="quick-link-link wishlist-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">
                                 <span class="wishlist-count">{{\App\Models\Wishlist::countWishlist()}}</span>

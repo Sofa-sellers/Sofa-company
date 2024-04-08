@@ -22,6 +22,10 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
+                                <form action="search_data" method="GET">
+                                    <input class="form-control" type="text" name="search" placeholder="Search product...">
+                                    <button class="form-search-btn" class="ion-ios-search" type="submit"></button>
+                                </form>
                                 <span class="sort-by">Sort by:</span>
                                 <form>
                                     <select class="form-select" onchange="this.form.submit()" name="orderby" id="orderby">
@@ -49,8 +53,13 @@
                                         <div class="product-content">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <div class="product-group">
-                                                <h5 class="product-price"><del class="old-price">{{$product->price}}</del> <span class="new-price">{{$product->sale_price}}</span></h5>
-                                                <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">Add to cart</button>
+                                                @if ($product->price==0)
+                                                <h5 class="product-price"><span class="old-price">{{number_format($product->sale_price, 0, "", ".")}}</span></h5>
+                                                <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
+                                                @else
+                                                <h5 class="product-price"><del class="old-price">{{number_format($product->price, 0, "", ".")}}</del> <span class="new-price">{{number_format($product->sale_price, 0, "", ".")}}</span></h5>
+                                                <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
+                                                @endif
                                             </div>
 
                                         </div>
