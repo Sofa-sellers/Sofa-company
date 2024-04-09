@@ -6,7 +6,7 @@
                     <ul class="topbar-nav-info nav">
                         <li class="topbar-nav-info-item"><span class="ion-ios-location-outline"></span> Store Location
                         </li>
-                        <li class="topbar-nav-info-item"><span class="ion-ios-email-outline"></span><a href="mailto:support@demothemes.com">support@demothemes.com</a></li>
+                        <li class="topbar-nav-info-item"><span class="ion-ios-email-outline"></span><a href="mailto:seolosofa@gmail.com">seolosofa@gmail.com</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6">
@@ -80,7 +80,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="logo">
                         <a href="{{route('index')}}">
-                            <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}" style="width:400;height:200" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/logo/OxfordLogo.jpg')}}" style="width:400;height:200" alt="image_not_found">
                         </a>
                     </div>
                 </div>

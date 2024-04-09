@@ -496,19 +496,19 @@
                         <a href="{{route('indexShop')}}" class="btn btn-outline-dark">Shop Furniture</a>
                     </div>
                     <!-- large-banner-content end -->
-                    <a href="shop-grid-left-sidebar.html" class="thumb-nail">
-                        <img src="{{asset('client/assets/images/banner/banner3.jpg')}}" alt="image_not_found" style="width:460px; height:400px" class="img-fluid">
+                    <a href="{{route('indexShop')}}" class="thumb-nail">
+                        <img src="{{asset('client/assets/images/banner/flash-sales.jpg')}}" alt="image_not_found" style="width:460px; height:400px" class="img-fluid">
                     </a>
                     <!-- thumb-nail end-->
                 </div>
                 <div class="col-lg-8 mb-4">
                     <div class="large-banner-wrap position-relative">
-                        <a href="shop-grid-left-sidebar.html" class="large-thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner4.jpg')}}" alt="image_not_found" style="width:570px; height:700px" class="img-fluid">
+                        <a href="{{route('indexShop')}}" class="large-thumb-nail">
+                            <img src="{{asset('client/assets/images/banner/sofa.jpg')}}" alt="image_not_found" style="width:570px; height:700px" class="img-fluid">
                         </a>
                         <!-- thumb-nail end-->
-                        <a href="shop-grid-left-sidebar.html" class="small-thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner5.jpg')}}" alt="image_not_found" style="width:416px; height:406px" class="img-fluid">
+                        <a href="{{route('indexShop')}}" class="small-thumb-nail">
+                            <img src="{{asset('client/assets/images/banner/sofa2.jpg')}}" alt="image_not_found" style="width:416px; height:406px" class="img-fluid">
                         </a>
                         <!-- thumb-nail end-->
                     </div>
