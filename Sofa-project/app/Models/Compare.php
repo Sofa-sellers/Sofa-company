@@ -15,7 +15,7 @@ class Compare extends Model{
         return $this->belongsTo(User::class);
     }
     public function item1(){
-        return $this->belongsTo(Product::class,'id');
+        return $this->belongsTo(Product::class,'product_id');
     }
 }
 ?>

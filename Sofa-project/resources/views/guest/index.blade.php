@@ -184,8 +184,8 @@
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(empty($item->sale_price))
-                                                                    $ {{ number_format($item->price, 0, "", ".") }}
+                                                                    @if(empty($item->price))
+                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
@@ -531,8 +531,8 @@
                                                 <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                 <div class="product-group">
                                                     <h5 class="product-price">
-                                                        @if(empty($item->sale_price))
-                                                            $ {{ number_format($item->price, 0, "", ".") }}
+                                                        @if(empty($item->price))
+                                                        $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                         @else
                                                         <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> 
                                                             <span class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>

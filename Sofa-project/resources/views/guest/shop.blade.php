@@ -54,8 +54,8 @@
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <div class="product-group">
                                                 <h5 class="product-price">
-                                                @if(empty($product->sale_price))
-                                                            $ {{ number_format($product->price, 0, "", ".") }}
+                                                @if(empty($product->price))
+                                                            $ {{ number_format($product->sale_price, 0, "", ".") }}
                                                         @else
                                                         <del class="old-price">$ {{ number_format($product->price, 0, "", ".") }}</del> 
                                                             <span class="new-price">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
@@ -119,9 +119,9 @@
                                         <div class="product-content-list col-md-8 mb-5">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <h5>
-                                                @if(empty($product->sale_price))
+                                @if(empty($product->price))
                                 
-                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->price, 0, "", ".") }}</h4>
+                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
                                 @else
                                 
                                 <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
