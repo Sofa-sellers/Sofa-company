@@ -174,7 +174,7 @@
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
                                                             {{-- <span class="onsale bg-danger">sale!</span> --}}
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
-                                                                alt="image_not_found" class="img-fluid" style="height: 415px;">
+                                                                alt="image_not_found" class="img-fluid" style="height: 300px; width: 1000px">
                                                         </a>
                                                         <!-- thumb end -->
     
@@ -184,8 +184,8 @@
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->price)
-                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
+                                                                    @if(empty($item->sale_price))
+                                                                    $ {{ number_format($item->price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
@@ -201,32 +201,16 @@
                                                         </div>
                                                         
     
-                                                        <!-- actions  -->
-                                                        {{-- <ul class="actions actions-verticale">
-                                                            <li class="action wish-list">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist" style="color: black">
-                                                                    <a href="{{ route('client.showWishlist') }}">
-                                                                        <i class="ion-ios-heart-outline"></i>
-                                                                    </a>
-                                                                </button>
-                                                            </li>
-                                                            <li class="action quick-view">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal">
-                                                                    <a href="{{ route('detail',['slug'=>$item->slug]) }}">
-                                                                        <i class="ion-ios-eye-outline"></i>
-                                                                    </a>
-                                                                </button>
-                                                            </li>
-    
-                                                            <li class="action compare">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
-                                                                    <a href="{{ route('showCompare') }}">
-                                                                        <i class="ion-android-sync"></i>
-                                                                    </a>
-                                                                </button>
-                                                            </li>
-    
-                                                        </ul> --}}
+                                                        <ul class="actions actions-verticale">
+                                                            @auth
+                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
+                                                            @endauth
+                                                            @guest
+                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}','0')"><i class="ion-android-sync"></i></button></li>
+                                                            @endguest
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             
@@ -249,7 +233,7 @@
                                 <div class="swiper-container">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
-                                        @foreach($products_lastest as $item)
+                                        @foreach($products_featured as $item)
                                         {{-- @php
                                             $max = 5; // Số lần lặp
                                         @endphp
@@ -276,8 +260,8 @@
 
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->price)
-                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
+                                                                    @if(empty($item->sale_price))
+                                                                    $ {{ number_format($item->price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
@@ -344,7 +328,7 @@
                                 <div class="swiper-container">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
-                                        @foreach($products_lastest as $item)
+                                        @foreach($products_sale as $item)
                                         {{-- @php
                                             $max = 5; // Số lần lặp
                                         @endphp
@@ -373,8 +357,8 @@
 
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->price)
-                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
+                                                                    @if(empty($item->sale_price))
+                                                                    $ {{ number_format($item->price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
@@ -547,8 +531,8 @@
                                                 <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                 <div class="product-group">
                                                     <h5 class="product-price">
-                                                        @if($item->price==0)
-                                                        $ {{ number_format($item->sale_price, 0, "", ".") }}
+                                                        @if(empty($item->sale_price))
+                                                            $ {{ number_format($item->price, 0, "", ".") }}
                                                         @else
                                                         <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> 
                                                             <span class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>

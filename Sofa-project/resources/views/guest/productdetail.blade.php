@@ -82,9 +82,10 @@
                             </div> --}}
 
                             <div class="product-price-wrapp-lg">
-                                @if(!$product->price)
+                               
+                                @if(empty($product->sale_price))
                                 
-                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
+                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->price, 0, "", ".") }}</h4>
                                 @else
                                 
                                 <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>

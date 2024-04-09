@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('module' ,'Sku')
+@section('module' ,'Color')
 @section('action','List')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -58,7 +58,7 @@
                 <tr>
                     <th>No</th>
                     <th>Color</th>
-                    <th>Delete</th>
+                 
                 </tr>
             </thead>
             <tbody>
@@ -67,27 +67,20 @@
                     <td>{{$loop->iteration}}</td>
                     <td>
                         @php
-                        $color = $sku->attributevalue->value;
+                        // dd($sku->value_id);
+                        $color = App\Models\AttributeValue::where('id', $sku->value_id)->first();
+                        $value = $color->value
                         @endphp
-                        <input type="color" style="background: {{$color}}" disabled>
+                        <input type="text" style="background: {{$value}}" >
                     </td>
-                    {{-- @foreach($sku as $index => $attr)
-                    @if($sku->attribute_id == 1)
-                    <td>{{$attr->name}}</td>
-                    <td style="background: {{$values[$loop->index]->value}}">{{$values[$loop->index]->value}}</td>
-                    @else
-                    <td>{{$attr->name}}</td>
-                    <td>{{$values[$loop->index]->value}}</td> --}}
-                    @endif
-                    @endforeach
+
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th>ID</th>
-                    <th>Attribute</th>
-                    <th>Value</th>
-                    <th>Delete</th>
+                    <th>No</th>
+                    <th>Color</th>
+                  
                 </tr>
             </tfoot>
         </table>
