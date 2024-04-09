@@ -11,6 +11,11 @@ use App\Models\AttributeValue;
 use App\Models\Compare;
 use App\Models\Wishlist;
 
+use App\Http\Requests\Client\Order\StoreRequest as OrderStoreRequest;
+use App\Http\Requests\Client\Order\UpdateRequest as OrderUpdateRequest;
+use App\Http\Requests\Client\Cart\StoreRequest as CartStoreRequest;
+use App\Http\Requests\Client\Cart\UpdateRequest as CartUpdateRequest;
+
 use DateTime;
 use App\Helpers\Cart;
 use App\Models\OrderDetail;
@@ -28,7 +33,7 @@ use function PHPUnit\Framework\isEmpty;
 class ClientController extends Controller
 {
     
-    public function addToCart(Request $request, Cart $cart){
+    public function addToCart(CartStoreRequest $request, Cart $cart){
 
         $product = Product::where('id', $request->id)->first();
         $quantity = $request->quantity;
@@ -76,7 +81,7 @@ class ClientController extends Controller
         return redirect()->route('client.showCart');
       }
 
-    public function cartUpdate(Request $request, Cart $cart, $itemKey)
+    public function cartUpdate(CartUpdateRequest $request, Cart $cart, $itemKey)
     {
 
         
@@ -146,7 +151,7 @@ class ClientController extends Controller
         }
     }
 
-    public function checkout(Request $request, Cart $cart, $user){
+    public function checkout(OrderStoreRequest $request, Cart $cart, $user){
         
             $data = [
             'firstname' => $request->firstname,
@@ -327,7 +332,7 @@ class ClientController extends Controller
         ]);
     }
 
-    public function updateDetail(Request $request, $id){
+    public function updateDetail(OrderUpdateRequest $request, $id){
         $order = Order::where('id',$id)->first();
         
         if($order->status == 1){

@@ -22,19 +22,18 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-
-            // 'status'=>'required|integer',
+            'attribute_id'=>'required|integer|min:1',
+            'status'=>'required|integer',
         ];
     }
 
     public function messages(): array
     {
         return [
-            // 'value.required'=>'Please enter the value of attribute',
-            // 'value.unique'=>'This value already exists. Please enter/choose another value',
-            // 'status.required'=>'Please select status',
-            // 'status.integer'=>'Status value must be an integer',
+            'attribute_id.required'=>'Please select attribute',
+            'attribute_id.min'=>'Please select attribute',
+            'status.required'=>'Please select status',
+            'status.integer'=>'Status value must be an integer',
         ];
     }
 }

@@ -50,15 +50,14 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1"></label>
-        <input type="hidden" class="form-control" name="product_id" value="{{old('product_id',$product->id)}}" disabled>
+        <input type="hidden" class="form-control" name="product_id" value="{{old('product_id',$product->id)}}">
     </div>
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Attribute</th>
-                    <th>Value</th>
+                    <th>No</th>
+                    <th>Color</th>
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -66,13 +65,19 @@
                 @foreach ($skus as $sku)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    @foreach($attributes as $index => $attr)
+                    <td>
+                        @php
+                        $color = $sku->attributevalue->value;
+                        @endphp
+                        <input type="color" style="background: {{$color}}" disabled>
+                    </td>
+                    {{-- @foreach($sku as $index => $attr)
                     @if($sku->attribute_id == 1)
                     <td>{{$attr->name}}</td>
                     <td style="background: {{$values[$loop->index]->value}}">{{$values[$loop->index]->value}}</td>
                     @else
                     <td>{{$attr->name}}</td>
-                    <td>{{$values[$loop->index]->value}}</td>
+                    <td>{{$values[$loop->index]->value}}</td> --}}
                     @endif
                     @endforeach
                 @endforeach

@@ -78,7 +78,7 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
-                    <td><a href="{{ route('admin.sku.index',['product_id'=>$product->id]) }}">Manage Color</a></td>
+                    <td><a href="{{ route('admin.sku.index',['id'=>$product->id]) }}">Manage Color</a></td>
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: 200px;">
                     </td>
