@@ -61,7 +61,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>SKU</th>
+                    <th>Color</th>
                     <th>Image</th>
                     <th>Price</th>
                     <th>Sale price</th>
@@ -78,7 +78,7 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$product->name}}</td>
-                    <td><a href="{{ route('admin.sku.index',['id'=>$product->id]) }}">Manage Color</a></td>
+                    <td><a href="{{ route('admin.sku.index',['id'=>$product->id]) }}">Detail</a></td>
                     <td>
                         <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: 200px;">
                     </td>
@@ -133,7 +133,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>SKU</th>
+                    <th>Color</th>
                     <th>Image</th>
                     <th>Price</th>
                     <th>Sale price</th>
