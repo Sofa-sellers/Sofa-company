@@ -4,6 +4,32 @@
 
 
 @section('content')
+@if ($errors->any())
+                                    <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    </div>
+                                @endif
+                                @if ($message = Session::get('success'))
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h5><i class="icon fas fa-check"></i> Success!</h5>
+                                        {{ $message }}
+                                    </div>
+
+                                    
+                                @elseif ($message = Session::get('failed'))
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h5><i class="icon fas fa-check"></i> Failed!</h5>
+                                        {{ $message }}
+                                    </div>
+
+                                    
+                                @endif
 <section class="whish-list-section section-padding-bottom">
     <div class="container">
         <div class="row">
@@ -32,6 +58,9 @@
                                 
                                 <form method="post" action="{{route('client.cartUpdate',['itemKey'=>$item['itemKey']])}}">
                                     @csrf
+                                    
+
+
                                     <td class="text-center">
                                         <input type="hidden" name="itemKey" value="{{ old('itemKey', $item['itemKey']) }}">
                                         {{-- <input type="hidden" name="productId" value="{{ old('productId', $item['productId']) }}"> --}}

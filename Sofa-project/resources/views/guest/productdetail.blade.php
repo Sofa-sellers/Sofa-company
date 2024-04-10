@@ -1,22 +1,46 @@
 @extends('master')
 @section('module','Product Detail')
 @section('content')
+@if ($errors->any())
+                                    <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    </div>
+                                @endif
+                                @if ($message = Session::get('success'))
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h5><i class="icon fas fa-check"></i> Success!</h5>
+                                        {{ $message }}
+                                    </div>
 
+                                    
+                                @elseif ($message = Session::get('failed'))
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h5><i class="icon fas fa-check"></i> Failed!</h5>
+                                        {{ $message }}
+                                    </div>
 
-    <!-- main content start -->
+                                    
+                                @endif
+   <!-- main content start -->
     <!-- bread crumb section start -->
-    <!-- <nav class="breadcrumb-section bg-light bread-crumb-padding">
+  <nav class="breadcrumb-section bg-light bread-crumb-padding">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">63in. White Stucco Floor Lamp</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
                     </ol>
                 </div>
             </div>
         </div>
-    </nav> -->
+    </nav>
     <!-- bread crumb section end -->
 
     <!-- modal gallery slider start -->
@@ -66,24 +90,9 @@
                 <!--Product start  -->
                 <div class="col-md-7 mb-4">
                     <form method="post" action="{{ route('client.addToCart')}}">
-                    @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
                     
-                    </div>
-                    @endif
 
-                    @if ($message = Session::has('success'))
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-check"></i> success!</h5>
-                        {{Session::get('success')}}
-                    </div>
-                    @endif
+
                         @csrf
                         <input type="hidden" name="id" value="{{$product->id}}">
                         
@@ -117,6 +126,10 @@
                                 <div class="product-price-wrapp-lg">
                                     <span class="badge bg-success" style="font-size: 15px">In Stock {{$product->quantity}}</span>
                                 </div>
+                            @elseif($product->quantity == 0)
+                            <div class="product-price-wrapp-lg">
+                                <span class="badge bg-danger" style="font-size: 15px">Out of stock!!!</span>
+                            </div>
                             @else
                             <div class="product-price-wrapp-lg">
                                 <span class="badge bg-danger" style="font-size: 15px">Running out of stock!! Only {{$product->quantity}} now</span>
@@ -137,7 +150,7 @@
                                         @if($c)
                                         <li class="input-container">
                                             <label>
-                                            <input class="input-color" type="radio" name="color" value="{{$c->id}}" required>
+                                            <input class="input-color" type="radio" name="color" value="{{$c->id}}" required checked>
                                             <span class="color" style="background-color: {{ $c->value }} "></span>
                                             </label>
                                             <input type="hidden" name="selected_color" value="{{$c->id}}">
@@ -156,7 +169,11 @@
 
                                 <div class="product-count style d-flex my-4">
                                     <div class="count d-flex">
+                                        @if($product->quantity < 6)
                                         <input type="number" min="1" max="{{$product->quantity}}" style="width: 80%;" name="quantity" value="1">
+                                        @else
+                                        <input type="number" min="1" max="5" style="width: 80%;" name="quantity" value="1">
+                                        @endif
                                     </div>
                                     <div>
                                         <button type="submit" class="btn animated btn-outline-dark">
@@ -261,48 +278,47 @@
                         <div class="row">
                             <div class="col-lg-7">
                                 <div class="review-wrapper">
+                                    @foreach($comments as $com)
                                     <div class="single-review">
-                                        {{-- 
-                                        <div class="review-img">
-                                            <img src="{{asset('client/assets/images/testimonial/1.png')}}" alt="">
-                                        </div>
-                                        --}}
+                                        
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-                                                        <h4>White Lewis</h4>
+                                                        @php
+                                                           $name = App\Models\User::where('id', $com->user_id)->pluck('username')->first(); 
+                                                        @endphp
+                                                        <h4>{{$name}}</h4>
                                                     </div>
-                                                    <div class="rating-product">
+                                                    {{-- <div class="rating-product">
                                                         <i class="ion-android-star"></i>
                                                         <i class="ion-android-star"></i>
                                                         <i class="ion-android-star"></i>
                                                         <i class="ion-android-star"></i>
                                                         <i class="ion-android-star"></i>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
-                                                @auth
+                                                {{-- @auth
                                                 <div class="review-left">
                                                     <a href="#">Reply</a>
                                                 </div>
-                                                @endauth
+                                                @endauth --}}
                                             </div>
                                             <div class="review-bottom">
-                                                <p>
-                                                    Vestibulum ante ipsum primis aucibus orci
-                                                    luctustrices posuere cubilia Curae Suspendisse
-                                                    viverra ed viverra. Mauris ullarper euismod
-                                                    vehicula. Phasellus quam nisi, congue id nulla.
+                                                <p style="width: 100%">
+                                                    {{$com->comment}}
                                                 </p>
                                             </div>
                                         </div>
+                                        
                                     </div>
-                                    <div class="single-review child-review">
-                                        {{-- 
+                                    @endforeach
+                                    {{-- <div class="single-review child-review">
+                                        
                                         <div class="review-img">
                                             <img src="{{asset('client/assets/images/testimonial/2.png')}}" alt="">
                                         </div>
-                                        --}}
+                                       
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -332,16 +348,18 @@
                                                 </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 @auth
                                 <div class="ratting-form-wrapper">
                                     <h3>Add a Review</h3>
+                                    
                                     <div class="ratting-form">
-                                        <form action="#">
-                                            <div class="star-box">
+                                        <form action="{{ route('admin.ratingComment.store',['id'=>$product->id])}}" method="POST">
+                                            @csrf
+                                            {{-- <div class="star-box">
                                                 <span>Your rating:</span>
                                                 <div class="rating-product">
                                                     <i class="ion-android-star"></i>
@@ -350,21 +368,23 @@
                                                     <i class="ion-android-star"></i>
                                                     <i class="ion-android-star"></i>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="rating-form-style mb-10">
-                                                        <input placeholder="Name" type="text">
+                                                        <input placeholder="{{Auth::user()->username}}" type="text" disabled>
+                                                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                                        <input type="hidden" name="product_id" value="{{$product->id}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="rating-form-style mb-10">
-                                                        <input placeholder="Email" type="email">
+                                                        <input placeholder="{{Auth::user()->email}}" type="email" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="rating-form-style form-submit">
-                                                        <textarea name="Your Review" placeholder="Message"></textarea>
+                                                        <textarea placeholder="Message" name="comment"></textarea>
                                                         <button type="submit" class="btn btn-dark">
                                                         Submit
                                                         </button>

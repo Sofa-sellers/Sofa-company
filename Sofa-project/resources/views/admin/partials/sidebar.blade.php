@@ -187,11 +187,11 @@
               </ul>
           </li>
 
-          {{-- <li class="nav-item">
+          <li class="nav-item">
               <a href="#" class="nav-link">
                   <i class="fa fa-comments" aria-hidden="true"></i>
                   <p>
-                  Rating Review
+                  Comment Review
                   <i class="right fas fa-angle-left"></i>
                   </p>
               </a>
@@ -203,7 +203,7 @@
                       </a>
                   </li>
               </ul>
-          </li> --}}
+          </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link">

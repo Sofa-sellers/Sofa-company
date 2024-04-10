@@ -150,7 +150,7 @@
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade" id="address-edit" role="tabpanel">
                         <div class="myaccount-content">
-                            <h3>Address</h3>
+                            <h3>Delivery Address</h3>
                             <form method="POST" action="{{route('client.address',['id'=>Auth::user()->id])}}">
                                 @csrf
                                 @if ($errors->any())

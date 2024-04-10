@@ -540,18 +540,20 @@ class AdminController extends Controller
 
 
 
-    public function racomAccept(RatingCommentStoreRequest $request)
+    public function racomStore(RatingCommentStoreRequest $request, $id)
     {
         $ratingComment = new RatingComment();
 
-        $ratingComment->product_id = $request->product_id;
+        $ratingComment->product_id = $id;
         $ratingComment->user_id = $request->user_id;
-        $ratingComment->rating = $request->rating;
+        
         $ratingComment->comment = $request->comment;
+        $ratingComment->status = 2;
 
         $ratingComment->save();
 
-        return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
+        return redirect()->back()->with('success', 'Thank you for your comment');
+        // return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
     }
 
     public function racomDestroy(){

@@ -18,25 +18,40 @@
                             <div class="myaccount-table table-responsive text-left">
                                 <form action="{{ route('client.updateDetail',['id'=>$order->id])}}" method="POST">
                                     @if ($errors->any())
-                                    <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    
-                                    </div>
-                                    @endif
+                                <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                                
+                                </div>
+                                @endif
 
-                                    @if ($message = Session::has('success'))
-                                    <div class="alert alert-success alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <h5><i class="icon fas fa-check"></i> success!</h5>
-                                        {{Session::get('success')}}
-                                    </div>
-                                    @endif
+                                @if ($message = Session::has('success'))
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> success!</h5>
+                                    {{Session::get('success')}}
+                                @elseif($message = Session::has('failed'))
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> failed!</h5>
+                                    {{Session::get('failed')}}
+                                </div>
+                                @endif
+
                                     @csrf
                                     <table>
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-light my-2 my-sm-0" style="border: black solid 1px;" href="{{ route('client.account',['id'=>Auth::user()->id])}}">Turn back</a>
+                                            </td>
+                                            <td>
+                                                
+                                            </td>
+                                            
+                                        </tr>
                                     <tr>
                                         <th>Firstname</th>
                                         <td>{{$order->firstname}}</td>
@@ -90,6 +105,9 @@
                                         
                                     </tr>
                                     <tr>
+                                        @if($order->status == 3 || $order->status == 7)
+                                            <td></td>
+                                        @elseif($order->status == 1)
                                             <th>
                                                 <label for="">Reason for cancel order</label>
                                                 <input type="hidden" name="status" value="{{$order->status}}">
@@ -100,8 +118,16 @@
                                             <td>
                                                 <button type="submit" class="btn btn-outline-dark" >Cancel</button>
                                             </td>
-
+                                        @else
+                                            <td></td>
+                                            <td>
+                                                    <span>Please contact us at seolosofa@gmail.com if you have any questions or encounter any issues with your order.</span>
+                                                
+                                            </td>
+                                           
+                                        @endif
                                     </tr>
+                                    
                                     </table>
                                 </form>
                             </div>
@@ -136,16 +162,7 @@
                                                 </tr>
                                             </tbody>
                                             @endforeach
-                                            <tfoot>
-                                                <tr>
-                                                  <th>ID</th>
-                                                  <th>Product</th>
-                                                  <th>Color</th>
-                                                  <th>Quantity</th>
-                                                  <th>Price</th>
-                                                  <th>Total Price</th>
-                                                </tr>
-                                            </tfoot>
+                                            
                                         </table>
                                     </div>
                                 

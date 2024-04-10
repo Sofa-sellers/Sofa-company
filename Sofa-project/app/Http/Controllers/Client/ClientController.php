@@ -38,7 +38,7 @@ class ClientController extends Controller
         $product = Product::where('id', $request->id)->first();
         $quantity = $request->quantity;
         $color = $request->color;
-        
+     
         if($product->quantity < $quantity){
             return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
         }
@@ -92,14 +92,20 @@ class ClientController extends Controller
         // dd($pro_quantity);
 
         $quantity = $request->quantity;
+        $total = $cart->subToTal();
+        
         //  dd($quantity);
         // Validate quantity
         if (!is_numeric($quantity) || $quantity <= 0) {
             return redirect()->back()->with('failed', 'Quantity is invalid, please enter the quantity');
         }
 
-        if ($quantity > $pro_quantity) {
-            return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
+        if ($quantity > 5) {
+            return redirect()->back()->with('failed', 'Please contact with us via seolosofa@gmail.com to get better service');
+        }
+
+        if ($total > 10000) {
+            return redirect()->back()->with('failed', 'Please contact with us via seolosofa@gmail.com to get better service');
         }
 
         $cartCollection = $cart->list();
