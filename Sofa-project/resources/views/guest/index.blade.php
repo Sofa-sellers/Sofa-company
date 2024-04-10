@@ -432,7 +432,7 @@
                         <div class="swiper-slide">
                             <div class="decoration">
                                 <a class="decoration-thumb" href="{{ route('shop',['cate_id'=>$cate->id])}}">
-                                    <img src="https://i.pinimg.com/originals/1b/75/52/1b755295f7959123be58a813e735a8e7.jpg" alt="image_not_found" class="img-fluid">
+                                    <img src="{{asset('uploads/'.$cate->photo)}}" alt="{{$cate->name}}" class="img-fluid">
                                 </a>
                                 <div class="decoration-content">
                                     <h3 class="decoration-title">{{$cate->name}}</h3>
