@@ -14,7 +14,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reason' => 'required|max_digits:200'
+            'reason' => 'required'
         ];
     }
 
@@ -22,7 +22,6 @@ class UpdateRequest extends FormRequest
     {
         return [
             'reason.required' => 'Please enter reason for cancel order',
-            'reason.max_digits' => "Reason only contains 200 words"
         ];
     }
 }

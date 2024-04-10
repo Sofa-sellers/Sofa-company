@@ -27,7 +27,7 @@
                 <div class="col-xl-6 mb-4">
                     <div class="about-content text-center">
                         <div class="about-left-image">
-                            <img src="{{asset('client/assets/images/about/lg-1.jpg')}}" alt="img" class="img-responsive">
+                            <img src="{{asset('client/assets/images/banner/sofa3.jpg')}}" alt="img" class="img-responsive">
                         </div>
 
                     </div>

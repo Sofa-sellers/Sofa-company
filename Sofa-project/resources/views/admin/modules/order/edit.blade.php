@@ -111,7 +111,7 @@
                 <select class="form-control" name="status" >
                     <option value="1" {{old('status',$order->status)== 1? 'selected':' '}}>Waiting</option>
                     <option value="2" {{old('status',$order->status)== 2? 'selected':' '}}>Accepted</option>
-                    <option value="3" {{old('status',$order->status)== 3? 'selected':' '}}>Deny</option>
+                    <option value="3" {{old('status',$order->status)== 3? 'selected':' '}}>Deny/Cancel</option>
                     <option value="4" {{old('status',$order->status)== 4? 'selected':' '}}>Preparing shipment</option>
                     <option value="5" {{old('status',$order->status)== 5? 'selected':' '}}>Handed over to the carrier</option>
                     <option value="6" {{old('status',$order->status)== 6? 'selected':' '}}>In transit</option>

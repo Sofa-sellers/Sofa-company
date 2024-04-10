@@ -115,9 +115,16 @@
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
-                                            <h5 class="product-price-list"><del class="old-price">{{$product->price}}</del> <span class="new-price">{{$product->sale_price}}</span>
-                                            </h5>
-                                            <p>{{$product->description}}</p>
+                                            @if(empty($product->price))
+                                
+                                            <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
+                                            @else
+                                            
+                                            <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
+                                            <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
+                                            <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
+                                            @endif
+                                            <p>{{$product->brand->name}}</p>
                                             <!-- actions  -->
                                             <input type="hidden" name="product_id" value="{{$product->id}}">
                                             <ul class="actions actions-horizontal">
@@ -152,6 +159,14 @@
                                 <ul>
                                     @foreach ($categories_child as $item)
                                     <li><a href="{{ route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    @endforeach
+                                </ul>
+                            </nav>
+                            <h3 class="widget-title">Brand</h3>
+                            <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
+                                <ul>
+                                    @foreach ($brand as $item)
+                                    <li><a href="{{ route('shopBrand',['brand_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
                             </nav>

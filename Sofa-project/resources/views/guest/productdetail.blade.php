@@ -66,6 +66,24 @@
                 <!--Product start  -->
                 <div class="col-md-7 mb-4">
                     <form method="post" action="{{ route('client.addToCart')}}">
+                    @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    
+                    </div>
+                    @endif
+
+                    @if ($message = Session::has('success'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-check"></i> success!</h5>
+                        {{Session::get('success')}}
+                    </div>
+                    @endif
                         @csrf
                         <input type="hidden" name="id" value="{{$product->id}}">
                         
@@ -83,9 +101,9 @@
 
                             <div class="product-price-wrapp-lg">
                                
-                                @if(empty($product->sale_price))
+                                @if($product->price==0)
                                 
-                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->price, 0, "", ".") }}</h4>
+                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
                                 @else
                                 
                                 <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
@@ -263,9 +281,11 @@
                                                         <i class="ion-android-star"></i>
                                                     </div>
                                                 </div>
+                                                @auth
                                                 <div class="review-left">
                                                     <a href="#">Reply</a>
                                                 </div>
+                                                @endauth
                                             </div>
                                             <div class="review-bottom">
                                                 <p>
@@ -297,9 +317,11 @@
                                                         <i class="ion-android-star"></i>
                                                     </div>
                                                 </div>
+                                                @auth
                                                 <div class="review-left">
                                                     <a href="#">Reply</a>
                                                 </div>
+                                                @endauth
                                             </div>
                                             <div class="review-bottom">
                                                 <p>
@@ -314,6 +336,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-5">
+                                @auth
                                 <div class="ratting-form-wrapper">
                                     <h3>Add a Review</h3>
                                     <div class="ratting-form">
@@ -351,6 +374,7 @@
                                         </form>
                                     </div>
                                 </div>
+                                @endauth
                             </div>
                         </div>
                     </div>

@@ -97,7 +97,7 @@
                             <span class="banner-sub-title">Furniture</span>
                             <h3 class="banner-title">For Sale</h3>
 
-                            <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
+                            <a href="{{route('indexShop')}}" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
                            
                         </div>
                         <!-- banner-content end -->
@@ -115,7 +115,7 @@
                             <span class="banner-sub-title">Led</span>
                             <h3 class="banner-title">bulbs</h3>
 
-                            <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
+                            <a href="{{route('indexShop')}}" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
 
                         </div>
                         <!-- banner-content end -->
@@ -199,18 +199,6 @@
                                                             </div>
     
                                                         </div>
-                                                        
-    
-                                                        <ul class="actions actions-verticale">
-                                                            @auth
-                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
-                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
-                                                            @endauth
-                                                            @guest
-                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
-                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}','0')"><i class="ion-android-sync"></i></button></li>
-                                                            @endguest
-                                                        </ul>
                                                     </div>
                                                 </div>
                                             
@@ -587,67 +575,6 @@
 
 
     <!-- brand carousel start -->
-    <div class="brand-section bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="brand-carousel swiper-arrow arrow-position-center">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/1.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/2.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/3.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/4.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/5.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/6.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                            </div>
-
-                        </div>
-
-                        <!-- swiper navigation -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- brand carousel end -->
     <!-- main content end -->
