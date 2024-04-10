@@ -1,5 +1,5 @@
 @extends('master')
-@section('module',$categories_child->name)
+@section('module',$brand->name)
 @section('content')
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">
@@ -168,7 +168,7 @@
                             <h3 class="widget-title">Brand</h3>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
-                                    @foreach ($brand as $item)
+                                    @foreach ($brandList as $item)
                                     <li><a href="{{ route('shopBrand',['brand_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>

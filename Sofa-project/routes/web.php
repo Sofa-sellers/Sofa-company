@@ -52,6 +52,7 @@ Route::prefix('')->controller(GuestController::class)->group(function () {
 
         Route::get('shop', 'shop')->name('indexShop');
         Route::get('shop/cate/{cate_id}', 'viewShop')->name('shop');
+        Route::get('shop/brand/{brand_id}', 'viewShopBrand')->name('shopBrand');
 
         Route::post('search', 'search')->name('search');
 
@@ -109,6 +110,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
         Route::post('address/{id}', 'addressUpdate')->name('address');
         Route::post('accountDetail/{id}','accountDetailsUpdate')->name('accountDetails');
+        Route::post('changePass/{id}','accountDetailPass')->name('changePass');
         Route::get('logout','logout')->name('logout');
     });
 });

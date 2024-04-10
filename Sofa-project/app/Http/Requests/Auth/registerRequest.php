@@ -34,7 +34,7 @@ class registerRequest extends FormRequest
             'email.required' => 'please enter email',
             'email.unique'=>'email already esixts',
             'email.email'=>'email must have @gmail.com',
-            'password.required'=>'password',
+            'password.required'=>'please enter password',
             'password.confirmed' => 'Re-entered password does not match',
             'username.required'=>'please enter username'
         ];

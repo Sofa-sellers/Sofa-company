@@ -358,7 +358,7 @@ class ClientController extends Controller
             return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
 
         } else {
-            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx')->with('lifetime', 3);
+            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via sofaseller@gmail.com')->with('lifetime', 3);
         }
     }
     
@@ -367,11 +367,13 @@ class ClientController extends Controller
     public function addressUpdate(Request $request,$id){
         $request->validate([
             'address' => 'required',
-            'phone'=>'numeric|required'
+            'phone'=>'numeric|required',
+            'city'=>'required'
         ]);
         $user = Auth::User()->where('id',$id)->first();
         $user->address=$request->address;
         $user->phone=$request->phone;
+        $user->city=$request->city;
         $user->updated_at=new \DateTime();
         $user->save();
         return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update address successfully');
@@ -382,19 +384,22 @@ class ClientController extends Controller
             'firstname' => 'required',
             'lastname'=>'required',
             'username'=>'required',
-            'currentpassword'=>'required',
+        ]);
+        $userDetail=Auth::User()->where('id',$id)->first();
+        $userDetail->firstname=$request->firstname;
+        $userDetail->lastname=$request->lastname;
+        $userDetail->username=$request->username;
+        $userDetail->save();
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
+    }
+    public function accountDetailPass(Request $request,$id){
+        $request->validate([
             'password'=>'required|confirmed'
         ]);
         $userDetail=Auth::User()->where('id',$id)->first();
-        if(Hash::check($request->currentpassword, $userDetail->password)){
-            $userDetail->firstname=$request->firstname;
-            $userDetail->lastname=$request->lastname;
-            $userDetail->username=$request->username;
-            $userDetail->password = bcrypt($request->password);
-            $userDetail->save();
-            return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
-        }
-        else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
+        $userDetail->password = bcrypt($request->password);
+        $userDetail->save();
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your password successfully');
     }
 
     public function showCompare($id){
