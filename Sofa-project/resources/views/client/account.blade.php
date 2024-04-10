@@ -1,6 +1,18 @@
 @extends('master')
-@section('module','account')
 @section('content')
+<nav class="breadcrumb-section breadcrumb-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="bread-crumb-title">account</h2>
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">account</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="my-account section-padding-bottom">
     <div class="container">
         <div class="row mb-n5">

@@ -1,6 +1,18 @@
 @extends('master')
-@section('module','Contact Us')
 @section('content')
+<nav class="breadcrumb-section breadcrumb-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="bread-crumb-title">Contact Us</h2>
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
     <!-- main content start -->
     <section class="contact-section section-padding-bottom">
         <div class="container">

@@ -1,6 +1,17 @@
 @extends('master')
-@section('module',$categories_child->name)
 @section('content')
+<nav class="breadcrumb-section bg-light bread-crumb-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$categories_child->name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">
         <div class="container">
@@ -157,7 +168,7 @@
                 <div class="col-lg-3 mb-5 order-lg-first">
                     <aside class="aside">
                         <div class="sidebar-widget">
-                            <h3 class="widget-title">Categories</h3>
+                            <a class="widget-title">Categories</a>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
                                     @foreach ($categoriesList as $item)
@@ -165,7 +176,7 @@
                                     @endforeach
                                 </ul>
                             </nav>
-                            <h3 class="widget-title">Brand</h3>
+                            <a class="widget-title">Brand</a>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
                                     @foreach ($brand as $item)

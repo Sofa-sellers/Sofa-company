@@ -1,11 +1,8 @@
 @extends('master')
-@section('module','Home')
 @section('content')
     <!-- main content start -->
 
     <!-- Hero Slider Start -->
-    
-
     <section class="hero-section">
         <div class="hero-slider">
             <div class="swiper-container">

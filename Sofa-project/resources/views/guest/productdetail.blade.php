@@ -1,22 +1,20 @@
 @extends('master')
 @section('module','Product Detail')
 @section('content')
-
-
     <!-- main content start -->
     <!-- bread crumb section start -->
-    <!-- <nav class="breadcrumb-section bg-light bread-crumb-padding">
+    <nav class="breadcrumb-section bg-light bread-crumb-padding">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">63in. White Stucco Floor Lamp</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
                     </ol>
                 </div>
             </div>
         </div>
-    </nav> -->
+    </nav>
     <!-- bread crumb section end -->
 
     <!-- modal gallery slider start -->
