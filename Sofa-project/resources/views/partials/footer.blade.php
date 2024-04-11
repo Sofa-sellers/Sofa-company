@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="border-bottom">
                     <div class="row align-items-center mb-n4">
-                        <div class="col-lg-10 col-xl-9 mb-4">
+                        {{-- <div class="col-lg-10 col-xl-9 mb-4">
                             <div class="news-letter-wrap">
                                 <div class="news-letter-title">
                                     <h3 class="title">Subscribe to Oxford Sofa</h3>
@@ -12,7 +12,7 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-lg-2 col-xl-3 mb-4">
                             <h3 class="social-title">Follow us on</h3>
                             <div class="social-links social-links-dark">

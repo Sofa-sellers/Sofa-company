@@ -97,8 +97,8 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::post('checkout/{user}', 'checkout')->name('checkout');
 
 
-        Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
-        Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
+        // Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
+        // Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
 
         // Route::get('wishlist-update/{id}/{quantity}', 'wishlistUpdate')->name('wishlistUpdate');
 
@@ -182,6 +182,7 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
             Route::get('index', 'racomIndex')->name('index')->middleware(['auth','admin']);
 
+            Route::post('store/{id}', 'racomStore')->name('store')->middleware(['auth','admin']);
             Route::post('accept/{id}', 'racomAccept')->name('update')->middleware(['auth','admin']);
 
             Route::get('destroy/{id}', 'racomDestroy')->name('destroy')->middleware(['auth','admin']);
