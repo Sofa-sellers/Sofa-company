@@ -1,29 +1,31 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
-use App\Models\RatingComment;
 use App\Models\AttributeValue;
 
 use App\Models\Compare;
 use App\Models\Wishlist;
 
+use App\Http\Requests\Client\Order\StoreRequest as OrderStoreRequest;
+use App\Http\Requests\Client\Order\UpdateRequest as OrderUpdateRequest;
+use App\Http\Requests\Client\Cart\StoreRequest as CartStoreRequest;
+use App\Http\Requests\Client\Cart\UpdateRequest as CartUpdateRequest;
+
 use DateTime;
 use App\Helpers\Cart;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
-use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentStoreRequest;
-use App\Http\Requests\Admin\RatingComment\StoreRequest as RatingCommentUpdateRequest;
 use Illuminate\Support\Str;
 use Helper;
 use App\Models\User;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Hash;
+use Hash;
 use Illuminate\Auth\Events\Failed;
 
 use function PHPUnit\Framework\isEmpty;
@@ -31,7 +33,7 @@ use function PHPUnit\Framework\isEmpty;
 class ClientController extends Controller
 {
 
-    public function addToCart(Request $request, Cart $cart){
+    public function addToCart(CartStoreRequest $request, Cart $cart){
 
         $product = Product::where('id', $request->id)->first();
         $quantity = $request->quantity;
@@ -79,7 +81,7 @@ class ClientController extends Controller
         return redirect()->route('client.showCart');
       }
 
-    public function cartUpdate(Request $request, Cart $cart, $itemKey)
+    public function cartUpdate(CartUpdateRequest $request, Cart $cart, $itemKey)
     {
 
 
@@ -149,7 +151,7 @@ class ClientController extends Controller
         }
     }
 
-    public function checkout(Request $request, Cart $cart, $user){
+    public function checkout(OrderStoreRequest $request, Cart $cart, $user){
 
             $data = [
             'firstname' => $request->firstname,
@@ -255,62 +257,17 @@ class ClientController extends Controller
 
     }
 
-    private function userHasPurchasedProduct($userId, $productId)
-    {
-        return Order::where('user_id', $userId)
-                    ->where('product_id', $productId)
-                    ->exists();
-    }
+//     public function racomStore(Request $request){
+//             //
+//     }
 
-    public function racomView()
-    {
-        // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
-        $products = Product::all();
+//     public function racomUpdate(Request $request, $id){
+// //
+//     }
 
-        // Trả về view và truyền danh sách sản phẩm sang view rating_comment.blade.php
-        return view('client.rating_comment', compact('products'));
-    }
-
-    public function racomStore(RatingCommentStoreRequest $request)
-    {
-        if (!$this->userHasPurchasedProduct(auth()->user()->id, $request->product_id)) {
-            return back()->with('error', 'Bạn chỉ có thể đánh giá hoặc bình luận nếu bạn đã mua sản phẩm này.');
-        }
-
-        $racom = new RatingComment;
-        $racom->product_id = $request->product_id;
-        $racom->user_id = auth()->user()->id;
-        $racom->rating = $request->rating;
-        $racom->comment = $request->comment;
-        $racom->status = 0; // chưa được chấp nhận
-        $racom->save();
-
-        return back()->with('success', 'Đánh giá và nhận xét của bạn đã được gửi và đang chờ xét duyệt.');
-    }
-
-    public function racomUpdate(RatingCommentUpdateRequest $request, $id)
-    {
-        $ratingComment = RatingComment::findOrFail($id);
-
-        // Kiểm tra xem người dùng có quyền chỉnh sửa đánh giá và bình luận không
-        if ($ratingComment->user_id != auth()->id()) {
-            return response()->json(['message' => 'Bạn không có quyền chỉnh sửa đánh giá hoặc bình luận này.'], 403);
-        }
-
-        // Xác thực dữ liệu đầu vào
-        $validatedData = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:255',
-        ]);
-
-        // Cập nhật đánh giá và bình luận
-        $ratingComment->update($validatedData);
-
-        return response()->json(['message' => 'Đánh giá và bình luận đã được cập nhật thành công.'], 200);
-    }
 
     public function accountIndex($id){
-        $user = User::where('id', Auth::id())->first();
+        $user = Auth::User()->where('id',$id)->first();
         $user = User::findOrFail($id);
 
         $orders = Order::with('orderdetail')->where('user_id', $user->id)
@@ -375,7 +332,7 @@ class ClientController extends Controller
         ]);
     }
 
-    public function updateDetail(Request $request, $id){
+    public function updateDetail(OrderUpdateRequest $request, $id){
         $order = Order::where('id',$id)->first();
 
         if($order->status == 1){
@@ -412,7 +369,7 @@ class ClientController extends Controller
             'address' => 'required',
             'phone'=>'numeric|required'
         ]);
-        $user = User::where('id', Auth::id())->first();
+        $user = Auth::User()->where('id',$id)->first();
         $user->address=$request->address;
         $user->phone=$request->phone;
         $user->updated_at=new \DateTime();
@@ -428,7 +385,7 @@ class ClientController extends Controller
             'currentpassword'=>'required',
             'password'=>'required|confirmed'
         ]);
-        $userDetail = User::where('id', Auth::id())->first();
+        $userDetail=Auth::User()->where('id',$id)->first();
         if(Hash::check($request->currentpassword, $userDetail->password)){
             $userDetail->firstname=$request->firstname;
             $userDetail->lastname=$request->lastname;
@@ -441,7 +398,7 @@ class ClientController extends Controller
     }
 
     public function showCompare($id){
-        $data=Compare::with('item')->where('user_id',$id)->get();
+        $data=Compare::with('item1')->where('user_id',$id)->get();
         return view('client.compare',compact('data'));
     }
 
@@ -455,3 +412,4 @@ class ClientController extends Controller
         return 'item removed successfully';
     }
 }
+

@@ -16,7 +16,7 @@ class Wishlist extends Model{
         return $this->belongsTo(User::class);
     }
     public function item(){
-        return $this->belongsTo(Product::class,'id');
+        return $this->belongsTo(Product::class,'product_id');
     }
 
     public static function countWishlist(){

@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('module' ,'Sku')
+@section('module' ,'Color')
 @section('action','List')  
 @push('css')
 <link rel="stylesheet" href="{{asset('administrator/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -50,39 +50,37 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1"></label>
-        <input type="hidden" class="form-control" name="product_id" value="{{old('product_id',$product->id)}}" disabled>
+        <input type="hidden" class="form-control" name="product_id" value="{{old('product_id',$product->id)}}">
     </div>
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Attribute</th>
-                    <th>Value</th>
-                    <th>Delete</th>
+                    <th>No</th>
+                    <th>Color</th>
+                 
                 </tr>
             </thead>
             <tbody>
                 @foreach ($skus as $sku)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    @foreach($attributes as $index => $attr)
-                    @if($sku->attribute_id == 1)
-                    <td>{{$attr->name}}</td>
-                    <td style="background: {{$values[$loop->index]->value}}">{{$values[$loop->index]->value}}</td>
-                    @else
-                    <td>{{$attr->name}}</td>
-                    <td>{{$values[$loop->index]->value}}</td>
-                    @endif
-                    @endforeach
+                    <td>
+                        @php
+                        // dd($sku->value_id);
+                        $color = App\Models\AttributeValue::where('id', $sku->value_id)->first();
+                        $value = $color->value
+                        @endphp
+                        <input type="text" style="background: {{$value}}" >
+                    </td>
+
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th>ID</th>
-                    <th>Attribute</th>
-                    <th>Value</th>
-                    <th>Delete</th>
+                    <th>No</th>
+                    <th>Color</th>
+                  
                 </tr>
             </tfoot>
         </table>

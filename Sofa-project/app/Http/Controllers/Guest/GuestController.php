@@ -29,10 +29,12 @@ class GuestController extends Controller
 
         $products_sale = Product::where('status',1)->where('is_sale',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         if ($products_sale->isEmpty()) {
-            $products_sale = $products_lastest;
+            $products_sale = Product::where('sale_price', '>', 0)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         }else{
             $products_sale = $products_sale;
         }
+
+
 
         $products_featured = Product::where('status',1)->where('featured',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         if ($products_featured->isEmpty()) {

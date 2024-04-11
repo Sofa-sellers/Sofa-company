@@ -4,7 +4,7 @@
     <!-- main content start -->
 
     <!-- Hero Slider Start -->
-    
+
 
     <section class="hero-section">
         <div class="hero-slider">
@@ -98,7 +98,7 @@
                             <h3 class="banner-title">For Sale</h3>
 
                             <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
-                           
+
                         </div>
                         <!-- banner-content end -->
                     </div>
@@ -165,75 +165,59 @@
 
                                         @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            
+
                                             {{-- @switch($item->id )
                                                 @case($item->id / 2 == 0) --}}
-                                                
+
                                                 <div class="product-list">
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
                                                             {{-- <span class="onsale bg-danger">sale!</span> --}}
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
-                                                                alt="image_not_found" class="img-fluid" style="height: 415px;">
+                                                                alt="image_not_found" class="img-fluid" style="height: 300px; width: 1000px">
                                                         </a>
                                                         <!-- thumb end -->
-    
-                                                        
+
+
                                                         <div class="product-content">
                                                             <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->price)
+                                                                    @if(empty($item->price))
                                                                     $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                                     <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                                    @endif 
+                                                                    @endif
                                                                     </h5>
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-btn">Detail</a>
                                                                     </button>
                                                             </div>
-    
+
                                                         </div>
-                                                        
-    
-                                                        <!-- actions  -->
-                                                        {{-- <ul class="actions actions-verticale">
-                                                            <li class="action wish-list">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-wishlist" style="color: black">
-                                                                    <a href="{{ route('client.showWishlist') }}">
-                                                                        <i class="ion-ios-heart-outline"></i>
-                                                                    </a>
-                                                                </button>
-                                                            </li>
-                                                            <li class="action quick-view">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal">
-                                                                    <a href="{{ route('detail',['slug'=>$item->slug]) }}">
-                                                                        <i class="ion-ios-eye-outline"></i>
-                                                                    </a>
-                                                                </button>
-                                                            </li>
-    
-                                                            <li class="action compare">
-                                                                <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
-                                                                    <a href="{{ route('showCompare') }}">
-                                                                        <i class="ion-android-sync"></i>
-                                                                    </a>
-                                                                </button>
-                                                            </li>
-    
-                                                        </ul> --}}
+
+
+                                                        <ul class="actions actions-verticale">
+                                                            @auth
+                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
+                                                            @endauth
+                                                            @guest
+                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}','0')"><i class="ion-android-sync"></i></button></li>
+                                                            @endguest
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                            
-                                        
+
+
                                         </div>
                                         @endforeach
-                                       
+
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -249,51 +233,51 @@
                                 <div class="swiper-container">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
-                                        @foreach($products_lastest as $item)
+                                        @foreach($products_featured as $item)
                                         {{-- @php
                                             $max = 5; // Số lần lặp
                                         @endphp
 
                                         @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            
+
                                             {{-- @switch($item->id )
                                                 @case($item->id / 2 == 0) --}}
-                                                
+
                                                 <div class="product-list">
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
-                                                        
+
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
                                                         </a>
                                                         <!-- thumb end -->
-    
-                                                        
+
+
                                                         <div class="product-content">
                                                             <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
 
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->price)
-                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
+                                                                    @if(empty($item->sale_price))
+                                                                    $ {{ number_format($item->price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                                    @endif 
+                                                                    @endif
                                                                     </h5>
-                    
+
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}"class="product-btn">Detail</a>
                                                                     </button>
                                                             </div>
-    
+
                                                         </div>
-                                                        
-    
+
+
                                                         <!-- actions  -->
                                                         {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
@@ -310,7 +294,7 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                             <li class="action compare">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
                                                                     <a href="{{ route('showCompare') }}">
@@ -318,17 +302,17 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                         </ul> --}}
                                                     </div>
                                                 </div>
-                                            
+
 
                                         </div>
                                         @endforeach
                                         <!-- swiper-slide end -->
-                                        
-                                       
+
+
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -344,27 +328,27 @@
                                 <div class="swiper-container">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
-                                        @foreach($products_lastest as $item)
+                                        @foreach($products_sale as $item)
                                         {{-- @php
                                             $max = 5; // Số lần lặp
                                         @endphp
 
                                         @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            
+
                                             {{-- @switch($item->id )
                                                 @case($item->id / 2 == 0) --}}
-                                                
+
                                                 <div class="product-list">
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
 
-                                                            
+
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
                                                         </a>
                                                         <!-- thumb end -->
-    
+
                                                         <div class="product-content">
 
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
@@ -373,24 +357,24 @@
 
                                                             <div class="product-group">
                                                                 <h5 class="product-price">
-                                                                    @if(!$item->price)
-                                                                    $ {{ number_format($item->sale_price, 0, "", ".") }}
+                                                                    @if(empty($item->sale_price))
+                                                                    $ {{ number_format($item->price, 0, "", ".") }}
                                                                     @else
                                                                     <del
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                                    @endif 
+                                                                    @endif
                                                                     </h5>
-                    
+
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}"class="product-btn">Detail</a>
                                                                     </button>
                                                             </div>
-    
+
                                                         </div>
-                                                        
-    
+
+
                                                         <!-- actions  -->
                                                         {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
@@ -407,7 +391,7 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                             <li class="action compare">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
                                                                     <a href="{{ route('showCompare') }}">
@@ -415,15 +399,15 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                         </ul> --}}
                                                     </div>
                                                 </div>
-                                            
-                                               
+
+
                                         </div>
                                         @endforeach
-                                   
+
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -472,7 +456,7 @@
                             </div>
                         </div>
                         @endforeach
-                        
+
                     </div>
                 </div>
                 <!-- If we need navigation buttons -->
@@ -496,19 +480,19 @@
                         <a href="{{route('indexShop')}}" class="btn btn-outline-dark">Shop Furniture</a>
                     </div>
                     <!-- large-banner-content end -->
-                    <a href="shop-grid-left-sidebar.html" class="thumb-nail">
-                        <img src="{{asset('client/assets/images/banner/banner3.jpg')}}" alt="image_not_found" style="width:460px; height:400px" class="img-fluid">
+                    <a href="{{route('indexShop')}}" class="thumb-nail">
+                        <img src="{{asset('client/assets/images/banner/flash-sales.jpg')}}" alt="image_not_found" style="width:460px; height:400px" class="img-fluid">
                     </a>
                     <!-- thumb-nail end-->
                 </div>
                 <div class="col-lg-8 mb-4">
                     <div class="large-banner-wrap position-relative">
-                        <a href="shop-grid-left-sidebar.html" class="large-thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner4.jpg')}}" alt="image_not_found" style="width:570px; height:700px" class="img-fluid">
+                        <a href="{{route('indexShop')}}" class="large-thumb-nail">
+                            <img src="{{asset('client/assets/images/banner/sofa.jpg')}}" alt="image_not_found" style="width:570px; height:700px" class="img-fluid">
                         </a>
                         <!-- thumb-nail end-->
-                        <a href="shop-grid-left-sidebar.html" class="small-thumb-nail">
-                            <img src="{{asset('client/assets/images/banner/banner5.jpg')}}" alt="image_not_found" style="width:416px; height:406px" class="img-fluid">
+                        <a href="{{route('indexShop')}}" class="small-thumb-nail">
+                            <img src="{{asset('client/assets/images/banner/sofa2.jpg')}}" alt="image_not_found" style="width:416px; height:406px" class="img-fluid">
                         </a>
                         <!-- thumb-nail end-->
                     </div>
@@ -538,7 +522,7 @@
                                     <div class="product-list">
                                         <div class="product-card">
                                             <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
-                                                
+
                                                 <img src="{{ asset('uploads/'.$item->image) }}" alt="image_not_found" style="height: 415px;">
                                             </a>
                                             <!-- thumb end -->
@@ -547,15 +531,15 @@
                                                 <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
                                                 <div class="product-group">
                                                     <h5 class="product-price">
-                                                        @if($item->price==0)
+                                                        @if(empty($item->price))
                                                         $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                         @else
-                                                        <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> 
+                                                        <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del>
                                                             <span class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                        @endif 
+                                                        @endif
                                                         </h5>
-        
+
                                                         <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                             <a href="{{ route('detail',['slug'=>$item->slug]) }}"class="product-btn">Detail</a>
                                                         </button>
@@ -563,7 +547,7 @@
 
                                             </div>
 
-                                            
+
                                             <!-- actions  -->
                                             {{-- <ul class="actions actions-verticale">
                                                 <li class="action whish-list">

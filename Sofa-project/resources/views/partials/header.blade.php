@@ -6,13 +6,13 @@
                     <ul class="topbar-nav-info nav">
                         <li class="topbar-nav-info-item"><span class="ion-ios-location-outline"></span> Store Location
                         </li>
-                        <li class="topbar-nav-info-item"><span class="ion-ios-email-outline"></span><a href="mailto:support@demothemes.com">support@demothemes.com</a></li>
+                        <li class="topbar-nav-info-item"><span class="ion-ios-email-outline"></span><a href="mailto:seolosofa@gmail.com">seolosofa@gmail.com</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6">
                     <nav class="simple-menu">
                         <ul class="topbar-nav nav justify-content-end">
-                            {{-- 
+                            {{--
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Lang</a>
                                 <!-- dropdown menu start -->
@@ -24,7 +24,7 @@
                                 <!-- dropdown menu end -->
                             </li>
                             --}}
-                            {{-- 
+                            {{--
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Currency</a>
                                 <!-- dropdown menu start -->
@@ -45,7 +45,7 @@
                                         }else {
                                             echo 'Guest';
                                         }
-                                    @endphp 
+                                    @endphp
                                 </a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
@@ -55,7 +55,6 @@
                                     @endif
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">My account</a>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showCart',['id'=>Auth::user()->id])}}">Cart</a></li>
-                                    <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Wishlist</a></li>
                                     </li>
                                     <li class="topbar-dropdown-item"><a class="topbar-dropdown-nav-link" href="{{route('logout')}}">Log out</a>
                                     </li>
@@ -81,7 +80,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="logo">
                         <a href="{{route('index')}}">
-                            <img src="{{asset('client/assets/images/logo/sofalogo2.jpg')}}" style="width:400;height:200" alt="image_not_found">
+                            <img src="{{asset('client/assets/images/logo/OxfordLogo.jpg')}}" style="width:400;height:200" alt="image_not_found">
                         </a>
                     </div>
                 </div>
@@ -102,7 +101,7 @@
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
-                            {{-- 
+                            {{--
                             <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li>
                             --}}
                             @if (Auth::check())
@@ -115,8 +114,6 @@
                                     @endif
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.account',['id'=>Auth::user()->id])}}">Your Account</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCart')}}">Your Cart</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.checkout',['user'=>Auth::user()->id])}}">Your Checkout</a></li>
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">Your Wishlist</a></li>
                                     <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('client.showCompare',['id'=>Auth::user()->id])}}">Compare</a></li>
 
                                 </ul>
@@ -199,5 +196,5 @@
         </div>
     </div>
     <!-- desktop menu end -->
-    
+
 </header>

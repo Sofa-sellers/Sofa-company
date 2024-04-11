@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -537,6 +538,8 @@ class AdminController extends Controller
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
     }
 
+
+
     public function racomAccept(RatingCommentStoreRequest $request)
     {
         $ratingComment = new RatingComment();
@@ -545,19 +548,14 @@ class AdminController extends Controller
         $ratingComment->user_id = $request->user_id;
         $ratingComment->rating = $request->rating;
         $ratingComment->comment = $request->comment;
-        $ratingComment->status = 1; // chấp nhận
 
         $ratingComment->save();
 
         return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
     }
 
-    public function racomDestroy($id)
-    {
-        $racom = RatingComment::find($id);
-        $racom->delete();
-
-        return back()->with('success', 'Đánh giá và nhận xét đã được xóa.');
+    public function racomDestroy(){
+        //
     }
 
     public function valueIndex()
@@ -584,31 +582,54 @@ class AdminController extends Controller
 
         $value->attribute_id = $request->attribute_id;
 
+
         if ($value->attribute_id == 1) {
+            $validator = Validator::make($request->all(), [
+                'color' => 'required|unique:attribute_values,value',
+            ], [
+                'color.required' => 'Please choose a color',
+                'color.unique' => 'The color is exist, please choose another color',
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
             $value->value = $request->color;
         }
         elseif ($value->attribute_id == 2) {
+            $validator = Validator::make($request->all(), [
+                'dimension' => 'required|unique:attribute_values,value',
+            ], [
+                'dimension.required' => 'Please enter the dimension',
+                'dimension.unique' => 'The dimension is exist, please enter another dimension',
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
             $value->value = $request->dimension;
         }
         else {
+            $validator = Validator::make($request->all(), [
+                'material' => 'required|unique:attribute_values,value',
+            ], [
+                'material.required' => 'Please enter the material',
+                'material.unique' => 'The material is exist, please enter another material',
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
             $value->value = $request->material;
         }
 
 
-        $existingValue = AttributeValue::where('attribute_id', $value->attribute_id)
-                                    ->where('value', $value->value)
-                                    ->first();
-
-        if($value->value == null){
-            $value->delete();
-            return redirect()->route('admin.value.index')->with('failed', 'Failed to create value of attribute. Value cannot be null');
-        }elseif($existingValue){
-            return redirect()->route('admin.value.index')->with('failed', 'Failed to create value of attribute. Value must be unique');
-        }else{
             $value->status = $request->status;
             $value->save();
             return redirect()->route('admin.value.index')->with('success','Create value of attribute successfully');
-        }
 
     }
 
@@ -716,47 +737,22 @@ class AdminController extends Controller
     }
 
 
-    public function skuIndex($product_id) {
-        $product = Product::findOrFail($product_id);
+    public function skuIndex($id) {
+        $product = Product::findOrFail($id);
 
-        $skus = Sku::with('attributevalue')->where('product_id', $product->id)->orderBy('created_at', 'DESC')->get();
-
-        $attributeIds = [];
-    $values = [];
-
-    // Retrieve unique attribute IDs from skus
-    foreach ($skus as $sku) {
-            $value = AttributeValue::where('id', $sku->value_id)->get();
-            dd($sku->value_id);
-            $values[] = $value;
-
-
-    }
-
+        $skus = Sku::with('attributevalue')->where('product_id', $id)->orderBy('created_at', 'DESC')->get();
 
         return view('admin.modules.sku.index',[
             'product'=>$product,
             'skus'=>$skus,
-            'attributes'=>$attributeIds,
-            'values'=>$values
         ]);
     }
 
 
-    public function skuCreate($product_id){
-        $product = Product::findOrFail($product_id);
-
-        return view('admin.modules.sku.index',[
-            'product'=>$product
-        ]);
-
-    }
-
-
-    public function skuStore(Request $request, $product_id)
+    public function skuStore(Request $request, $id)
     {
-        $product = Product::findOrFail($product_id);
-        $skus = Sku::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+        $product = Product::findOrFail($id);
+        $skus = Sku::where('product_id',$id)->orderBy('created_at','DESC')->get();
 
         $data = $request->all();
 
@@ -896,3 +892,7 @@ class AdminController extends Controller
     // }
 
 }
+
+
+
+

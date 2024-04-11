@@ -20,7 +20,7 @@ class LoginController extends Controller
 {
     public function showLogin(){
         if(Auth::check()){
-            return redirect('index');
+            return redirect()->route('index');
         }else{
         return view('guest.login');
         }
