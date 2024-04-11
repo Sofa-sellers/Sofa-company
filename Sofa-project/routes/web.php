@@ -96,6 +96,9 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
         Route::get('checkout', 'showCheckout')->name('showCheckout');
         Route::post('checkout/{user}', 'checkout')->name('checkout');
 
+        Route::post('review-create/{id}', 'racomCreate')->name('commentCreate');
+
+        Route::post('review-delete', 'racomDelete')->name('commentDelete');
 
         // Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
         // Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
@@ -181,11 +184,11 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
 
         Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
             Route::get('index', 'racomIndex')->name('index')->middleware(['auth','admin']);
+            Route::get('edit/{id}', 'racomEdit')->name('edit')->middleware(['auth','admin']);
+            // Route::post('store/{id}', 'racomStore')->name('store')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'racomAccept')->name('update')->middleware(['auth','admin']);
 
-            Route::post('store/{id}', 'racomStore')->name('store')->middleware(['auth','admin']);
-            Route::post('accept/{id}', 'racomAccept')->name('update')->middleware(['auth','admin']);
-
-            Route::get('destroy/{id}', 'racomDestroy')->name('destroy')->middleware(['auth','admin']);
+            // Route::get('destroy/{id}', 'racomDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
         Route::prefix('order')->name('order.')->group(function () {

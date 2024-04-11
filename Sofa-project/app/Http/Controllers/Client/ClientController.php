@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Client;
+use App\Models\RatingComment;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -262,15 +263,28 @@ class ClientController extends Controller
         return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Thank you for your order, you can manage your order in personal account');
 
     }
-
-//     public function racomStore(Request $request){
-//             //
-//     }
-
-//     public function racomUpdate(Request $request, $id){
-// //
-//     }
-
+    public function racomCreate(Request $request,$id){
+        $request->validate([
+            'comment'=>'required',
+        ]);
+        $comment=new RatingComment();
+        $comment->product_id=$id;
+        $comment->user_id=Auth::user()->id;
+        $comment->comment=$request->comment;
+        $comment->status=2;
+        $comment->created_at=new DateTime();
+        $comment->updated_at=new DateTime();
+        $comment->save();
+        return redirect()->back()->with('success', 'Thank you for your comment');
+    }
+    public function racomDelete(Request $request){
+        $delete=RatingComment::find(Auth::user()->id)->delete();
+        if($delete){
+            return redirect()->back()->with('success', 'delete comment successfully');
+        }else{
+            return redirect()->back()->with('error', 'you hadnt comment yet');
+        }
+    }
 
     public function accountIndex($id){
         $user = Auth::User()->where('id',$id)->first();

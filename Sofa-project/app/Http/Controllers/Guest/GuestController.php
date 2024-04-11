@@ -11,7 +11,7 @@ use App\Models\Category;
 
 use App\Models\Brand;
 use App\Models\RatingComment;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class GuestController extends Controller
 {
@@ -264,8 +264,6 @@ class GuestController extends Controller
     
         $comments = RatingComment::where('product_id', $product->id)->where('status', 1)->orderBy('created_at','DESC')->get();
 
-        $comments_auth = RatingComment::where('product_id', $product->id)->where('user_id',Auth)->orderBy('created_at','DESC')->get();
-
         
         return view('guest.productdetail',[
             'product'=>$product,
@@ -274,7 +272,7 @@ class GuestController extends Controller
             'colors'=>$colors,
             'material'=>$material,
             'dimension'=>$dimension,
-            'comments'=>$comments
+            'comments'=>$comments,
         ]);
     }
 

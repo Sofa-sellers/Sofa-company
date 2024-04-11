@@ -531,33 +531,24 @@ class AdminController extends Controller
         return redirect()->route('admin.order.index')->with('success','Update order status successfully');
     }
 
-    
     public function racomIndex()
     {
         $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
     }
 
-
-
-    public function racomStore(RatingCommentStoreRequest $request, $id)
+    public function racomEdit($id)
     {
-        $ratingComment = new RatingComment();
-
-        $ratingComment->product_id = $id;
-        $ratingComment->user_id = $request->user_id;
-        
-        $ratingComment->comment = $request->comment;
-        $ratingComment->status = 2;
-
-        $ratingComment->save();
-
-        return redirect()->back()->with('success', 'Thank you for your comment');
-        // return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
+        $ratingComments=RatingComment::find($id);
+        return view('admin.modules.ratingComment.edit', ['ratingComments' => $ratingComments]);
     }
 
-    public function racomDestroy(){
-        //
+    public function racomAccept(Request $request,$id){
+        $comment=RatingComment::find($id);
+        $comment->status=$request->status;
+        $comment->updated_at=new DateTime();
+        $comment->save();
+        return view('admin.modules.ratingComment.index')->with('success', 'update comment successfully');
     }
 
     public function valueIndex()
@@ -739,36 +730,36 @@ class AdminController extends Controller
     }
 
 
-    public function skuIndex($id) {
-        $product = Product::findOrFail($id);
+    // public function skuIndex($id) {
+    //     $product = Product::findOrFail($id);
 
-        $skus = Sku::with('attributevalue')->where('product_id', $id)->orderBy('created_at', 'DESC')->get();
+    //     $skus = Sku::with('attributevalue')->where('product_id', $id)->orderBy('created_at', 'DESC')->get();
 
-        return view('admin.modules.sku.index',[
-            'product'=>$product,
-            'skus'=>$skus,
-        ]);
-    }
+    //     return view('admin.modules.sku.index',[
+    //         'product'=>$product,
+    //         'skus'=>$skus,
+    //     ]);
+    // }
 
 
-    public function skuStore(Request $request, $id)
-    {
-        $product = Product::findOrFail($id);
-        $skus = Sku::where('product_id',$id)->orderBy('created_at','DESC')->get();
+    // public function skuStore(Request $request, $id)
+    // {
+    //     $product = Product::findOrFail($id);
+    //     $skus = Sku::where('product_id',$id)->orderBy('created_at','DESC')->get();
 
-        $data = $request->all();
+    //     $data = $request->all();
 
-        foreach ($data['id'] as $key=>$val){
-            $sku = Sku::find($val);
-            $skus->product_id = $product_id;
-            $skus->attribute_id = $data['attribute_id'][$key];
-            $skus->value_id = $data['value_id'][$key];
-            $skus->quantity = $data['quantity'][$key];
-        }
+    //     foreach ($data['id'] as $key=>$val){
+    //         $sku = Sku::find($val);
+    //         $skus->product_id = $product_id;
+    //         $skus->attribute_id = $data['attribute_id'][$key];
+    //         $skus->value_id = $data['value_id'][$key];
+    //         $skus->quantity = $data['quantity'][$key];
+    //     }
 
-        $skus->save();
-        return redirect()->route('admin.modules.sku.index')->with('success','Update sku successfully');
-    }
+    //     $skus->save();
+    //     return redirect()->route('admin.modules.sku.index')->with('success','Update sku successfully');
+    // }
 
     public function attributeCreate()
     {

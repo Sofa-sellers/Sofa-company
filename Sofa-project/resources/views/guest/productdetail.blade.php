@@ -1,31 +1,5 @@
 @extends('master')
 @section('content')
-@if ($errors->any())
-<div class="alert alert-danger alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-<h5><i class="icon fas fa-ban"></i> Alert!</h5>
-@foreach ($errors->all() as $error)
-<li>{{ $error }}</li>
-@endforeach
-</div>
-@endif
-@if ($message = Session::get('success'))
-<div class="alert alert-success alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-<h5><i class="icon fas fa-check"></i> Success!</h5>
-{{ $message }}
-</div>
-
-
-@elseif ($message = Session::get('failed'))
-<div class="alert alert-danger alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-<h5><i class="icon fas fa-check"></i> Failed!</h5>
-{{ $message }}
-</div>
-
-
-@endif
    <!-- main content start -->
     <!-- bread crumb section start -->
   <nav class="breadcrumb-section bg-light bread-crumb-padding">
@@ -90,7 +64,30 @@
                 <div class="col-md-7 mb-4">
                     <form method="post" action="{{ route('client.addToCart')}}">
                     
-
+                        @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                        </div>
+                        @endif
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-check"></i> Success!</h5>
+                        {{ $message }}
+                        </div>
+                        
+                        
+                        @elseif ($message = Session::get('failed'))
+                        <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-check"></i> Failed!</h5>
+                        {{ $message }}
+                        </div>
+                        @endif
 
                         @csrf
                         <input type="hidden" name="id" value="{{$product->id}}">
@@ -277,24 +274,18 @@
                         <div class="row">
                             <div class="col-lg-7">
                                 <div class="review-wrapper">
-                                    @foreach($comments as $com)
+                                    @auth
                                     <div class="single-review">
+                                        <?php
+                                        $mycomment = App\Models\RatingComment::where('product_id', $product->id)->where('user_id',Auth::User()->id)->where('status', 1)->get();
+                                        ?>
+                                        @foreach($mycomment as $com)
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-                                                        @php
-                                                           $name = App\Models\User::where('id', $com->user_id)->pluck('username')->first(); 
-                                                        @endphp
-                                                        <h4>{{$name}}</h4>
+                                                        <h4>{{$com->username}}</h4>
                                                     </div>
-                                                    {{-- <div class="rating-product">
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                    </div> --}}
                                                 </div>
                                             </div>
                                             <div class="review-bottom">
@@ -303,35 +294,29 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        
+                                        @endforeach
                                     </div>
+                                    @endauth
+                                    @guest
+                                    @foreach($comments as $com)
                                     <div class="single-review">
-
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-                                                        <h4>White Lewis</h4>
-                                                    </div>
-                                                    <div class="rating-product">
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
+                                                        <h4>{{$com->username}}</h4>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="review-bottom">
                                                 <p>
-                                                    Vestibulum ante ipsum primis aucibus orci
-                                                    luctustrices posuere cubilia Curae Suspendisse
-                                                    viverra ed viverra. Mauris ullarper euismod
-                                                    vehicula. Phasellus quam nisi, congue id nulla.
+                                                    {{$com->comment}}
                                                 </p>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div> 
+                                    @endforeach                                  
+                                    @endguest
                                 </div>
                             </div>
                             <div class="col-lg-5">
@@ -340,14 +325,50 @@
                                     <h3>Add a Review</h3>
                                 </br>
                                     <div class="ratting-form">
-                                        <form action="#">
-                                            <div class="row">
+                                        <form action="{{route('client.commentCreate',['id'=>$product->id])}}" method="POST">
+                                            @csrf
+                                            @if ($errors->any())
+                                            <div class="alert alert-danger alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                            @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                            @endforeach
+                                            </div>
+                                            @endif
+                                            @if ($message = Session::get('success'))
+                                            <div class="alert alert-success alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-check"></i> Success!</h5>
+                                            {{ $message }}
+                                            </div>
 
+
+                                            @elseif ($message = Session::get('failed'))
+                                            <div class="alert alert-danger alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-check"></i> Failed!</h5>
+                                            {{ $message }}
+                                            </div>
+                                            @endif
+                                            <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="rating-form-style form-submit">
-                                                        <textarea placeholder="Message" name="comment"></textarea>
+                                                        <textarea placeholder="Message" name="comment" value="{{old('comment')}}"></textarea>
                                                         <button type="submit" class="btn btn-dark">
                                                         Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form action="{{route('client.commentDelete')}}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="rating-form-style form-submit">
+                                                        <button onclick="return confirmDelete(this)" type="submit" class="btn btn-dark">
+                                                        Delete
                                                         </button>
                                                     </div>
                                                 </div>
@@ -399,9 +420,8 @@
                                                             @if(!$pr->price)
                                                             $ {{ number_format($pr->sale_price, 0, "", ".") }}
                                                             @else
-                                                            <del
-                                                                class="old-price">$ {{ number_format($pr->price, 0, "", ".") }}</del> <span
-                                                                class="new-price">$ {{ number_format($pr->sale_price, 0, "", ".") }}</span>
+                                                            <del class="old-price">$ {{ number_format($pr->price, 0, "", ".") }}</del> 
+                                                            <span class="new-price">$ {{ number_format($pr->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($pr->sale_price / $pr->price * 100))}}%</span>
                                                             @endif 
                                                             </h5>
@@ -449,6 +469,10 @@
                     }
                 })
             }
+        }
+        function confirmDelete(link){
+            var message = 'Are you sure you want to delete?';
+            return confirm(message);
         }
 </script>
 @endsection
