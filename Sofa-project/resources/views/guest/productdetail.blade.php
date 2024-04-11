@@ -260,11 +260,6 @@
                             <div class="col-lg-7">
                                 <div class="review-wrapper">
                                     <div class="single-review">
-                                        {{-- 
-                                        <div class="review-img">
-                                            <img src="{{asset('client/assets/images/testimonial/1.png')}}" alt="">
-                                        </div>
-                                        --}}
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -279,11 +274,6 @@
                                                         <i class="ion-android-star"></i>
                                                     </div>
                                                 </div>
-                                                @auth
-                                                <div class="review-left">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                @endauth
                                             </div>
                                             <div class="review-bottom">
                                                 <p>
@@ -295,12 +285,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="single-review child-review">
-                                        {{-- 
-                                        <div class="review-img">
-                                            <img src="{{asset('client/assets/images/testimonial/2.png')}}" alt="">
-                                        </div>
-                                        --}}
+                                    <div class="single-review">
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -315,18 +300,13 @@
                                                         <i class="ion-android-star"></i>
                                                     </div>
                                                 </div>
-                                                @auth
-                                                <div class="review-left">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                @endauth
                                             </div>
                                             <div class="review-bottom">
                                                 <p>
                                                     Vestibulum ante ipsum primis aucibus orci
-                                                    luctustrices posuere cubilia Curae Sus pen disse
+                                                    luctustrices posuere cubilia Curae Suspendisse
                                                     viverra ed viverra. Mauris ullarper euismod
-                                                    vehicula.
+                                                    vehicula. Phasellus quam nisi, congue id nulla.
                                                 </p>
                                             </div>
                                         </div>
@@ -337,29 +317,10 @@
                                 @auth
                                 <div class="ratting-form-wrapper">
                                     <h3>Add a Review</h3>
+                                </br>
                                     <div class="ratting-form">
                                         <form action="#">
-                                            <div class="star-box">
-                                                <span>Your rating:</span>
-                                                <div class="rating-product">
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                </div>
-                                            </div>
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="rating-form-style mb-10">
-                                                        <input placeholder="Name" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="rating-form-style mb-10">
-                                                        <input placeholder="Email" type="email">
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-12">
                                                     <div class="rating-form-style form-submit">
                                                         <textarea name="Your Review" placeholder="Message"></textarea>

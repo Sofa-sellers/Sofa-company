@@ -176,6 +176,7 @@
                                     @endforeach
                                 </ul>
                             </nav>
+                        </br>
                             <a class="widget-title">Brand</a>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
