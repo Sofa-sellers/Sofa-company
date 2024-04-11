@@ -264,7 +264,7 @@ class GuestController extends Controller
     
         $comments = RatingComment::where('product_id', $product->id)->where('status', 1)->orderBy('created_at','DESC')->get();
 
-        
+        // dd($comments);
         return view('guest.productdetail',[
             'product'=>$product,
             // 'skus'=>$skus,

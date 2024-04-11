@@ -1,9 +1,9 @@
 @extends('admin.master')
-@section('module', 'Rating Comment')
-@section('action', 'Edit')
+@section('module', 'Comment')
+@section('action', 'Detail')
 
 @section('content')
-<form method="POST" action="{{route('admin.ratingComment.update',['id'=>$ratingComment->id])}}">
+<form method="POST" action="{{route('admin.ratingComment.update',['id'=>$comment->id])}}">
     @csrf
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible">
@@ -32,7 +32,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Comment Edit</h3>
+            <h3 class="card-title">Comment Detail</h3>
 
             <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -45,37 +45,54 @@
         </div>
 
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label>Product ID</label>
-                        <input type="number" class="form-control disabled" name="product_id" value="{{old('product_id', $ratingComment->product_id)}}">
-                    </div>
+          
+            <table style="width: 50%;">
+                <tr>
+                  <th>Product</th>
+                  <td>{{$comment->product->name}}</td>
+                </tr>
+                <tr>
+                  <th>Username</th>
+                  <td>{{$comment->user->username}}</td>
+                </tr>
+                <tr>
+                  <th>Comment</th>
+                  <td>{{$comment->comment}}</td>
+                </tr>
+                          @switch($comment->status)
+                              @case(1)
+                              <tr>
+                                <td>
+                                  <label>Status</label>
+                                </td>
+                                <td>
+                                    <span class="right badge badge-success">Accepted</span>
+                                </td>
+                                
+                              </tr>
+                              @break
 
-                    <div class="form-group">
-                        <label>User ID</label>
-                        <input type="number" class="form-control disabled"name="user_id" value="{{old('user_id', $ratingComment->user_id)}}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Comment</label>
-                        <textarea class="form-control" rows="3" placeholder="Enter comment" name="comment">{{old('comment', $ratingComment->comment)}}</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select class="form-control" name="status">
-                            <option value="1" {{ old('status',$ratingComment->status) == 1 ? 'selected' : '' }}>Show</option>
-                            <option value="2" {{ old('status',$ratingComment->status) == 2 ? 'selected' : '' }}>Hide</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+                              @case(2)
+                              <tr>
+                                <td>
+                                    <label>Status</label>
+                                  </td>
+                                  <td>
+                                      <span class="right badge badge-dark">Waiting</span>
+                                  </td>
+                                  <input type="hidden" name="status" value="1">
+                                  <td>
+                                      <button type="submit" class="btn btn-primary">Accept</button>
+                                  </td>
+                                </tr>
+                            @break
+                    @endswitch
+                  
+              
+            </table>
         </div>
 
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Update</button>
-        </div>
+       
     </div>
     <!-- /.card -->
 </form>

@@ -48,6 +48,7 @@ use Illuminate\Http\Request;
 use App\Models\CategoryPhotos;
 use App\Models\OrderDetail;
 use App\Models\ProductImages;
+use DateTime;
 
 use function Laravel\Prompts\alert;
 
@@ -533,22 +534,30 @@ class AdminController extends Controller
 
     public function racomIndex()
     {
-        $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
+        $ratingComments = RatingComment::with('product','user')->orderBy('created_at', 'DESC')->get();
+        
+        
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
     }
 
     public function racomEdit($id)
     {
-        $ratingComments=RatingComment::find($id);
-        return view('admin.modules.ratingComment.edit', ['ratingComments' => $ratingComments]);
+        
+        $comment = RatingComment::with('product','user')->where('id', $id)->first();
+       
+        return view('admin.modules.ratingComment.edit', ['comment' => $comment]);
     }
 
     public function racomAccept(Request $request,$id){
         $comment=RatingComment::find($id);
+        
         $comment->status=$request->status;
-        $comment->updated_at=new DateTime();
+        
+        $comment->updated_at = new DateTime();
         $comment->save();
-        return view('admin.modules.ratingComment.index')->with('success', 'update comment successfully');
+        
+    
+        return redirect()->route('admin.ratingComment.index')->with('success', 'update comment successfully');
     }
 
     public function valueIndex()
@@ -658,16 +667,6 @@ class AdminController extends Controller
     }
 
 
-    // public function valueDestroy(int $id)
-    // {
-    //     $values= AttributeValue::find($id);
-    //     if($values==null){
-    //         abort(404);
-    //     }
-    //     $values->delete();
-    //     return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
-    // }
-
     public function brandIndex()
     {
         $brands = Brand::orderBy('created_at','DESC')->get();
@@ -730,36 +729,18 @@ class AdminController extends Controller
     }
 
 
-    // public function skuIndex($id) {
-    //     $product = Product::findOrFail($id);
+    public function skuIndex($id) {
+        $product = Product::findOrFail($id);
 
-    //     $skus = Sku::with('attributevalue')->where('product_id', $id)->orderBy('created_at', 'DESC')->get();
+        $skus = Sku::with('attributevalue')->where('product_id', $id)->orderBy('created_at', 'DESC')->get();
 
-    //     return view('admin.modules.sku.index',[
-    //         'product'=>$product,
-    //         'skus'=>$skus,
-    //     ]);
-    // }
+        return view('admin.modules.sku.index',[
+            'product'=>$product,
+            'skus'=>$skus,
+        ]);
+    }
 
 
-    // public function skuStore(Request $request, $id)
-    // {
-    //     $product = Product::findOrFail($id);
-    //     $skus = Sku::where('product_id',$id)->orderBy('created_at','DESC')->get();
-
-    //     $data = $request->all();
-
-    //     foreach ($data['id'] as $key=>$val){
-    //         $sku = Sku::find($val);
-    //         $skus->product_id = $product_id;
-    //         $skus->attribute_id = $data['attribute_id'][$key];
-    //         $skus->value_id = $data['value_id'][$key];
-    //         $skus->quantity = $data['quantity'][$key];
-    //     }
-
-    //     $skus->save();
-    //     return redirect()->route('admin.modules.sku.index')->with('success','Update sku successfully');
-    // }
 
     public function attributeCreate()
     {

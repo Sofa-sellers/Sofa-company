@@ -98,7 +98,7 @@ Route::prefix('client')->name('client.')->middleware('checkLogin')->group(functi
 
         Route::post('review-create/{id}', 'racomCreate')->name('commentCreate');
 
-        Route::post('review-delete', 'racomDelete')->name('commentDelete');
+        Route::get('review-delete/{id}', 'racomDelete')->name('commentDelete');
 
         // Route::post('rating-review', 'racomStore')->name('ratingCommentStore');
         // Route::post('rating-review/{id}', 'racomUpdate')->name('ratingCommentUpdate');
@@ -184,6 +184,7 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
 
         Route::prefix('ratingComment')->name('ratingComment.')->group(function() {
             Route::get('index', 'racomIndex')->name('index')->middleware(['auth','admin']);
+
             Route::get('edit/{id}', 'racomEdit')->name('edit')->middleware(['auth','admin']);
             // Route::post('store/{id}', 'racomStore')->name('store')->middleware(['auth','admin']);
             Route::post('update/{id}', 'racomAccept')->name('update')->middleware(['auth','admin']);
@@ -194,13 +195,10 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('index', 'orderIndex')->name('index')->middleware(['auth','admin']);
 
-            // Route::get('create', 'orderCreate')->name('create')->middleware(['auth','admin']);
-            // Route::post('store', 'orderStore')->name('store')->middleware(['auth','admin']);
 
             Route::get('edit/{id}', 'orderEdit')->name('edit')->middleware(['auth','admin']);
             Route::post('update/{id}', 'orderUpdate')->name('update')->middleware(['auth','admin']);
 
-            // Route::get('destroy/{id}', 'orderDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
         Route::prefix('brand')->name('brand.')->group(function () {
@@ -218,23 +216,13 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
         Route::prefix('sku')->name('sku.')->group(function () {
             Route::get('index/{id}', 'skuIndex')->name('index')->middleware(['auth','admin']);
 
-            Route::get('create/{id}', 'skuCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store', 'skuStore')->name('store')->middleware(['auth','admin']);
+            // Route::get('create/{id}', 'skuCreate')->name('create')->middleware(['auth','admin']);
+            // Route::post('store', 'skuStore')->name('store')->middleware(['auth','admin']);
 
-            Route::get('destroy/{id}', 'skuDestroy')->name('destroy')->middleware(['auth','admin']);
+            // Route::get('destroy/{id}', 'skuDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
-        Route::prefix('zip')->name('zip.')->group(function () {
-            Route::get('index', 'zipIndex')->name('index')->middleware(['auth','admin']);
-
-            Route::get('create', 'zipCreate')->name('create')->middleware(['auth','admin']);
-            Route::post('store', 'zipStore')->name('store')->middleware(['auth','admin']);
-
-            Route::get('edit/{id}', 'zipEdit')->name('edit')->middleware(['auth','admin']);
-            Route::post('update/{id}', 'zipUpdate')->name('update')->middleware(['auth','admin']);
-
-            Route::get('destroy/{id}', 'zipDestroy')->name('destroy')->middleware(['auth','admin']);
-        });
+       
 });
 
 

@@ -273,16 +273,18 @@ class ClientController extends Controller
         $comment->comment=$request->comment;
         $comment->status=2;
         $comment->created_at=new DateTime();
-        $comment->updated_at=new DateTime();
+       
         $comment->save();
         return redirect()->back()->with('success', 'Thank you for your comment');
     }
-    public function racomDelete(Request $request){
-        $delete=RatingComment::find(Auth::user()->id)->delete();
+    public function racomDelete(Request $request, $id){
+        $delete=RatingComment::findOrFail($id);
+        
         if($delete){
+            $delete->delete();
             return redirect()->back()->with('success', 'delete comment successfully');
         }else{
-            return redirect()->back()->with('error', 'you hadnt comment yet');
+            return redirect()->back()->with('error', 'you hadn\'t comment yet');
         }
     }
 

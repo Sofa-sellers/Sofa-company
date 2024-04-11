@@ -269,115 +269,126 @@
                 </div>
 
                 {{-- comment --}}
-                <div class="tab-pane fade active show" id="reviews" role="tabpanel">
-                    <div class="single-product-desc">
-                        <div class="row">
-                            <div class="col-lg-7">
-                                <div class="review-wrapper">
-                                    @auth
-                                    <div class="single-review">
-                                        <?php
-                                        $mycomment = App\Models\RatingComment::where('product_id', $product->id)->where('user_id',Auth::User()->id)->where('status', 1)->get();
-                                        ?>
-                                        @foreach($mycomment as $com)
-                                        <div class="review-content">
-                                            <div class="review-top-wrap">
-                                                <div class="review-left">
-                                                    <div class="review-name">
-                                                        <h4>{{$com->username}}</h4>
+                <div class="tab-pane fade" id="reviews" role="tabpanel" >
+                    <div class="single-product-desc" >
+                        <div class="row" >
+                            <table>
+                                <tr>
+                                    <td style="width: 50%">
+                                        <div  >
+                                            @if(Auth::User())
+                                                @php
+                                                $mycomment = App\Models\RatingComment::where('product_id', $product->id)->where('user_id',Auth::User()->id)->where('status', 2)->get();
+                                                @endphp
+                                                @foreach($mycomment as $com)
+                                            <div class="review-wrapper">
+                                                {{-- @auth --}}
+                                                
+                                                <div class="single-review">
+                                                   
+                                                    <div class="review-content" style="width: 100%">
+                                                        <div class="review-top-wrap">
+                                                            <div class="review-left">
+                                                                <div class="review-name">
+                                                                    <h4>{{Auth::User()->username}}</h4>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="review-bottom" style="margin: 15px auto">
+                                                            <p >
+                                                                {{$com->comment}}
+                                                            </p>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-dark" >
+                                                            <a onclick="return confirmDelete(this)" href="{{route('client.commentDelete',['id'=>$com->id])}}">Delete</a>
+                                                        </button>
                                                     </div>
                                                 </div>
+                                                    
+                                                    {{-- @endauth --}}
                                             </div>
-                                            <div class="review-bottom">
-                                                <p style="width: 100%">
-                                                    {{$com->comment}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                    @endauth
-                                    @guest
-                                    @foreach($comments as $com)
-                                    <div class="single-review">
-                                        <div class="review-content">
-                                            <div class="review-top-wrap">
-                                                <div class="review-left">
-                                                    <div class="review-name">
-                                                        <h4>{{$com->username}}</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="review-bottom">
-                                                <p>
-                                                    {{$com->comment}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    @endforeach                                  
-                                    @endguest
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                @auth
-                                <div class="ratting-form-wrapper">
-                                    <h3>Add a Review</h3>
-                                </br>
-                                    <div class="ratting-form">
-                                        <form action="{{route('client.commentCreate',['id'=>$product->id])}}" method="POST">
-                                            @csrf
-                                            @if ($errors->any())
-                                            <div class="alert alert-danger alert-dismissible">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                                            @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
                                             @endforeach
-                                            </div>
                                             @endif
-                                            @if ($message = Session::get('success'))
-                                            <div class="alert alert-success alert-dismissible">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h5><i class="icon fas fa-check"></i> Success!</h5>
-                                            {{ $message }}
+                                                    {{-- guest --}}
+                                                    @foreach($comments as $com)
+                                                    <div class="review-wrapper">
+                                                    <div class="single-review">
+                                                        <div class="review-content" style="width: 100%">
+                                                        <div class="review-top-wrap">
+                                                            <div class="review-left">
+                                                                <div class="review-name">
+                                                                    <?php
+                                                                    $user = App\Models\User::where('id', $com->user_id)->first();
+                                                                    ?>
+                                                                    <h4>{{$user->username}}</h4>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="review-bottom" style="margin: 15px auto">
+                                                            <p>
+                                                                {{$com->comment}}
+                                                            </p>
+                                                            @if(Auth::check()==true)
+                                                            @if(Auth::User()->id == $user->id)
+                                                            <div class="review-left">
+                                                                <button type="submit" class="btn btn-dark">
+                                                                    <a onclick="return confirmDelete(this)" href="{{route('client.commentDelete',['id'=>$com->id])}}">Delete</a>
+                                                                </button>
+                                                            </div>
+                                                            @endif
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    @endforeach
+                                                    {{-- endguest --}}
                                             </div>
+                                        </div>
 
 
-                                            @elseif ($message = Session::get('failed'))
-                                            <div class="alert alert-danger alert-dismissible">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h5><i class="icon fas fa-check"></i> Failed!</h5>
-                                            {{ $message }}
-                                            </div>
-                                            @endif
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="rating-form-style form-submit">
-                                                        <textarea placeholder="Message" name="comment" value="{{old('comment')}}"></textarea>
-                                                        <button type="submit" class="btn btn-dark">
-                                                        Submit
-                                                        </button>
-                                                    </div>
+                                    </td>
+                                    <td style="width: 50%">
+
+                                        @if(Auth::check()==true)
+                                        <div >
+                                            <div class="ratting-form-wrapper">
+                                                <h3>Add a Review</h3>
+                                                <div class="ratting-form">
+                                                    <form action="{{route('client.commentCreate',['id'=>$product->id])}}" method="POST">
+                                                        @csrf
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="rating-form-style mb-10">
+                                                                    <input placeholder="{{Auth::user()->username}}" type="text" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="rating-form-style mb-10">
+                                                                    <input placeholder="{{Auth::user()->email}}" type="email" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="rating-form-style form-submit">
+                                                                    <textarea placeholder="Message" name="comment" value="{{old('comment')}}"></textarea>
+                                                                    <button type="submit" class="btn btn-dark">
+                                                                        Submit
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </form>
-                                        <form action="{{route('client.commentDelete')}}" method="POST">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="rating-form-style form-submit">
-                                                        <button onclick="return confirmDelete(this)" type="submit" class="btn btn-dark">
-                                                        Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                @endauth
-                            </div>
+                                        </div>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                            </table>
+                            
+                            
                         </div>
                     </div>
                 </div>
