@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin\RatingComment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\RatingComment;
 
 class UpdateRequest extends FormRequest
 {

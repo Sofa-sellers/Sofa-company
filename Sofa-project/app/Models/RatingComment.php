@@ -17,7 +17,8 @@ class RatingComment extends Model
      * @var string
      */
     protected $table = 'rating_comments';
-     /**
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array

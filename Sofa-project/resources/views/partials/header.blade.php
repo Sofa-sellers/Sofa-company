@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <nav class="simple-menu">
                         <ul class="topbar-nav nav justify-content-end">
-                            {{-- 
+                            {{--
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Lang</a>
                                 <!-- dropdown menu start -->
@@ -24,7 +24,7 @@
                                 <!-- dropdown menu end -->
                             </li>
                             --}}
-                            {{-- 
+                            {{--
                             <li class="topbar-nav-item">
                                 <a class="topbar-nav-link" href="#">Currency</a>
                                 <!-- dropdown menu start -->
@@ -115,7 +115,7 @@
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
-                            {{-- 
+                            {{--
                             <li class="main-menu-item position-static"><a href="#" class="main-menu-link">Blog</a></li>
                             --}}
                             @if (Auth::check())

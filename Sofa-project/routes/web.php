@@ -222,7 +222,17 @@ Route::prefix('admin')->name('admin.')->controller(AdminController::class)->grou
             // Route::get('destroy/{id}', 'skuDestroy')->name('destroy')->middleware(['auth','admin']);
         });
 
-       
+        Route::prefix('zip')->name('zip.')->group(function () {
+            Route::get('index', 'zipIndex')->name('index')->middleware(['auth','admin']);
+
+            Route::get('create', 'zipCreate')->name('create')->middleware(['auth','admin']);
+            Route::post('store', 'zipStore')->name('store')->middleware(['auth','admin']);
+
+            Route::get('edit/{id}', 'zipEdit')->name('edit')->middleware(['auth','admin']);
+            Route::post('update/{id}', 'zipUpdate')->name('update')->middleware(['auth','admin']);
+
+            Route::get('destroy/{id}', 'zipDestroy')->name('destroy')->middleware(['auth','admin']);
+        });
 });
 
 

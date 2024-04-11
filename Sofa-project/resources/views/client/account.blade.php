@@ -165,7 +165,7 @@
                             <h3>Delivery Address</h3>
                             <form method="POST" action="{{route('client.address',['id'=>Auth::user()->id])}}">
                                 @csrf
-                                @if ($errors->any())
+                                {{-- @if ($errors->any())
                                     <div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h5><i class="icon fas fa-ban"></i> Alert!</h5>
@@ -217,7 +217,7 @@
                             <div class="account-details-form" style="font-size: 20px">
                                 <form action="{{route('client.accountDetails',['id'=>Auth::user()->id])}}" method="POST">
                                     @csrf
-                                    @if ($errors->any())
+                                    {{-- @if ($errors->any())
                                         <div class="alert alert-danger alert-dismissible">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                             <h5><i class="icon fas fa-ban"></i> Alert!</h5>
@@ -232,7 +232,7 @@
                                         <h5><i class="icon fas fa-check"></i> Alert!</h5>
                                         {{Session::get('success')}}
                                         </div>
-                                    @endif
+                                    @endif --}}
                                     <div class="row">
                                         <div class="col-lg-6 col-12 mb-5">
                                             <p>First Name</p>

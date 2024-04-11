@@ -94,7 +94,7 @@
                         
                         <div class="modal-product-des">
                             <h3 class="modal-product-title"><a href="#">{{$product->name}}</a></h3>
-                            
+
                             {{-- Star --}}
                             {{-- <div class="reviews">
                                 <span class="ion-star"></span>
@@ -151,7 +151,7 @@
                                             </label>
                                             <input type="hidden" name="selected_color" value="{{$c->id}}">
                                         </li>
-                                        
+
                                         @endif
                                         @endforeach
                                     </ul>
@@ -434,15 +434,15 @@
                                                             <del class="old-price">$ {{ number_format($pr->price, 0, "", ".") }}</del> 
                                                             <span class="new-price">$ {{ number_format($pr->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($pr->sale_price / $pr->price * 100))}}%</span>
-                                                            @endif 
+                                                            @endif
                                                             </h5>
             
                                                             <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
                                                     </div>
 
                                                 </div>
-                                                
-                                                
+
+
                                             </div>
                                         </div>
                                         <!-- product list end -->

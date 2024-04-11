@@ -162,10 +162,10 @@
 
                                         @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            
+
                                             {{-- @switch($item->id )
                                                 @case($item->id / 2 == 0) --}}
-                                                
+
                                                 <div class="product-list">
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
@@ -174,8 +174,8 @@
                                                                 alt="image_not_found" class="img-fluid" style="height: 300px; width: 1000px">
                                                         </a>
                                                         <!-- thumb end -->
-    
-                                                        
+
+
                                                         <div class="product-content">
                                                             <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
@@ -188,13 +188,13 @@
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                                     <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                                    @endif 
+                                                                    @endif
                                                                     </h5>
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-btn">Detail</a>
                                                                     </button>
                                                             </div>
-    
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -225,20 +225,20 @@
 
                                         @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            
+
                                             {{-- @switch($item->id )
                                                 @case($item->id / 2 == 0) --}}
-                                                
+
                                                 <div class="product-list">
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
-                                                        
+
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
                                                         </a>
                                                         <!-- thumb end -->
-    
-                                                        
+
+
                                                         <div class="product-content">
                                                             <h4><a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-title">{{ $item->name }}</a></h4>
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
@@ -254,15 +254,15 @@
                                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
-                    
+
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}"class="product-btn">Detail</a>
                                                                     </button>
                                                             </div>
-    
+
                                                         </div>
-                                                        
-    
+
+
                                                         <!-- actions  -->
                                                         {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
@@ -279,7 +279,7 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                             <li class="action compare">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
                                                                     <a href="{{ route('showCompare') }}">
@@ -287,7 +287,7 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                         </ul> --}}
                                                     </div>
                                                 </div>
@@ -320,10 +320,10 @@
 
                                         @for ($i = 0; $i < $max; $i++) --}}
                                         <div class="swiper-slide">
-                                            
+
                                             {{-- @switch($item->id )
                                                 @case($item->id / 2 == 0) --}}
-                                                
+
                                                 <div class="product-list">
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
@@ -333,7 +333,7 @@
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
                                                         </a>
                                                         <!-- thumb end -->
-    
+
                                                         <div class="product-content">
 
                                                             <i><a href="{{ route('detail',['slug'=>$item->slug]) }}" style="color: gray">{{ $item->intro }}</a></i>
@@ -351,15 +351,15 @@
                                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                                     @endif 
                                                                     </h5>
-                    
+
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}"class="product-btn">Detail</a>
                                                                     </button>
                                                             </div>
-    
+
                                                         </div>
-                                                        
-    
+
+
                                                         <!-- actions  -->
                                                         {{-- <ul class="actions actions-verticale">
                                                             <li class="action wish-list">
@@ -376,7 +376,7 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                             <li class="action compare">
                                                                 <button data-bs-toggle="modal" data-bs-target="#product-modal-compare">
                                                                     <a href="{{ route('showCompare') }}">
@@ -384,15 +384,15 @@
                                                                     </a>
                                                                 </button>
                                                             </li>
-    
+
                                                         </ul> --}}
                                                     </div>
                                                 </div>
-                                            
-                                               
+
+
                                         </div>
                                         @endforeach
-                                   
+
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -507,7 +507,7 @@
                                     <div class="product-list">
                                         <div class="product-card">
                                             <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
-                                                
+
                                                 <img src="{{ asset('uploads/'.$item->image) }}" alt="image_not_found" style="height: 415px;">
                                             </a>
                                             <!-- thumb end -->
@@ -524,7 +524,7 @@
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
                                                         @endif 
                                                         </h5>
-        
+
                                                         <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
                                                             <a href="{{ route('detail',['slug'=>$item->slug]) }}"class="product-btn">Detail</a>
                                                         </button>
@@ -532,7 +532,7 @@
 
                                             </div>
 
-                                            
+
                                             <!-- actions  -->
                                             {{-- <ul class="actions actions-verticale">
                                                 <li class="action whish-list">

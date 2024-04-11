@@ -20,14 +20,14 @@ class GuestController extends Controller
         if ($products_lastest->isEmpty()) {
             return view('guest.404');
         }else{
-            $products_lastest = $products_lastest;  
+            $products_lastest = $products_lastest;
         }
 
         $products_sale = Product::where('status',1)->where('is_sale',1)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         if ($products_sale->isEmpty()) {
             $products_sale = Product::where('sale_price', '>', 0)->orderBy('created_at','DESC')->skip(0)->take(8)->get();
         }else{
-            $products_sale = $products_sale; 
+            $products_sale = $products_sale;
         }
 
     
@@ -36,7 +36,7 @@ class GuestController extends Controller
         if ($products_featured->isEmpty()) {
             $products_featured = $products_lastest;
         }else{
-            $products_featured = $products_featured; 
+            $products_featured = $products_featured;
         }
 
         $categories = Category::where('status',1)->get();
@@ -159,10 +159,10 @@ class GuestController extends Controller
         // $products = Product::with('category')->orderBy('created_at','DESC')->orderBy($o_column,$o_order)->where('category_id', $id)->where('status','!=',2)->paginate(6);
         
         //$category_list = Category::with('product')->where('category_id', $id)->get();
-        
 
 
-        return view('guest.shop',compact('products'), 
+
+        return view('guest.shop',compact('products'),
         [
             'id' => $id,
             'products' => $products,
@@ -235,11 +235,11 @@ class GuestController extends Controller
             ->paginate(8);
 
         }
-       
+
         $skus = $product->sku;
-  
+
         $colors[]=null;
-       
+
         foreach ($skus as $sku) {
             if($sku->attribute_id == 1){
                 $color = AttributeValue::where('status','!=',2)->where('id', $sku->value_id)->first();
@@ -259,7 +259,7 @@ class GuestController extends Controller
             ->select('attribute_values.value')
             ->where('products.slug',$slug)
             ->where('attribute_values.attribute_id',2)
-            ->get('');   
+            ->get('');
 
     
         $comments = RatingComment::where('product_id', $product->id)->where('status', 1)->orderBy('created_at','DESC')->get();

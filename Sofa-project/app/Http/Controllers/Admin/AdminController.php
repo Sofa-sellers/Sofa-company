@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Zip;
@@ -485,7 +486,7 @@ class AdminController extends Controller
         $order = Order::findOrFail($id);
         $details=OrderDetail::where('order_id', $id)->get();
 
-        
+
         return view('admin.modules.order.edit',[
             'details'=>$details,
             'order'=>$order
@@ -531,6 +532,7 @@ class AdminController extends Controller
         $order->save();
         return redirect()->route('admin.order.index')->with('success','Update order status successfully');
     }
+
 
     public function racomIndex()
     {
@@ -584,7 +586,7 @@ class AdminController extends Controller
 
         $value->attribute_id = $request->attribute_id;
 
-        
+
         if ($value->attribute_id == 1) {
             $validator = Validator::make($request->all(), [
                 'color' => 'required|unique:attribute_values,value',
@@ -666,6 +668,16 @@ class AdminController extends Controller
 
     }
 
+
+    // public function valueDestroy(int $id)
+    // {
+    //     $values= AttributeValue::find($id);
+    //     if($values==null){
+    //         abort(404);
+    //     }
+    //     $values->delete();
+    //     return redirect()->route('admin.value.index')->with('success','Delete value of attribute successfully');
+    // }
 
     public function brandIndex()
     {
@@ -821,7 +833,7 @@ class AdminController extends Controller
 
 
     // public function zipEdit(int  $id)
-    // {   
+    // {
     //     $zips=zip::find($id);
     //     if($zips == null){
     //         abort(404);

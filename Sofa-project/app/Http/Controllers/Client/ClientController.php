@@ -44,35 +44,35 @@ class ClientController extends Controller
             return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
         }
 
-        
+
         if($cart){
             $old_quantity = 0;
-            
+
             foreach($cart->list() as $item){
                 if($item['productId'] == $product->id){
                     $old_quantity = $quantity + $item['quantity'] + $old_quantity;
                     // dd($old_quantity);
                 }
             }
-            
+
             if($old_quantity > $product->quantity){
                     return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
             }
         }
-        
-  
+
+
 
         $cart->add($product, $color, $quantity);
-        
+
         return redirect()->route('client.showCart')->with('Success', 'You have successfully added a product to your cart')->with('lifetime', 3);
-        
+
     }
 
 
     public function showCart(Cart $cart){
        
         return view('client.cart',compact('cart'));
-        
+
     }
 
 
@@ -143,13 +143,13 @@ class ClientController extends Controller
             foreach ($carts as $item) {
                 $productId = $item['productId'];
                 $quantity = $item['quantity'];
-    
+
                 $product = DB::table('products')->where('id', $productId)->first();
                 if ($quantity > $product->quantity) {
                     return redirect()->back()->with('failed', 'Quantity is over stock, please decrease this quantity');
                 }
             }
-    
+
             return view('client.checkout', [
                 'user' => $user,
                 'carts' => $carts,
@@ -165,7 +165,7 @@ class ClientController extends Controller
             'lastname' => $request->lastname,
             'address' => $request->address,
             'phone' => $request->phone,
-            
+
             'email'=>$request->email,
             'city'=>$request->city,
             'user_id'=>$user,
@@ -222,7 +222,7 @@ class ClientController extends Controller
                 'quantity' => $item['quantity'],
                 'total_product' => ($item['price'] * $item['quantity']),
                 'order_id' => $order_id,
-                'created_at' => new DateTime(), 
+                'created_at' => new DateTime(),
             ];
 
             DB::table('products')->updateOrInsert(
@@ -231,7 +231,7 @@ class ClientController extends Controller
                 'quantity'=>0,
                 'status' => 2,
                 'updated_at'=>new DateTime()
-                ] 
+                ]
             );
         }else{
             $order_details[] = [
@@ -242,7 +242,7 @@ class ClientController extends Controller
                 'quantity' => $item['quantity'],
                 'total_product' => ($item['price'] * $item['quantity']),
                 'order_id' => $order_id,
-                'created_at' => new DateTime(), 
+                'created_at' => new DateTime(),
             ];
 
             DB::table('products')->updateOrInsert(
@@ -250,12 +250,12 @@ class ClientController extends Controller
                 [
                 'quantity' => DB::raw('quantity - ' . $item['quantity']),
                 'updated_at'=>new DateTime()
-                ] 
+                ]
             );
         }
     }
 
-    
+
 // Insert $order_details array to the database as order details
 
         DB::table('order_detail')->insert($order_details);
@@ -341,9 +341,9 @@ class ClientController extends Controller
     // }
 
     public function showDetail($id){
-        
+
         $order = Order::where('id',$id)->first();
-        
+
 
         $detail = OrderDetail::where('order_id', $id)->get();
         //dd($order);
@@ -356,7 +356,7 @@ class ClientController extends Controller
 
     public function updateDetail(OrderUpdateRequest $request, $id){
         $order = Order::where('id',$id)->first();
-        
+
         if($order->status == 1){
             $order->status = 3;
 
@@ -383,8 +383,8 @@ class ClientController extends Controller
             return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via sofaseller@gmail.com')->with('lifetime', 3);
         }
     }
-    
-    
+
+
 
     public function addressUpdate(Request $request,$id){
         $request->validate([
