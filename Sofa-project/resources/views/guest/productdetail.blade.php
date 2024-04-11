@@ -1,22 +1,19 @@
 @extends('master')
-@section('module','Product Detail')
 @section('content')
-
-
-    <!-- main content start -->
+   <!-- main content start -->
     <!-- bread crumb section start -->
-    <!-- <nav class="breadcrumb-section bg-light bread-crumb-padding">
+  <nav class="breadcrumb-section bg-light bread-crumb-padding">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">63in. White Stucco Floor Lamp</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
                     </ol>
                 </div>
             </div>
         </div>
-    </nav> -->
+    </nav>
     <!-- bread crumb section end -->
 
     <!-- modal gallery slider start -->
@@ -66,9 +63,35 @@
                 <!--Product start  -->
                 <div class="col-md-7 mb-4">
                     <form method="post" action="{{ route('client.addToCart')}}">
+                    
+                        @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                        </div>
+                        @endif
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-check"></i> Success!</h5>
+                        {{ $message }}
+                        </div>
+                        
+                        
+                        @elseif ($message = Session::get('failed'))
+                        <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-check"></i> Failed!</h5>
+                        {{ $message }}
+                        </div>
+                        @endif
+
                         @csrf
                         <input type="hidden" name="id" value="{{$product->id}}">
-
+                        
                         <div class="modal-product-des">
                             <h3 class="modal-product-title"><a href="#">{{$product->name}}</a></h3>
 
@@ -82,29 +105,33 @@
                             </div> --}}
 
                             <div class="product-price-wrapp-lg">
-
-                                @if(empty($product->sale_price))
-
-                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->price, 0, "", ".") }}</h4>
+                               
+                                @if($product->price==0)
+                                
+                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
                                 @else
-
+                                
                                 <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
                                 <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
                                 <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
-                                @endif
-
+                                @endif 
+                                
                             </div>
 
                             @if ($product->quantity > 5)
                                 <div class="product-price-wrapp-lg">
                                     <span class="badge bg-success" style="font-size: 15px">In Stock {{$product->quantity}}</span>
                                 </div>
+                            @elseif($product->quantity == 0)
+                            <div class="product-price-wrapp-lg">
+                                <span class="badge bg-danger" style="font-size: 15px">Out of stock!!!</span>
+                            </div>
                             @else
                             <div class="product-price-wrapp-lg">
                                 <span class="badge bg-danger" style="font-size: 15px">Running out of stock!! Only {{$product->quantity}} now</span>
                             </div>
                             @endif
-
+                            
 
                             <div class="product-description-short">
                                 <p>{{$product->intro}}</p>
@@ -119,7 +146,7 @@
                                         @if($c)
                                         <li class="input-container">
                                             <label>
-                                            <input class="input-color" type="radio" name="color" value="{{$c->id}}" required>
+                                            <input class="input-color" type="radio" name="color" value="{{$c->id}}" required checked>
                                             <span class="color" style="background-color: {{ $c->value }} "></span>
                                             </label>
                                             <input type="hidden" name="selected_color" value="{{$c->id}}">
@@ -131,14 +158,18 @@
                                 </div>
                             </div>
 
-
+                            
 
                             <div class="product-add-to-cart">
                                 <span class="control-label">Quantity</span>
 
                                 <div class="product-count style d-flex my-4">
                                     <div class="count d-flex">
+                                        @if($product->quantity < 6)
                                         <input type="number" min="1" max="{{$product->quantity}}" style="width: 80%;" name="quantity" value="1">
+                                        @else
+                                        <input type="number" min="1" max="5" style="width: 80%;" name="quantity" value="1">
+                                        @endif
                                     </div>
                                     <div>
                                         <button type="submit" class="btn animated btn-outline-dark">
@@ -228,7 +259,7 @@
                                             <a href="{{ asset('uploads/' . $product->file) }}" target="_blank">
                                                 <i style="color: gray">Download</i>
                                             </a>
-
+                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -238,120 +269,126 @@
                 </div>
 
                 {{-- comment --}}
-                <div class="tab-pane fade active show" id="reviews" role="tabpanel">
-                    <div class="single-product-desc">
-                        <div class="row">
-                            <div class="col-lg-7">
-                                <div class="review-wrapper">
-                                    <div class="single-review">
-                                        {{--
-                                        <div class="review-img">
-                                            <img src="{{asset('client/assets/images/testimonial/1.png')}}" alt="">
-                                        </div>
-                                        --}}
-                                        <div class="review-content">
-                                            <div class="review-top-wrap">
-                                                <div class="review-left">
-                                                    <div class="review-name">
-                                                        <h4>White Lewis</h4>
-                                                    </div>
-                                                    <div class="rating-product">
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-left">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                            </div>
-                                            <div class="review-bottom">
-                                                <p>
-                                                    Vestibulum ante ipsum primis aucibus orci
-                                                    luctustrices posuere cubilia Curae Suspendisse
-                                                    viverra ed viverra. Mauris ullarper euismod
-                                                    vehicula. Phasellus quam nisi, congue id nulla.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-review child-review">
-                                        {{--
-                                        <div class="review-img">
-                                            <img src="{{asset('client/assets/images/testimonial/2.png')}}" alt="">
-                                        </div>
-                                        --}}
-                                        <div class="review-content">
-                                            <div class="review-top-wrap">
-                                                <div class="review-left">
-                                                    <div class="review-name">
-                                                        <h4>White Lewis</h4>
-                                                    </div>
-                                                    <div class="rating-product">
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-left">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                            </div>
-                                            <div class="review-bottom">
-                                                <p>
-                                                    Vestibulum ante ipsum primis aucibus orci
-                                                    luctustrices posuere cubilia Curae Sus pen disse
-                                                    viverra ed viverra. Mauris ullarper euismod
-                                                    vehicula.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <div class="ratting-form-wrapper">
-                                    <h3>Add a Review</h3>
-                                    <div class="ratting-form">
-                                        <form action="#">
-                                            <div class="star-box">
-                                                <span>Your rating:</span>
-                                                <div class="rating-product">
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="rating-form-style mb-10">
-                                                        <input placeholder="Name" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="rating-form-style mb-10">
-                                                        <input placeholder="Email" type="email">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="rating-form-style form-submit">
-                                                        <textarea name="Your Review" placeholder="Message"></textarea>
-                                                        <button type="submit" class="btn btn-dark">
-                                                        Submit
+                <div class="tab-pane fade" id="reviews" role="tabpanel" >
+                    <div class="single-product-desc" >
+                        <div class="row" >
+                            <table>
+                                <tr>
+                                    <td style="width: 50%">
+                                        <div  >
+                                            @if(Auth::User())
+                                                @php
+                                                $mycomment = App\Models\RatingComment::where('product_id', $product->id)->where('user_id',Auth::User()->id)->where('status', 2)->get();
+                                                @endphp
+                                                @foreach($mycomment as $com)
+                                            <div class="review-wrapper">
+                                                {{-- @auth --}}
+                                                
+                                                <div class="single-review">
+                                                   
+                                                    <div class="review-content" style="width: 100%">
+                                                        <div class="review-top-wrap">
+                                                            <div class="review-left">
+                                                                <div class="review-name">
+                                                                    <h4>{{Auth::User()->username}}</h4>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="review-bottom" style="margin: 15px auto">
+                                                            <p >
+                                                                {{$com->comment}}
+                                                            </p>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-dark" >
+                                                            <a onclick="return confirmDelete(this)" href="{{route('client.commentDelete',['id'=>$com->id])}}">Delete</a>
                                                         </button>
                                                     </div>
                                                 </div>
+                                                    
+                                                    {{-- @endauth --}}
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                                            @endforeach
+                                            @endif
+                                                    {{-- guest --}}
+                                                    @foreach($comments as $com)
+                                                    <div class="review-wrapper">
+                                                    <div class="single-review">
+                                                        <div class="review-content" style="width: 100%">
+                                                        <div class="review-top-wrap">
+                                                            <div class="review-left">
+                                                                <div class="review-name">
+                                                                    <?php
+                                                                    $user = App\Models\User::where('id', $com->user_id)->first();
+                                                                    ?>
+                                                                    <h4>{{$user->username}}</h4>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="review-bottom" style="margin: 15px auto">
+                                                            <p>
+                                                                {{$com->comment}}
+                                                            </p>
+                                                            @if(Auth::check()==true)
+                                                            @if(Auth::User()->id == $user->id)
+                                                            <div class="review-left">
+                                                                <button type="submit" class="btn btn-dark">
+                                                                    <a onclick="return confirmDelete(this)" href="{{route('client.commentDelete',['id'=>$com->id])}}">Delete</a>
+                                                                </button>
+                                                            </div>
+                                                            @endif
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    @endforeach
+                                                    {{-- endguest --}}
+                                            </div>
+                                        </div>
+
+
+                                    </td>
+                                    <td style="width: 50%">
+
+                                        @if(Auth::check()==true)
+                                        <div >
+                                            <div class="ratting-form-wrapper">
+                                                <h3>Add a Review</h3>
+                                                <div class="ratting-form">
+                                                    <form action="{{route('client.commentCreate',['id'=>$product->id])}}" method="POST">
+                                                        @csrf
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="rating-form-style mb-10">
+                                                                    <input placeholder="{{Auth::user()->username}}" type="text" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="rating-form-style mb-10">
+                                                                    <input placeholder="{{Auth::user()->email}}" type="email" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="rating-form-style form-submit">
+                                                                    <textarea placeholder="Message" name="comment" value="{{old('comment')}}"></textarea>
+                                                                    <button type="submit" class="btn btn-dark">
+                                                                        Submit
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                            </table>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -394,13 +431,12 @@
                                                             @if(!$pr->price)
                                                             $ {{ number_format($pr->sale_price, 0, "", ".") }}
                                                             @else
-                                                            <del
-                                                                class="old-price">$ {{ number_format($pr->price, 0, "", ".") }}</del> <span
-                                                                class="new-price">$ {{ number_format($pr->sale_price, 0, "", ".") }}</span>
+                                                            <del class="old-price">$ {{ number_format($pr->price, 0, "", ".") }}</del> 
+                                                            <span class="new-price">$ {{ number_format($pr->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($pr->sale_price / $pr->price * 100))}}%</span>
                                                             @endif
                                                             </h5>
-
+            
                                                             <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
                                                     </div>
 
@@ -444,6 +480,10 @@
                     }
                 })
             }
+        }
+        function confirmDelete(link){
+            var message = 'Are you sure you want to delete?';
+            return confirm(message);
         }
 </script>
 @endsection

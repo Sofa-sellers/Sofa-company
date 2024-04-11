@@ -1,7 +1,18 @@
 @extends('master')
-@section('module','About Us')
 @section('content')
-
+<nav class="breadcrumb-section breadcrumb-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="bread-crumb-title">About Us</h2>
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
     <!-- main content start -->
     <section class="about-section section-padding-bottom">
         <div class="container">
@@ -27,7 +38,7 @@
                 <div class="col-xl-6 mb-4">
                     <div class="about-content text-center">
                         <div class="about-left-image">
-                            <img src="{{asset('client/assets/images/about/lg-1.jpg')}}" alt="img" class="img-responsive">
+                            <img src="{{asset('client/assets/images/banner/sofa3.jpg')}}" alt="img" class="img-responsive">
                         </div>
 
                     </div>

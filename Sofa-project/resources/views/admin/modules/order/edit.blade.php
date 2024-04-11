@@ -36,29 +36,30 @@
     });
 
     $(function() {
-    var status_old = $('select[name="status"]').val();
+    var status_old = $('input[name="status"]:checked').val();
     if (status_old != 3) {
-        $('select[name="status"]').change(function() {
+        $('input[name="status"]').change(function() {
             if ($(this).val() == 3) {
                 var confirmDeny = confirm("Are you sure you want to reject this order? The quantity of the products will be returned to the warehouse and cannot be allocated to this order again. Please review before confirming.");
                 if (confirmDeny) {
                     $('#orderForm').submit();
                 } else {
-                    $(this).val({{ $order->status }});
+                    $('input[name="status"][value="' + status_old + '"]').prop('checked', true); 
                 }
             }
         });
     } else {
-        $('select[name="status"]').change(function() {
+        $('input[name="status"]').change(function() {
             var confirmDeny = confirm("You cannot change order status because order was deleted.");
             if (confirmDeny) {
-              $(this).val({{ $order->status }});
-            }else{
-              $(this).val({{ $order->status }});
+                $('input[name="status"][value="' + status_old + '"]').prop('checked', true); 
+            } else {
+                $('input[name="status"][value="' + status_old + '"]').prop('checked', true); 
             }
         });
     }
 });
+
 
 </script>
 @endpush
@@ -103,31 +104,271 @@
                 <th>Note</th>
                 <td>{{$order->note}}</td>
               </tr>
+              <tr>
+                <th>Status</th>
+                <td>
+                  @switch($order->status)
+                  @case(1)
+                      <span class="right badge badge-warning ">Waiting</span>
+                      @break
+                  @case(2)
+                      <span class="right badge badge-primary">Accepted</span>
+                      @break
+                  @case(3)
+                      <span class="right badge badge-danger">Deny/Cancel</span>
+                      @break
+                  @case(4)
+                      <span class="right badge badge-light">Preparing shipment </span>
+                      @break
+                  @case(5)
+                      <span class="right badge badge-info">Handed over to the carrier</span>
+                      @break
+                  @case(6)
+                      <span class="right badge badge-info">In transit</span>
+                      @break
+                  @default
+                      <span class="right badge badge-success">Delivered</span>
+                      @break
+                  @endswitch
+                </td>
+                
+              </tr>
             </table>
             <form action="{{route('admin.order.update',['id'=>$order->id])}}" method="post">
               @csrf
-              <div class="form-group">
-                <label >Status</label>
-                <select class="form-control" name="status" >
-                    <option value="1" {{old('status',$order->status)== 1? 'selected':' '}}>Waiting</option>
-                    <option value="2" {{old('status',$order->status)== 2? 'selected':' '}}>Accepted</option>
-                    <option value="3" {{old('status',$order->status)== 3? 'selected':' '}}>Deny</option>
-                    <option value="4" {{old('status',$order->status)== 4? 'selected':' '}}>Preparing shipment</option>
-                    <option value="5" {{old('status',$order->status)== 5? 'selected':' '}}>Handed over to the carrier</option>
-                    <option value="6" {{old('status',$order->status)== 6? 'selected':' '}}>In transit</option>
-                    <option value="7" {{old('status',$order->status)== 7? 'selected':' '}}>Delivered</option>
+              <div class="form-group" >
+                <table style="width: 100%;">
+                  
+                @switch($order->status)
+                    @case(1)
+                    <tr>
+                      <td>
+                        <label >Update</label>
+                      </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Waiting</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="2" checked>
+                      <label class="text-bg-success" for="radio1">Accepted</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Preparing shipment</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Handed over to the carrier</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">In transit</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Delivered</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="3">
+                      <label class="text-danger">Cancel</label>
+                    </td>
+                  </tr>
 
-                </select>
-              </div>
+                    <tr>
+                      <td>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                      </td>
+                    </tr>
 
-              <div class="form-group">
-                <label for="exampleInputEmail1">Reason of cancel</label>
-                <span>{{$order->reason}}</span>
-              </div>
+                        @break
+                    @case(2)
+                    <tr>
+                      <td>
+                        <label >Update</label>
+                      </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Waiting</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label" for="radio1">Accepted</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="4" checked>
+                      <label class="text-bg-success">Preparing shipment</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Handed over to the carrier</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">In transit</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Delivered</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="3">
+                      <label class="text-danger">Cancel</label>
+                    </td>
+                  </tr>
 
-              <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
-              </div>
+                    <tr>
+                      <td>
+                        <button type="submit" class="btn btn-primary" style="font-weight:bold; border-radius: 10px; ">Update</button>
+                      </td>
+                    </tr>
+
+                        @break
+
+                    @case(3)
+                    
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Reason of cancel</label>
+                      <span>{{$order->reason}}</span>
+                    </div>
+                        @break
+
+                    @case(4)
+                    <tr>
+                      <td>
+                        <label >Update</label>
+                      </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Waiting</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label" for="radio1">Accepted</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Preparing shipment</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="5" checked>
+                      <label class="text-bg-success">Handed over to the carrier</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">In transit</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Delivered</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="3">
+                      <label class="text-danger">Cancel</label>
+                    </td>
+                  </tr>
+
+                    <tr>
+                      <td>
+                        <button type="submit" class="btn btn-primary" style="font-weight:bold; border-radius: 10px; ">Update</button>
+                      </td>
+                    </tr>
+                        
+                        @break
+
+                    @case(5)
+                    <tr>
+                      <td>
+                        <label >Update</label>
+                      </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Waiting</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label" for="radio1">Accepted</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Preparing shipment</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Handed over to the carrier</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="6" checked>
+                      <label class="text-bg-success">In transit</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Delivered</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="3">
+                      <label class="text-danger">Cancel</label>
+                    </td>
+                  </tr>
+
+                    <tr>
+                      <td>
+                        <button type="submit" class="btn btn-primary" style="font-weight:bold; border-radius: 10px; ">Update</button>
+                      </td>
+                    </tr>
+
+                        @break
+                    @case(6)
+                    <tr>
+                      <td>
+                        <label >Update</label>
+                      </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Waiting</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label" for="radio1">Accepted</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Preparing shipment</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">Handed over to the carrier</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" disabled>
+                      <label class="form-check-label">In transit</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="7" checked>
+                      <label class="text-bg-success">Delivered</label>
+                    </td>
+                    <td>
+                      <input type="radio" class="form-check-input" id="radio1" name="status" value="3">
+                      <label class="text-danger">Cancel</label>
+                    </td>
+                  </tr>
+
+                    <tr>
+                      <td>
+                        <button type="submit" class="btn btn-primary" style="font-weight:bold; border-radius: 10px; ">Update</button>
+                      </td>
+                    </tr>
+                        
+                        @break
+                    @case(7)
+                        
+                        @break
+                    
+                        
+                @endswitch
+         
+              </table>
+
             </form>
     </div>
 </div>

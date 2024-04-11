@@ -13,7 +13,7 @@
           <img src="{{ asset('administrator/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-            <a href="#" class="d-block">
+            <a href="{{route('admin.index')}}" class="d-block">
                 <?php if(Auth::check()==true)
                 {
                     echo Auth::user()->username;
@@ -191,7 +191,7 @@
               <a href="#" class="nav-link">
                   <i class="fa fa-comments" aria-hidden="true"></i>
                   <p>
-                  Rating Review
+                  Comment Review
                   <i class="right fas fa-angle-left"></i>
                   </p>
               </a>

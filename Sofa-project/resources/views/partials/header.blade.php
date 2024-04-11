@@ -45,7 +45,7 @@
                                         }else {
                                             echo 'Guest';
                                         }
-                                    @endphp
+                                    @endphp 
                                 </a>
                                 <!-- dropdown menu start -->
                                 <ul class="topbar-dropdown-menu menu-position-right">
@@ -89,15 +89,29 @@
                         <ul class="main-menu nav align-items-center @@justifyCenter">
                             <li class="main-menu-item"><a style="color:black" class="main-menu" href="{{route('index')}}">Home</a></li>
                             <?php
-                                $categories=DB::table('categories')->where('parent_id','!=',0)->get();
+                                $categories=DB::table('categories')->where('parent_id','!=',0)->where('status','!=',2)->get();
+                                $brand=DB::table('brands')->where('status','!=',2)->get();
                             ?>
                             <li class="main-menu-item">
                                 <a href="{{route('indexShop')}}" class="main-menu-link">Shop</a>
                                 <!-- sub menu start -->
-                                <ul class="sub-menu">
-                                    @foreach ($categories as $item)
-                                    <li class="sub-menu-item"><a class="sub-menu-link" href="{{route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
-                                    @endforeach
+                                <ul class="mega-menu">
+                                    <li class="mega-menu-item">
+                                        Categories
+                                        <ul class="sub-mega-menu">
+                                            @foreach ($categories as $item)
+                                            <li class="sub-mega-menu-item"><a class="sub-menu-link" href="{{route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    <li class="mega-menu-item">
+                                        Brands
+                                        <ul class="sub-mega-menu">
+                                            @foreach ($brand as $item)
+                                            <li class="sub-mega-menu-item"><a class="sub-menu-link" href="{{route('shopBrand',['brand_id'=>$item->id])}}">{{$item->name}}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                 </ul>
                                 <!-- sub menu end -->
                             </li>
@@ -128,6 +142,15 @@
                 </div>
                 <div class="col-6 col-lg-3">
                     <ul class="nav align-items-center justify-content-end quick-links">
+                        <li class="quick-link-item">
+                            <a class="quick-link-link search" href="{{route('search')}}"><span class="ion-ios-search-strong"></span></a>
+                            <div class="header-serch-form header-serch-form-right">
+                                <form>
+                                    <input class="form-control" name="search" type="search" placeholder="Search product...">
+                                    <button class="form-search-btn" type="submit"><span class="ion-ios-search-strong"></span></button>
+                                </form>
+                            </div>
+                        </li>
                         <li class="quick-link-item">
                             @auth
                             <a class="quick-link-link wishlist-link" href="{{route('client.showWishlist',['id'=>Auth::user()->id])}}">
@@ -196,5 +219,5 @@
         </div>
     </div>
     <!-- desktop menu end -->
-
+    
 </header>

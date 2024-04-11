@@ -1,6 +1,17 @@
 @extends('master')
-@section('module',$categories_child->name)
 @section('content')
+<nav class="breadcrumb-section bg-light bread-crumb-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$categories_child->name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
     <!-- shop page layout start -->
     <div class="shop-page-layout section-padding-bottom">
         <div class="container">
@@ -57,7 +68,7 @@
                                                 @if(empty($product->price))
                                                             $ {{ number_format($product->sale_price, 0, "", ".") }}
                                                         @else
-                                                        <del class="old-price">$ {{ number_format($product->price, 0, "", ".") }}</del>
+                                                        <del class="old-price">$ {{ number_format($product->price, 0, "", ".") }}</del> 
                                                             <span class="new-price">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
                                                         @endif
@@ -119,15 +130,15 @@
                                         <div class="product-content-list col-md-8 mb-5">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <h5>
-                                @if(empty($product->price))
-
-                                <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
-                                @else
-
-                                <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
-                                <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
-                                <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
-                                @endif
+                                        @if(empty($product->price))
+                                        
+                                        <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
+                                        @else
+                                        
+                                        <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
+                                        <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
+                                        <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
+                                        @endif
                                             </h5>
                                             <p>{{$product->description}}</p>
                                             <!-- actions  -->
@@ -157,11 +168,20 @@
                 <div class="col-lg-3 mb-5 order-lg-first">
                     <aside class="aside">
                         <div class="sidebar-widget">
-                            <h3 class="widget-title">Categories</h3>
+                            <a class="widget-title">Categories</a>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
                                     @foreach ($categoriesList as $item)
                                     <li><a href="{{ route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
+                                    @endforeach
+                                </ul>
+                            </nav>
+                        </br>
+                            <a class="widget-title">Brand</a>
+                            <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
+                                <ul>
+                                    @foreach ($brand as $item)
+                                    <li><a href="{{ route('shopBrand',['brand_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
                             </nav>

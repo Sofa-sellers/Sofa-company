@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Client;
+use App\Models\RatingComment;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -32,13 +33,13 @@ use function PHPUnit\Framework\isEmpty;
 
 class ClientController extends Controller
 {
-
+    
     public function addToCart(CartStoreRequest $request, Cart $cart){
 
         $product = Product::where('id', $request->id)->first();
         $quantity = $request->quantity;
         $color = $request->color;
-
+     
         if($product->quantity < $quantity){
             return redirect()->back()->with('failed', 'The quantity exceeds the available stock, please enter a different quantity')->with('lifetime', 3);
         }
@@ -69,7 +70,7 @@ class ClientController extends Controller
 
 
     public function showCart(Cart $cart){
-
+       
         return view('client.cart',compact('cart'));
 
     }
@@ -84,31 +85,37 @@ class ClientController extends Controller
     public function cartUpdate(CartUpdateRequest $request, Cart $cart, $itemKey)
     {
 
-
+        
         $itemKey = $request->itemKey;
         $item = $cart->find($itemKey);
-
+        
         $pro_quantity = Product::where('id',$item['productId'])->pluck('quantity')->first();
         // dd($pro_quantity);
 
         $quantity = $request->quantity;
+        $total = $cart->subToTal();
+        
         //  dd($quantity);
         // Validate quantity
         if (!is_numeric($quantity) || $quantity <= 0) {
             return redirect()->back()->with('failed', 'Quantity is invalid, please enter the quantity');
         }
 
-        if ($quantity > $pro_quantity) {
-            return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
+        if ($quantity > 5) {
+            return redirect()->back()->with('failed', 'Please contact with us via seolosofa@gmail.com to get better service');
+        }
+
+        if ($total > 10000) {
+            return redirect()->back()->with('failed', 'Please contact with us via seolosofa@gmail.com to get better service');
         }
 
         $cartCollection = $cart->list();
 
-
+        
         $newQuantity = null;
-
+        
         foreach($cartCollection as $c) {
-
+            
             if ($c['productId'] == $item['productId']) {
                 if($c['itemKey'] == $item['itemKey']){
                     $newQuantity = $quantity  + $newQuantity;
@@ -120,7 +127,7 @@ class ClientController extends Controller
                 return redirect()->back()->with('failed', 'Quantity is overstock, please enter the lower quantity');
             }
         }
-
+    
         // Update cart with new quantity
         $cart->update($itemKey, $quantity);
 
@@ -131,8 +138,8 @@ class ClientController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $carts = $cart->list();
-
-
+    
+            
             foreach ($carts as $item) {
                 $productId = $item['productId'];
                 $quantity = $item['quantity'];
@@ -152,7 +159,7 @@ class ClientController extends Controller
     }
 
     public function checkout(OrderStoreRequest $request, Cart $cart, $user){
-
+        
             $data = [
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -175,7 +182,7 @@ class ClientController extends Controller
         $address_old = User::findOrFail($user)->pluck('address')->first();
         if(!$address_old){
             $data_user = [
-
+            
                 'firstname' => $request->firstname,
                 'lastname' => $request->lastname,
                 'address' => $request->address,
@@ -183,15 +190,15 @@ class ClientController extends Controller
                 'city' => $request->city,
                 'updated_at' => new DateTime(),
             ];
-
+        
             DB::table('users')->updateOrInsert(
                 ['id' => $user],
                 $data_user
             );
         }
+        
 
-
-
+    
     $cartCollection = $cart->list();
     $order_details = [];
 
@@ -256,15 +263,30 @@ class ClientController extends Controller
         return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Thank you for your order, you can manage your order in personal account');
 
     }
-
-//     public function racomStore(Request $request){
-//             //
-//     }
-
-//     public function racomUpdate(Request $request, $id){
-// //
-//     }
-
+    public function racomCreate(Request $request,$id){
+        $request->validate([
+            'comment'=>'required',
+        ]);
+        $comment=new RatingComment();
+        $comment->product_id=$id;
+        $comment->user_id=Auth::user()->id;
+        $comment->comment=$request->comment;
+        $comment->status=2;
+        $comment->created_at=new DateTime();
+       
+        $comment->save();
+        return redirect()->back()->with('success', 'Thank you for your comment');
+    }
+    public function racomDelete(Request $request, $id){
+        $delete=RatingComment::findOrFail($id);
+        
+        if($delete){
+            $delete->delete();
+            return redirect()->back()->with('success', 'delete comment successfully');
+        }else{
+            return redirect()->back()->with('error', 'you hadn\'t comment yet');
+        }
+    }
 
     public function accountIndex($id){
         $user = Auth::User()->where('id',$id)->first();
@@ -273,7 +295,7 @@ class ClientController extends Controller
         $orders = Order::with('orderdetail')->where('user_id', $user->id)
                     ->orderBy('created_at', 'DESC')
                     ->get();
-
+        
         $products = [];
         foreach ($orders as $order) {
             foreach ($order->orderdetail as $orderDetail) {
@@ -289,14 +311,14 @@ class ClientController extends Controller
                 $uniqueProducts[] = $item;
             }
         }
-
+     
 
         return view('client.account', [
             'orders' => $orders,
             'uniqueProducts'=>$uniqueProducts,
         ]);
 
-
+    
 }
 
     public function showWishlist($id){
@@ -339,8 +361,8 @@ class ClientController extends Controller
             $order->status = 3;
 
             $order->reason = $request->reason;
-            $order->deleted_at = now();
-
+            $order->deleted_at = now(); 
+    
             $order->save();
 
                 $details = OrderDetail::where('order_id', $id)->get();
@@ -353,12 +375,12 @@ class ClientController extends Controller
                     }
                     $product->save();
                 }
-
-
+            
+    
             return redirect()->route('client.account', ['id' => $order->user_id])->with('success', 'Your order has been cancelled, we look forward to supporting you in your next order');
 
         } else {
-            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via xxxx')->with('lifetime', 3);
+            return redirect()->back()->with('failed', 'Your order cannot be canceled, please contact us via sofaseller@gmail.com')->with('lifetime', 3);
         }
     }
 
@@ -367,11 +389,13 @@ class ClientController extends Controller
     public function addressUpdate(Request $request,$id){
         $request->validate([
             'address' => 'required',
-            'phone'=>'numeric|required'
+            'phone'=>'numeric|required',
+            'city'=>'required'
         ]);
         $user = Auth::User()->where('id',$id)->first();
         $user->address=$request->address;
         $user->phone=$request->phone;
+        $user->city=$request->city;
         $user->updated_at=new \DateTime();
         $user->save();
         return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update address successfully');
@@ -382,19 +406,22 @@ class ClientController extends Controller
             'firstname' => 'required',
             'lastname'=>'required',
             'username'=>'required',
-            'currentpassword'=>'required',
+        ]);
+        $userDetail=Auth::User()->where('id',$id)->first();
+        $userDetail->firstname=$request->firstname;
+        $userDetail->lastname=$request->lastname;
+        $userDetail->username=$request->username;
+        $userDetail->save();
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
+    }
+    public function accountDetailPass(Request $request,$id){
+        $request->validate([
             'password'=>'required|confirmed'
         ]);
         $userDetail=Auth::User()->where('id',$id)->first();
-        if(Hash::check($request->currentpassword, $userDetail->password)){
-            $userDetail->firstname=$request->firstname;
-            $userDetail->lastname=$request->lastname;
-            $userDetail->username=$request->username;
-            $userDetail->password = bcrypt($request->password);
-            $userDetail->save();
-            return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your detail successfully');
-        }
-        else return redirect()->route('client.account',['id'=>Auth::user()->id])->with('error', 'your current password Incorrect');
+        $userDetail->password = bcrypt($request->password);
+        $userDetail->save();
+        return redirect()->route('client.account',['id'=>Auth::user()->id])->with('success', 'Update your password successfully');
     }
 
     public function showCompare($id){

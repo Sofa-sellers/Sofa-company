@@ -57,13 +57,12 @@ $(function () {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Product ID</th>
-                    <th>User ID</th>
-                    <th>Rating</th>
+                    <th>Product</th>
+                    <th>User</th>
                     <th>Comment</th>
                     <th>Create At</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Status</th>
+                    <th>Detail</th>
                 </tr>
             </thead>
             @foreach ($ratingComments as $ratingComment)
@@ -72,14 +71,17 @@ $(function () {
             <tbody>
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$ratingComment->product_id}}</td>
-                    <td>{{$ratingComment->user_id}}</td>
-                    <td>{{$ratingComment->rating}}</td>
-                    <td>{{$ratingComment->comment}}</td>
+                    <td>{{$ratingComment->product->name}}</td>
+                    <td>{{$ratingComment->user->username}}</td>
+                    {{-- <td>{{$ratingComment->comment}}</td> --}}
+                    <td>
+                      
+                        {{ \Illuminate\Support\Str::limit($ratingComment->comment, 100, '...') }}
+                    </td>
                     <td>{{$ratingComment->created_at}}</td>
+                    <td><span class="right badge badge-{{$ratingComment->status == 1 ?'success':'dark'}}">{{$ratingComment->status==1? 'Accepted' :'Waiting'}}</span></td>
                     
-                    <td><a href="{{route('admin.ratingComment.edit',['id'=>$ratingComment->id])}}">Edit</a></td>
-                    <td><a onclick="return confirmDelete ()" href="{{route('admin.ratingComment.destroy',['id'=>$ratingComment->id])}}">Delete</a></td>
+                    <td><a href="{{route('admin.ratingComment.edit',['id'=>$ratingComment->id])}}">Detail</a></td>
                 </tr>
             </tbody>
             @endforeach
@@ -88,11 +90,10 @@ $(function () {
                     <th>ID</th>
                     <th>Product ID</th>
                     <th>User ID</th>
-                    <th>Rating</th>
                     <th>Comment</th>
                     <th>Create At</th>
+                    <th>Status</th>
                     <th>Edit</th>
-                    <th>Delete</th>
                 </tr>
             </tfoot>
         </table>

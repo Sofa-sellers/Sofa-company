@@ -1,5 +1,4 @@
 @extends('master')
-@section('module','Shop')
 @section('content')
 <nav class="breadcrumb-section bg-light bread-crumb-padding">
     <div class="container">
@@ -7,7 +6,7 @@
             <div class="col-12">
                 <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">shop</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$brand->name}}</li>
                 </ol>
             </div>
         </div>
@@ -34,20 +33,19 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="shop-grid-button d-flex justify-content-center justify-content-md-end align-items-center">
-                                {{-- <form action="search_data" method="GET"> --}}
                                 <form>
                                     <input class="form-control" id="search" type="text" name="search" placeholder="Search product...">
                                     <button class="form-search-btn" class="ion-ios-search" type="submit"></button>
                                 </form>
                                 <span class="sort-by">Sort by:</span>
                                 <form>
-                                    <select class="form-select" onchange="this.form.submit()" name="orderby" id="orderby">
-                                        <option value="-1"{{request()->orderby==-1?'selected':''}}>Default sorting</option>
-                                        <option value="1" {{request()->orderby==1?'selected':''}}>Sort by latest</option>
-                                        <option value="2" {{request()->orderby==2?'selected':''}}>Sort by oldest</option>
-                                        <option value="3" {{request()->orderby==3?'selected':''}}>Sort by price: low to high</option>
-                                        <option value="4" {{request()->orderby==4?'selected':''}}>Sort by price: high to low</option>
-                                    </select>
+                                <select class="form-select" onchange="this.form.submit()" name="orderby" id="orderby">
+                                    <option value="-1"{{request()->orderby==-1?'selected':''}}>Default sorting</option>
+                                    <option value="1" {{request()->orderby==1?'selected':''}}>Sort by latest</option>
+                                    <option value="2" {{request()->orderby==2?'selected':''}}>Sort by oldest</option>
+                                    <option value="3" {{request()->orderby==3?'selected':''}}>Sort by price: high to low</option>
+                                    <option value="4" {{request()->orderby==4?'selected':''}}>Sort by price: low to high</option>
+                                </select>
                                 </form>
                             </div>
                         </div>
@@ -66,13 +64,18 @@
                                         <div class="product-content">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
                                             <div class="product-group">
-                                                @if ($product->price==0)
-                                                <h5 class="product-price"><span class="old-price">{{number_format($product->sale_price, 0, "", ".")}}</span></h5>
-                                                <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
-                                                @else
-                                                <h5 class="product-price"><del class="old-price">{{number_format($product->price, 0, "", ".")}}</del> <span class="new-price">{{number_format($product->sale_price, 0, "", ".")}}</span></h5>
-                                                <a href="{{route('detail',['slug'=>$product->slug])}}" class="product-btn">View Detail</a>
-                                                @endif
+                                                <h5 class="product-price">
+                                                @if(empty($product->price))
+                                                            $ {{ number_format($product->sale_price, 0, "", ".") }}
+                                                        @else
+                                                        <del class="old-price">$ {{ number_format($product->price, 0, "", ".") }}</del> 
+                                                            <span class="new-price">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
+                                                            <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
+                                                        @endif
+                                                    </h5>
+                                                        <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
+                                                            <a href="{{ route('detail',['slug'=>$product->slug]) }}"class="product-btn">Detail</a>
+                                                        </button>
                                             </div>
 
                                         </div>
@@ -90,7 +93,6 @@
                                     </div>
                                 </div>
                                 @endforeach
-
                                 {{$products->withQueryString()->links("partials.pagination")}}
                                 <!-- pagination -->
                                 {{-- <div class="col-12 mb-5">
@@ -127,31 +129,31 @@
                                         <!-- thumb end -->
                                         <div class="product-content-list col-md-8 mb-5">
                                             <h4><a href="{{route('detail',['slug'=>$product->slug])}}" class="product-title">{{$product->name}}</a></h4>
-                                            @if(empty($product->price))
-                                
-                                            <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
-                                            @else
-                                            
-                                            <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
-                                            <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
-                                            <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
-                                            @endif
-                                            <p>{{$product->brand->name}}</p>
+                                            <h5>
+                                        @if(empty($product->price))
+                                        
+                                        <h4 class="product-price" style="font-size: 40px; color: black">$ {{ number_format($product->sale_price, 0, "", ".") }}</h4>
+                                        @else
+                                        
+                                        <span class="product-regular-price-lg">$ {{ number_format($product->price, 0, "", ".") }}</span>
+                                        <span class="product-price-on-sale-lg">$ {{ number_format($product->sale_price, 0, "", ".") }}</span>
+                                        <span class="badge badge-lg bg-dark">Save {{intval(100-($product->sale_price / $product->price * 100))}}%</span>
+                                        @endif
+                                            </h5>
+                                            <p>{{$product->description}}</p>
                                             <!-- actions  -->
-                                            <input type="hidden" name="product_id" value="{{$product->id}}">
                                             <ul class="actions actions-horizontal">
                                                 <li class="action whish-list">
                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal"><i class="ion-bag"></i></button>
                                                 </li>
-                                            @auth
-                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
-                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
-                                            @endauth
-                                            @guest
-                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
-                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button></li>
-                                            @endguest
-
+                                                @auth
+                                                <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
+                                                <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
+                                                @endauth
+                                                @guest
+                                                <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$product->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
+                                                <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$product->id}}','0')"><i class="ion-android-sync"></i></button></li>
+                                                @endguest
                                             </ul>
                                         </div>
                                     </div>
@@ -169,7 +171,7 @@
                             <a class="widget-title">Categories</a>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
-                                    @foreach ($categories_child as $item)
+                                    @foreach ($categoriesList as $item)
                                     <li><a href="{{ route('shop',['cate_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
@@ -178,7 +180,7 @@
                             <a class="widget-title">Brand</a>
                             <nav id="shop-dropdown" class="offcanvas-menu offcanvas-menu-sm">
                                 <ul>
-                                    @foreach ($brand as $item)
+                                    @foreach ($brandList as $item)
                                     <li><a href="{{ route('shopBrand',['brand_id'=>$item->id])}}">{{$item->name}}</a></li>
                                     @endforeach
                                 </ul>
@@ -190,8 +192,6 @@
         </div>
     </div>
     <!-- shop page layout end -->
-
-    <!-- main content end -->
     <script>
         function saveToCompareList(productID,userID){
             if(userID==0){
@@ -200,7 +200,7 @@
                 $.ajax({
                     "url":'{{route('client.addCompareList')}}',
                     "method":'POST',
-                    'data':{product_id:productID,user_id:userID,_token: '{{csrf_token()}}'},
+                    'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
                     success:function(resp){
                         alert(resp);
                     },
@@ -210,7 +210,6 @@
                 })
             }
         }
-
         function saveToWishlist(productID,userID){
             if(userID==0){
                 alert('please login before add product to wishlist');
@@ -218,7 +217,7 @@
                 $.ajax({
                     "url":'{{route('client.addToWishlist')}}',
                     "method":'POST',
-                    'data':{product_id:productID,user_id:userID,_token: '{{csrf_token()}}'},
+                    'data':{product_id:productID,user_id:userID,_token:'{{csrf_token()}}'},
                     success:function(resp){
                         alert(resp);
                     },
@@ -228,5 +227,6 @@
                 })
             }
         }
-    </script>
+</script>
+    <!-- main content end -->
 @endsection

@@ -1,6 +1,18 @@
 @extends('master')
-@section('module','account')
 @section('content')
+<nav class="breadcrumb-section breadcrumb-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="bread-crumb-title">account</h2>
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">account</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="my-account section-padding-bottom">
     <div class="container">
         <div class="row mb-n5">
@@ -74,7 +86,7 @@
                                                                         <span>Accepted</span>
                                                                         @break
                                                                     @case(3)
-                                                                        <span>Deny</span>
+                                                                        <span>Deny/Cancel</span>
                                                                         @break
                                                                     @case(4)
                                                                         <span>Preparing shipment </span>
@@ -150,7 +162,7 @@
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade" id="address-edit" role="tabpanel">
                         <div class="myaccount-content">
-                            <h3>Billing Address</h3>
+                            <h3>Delivery Address</h3>
                             <form method="POST" action="{{route('client.address',['id'=>Auth::user()->id])}}">
                                 @csrf
                                 {{-- @if ($errors->any())
@@ -168,19 +180,26 @@
                                     <h5><i class="icon fas fa-check"></i> Alert!</h5>
                                     {{Session::get('success')}}
                                     </div>
-                                @endif --}}
+                                @endif
                             <address style="font-size: 20px">
                                 <p><strong>{{Auth::user()->username}}</strong></p>
                                 @if (Auth::user()->address!='')
                                 <p>{{Auth::user()->address}}</p>
-                                <input type="text" class="form-control" name="address" value="{{old('address')}}" placeholder="Please enter another address"></p>
+                                <input type="text" class="form-control" name="address" value="{{old('address',Auth::user()->address)}}" placeholder="Please enter another address"></p>
                                 @else 
                                 <p>you didnt add any address</p>
                                 <input type="text" class="form-control"name="address" value="{{old('address')}}" placeholder="Please enter another address"></p>
                                 @endif
+                                @if (Auth::user()->city!='')
+                                <p>{{Auth::user()->city}}</p>
+                                <input type="text" class="form-control" name="city" value="{{old('city',Auth::user()->city)}}" placeholder="Please enter another city"></p>
+                                @else 
+                                <p>you didnt add any city</p>
+                                <input type="text" class="form-control"name="city" value="{{old('city')}}" placeholder="Please enter another address"></p>
+                                @endif
                                 @if (Auth::user()->phone!='')
                                 <p>{{Auth::user()->phone}}</p>
-                                <input type="text" class="form-control" name="phone" value="{{old('phone')}}" placeholder="Please enter another phone"></p>
+                                <input type="text" class="form-control" name="phone" value="{{old('phone',Auth::user()->phone)}}" placeholder="Please enter another phone"></p>
                                 @else
                                 <p>you didnt add any phone</p>
                                 <input type="text" class="form-control" name="phone" value="{{old('phone')}}" placeholder="Please enter another phone"></p>
@@ -207,13 +226,6 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                    @if ($message = Session::has('error'))
-                                        <div class="alert alert-danger alert-dismissible">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h5><i class="icon fas fa-check"></i> Alert!</h5>
-                                            {{Session::get('error')}}
-                                        </div>
-                                    @endif
                                     @if ($message = Session::has('success'))
                                         <div class="alert alert-success alert-dismissible">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -224,21 +236,43 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-12 mb-5">
                                             <p>First Name</p>
-                                            <input class="form-control" name="firstname" type="text" value="{{old('firstname',Auth::user()->firstname)}}">
+                                            @if (Auth::user()->firstname!='')
+                                                <p>{{Auth::user()->firstname}}</p>
+                                                <input class="form-control" name="firstname" type="text" value="{{old('firstname',Auth::user()->firstname)}}">
+                                            @else
+                                            <p>you didnt add any Firstname</p>
+                                            <input class="form-control" name="firstname" type="text" value="{{old('firstname')}}">
+                                            @endif
                                         </div>
                                         <div class="col-lg-6 col-12 mb-5">
                                             <p>Last Name</p>
-                                            <input class="form-control" name="lastname" type="text" value="{{old('lastname',Auth::user()->lastname)}}">
+                                            @if (Auth::user()->lastname!='')
+                                                <p>{{Auth::user()->lastname}}</p>
+                                                <input class="form-control" name="lastname" type="text" value="{{old('lastname',Auth::user()->lastname)}}">
+                                            @else
+                                            <p>you didnt add any Lastname</p>
+                                            <input class="form-control" name="lastname" type="text" value="{{old('lastname')}}">
+                                            @endif
                                         </div>
                                         <div class="col-12 mb-5">
                                             <p>User Name</p>
+                                            @if(Auth::user()->username!='')
+                                            <p>{{Auth::user()->username}}</p>
                                             <input class="form-control" name="username" type="text" value="{{old('username',Auth::user()->username)}}">
+                                            @else
+                                            <p>you didnt add any Username</p>
+                                            <input class="form-control" name="username" type="text" value="{{old('username',Auth::user()->username)}}">
+                                            @endif
                                         </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-dark">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </br>
+                                        <form action="{{route('client.changePass',['id'=>Auth::user()->id])}}" method="POST">
+                                        @csrf
                                         <div class="col-12 mb-5">
                                             <h4>Password change</h4>
-                                        </div>
-                                        <div class="col-12 mb-5">
-                                            <input class="form-control" name="currentpassword" placeholder="Current Password" type="password">
                                         </div>
                                         <div class="col-lg-6 col-12 mb-5">
                                             <input class="form-control" name="password" placeholder="New Password" type="password">
@@ -249,8 +283,8 @@
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-dark">Save Changes</button>
                                         </div>
+                                        </form>
                                     </div>
-                                </form>
                             </div>
                         </div>
                     </div>

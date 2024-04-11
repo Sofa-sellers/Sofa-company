@@ -1,11 +1,8 @@
 @extends('master')
-@section('module','Home')
 @section('content')
     <!-- main content start -->
 
     <!-- Hero Slider Start -->
-
-
     <section class="hero-section">
         <div class="hero-slider">
             <div class="swiper-container">
@@ -97,8 +94,8 @@
                             <span class="banner-sub-title">Furniture</span>
                             <h3 class="banner-title">For Sale</h3>
 
-                            <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
-
+                            <a href="{{route('indexShop')}}" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
+                           
                         </div>
                         <!-- banner-content end -->
                     </div>
@@ -115,7 +112,7 @@
                             <span class="banner-sub-title">Led</span>
                             <h3 class="banner-title">bulbs</h3>
 
-                            <a href="shop-grid-left-sidebar.html" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
+                            <a href="{{route('indexShop')}}" style="color: white !important; border-color: white !important;" class="btn btn-outline-dark">Shop Now</a>
 
                         </div>
                         <!-- banner-content end -->
@@ -199,25 +196,13 @@
                                                             </div>
 
                                                         </div>
-
-
-                                                        <ul class="actions actions-verticale">
-                                                            @auth
-                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-ios-heart-outline"></i></button></li>
-                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}',{{Auth::user()->id}})"><i class="ion-android-sync"></i></button></li>
-                                                            @endauth
-                                                            @guest
-                                                            <li class="action whish-list"><button data-bs-toggle="modal" onclick="saveToWishlist('{{$item->id}}','0')"><i class="ion-ios-heart-outline"></i></button></li>
-                                                            <li class="action compare"><button data-bs-toggle="modal" onclick="saveToCompareList('{{$item->id}}','0')"><i class="ion-android-sync"></i></button></li>
-                                                            @endguest
-                                                        </ul>
                                                     </div>
                                                 </div>
-
-
+                                            
+                                        
                                         </div>
                                         @endforeach
-
+                                       
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -267,7 +252,7 @@
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                                    @endif
+                                                                    @endif 
                                                                     </h5>
 
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
@@ -306,13 +291,13 @@
                                                         </ul> --}}
                                                     </div>
                                                 </div>
-
+                                            
 
                                         </div>
                                         @endforeach
                                         <!-- swiper-slide end -->
-
-
+                                        
+                                       
                                     </div>
                                 </div>
                                 <!-- If we need navigation buttons -->
@@ -343,7 +328,7 @@
                                                     <div class="product-card">
                                                         <a href="{{ route('detail',['slug'=>$item->slug]) }}" class="product-thumb">
 
-
+                                                            
                                                             <img src="{{ asset('uploads/'.$item->image) }}"
                                                                 alt="image_not_found" class="img-fluid" style="height: 415px;">
                                                         </a>
@@ -364,7 +349,7 @@
                                                                         class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> <span
                                                                         class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                                         <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                                    @endif
+                                                                    @endif 
                                                                     </h5>
 
                                                                     <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
@@ -447,7 +432,7 @@
                         <div class="swiper-slide">
                             <div class="decoration">
                                 <a class="decoration-thumb" href="{{ route('shop',['cate_id'=>$cate->id])}}">
-                                    <img src="https://i.pinimg.com/originals/1b/75/52/1b755295f7959123be58a813e735a8e7.jpg" alt="image_not_found" class="img-fluid">
+                                    <img src="{{asset('uploads/'.$cate->photo)}}" alt="{{$cate->name}}" class="img-fluid">
                                 </a>
                                 <div class="decoration-content">
                                     <h3 class="decoration-title">{{$cate->name}}</h3>
@@ -456,7 +441,7 @@
                             </div>
                         </div>
                         @endforeach
-
+                        
                     </div>
                 </div>
                 <!-- If we need navigation buttons -->
@@ -534,10 +519,10 @@
                                                         @if(empty($item->price))
                                                         $ {{ number_format($item->sale_price, 0, "", ".") }}
                                                         @else
-                                                        <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del>
+                                                        <del class="old-price">$ {{ number_format($item->price, 0, "", ".") }}</del> 
                                                             <span class="new-price">$ {{ number_format($item->sale_price, 0, "", ".") }}</span>
                                                             <span class="badge badge-lg bg-dark" style="background-color: red !important;">Save {{intval(100-($item->sale_price / $item->price * 100))}}%</span>
-                                                        @endif
+                                                        @endif 
                                                         </h5>
 
                                                         <button data-bs-toggle="modal" data-bs-target="#addto-cart-modal" class="product-btn">
@@ -587,67 +572,6 @@
 
 
     <!-- brand carousel start -->
-    <div class="brand-section bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="brand-carousel swiper-arrow arrow-position-center">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/1.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/2.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/3.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/4.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/5.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                                <!-- swiper-slide start -->
-                                <div class="brand-carousel-item swiper-slide">
-                                    <a href="#">
-                                        <img src="{{asset('client/assets/images/brand/6.png')}}" alt="images_not_found">
-                                    </a>
-                                </div>
-                                <!-- swiper-slide end-->
-                            </div>
-
-                        </div>
-
-                        <!-- swiper navigation -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- brand carousel end -->
     <!-- main content end -->

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->string('intro');
             $table->text('description');
-            $table->double('price')->default(1000000);
-            $table->double('sale_price')->nullable();
+            $table->double('price')->nullable();
+            $table->double('sale_price')->default(100);
             $table->unsignedBigInteger('dimension_id');
             $table->foreign('dimension_id')->references('id')->on('attribute_values');
             $table->unsignedBigInteger('material_id');

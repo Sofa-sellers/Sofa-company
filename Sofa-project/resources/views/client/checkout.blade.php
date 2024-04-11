@@ -1,12 +1,24 @@
 @extends('master')
-@section('module','check out')
 @section('content')
+<nav class="breadcrumb-section breadcrumb-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="bread-crumb-title">check out</h2>
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">check out</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="check-out-section section-padding-bottom">
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
                 <div class="billing-info-wrap">
-                    <h3 class="title">Billing Details</h3>
+                    <h3 class="title">Delivery address</h3>
                     <form class="personal-information" method="POST" action="{{ route('client.checkout',['user' => $user])}}">
                         @csrf
                         <div class="row">
@@ -92,10 +104,10 @@
                             <div class="payment-accordion element-mrg">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel payment-accordion">
-                                        <div class="panel-heading" id="method-one">
+                                        <div class="panel-heading" id="method-three">
                                             <h4 class="panel-title">
-                                                <a data-bs-toggle="collapse" href="#method1">
-                                                    Direct bank transfer
+                                                <a class="collapsed" data-bs-toggle="collapse" >
+                                                    Cash on delivery
                                                 </a>
                                             </h4>
                                         </div>

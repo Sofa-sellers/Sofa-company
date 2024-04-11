@@ -20,7 +20,7 @@ class StoreRequest extends FormRequest
             'address' => 'required',
             'phone' => 'required|numeric',
             'city' => 'required',
-            'note' => 'max_digits:500|nullable',
+            'note' => 'nullable',
         ];
     }
 
@@ -35,7 +35,6 @@ class StoreRequest extends FormRequest
             'phone.required' => 'Please enter phone',
             'phone.numeric' => 'Please enter phone only contains the number',
             'city.required' => 'Please enter city',
-            'note.max_digits' => 'Note only contains 500 words',
         ];
     }
 }

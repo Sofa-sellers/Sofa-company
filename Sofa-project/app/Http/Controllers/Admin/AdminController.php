@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Zip;
@@ -48,6 +49,7 @@ use Illuminate\Http\Request;
 use App\Models\CategoryPhotos;
 use App\Models\OrderDetail;
 use App\Models\ProductImages;
+use DateTime;
 
 use function Laravel\Prompts\alert;
 
@@ -510,7 +512,7 @@ class AdminController extends Controller
             $order->deleted_at = now();
             $order->save();
         }
-
+        
         $order->status = $request->status;
         $order->updated_at = now();
         $order->save();
@@ -534,28 +536,30 @@ class AdminController extends Controller
 
     public function racomIndex()
     {
-        $ratingComments = RatingComment::orderBy('created_at', 'DESC')->get();
+        $ratingComments = RatingComment::with('product','user')->orderBy('created_at', 'DESC')->get();
+        
+        
         return view('admin.modules.ratingComment.index', ['ratingComments' => $ratingComments]);
     }
 
-
-
-    public function racomAccept(RatingCommentStoreRequest $request)
+    public function racomEdit($id)
     {
-        $ratingComment = new RatingComment();
-
-        $ratingComment->product_id = $request->product_id;
-        $ratingComment->user_id = $request->user_id;
-        $ratingComment->rating = $request->rating;
-        $ratingComment->comment = $request->comment;
-
-        $ratingComment->save();
-
-        return redirect()->route('admin.ratingComment.index')->with('success', 'Accept rating comment successfully');
+        
+        $comment = RatingComment::with('product','user')->where('id', $id)->first();
+       
+        return view('admin.modules.ratingComment.edit', ['comment' => $comment]);
     }
 
-    public function racomDestroy(){
-        //
+    public function racomAccept(Request $request,$id){
+        $comment=RatingComment::find($id);
+        
+        $comment->status=$request->status;
+        
+        $comment->updated_at = new DateTime();
+        $comment->save();
+        
+    
+        return redirect()->route('admin.ratingComment.index')->with('success', 'update comment successfully');
     }
 
     public function valueIndex()
@@ -749,24 +753,6 @@ class AdminController extends Controller
     }
 
 
-    public function skuStore(Request $request, $id)
-    {
-        $product = Product::findOrFail($id);
-        $skus = Sku::where('product_id',$id)->orderBy('created_at','DESC')->get();
-
-        $data = $request->all();
-
-        foreach ($data['id'] as $key=>$val){
-            $sku = Sku::find($val);
-            $skus->product_id = $product_id;
-            $skus->attribute_id = $data['attribute_id'][$key];
-            $skus->value_id = $data['value_id'][$key];
-            $skus->quantity = $data['quantity'][$key];
-        }
-
-        $skus->save();
-        return redirect()->route('admin.modules.sku.index')->with('success','Update sku successfully');
-    }
 
     public function attributeCreate()
     {

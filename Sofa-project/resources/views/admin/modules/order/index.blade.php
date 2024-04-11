@@ -91,7 +91,7 @@
                                     <span class="right badge badge-primary">Accepted</span>
                                     @break
                                 @case(3)
-                                    <span class="right badge badge-danger">Deny</span>
+                                    <span class="right badge badge-danger">Deny/Cancel</span>
                                     @break
                                 @case(4)
                                     <span class="right badge badge-light">Preparing shipment </span>

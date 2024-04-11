@@ -122,11 +122,11 @@
                         <textarea class="form-control" name="description">{{ old('description') }}</textarea>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label>Original price</label>
                         <input type="number" class="form-control" placeholder="Enter product price" name="price" value="{{ old('price') }}">
                     </div>
                     <div class="form-group">
-                        <label>Sale price</label>
+                        <label>Selling price</label>
                         <input type="number" class="form-control" placeholder="Enter product sale price" name="sale_price" value="{{ old('sale_price') }}">
                     </div>
                     <div class="form-group">
