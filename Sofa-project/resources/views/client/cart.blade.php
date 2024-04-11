@@ -1,35 +1,33 @@
 <?php use App\Models\Product; ?>
 @extends('master')
-@section('module','Cart List')
-
-
 @section('content')
+
 @if ($errors->any())
-                                    <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </div>
-                                @endif
-                                @if ($message = Session::get('success'))
-                                    <div class="alert alert-success alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <h5><i class="icon fas fa-check"></i> Success!</h5>
-                                        {{ $message }}
-                                    </div>
+<div class="alert alert-danger alert-dismissible">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+<h5><i class="icon fas fa-ban"></i> Alert!</h5>
+@foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+@endforeach
+</div>
+@endif
+@if ($message = Session::get('success'))
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-check"></i> Success!</h5>
+    {{ $message }}
+</div>
 
-                                    
-                                @elseif ($message = Session::get('failed'))
-                                    <div class="alert alert-danger alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <h5><i class="icon fas fa-check"></i> Failed!</h5>
-                                        {{ $message }}
-                                    </div>
 
-                                    
-                                @endif
+@elseif ($message = Session::get('failed'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-check"></i> Failed!</h5>
+    {{ $message }}
+</div>
+
+
+@endif
 <section class="whish-list-section section-padding-bottom">
     <div class="container">
         <div class="row">

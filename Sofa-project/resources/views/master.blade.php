@@ -17,9 +17,6 @@
     <!-- header section end -->
 
     <!-- main content start -->
-    <!-- bread crumb section start -->
-    @include('partials.breadcrumb')
-    <!-- bread crumb section end -->
     {{-- @if ($errors->any())
         <div class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
