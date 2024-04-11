@@ -1,5 +1,4 @@
 @extends('master')
-@section('module','404')
 @section('content')
     <!-- main content start -->
 

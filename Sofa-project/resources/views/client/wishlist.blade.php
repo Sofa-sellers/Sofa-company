@@ -1,6 +1,18 @@
 @extends('master')
-@section('module','Wishlist')
 @section('content')
+<nav class="breadcrumb-section breadcrumb-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="bread-crumb-title">Wishlist</h2>
+                <ol class="breadcrumb bg-transparent m-0 p-0 justify-content-center align-items-center">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</nav>
     <!-- main content start -->
     <section class="whish-list-section section-padding-bottom">
         <div class="container">
