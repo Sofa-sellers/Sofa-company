@@ -12,6 +12,7 @@ use App\Models\Sku;
 use App\Models\AttributeValue;
 use App\Models\Compare;
 use App\Models\Wishlist;
+use App\Models\RatingComment;
 
 
 class Product extends Model
@@ -63,6 +64,13 @@ class Product extends Model
     {
         return $this->belongsTo(AttributeValue::class);
     }
+
+    public function ratingcomment()
+    {
+        return $this->hasMany(RatingComment::class);
+    }
+
+
     public static function countActiveProduct(){
         $data=Product::where('status',1)->count();
         if($data){

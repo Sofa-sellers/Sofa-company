@@ -10,6 +10,8 @@ use App\Models\AttributeValue;
 use App\Models\Category;
 
 use App\Models\Brand;
+use App\Models\RatingComment;
+use Illuminate\Support\Facades\Auth;
 
 class GuestController extends Controller
 {
@@ -226,11 +228,11 @@ class GuestController extends Controller
         $products_related = Product::where('status','!=',2)->with('category')
         ->where('category_id', $product->category->id)
         ->where('id','!=',$product->id)
-        ->paginate(4);
+        ->paginate(8);
         if($products_related->isEmpty()){
             $products_related = Product::orderBy('created_at','DESC')
             ->where('id','!=',$product->id)
-            ->paginate(4);
+            ->paginate(8);
 
         }
        
@@ -259,15 +261,20 @@ class GuestController extends Controller
             ->where('attribute_values.attribute_id',2)
             ->get('');   
 
-    // dd($dimension);
+    
+        $comments = RatingComment::where('product_id', $product->id)->where('status', 1)->orderBy('created_at','DESC')->get();
 
+        $comments_auth = RatingComment::where('product_id', $product->id)->where('user_id',Auth)->orderBy('created_at','DESC')->get();
+
+        
         return view('guest.productdetail',[
             'product'=>$product,
             // 'skus'=>$skus,
             'products_related'=>$products_related,
             'colors'=>$colors,
             'material'=>$material,
-            'dimension'=>$dimension
+            'dimension'=>$dimension,
+            'comments'=>$comments
         ]);
     }
 
