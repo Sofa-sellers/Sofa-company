@@ -279,7 +279,6 @@
                                 <div class="review-wrapper">
                                     @foreach($comments as $com)
                                     <div class="single-review">
-                                        
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -297,11 +296,6 @@
                                                         <i class="ion-android-star"></i>
                                                     </div> --}}
                                                 </div>
-                                                {{-- @auth
-                                                <div class="review-left">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                @endauth --}}
                                             </div>
                                             <div class="review-bottom">
                                                 <p style="width: 100%">
@@ -311,13 +305,8 @@
                                         </div>
                                         
                                     </div>
-                                    @endforeach
-                                    {{-- <div class="single-review child-review">
-                                        
-                                        <div class="review-img">
-                                            <img src="{{asset('client/assets/images/testimonial/2.png')}}" alt="">
-                                        </div>
-                                       
+                                    <div class="single-review">
+
                                         <div class="review-content">
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
@@ -332,18 +321,13 @@
                                                         <i class="ion-android-star"></i>
                                                     </div>
                                                 </div>
-                                                @auth
-                                                <div class="review-left">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                @endauth
                                             </div>
                                             <div class="review-bottom">
                                                 <p>
                                                     Vestibulum ante ipsum primis aucibus orci
-                                                    luctustrices posuere cubilia Curae Sus pen disse
+                                                    luctustrices posuere cubilia Curae Suspendisse
                                                     viverra ed viverra. Mauris ullarper euismod
-                                                    vehicula.
+                                                    vehicula. Phasellus quam nisi, congue id nulla.
                                                 </p>
                                             </div>
                                         </div>
@@ -354,33 +338,11 @@
                                 @auth
                                 <div class="ratting-form-wrapper">
                                     <h3>Add a Review</h3>
-                                    
+                                </br>
                                     <div class="ratting-form">
-                                        <form action="{{ route('admin.ratingComment.store',['id'=>$product->id])}}" method="POST">
-                                            @csrf
-                                            {{-- <div class="star-box">
-                                                <span>Your rating:</span>
-                                                <div class="rating-product">
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                    <i class="ion-android-star"></i>
-                                                </div>
-                                            </div> --}}
+                                        <form action="#">
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="rating-form-style mb-10">
-                                                        <input placeholder="{{Auth::user()->username}}" type="text" disabled>
-                                                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                                        <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="rating-form-style mb-10">
-                                                        <input placeholder="{{Auth::user()->email}}" type="email" disabled>
-                                                    </div>
-                                                </div>
+
                                                 <div class="col-md-12">
                                                     <div class="rating-form-style form-submit">
                                                         <textarea placeholder="Message" name="comment"></textarea>
